@@ -1,0 +1,60 @@
+HA$PBExportHeader$gf_ge350_grava_cabecalho.srf
+global type gf_ge350_grava_cabecalho from function_object
+end type
+
+forward prototypes
+global function boolean gf_ge350_grava_cabecalho (long al_filial, long al_retirada, datetime adh_inicio, datetime adh_termino, datetime adh_vencimento_minimo, boolean ab_aprovacao_aut)
+end prototypes
+
+global function boolean gf_ge350_grava_cabecalho (long al_filial, long al_retirada, datetime adh_inicio, datetime adh_termino, datetime adh_vencimento_minimo, boolean ab_aprovacao_aut);DateTime ldh_Atual
+String 	ls_Erro, ls_id_situacao
+
+
+select id_situacao
+  into :ls_id_situacao
+  from retirada_estoque
+ Where cd_filial 				= :al_Filial
+	And nr_retirada_estoque = :al_Retirada
+Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+	Case -1
+		ls_Erro = SqlCa.SqlErrText
+		SqlCa.of_Rollback();
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao procurar o registro na tabela RETIRADA_ESTOQUE. " + ls_Erro, StopSign!)
+		Return False
+	Case 100
+		SqlCa.of_Rollback();
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Registro da tabela RETIRADA_ESTOQUE n$$HEX1$$e300$$ENDHEX$$o encontrado." , StopSign!)
+		Return False
+	Case 0
+		if ls_id_situacao = 'A' and not ab_aprovacao_aut then
+			SqlCa.of_Rollback();
+			MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Esta retirada de estoque j$$HEX1$$e100$$ENDHEX$$ est$$HEX1$$e100$$ENDHEX$$ aprovada." , StopSign!)
+			Return False
+		end if
+End Choose
+
+ldh_Atual = gvo_Parametro.of_Dh_Movimentacao()
+
+Update retirada_estoque
+	Set	dh_inicio = :adh_Inicio,
+			dh_termino = :adh_Termino,
+			dh_aprovacao = :ldh_Atual,
+			nr_matricula_aprovacao = :gvo_Aplicacao.ivo_Seguranca.Nr_Matricula,
+			id_situacao = 'A',
+			dh_vencimento_minimo = :adh_Vencimento_Minimo
+Where cd_filial = :al_Filial
+	And nr_retirada_estoque = :al_Retirada
+Using SqlCa;
+
+If SqlCa.SqlCode = -1 Then
+	ls_Erro = SqlCa.SqlErrText
+	SqlCa.of_Rollback();
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao gravar o registro na tabela RETIRADA_ESTOQUE. " + ls_Erro, StopSign!)
+	Return False
+End If
+
+Return True
+end function
+

@@ -1,0 +1,7 @@
+HA$PBExportHeader$t_veictransp.srs
+global type t_veictransp from structure
+	string		placa
+	string		UF
+	string		RNTC
+end type
+

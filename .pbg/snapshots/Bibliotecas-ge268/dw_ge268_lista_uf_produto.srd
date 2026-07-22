@@ -1,0 +1,97 @@
+HA$PBExportHeader$dw_ge268_lista_uf_produto.srd
+release 12;
+datawindow(units=0 timer_interval=0 color=80269524 brushmode=0 transparency=0 gradient.angle=0 gradient.color=8421504 gradient.focus=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.repetition.mode=0 gradient.scale=100 gradient.spread=100 gradient.transparency=0 picture.blur=0 picture.clip.bottom=0 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.transparency=0 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes hidegrayline=no showbackcoloronxp=no picture.file="" )
+header(height=84 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+detail(height=80 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+table(column=(type=char(2) update=yes updatewhereclause=yes name=cd_unidade_federacao dbname="produto_uf.cd_unidade_federacao" dbalias="p.cd_unidade_federacao" )
+ column=(type=char(40) updatewhereclause=yes name=nm_unidade_federacao dbname="unidade_federacao.nm_unidade_federacao" dbalias="u.nm_unidade_federacao" )
+ column=(type=long update=yes updatewhereclause=yes name=cd_produto dbname="produto_uf.cd_produto" dbalias="p.cd_produto" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=cd_tributacao_icms dbname="produto_uf.cd_tributacao_icms" dbalias="p.cd_tributacao_icms" )
+ column=(type=long update=yes updatewhereclause=yes name=cd_tipo_icms dbname="produto_uf.cd_tipo_icms" dbalias="p.cd_tipo_icms" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_preco_reposicao dbname="produto_uf.vl_preco_reposicao" dbalias="p.vl_preco_reposicao" initial="0" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_preco_reposicao_anterior dbname="produto_uf.vl_preco_reposicao_anterior" dbalias="p.vl_preco_reposicao_anterior" initial="0" )
+ column=(type=datetime update=yes updatewhereclause=yes name=dh_preco_reposicao dbname="produto_uf.dh_preco_reposicao" dbalias="p.dh_preco_reposicao" )
+ column=(type=char(6) update=yes updatewhereclause=yes name=nr_matricula_preco_reposicao dbname="produto_uf.nr_matricula_preco_reposicao" dbalias="p.nr_matricula_preco_reposicao" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_preco_venda_atual dbname="produto_uf.vl_preco_venda_atual" dbalias="p.vl_preco_venda_atual" )
+ column=(type=datetime update=yes updatewhereclause=yes name=dh_preco_venda_atual dbname="produto_uf.dh_preco_venda_atual" dbalias="p.dh_preco_venda_atual" )
+ column=(type=char(6) update=yes updatewhereclause=yes name=nr_matric_preco_venda_atual dbname="produto_uf.nr_matric_preco_venda_atual" dbalias="p.nr_matric_preco_venda_atual" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_preco_venda_futuro dbname="produto_uf.vl_preco_venda_futuro" dbalias="p.vl_preco_venda_futuro" )
+ column=(type=datetime updatewhereclause=yes name=dh_preco_venda_futuro dbname="produto_uf.dh_preco_venda_futuro" dbalias="p.dh_preco_venda_futuro" )
+ column=(type=char(6) updatewhereclause=yes name=nr_matric_preco_venda_futuro dbname="produto_uf.nr_matric_preco_venda_futuro" dbalias="p.nr_matric_preco_venda_futuro" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=pc_desconto_repassado_preco dbname="produto_uf.pc_desconto_repassado_preco" dbalias="p.pc_desconto_repassado_preco" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=pc_reducao_base_st dbname="produto_uf.pc_reducao_base_st" dbalias="p.pc_reducao_base_st" )
+ column=(type=long updatewhereclause=yes name=cd_mensagem_fiscal dbname="produto_uf.cd_mensagem_fiscal" dbalias="p.cd_mensagem_fiscal" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=pc_frete_preco dbname="produto_uf.pc_frete_preco" dbalias="p.pc_frete_preco" initial="0" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=pc_acrescimo_financeiro_preco dbname="produto_uf.pc_acrescimo_financeiro_preco" dbalias="p.pc_acrescimo_financeiro_preco" initial="0" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=pc_margem_resultado_preco dbname="produto_uf.pc_margem_resultado_preco" dbalias="p.pc_margem_resultado_preco" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=pc_icms_compra_preco dbname="produto_uf.pc_icms_compra_preco" dbalias="p.pc_icms_compra_preco" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=pc_icms_venda_preco dbname="produto_uf.pc_icms_venda_preco" dbalias="p.pc_icms_venda_preco" )
+ column=(type=long update=yes updatewhereclause=yes name=cd_tributacao_produto dbname="produto_uf.cd_tributacao_produto" dbalias="p.cd_tributacao_produto" )
+ column=(type=char(1) updatewhereclause=yes name=id_icms_compra dbname="id_icms_compra" )
+ column=(type=char(1) updatewhereclause=yes name=id_icms_venda dbname="id_icms_venda" )
+ column=(type=char(1) updatewhereclause=yes name=id_margem_resultado dbname="id_margem_resultado" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_preco_venda_maximo dbname="produto_uf.vl_preco_venda_maximo" dbalias="p.vl_preco_venda_maximo" )
+ column=(type=decimal(2) updatewhereclause=yes name=pc_icms dbname="tipo_icms.pc_icms" dbalias="ti.pc_icms" )
+ column=(type=decimal(2) updatewhereclause=yes name=pc_fcp dbname="tipo_icms.pc_fcp" dbalias="ti.pc_fcp" )
+ retrieve="select p.cd_unidade_federacao,   
+       u.nm_unidade_federacao,   
+       p.cd_produto,   
+       p.cd_tributacao_icms,   
+       p.cd_tipo_icms,   
+       p.vl_preco_reposicao,
+		 p.vl_preco_reposicao vl_preco_reposicao_anterior,
+       p.dh_preco_reposicao,
+       p.nr_matricula_preco_reposicao,
+       p.vl_preco_venda_atual,   
+       p.dh_preco_venda_atual,   
+       p.nr_matric_preco_venda_atual,   
+       p.vl_preco_venda_futuro,   
+       p.dh_preco_venda_futuro,   
+       p.nr_matric_preco_venda_futuro,
+       p.pc_desconto_repassado_preco,
+	  p.pc_reducao_base_st,
+	  p.cd_mensagem_fiscal,
+       p.pc_frete_preco,
+       p.pc_acrescimo_financeiro_preco,
+       p.pc_margem_resultado_preco,
+       p.pc_icms_compra_preco,
+       p.pc_icms_venda_preco,
+		 p.cd_tributacao_produto,
+       'N' id_icms_compra,
+       'N' id_icms_venda,
+       'N' id_margem_resultado,
+		p.vl_preco_venda_maximo,
+		ti.pc_icms,
+		ti.pc_fcp
+from produto_uf p
+Inner Join unidade_federacao u
+	On p.cd_unidade_federacao = u.cd_unidade_federacao
+Left Outer Join tipo_icms ti
+	on ti.cd_tipo_icms = p.cd_tipo_icms
+where p.cd_produto = :produto
+order by  (Case	When p.cd_unidade_federacao = 'SC' Then 0 
+					When p.cd_unidade_federacao = 'PR' Then 1
+					When p.cd_unidade_federacao = 'RS' Then 2
+					When p.cd_unidade_federacao = 'BA' Then 3
+					When p.cd_unidade_federacao = 'MS' Then 4
+					When p.cd_unidade_federacao = 'SP'  Then 5  
+			  Else 6 End),  p.cd_unidade_federacao" arguments=(("produto", number)) )
+text(band=header alignment="2" text="U.F." border="0" color="8388608" x="14" y="8" height="56" width="119" html.valueishtml="0"  name=produto_uf_cd_unidade_federacao_t visible="1"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+line(band=header x1="14" y1="76" x2="133" y2="76"  name=l_1 visible="1" pen.style="0" pen.width="9" pen.color="8388608"  background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" )
+text(band=header alignment="0" text="Nome" border="0" color="8388608" x="151" y="8" height="56" width="1129" html.valueishtml="0"  name=unidade_federacao_nm_unidade_federacao_t visible="1"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+line(band=header x1="151" y1="76" x2="1280" y2="76"  name=l_2 visible="1" pen.style="0" pen.width="9" pen.color="8388608"  background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" )
+column(band=detail id=1 alignment="2" tabsequence=32766 border="2" color="0" x="14" y="8" height="64" width="119" format="[general]" html.valueishtml="0"  name=cd_unidade_federacao visible="1" edit.limit=2 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="2" color="0" x="151" y="8" height="64" width="1129" format="[general]" html.valueishtml="0"  name=nm_unidade_federacao visible="1" edit.limit=40 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

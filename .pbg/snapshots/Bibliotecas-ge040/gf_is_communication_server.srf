@@ -1,0 +1,46 @@
+HA$PBExportHeader$gf_is_communication_server.srf
+global type gf_is_communication_server from function_object
+end type
+
+forward prototypes
+global function boolean gf_is_communication_server ()
+end prototypes
+
+global function boolean gf_is_communication_server ();/* Retorna TRUE se for o servidor de comunica$$HEX2$$e700e300$$ENDHEX$$o da filial, FALSE se n$$HEX1$$e300$$ENDHEX$$o for */
+
+String lvs_Servidor, &
+		 lvs_Nome, &
+		 lvs_Ip
+		 
+Select vl_parametro
+  Into :lvs_Servidor
+  from parametro_loja
+ Where cd_parametro = 'DE_SERVIDOR_COMUNICACAO'
+ Using SqlCa;
+ 
+Choose Case SqlCa.SqlCode
+	Case -1
+		SqlCa.of_MsgDbError("DE_SERVIDOR_COMUNICACAO")
+		Return False
+		
+	Case 100
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "N$$HEX1$$e300$$ENDHEX$$o foi encontrado o par$$HEX1$$e200$$ENDHEX$$metro 'DE_SERVIDOR_COMUNICACAO' na tabela par$$HEX1$$e200$$ENDHEX$$metro_loja", StopSign!)
+		Return False
+		
+End Choose	
+
+dc_uo_api lvo_Api
+lvo_api = Create dc_uo_api
+
+lvs_Nome = gvo_Aplicacao.is_ComputerName
+lvs_Ip   = lvo_Api.of_Get_Ip_Number()
+
+Destroy lvo_Api
+
+If lvs_Servidor = lvs_Ip or lvs_Servidor = lvs_Nome Then
+	Return True
+Else
+	Return False
+End If
+end function
+

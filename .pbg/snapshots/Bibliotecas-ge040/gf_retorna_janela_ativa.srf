@@ -1,0 +1,22 @@
+HA$PBExportHeader$gf_retorna_janela_ativa.srf
+global type gf_retorna_janela_ativa from function_object
+end type
+
+forward prototypes
+global function long gf_retorna_janela_ativa ()
+end prototypes
+
+global function long gf_retorna_janela_ativa ();Long ll_Retorno
+
+dc_uo_api lvo_api
+lvo_api = Create dc_uo_api
+
+ll_Retorno = lvo_api.of_retorna_janela_ativa()
+
+Destroy(lvo_api)
+
+Return ll_Retorno
+
+
+end function
+

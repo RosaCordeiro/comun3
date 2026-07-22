@@ -1,0 +1,33 @@
+HA$PBExportHeader$gf_ge136_conecta_banco_servicedesk.srf
+global type gf_ge136_conecta_banco_servicedesk from function_object
+end type
+
+forward prototypes
+global function boolean gf_ge136_conecta_banco_servicedesk (ref uo_ge136_transacao_remota ptr_transaction)
+end prototypes
+
+global function boolean gf_ge136_conecta_banco_servicedesk (ref uo_ge136_transacao_remota ptr_transaction);Boolean lb_Sucesso = True
+
+String ls_Odbc
+
+Try
+	If Not IsValid( ptr_Transaction ) Then ptr_Transaction = Create uo_ge136_Transacao_Remota
+	
+	If Not ptr_Transaction.of_Cria_ODBC_Mysql( )  Then Return False
+	
+	If ptr_Transaction.of_IsConnected( ) Then	ptr_Transaction.of_Disconnect( )
+	
+	ptr_Transaction.of_Set_Username( "teste_conexao" )
+	
+	ptr_Transaction.of_Set_DataSource( 'MYSQL', 'servicedesk' )
+	
+	lb_Sucesso = ptr_Transaction.of_Connect( ls_Odbc, gvo_Aplicacao.ivo_Seguranca.Cd_Sistema + "_" + gvo_Aplicacao.of_ComputerName( ) )
+	
+	Return lb_Sucesso
+	
+Catch( Exception ex )
+
+End Try
+
+end function
+

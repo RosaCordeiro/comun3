@@ -1,0 +1,28 @@
+HA$PBExportHeader$gf_ge084_pinpad_localizado.srf
+global type gf_ge084_pinpad_localizado from function_object
+end type
+
+forward prototypes
+global function boolean gf_ge084_pinpad_localizado ()
+end prototypes
+
+global function boolean gf_ge084_pinpad_localizado ();Try	
+	If Not FileExists('c:\sistemas\dll\sitef\CliSiTef32I.dll') Then
+		Return False
+	End If
+	
+	uo_sitef lo_SITEF
+	lo_SITEF = Create uo_sitef // GE084	
+	If Not lo_SITEF.of_configura() Then Return False
+	If Not lo_SITEF.of_Inicia_Comunicacao() Then Return False
+	
+	If Not lo_SITEF.of_verifica_pinpad_sem_msg() Then 
+		Return False
+	End If
+
+	Return True
+Finally
+	If IsValid(lo_SITEF) Then Destroy lo_SITEF
+End Try
+end function
+

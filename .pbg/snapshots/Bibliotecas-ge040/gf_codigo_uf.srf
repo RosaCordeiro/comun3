@@ -1,0 +1,72 @@
+HA$PBExportHeader$gf_codigo_uf.srf
+global type gf_codigo_uf from function_object
+end type
+
+forward prototypes
+global function string gf_codigo_uf (string as_uf)
+end prototypes
+
+global function string gf_codigo_uf (string as_uf);String	ls_Codigo_UF
+
+Choose Case as_UF
+	Case 'RO' 
+		ls_Codigo_UF = '11'
+	Case 'AC'
+		ls_Codigo_UF = '12'
+	Case 'AM'
+		ls_Codigo_UF = '13'
+	Case 'PR'
+		ls_Codigo_UF = '14'
+	Case 'PA'
+		ls_Codigo_UF = '15'
+	Case 'AP'
+		ls_Codigo_UF = '16'
+	Case 'TO'
+		ls_Codigo_UF = '17'
+	Case 'MA'
+		ls_Codigo_UF = '21'
+	Case 'PI'
+		ls_Codigo_UF = '22'
+	Case 'CE'
+		ls_Codigo_UF = '23'
+	Case 'RN'
+		ls_Codigo_UF = '24'
+	Case 'PB'
+		ls_Codigo_UF = '25'
+	Case 'PE'
+		ls_Codigo_UF = '26'
+	Case 'AL'
+		ls_Codigo_UF = '27'
+	Case 'SE'
+		ls_Codigo_UF = '28'
+	Case 'BA'
+		ls_Codigo_UF = '29'
+	Case 'MG'
+		ls_Codigo_UF = '31'
+	Case 'ES'
+		ls_Codigo_UF = '32'
+	Case 'RJ'
+		ls_Codigo_UF = '33'
+	Case 'SP'
+		ls_Codigo_UF = '35'
+	Case 'PR'
+		ls_Codigo_UF = '41'
+	Case 'SC'
+		ls_Codigo_UF = '42'
+	Case 'RS'
+		ls_Codigo_UF = '43'	
+	Case 'MS'
+		ls_Codigo_UF = '50'	
+	Case 'MT'
+		ls_Codigo_UF = '51'	
+	Case 'GO'
+		ls_Codigo_UF = '52'	
+	Case 'DF'
+		ls_Codigo_UF = '53'	
+	Case Else
+		ls_Codigo_UF = "N$$HEX1$$e300$$ENDHEX$$o foi localizado o c$$HEX1$$f300$$ENDHEX$$digo da UF para a UF "+as_UF
+End Choose
+
+Return ls_Codigo_UF
+end function
+

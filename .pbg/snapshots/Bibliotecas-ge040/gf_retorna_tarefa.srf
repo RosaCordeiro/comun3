@@ -1,0 +1,36 @@
+HA$PBExportHeader$gf_retorna_tarefa.srf
+global type gf_retorna_tarefa from function_object
+end type
+
+forward prototypes
+global function boolean gf_retorna_tarefa (string ps_parametro, ref long pl_tarefa)
+end prototypes
+
+global function boolean gf_retorna_tarefa (string ps_parametro, ref long pl_tarefa);String ls_parm
+
+ls_parm = "%" + ps_parametro  
+
+select t.cd_tarefa
+Into :pl_tarefa
+from tarefa t
+inner join agenda_tarefa a on a.cd_tarefa = t.cd_tarefa
+where t.de_parametro like :ls_parm
+    and a.de_host = :gvo_aplicacao.is_ComputerName
+Using SQLCa;
+
+Choose Case SqlCa.Sqlcode
+	Case 0
+		Return True
+	Case 100
+		gf_ge202_envia_email_automatico(23,'',"N$$HEX1$$e300$$ENDHEX$$o foi localizada tarefa para o par$$HEX1$$e200$$ENDHEX$$metro ["+ps_parametro +"] que deveria no host [" + gvo_aplicacao.is_ComputerName +  "].")
+		gvo_aplicacao.Of_Grava_log("N$$HEX1$$e300$$ENDHEX$$o foi localizada tarefa para o par$$HEX1$$e200$$ENDHEX$$metro ["+ps_parametro +"] que deveria no host [" + gvo_aplicacao.is_ComputerName +  "].")
+		Return False
+	Case -1
+		gf_ge202_envia_email_automatico(23,'','Falha ao localizar a tarefa para o par$$HEX1$$e200$$ENDHEX$$metro '+ps_parametro +'.~r~n'+SQLCa.SQLErrText)
+		gvo_aplicacao.Of_Grava_log('Falha ao localizar a tarefa para o par$$HEX1$$e200$$ENDHEX$$metro '+ps_parametro +'.~r~n'+SQLCa.SQLErrText)
+		Return False
+End Choose
+
+
+end function
+

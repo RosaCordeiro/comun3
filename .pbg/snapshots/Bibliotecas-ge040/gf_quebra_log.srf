@@ -1,0 +1,28 @@
+HA$PBExportHeader$gf_quebra_log.srf
+global type gf_quebra_log from function_object
+end type
+
+forward prototypes
+global function boolean gf_quebra_log (double ad_tamanho_log, string as_log_original, string as_log_novo, boolean ab_sobrepor)
+end prototypes
+
+global function boolean gf_quebra_log (double ad_tamanho_log, string as_log_original, string as_log_novo, boolean ab_sobrepor);//Fun$$HEX2$$e700e300$$ENDHEX$$o para quebrar o log quando atingir determinado tamanho.
+BOOLEAN lvb_Retorno = True
+Double lvl_tamanho_log
+
+lvl_tamanho_log = FileLength(as_log_original)
+
+If lvl_tamanho_log > ad_tamanho_log Then
+	
+	dc_uo_api lvo_Api
+	lvo_Api = Create dc_uo_api		
+	
+	lvb_Retorno = lvo_Api.of_rename_file(as_log_original,as_log_novo,ab_sobrepor)
+			
+	Destroy(lvo_Api)	
+	
+End If
+
+Return lvb_Retorno
+end function
+

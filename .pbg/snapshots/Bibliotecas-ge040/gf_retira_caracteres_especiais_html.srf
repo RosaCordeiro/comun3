@@ -1,0 +1,99 @@
+HA$PBExportHeader$gf_retira_caracteres_especiais_html.srf
+global type gf_retira_caracteres_especiais_html from function_object
+end type
+
+forward prototypes
+global function string gf_retira_caracteres_especiais_html (string ps_texto)
+end prototypes
+
+global function string gf_retira_caracteres_especiais_html (string ps_texto);If ps_texto = "" Then Return ps_texto
+
+ps_texto = gf_replace(ps_texto, "&atilde;", '$$HEX1$$e300$$ENDHEX$$', 0)
+ps_texto = gf_replace(ps_texto, "&Atilde;", '$$HEX1$$c300$$ENDHEX$$', 0)
+
+ps_texto = gf_replace(ps_texto, "&Ccedil;", '$$HEX1$$c700$$ENDHEX$$', 0)
+ps_texto = gf_replace(ps_texto, "&ccedil;", '$$HEX1$$e700$$ENDHEX$$', 0)
+
+ps_texto = gf_replace(ps_texto, "&Ecirc;", '$$HEX1$$ca00$$ENDHEX$$', 0)
+ps_texto = gf_replace(ps_texto, "&ecirc;", '$$HEX1$$ea00$$ENDHEX$$', 0)
+
+ps_texto = gf_replace(ps_texto, "&Aacute;", '$$HEX1$$c100$$ENDHEX$$', 0)
+ps_texto = gf_replace(ps_texto, "&aacute;", '$$HEX1$$e100$$ENDHEX$$', 0)
+
+ps_texto = gf_replace(ps_texto, "&Acirc;", '$$HEX1$$c200$$ENDHEX$$', 0)
+ps_texto = gf_replace(ps_texto, "&acirc;", '$$HEX1$$e200$$ENDHEX$$', 0)
+
+ps_texto = gf_replace(ps_texto, "&Agrave;", '$$HEX1$$c000$$ENDHEX$$', 0)
+ps_texto = gf_replace(ps_texto, "&agrave;", '$$HEX1$$e000$$ENDHEX$$', 0)
+
+ps_texto = gf_replace(ps_texto, "&Auml;", '$$HEX1$$c400$$ENDHEX$$', 0)
+ps_texto = gf_replace(ps_texto, "&auml;", '$$HEX1$$e400$$ENDHEX$$', 0)
+
+ps_texto = gf_replace(ps_texto, "&Eacute;", '$$HEX1$$c900$$ENDHEX$$', 0)
+ps_texto = gf_replace(ps_texto, "&eacute;", '$$HEX1$$e900$$ENDHEX$$', 0)
+
+ps_texto = gf_replace(ps_texto, "&Egrave;", '$$HEX1$$c800$$ENDHEX$$', 0)
+ps_texto = gf_replace(ps_texto, "&egrave;", '$$HEX1$$e800$$ENDHEX$$', 0)
+
+ps_texto = gf_replace(ps_texto, "&Euml;", '$$HEX1$$cb00$$ENDHEX$$', 0)
+ps_texto = gf_replace(ps_texto, "&euml;", '$$HEX1$$eb00$$ENDHEX$$', 0)
+
+ps_texto = gf_replace(ps_texto, "&Iacute;", '$$HEX1$$cd00$$ENDHEX$$', 0)
+ps_texto = gf_replace(ps_texto, "&iacute;", '$$HEX1$$ed00$$ENDHEX$$', 0)
+
+ps_texto = gf_replace(ps_texto, "&Icirc;", '$$HEX1$$ce00$$ENDHEX$$', 0)
+ps_texto = gf_replace(ps_texto, "&icirc;", '$$HEX1$$ee00$$ENDHEX$$', 0)
+
+ps_texto = gf_replace(ps_texto, "&Igrave;", '$$HEX1$$cc00$$ENDHEX$$', 0)
+ps_texto = gf_replace(ps_texto, "&igrave;", '$$HEX1$$ec00$$ENDHEX$$', 0)
+
+ps_texto = gf_replace(ps_texto, "&Iuml;", '$$HEX1$$cf00$$ENDHEX$$', 0)
+ps_texto = gf_replace(ps_texto, "&iuml;", '$$HEX1$$ef00$$ENDHEX$$', 0)
+
+ps_texto = gf_replace(ps_texto, "&Oacute;", '$$HEX1$$d300$$ENDHEX$$', 0)
+ps_texto = gf_replace(ps_texto, "&oacute;", '$$HEX1$$f300$$ENDHEX$$', 0)
+
+ps_texto = gf_replace(ps_texto, "&Ocirc;", '$$HEX1$$d400$$ENDHEX$$', 0)
+ps_texto = gf_replace(ps_texto, "&ocirc;", '$$HEX1$$f400$$ENDHEX$$', 0)
+
+ps_texto = gf_replace(ps_texto, "&Ograve;", '$$HEX1$$d200$$ENDHEX$$', 0)
+ps_texto = gf_replace(ps_texto, "&ograve;", '$$HEX1$$f200$$ENDHEX$$', 0)
+
+ps_texto = gf_replace(ps_texto, "&Otilde;", '$$HEX1$$d500$$ENDHEX$$', 0)
+ps_texto = gf_replace(ps_texto, "&otilde;", '$$HEX1$$f500$$ENDHEX$$', 0)
+
+ps_texto = gf_replace(ps_texto, "&Ouml;", '$$HEX1$$d600$$ENDHEX$$', 0)
+ps_texto = gf_replace(ps_texto, "&ouml;", '$$HEX1$$f600$$ENDHEX$$', 0)
+
+ps_texto = gf_replace(ps_texto, "&Uacute;", '$$HEX1$$da00$$ENDHEX$$', 0)
+ps_texto = gf_replace(ps_texto, "&uacute;", '$$HEX1$$fa00$$ENDHEX$$', 0)
+
+ps_texto = gf_replace(ps_texto, "&Ucirc;", '$$HEX1$$db00$$ENDHEX$$', 0)
+ps_texto = gf_replace(ps_texto, "&ucirc;", '$$HEX1$$fb00$$ENDHEX$$', 0)
+
+ps_texto = gf_replace(ps_texto, "&Ugrave;", '$$HEX1$$d900$$ENDHEX$$', 0)
+ps_texto = gf_replace(ps_texto, "&ugrave;", '$$HEX1$$f900$$ENDHEX$$', 0)
+
+ps_texto = gf_replace(ps_texto, "&Uuml;", '$$HEX1$$dc00$$ENDHEX$$', 0)
+ps_texto = gf_replace(ps_texto, "&uuml;", '$$HEX1$$fc00$$ENDHEX$$', 0)
+
+ps_texto = gf_replace(ps_texto, "&Ntilde;", '$$HEX1$$d100$$ENDHEX$$', 0)
+ps_texto = gf_replace(ps_texto, "&ntilde;", '$$HEX1$$f100$$ENDHEX$$', 0)
+
+ps_texto = gf_replace(ps_texto, "&lt;", '<', 0)
+ps_texto = gf_replace(ps_texto, "&gt;", '>', 0)
+
+ps_texto = gf_replace(ps_texto, "&amp;", '&', 0)
+ps_texto = gf_replace(ps_texto, "&quot; ", '"', 0)
+
+ps_texto = gf_replace(ps_texto, "&Yacute;", '$$HEX1$$dd00$$ENDHEX$$', 0)
+ps_texto = gf_replace(ps_texto, "&yacute;", '$$HEX1$$fd00$$ENDHEX$$', 0)
+
+ps_texto = gf_replace(ps_texto, "&nbsp;", '', 0)
+
+ps_texto = gf_replace(ps_texto, "&rsquo;", "$$HEX1$$b400$$ENDHEX$$", 0)
+
+Return ps_texto
+
+end function
+

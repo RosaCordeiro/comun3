@@ -1,0 +1,10 @@
+HA$PBExportHeader$t_transp.srs
+global type t_transp from structure
+	Long		modfrete
+	t_transporta		transporta
+	t_rettransp		rettransp
+	t_veictransp		veictransp
+	t_reboque		reboque[]
+	t_vol		vol[]
+end type
+

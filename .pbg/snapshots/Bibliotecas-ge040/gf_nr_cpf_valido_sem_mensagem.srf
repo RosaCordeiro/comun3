@@ -1,0 +1,101 @@
+HA$PBExportHeader$gf_nr_cpf_valido_sem_mensagem.srf
+global type gf_nr_cpf_valido_sem_mensagem from function_object
+end type
+
+forward prototypes
+global function boolean gf_nr_cpf_valido_sem_mensagem (string ps_nr_cpf)
+end prototypes
+
+global function boolean gf_nr_cpf_valido_sem_mensagem (string ps_nr_cpf);//Fun$$HEX2$$e700e300$$ENDHEX$$o igual a GF_NR_CPF_VALIDO, mas est$$HEX1$$e100$$ENDHEX$$ n$$HEX1$$e300$$ENDHEX$$o retorna mensagem para o usuario.
+Long	vdigito, &
+		vd1    , &
+     	vd2    , &
+	  	vd3    , &
+	  	vd4    , &
+	  	vd5    , &
+	  	vd6    , & 
+	  	vd7    , &
+	  	vd8    , &
+	  	vd9    , &
+	  	vd10   , &
+	  	vdsoma , &
+	  	vresto , &
+	  	vsoma
+	  
+String vcod
+
+IF Dec(ps_nr_cpf) = 0 or Len(Trim(ps_nr_cpf)) <> 11 Then
+   return False
+END IF
+
+If Trim(ps_nr_cpf) = '11111111111' or Trim(ps_nr_cpf) = '22222222222' or Trim(ps_nr_cpf) = '33333333333'  or Trim(ps_nr_cpf) = '44444444444' Then
+	Return False
+End If
+
+If   Trim(ps_nr_cpf) = '55555555555' or Trim(ps_nr_cpf) = '66666666666' or Trim(ps_nr_cpf) = '77777777777'  or Trim(ps_nr_cpf) = '88888888888' Then
+	 Return False
+End If
+
+If   Trim(ps_nr_cpf) = '99999999999' or Trim(ps_nr_cpf) = '12345678909'  Then
+	Return False
+End If
+
+vcod    = ps_nr_cpf
+
+// Primeiro d$$HEX1$$ed00$$ENDHEX$$gito verificador
+vdigito = Long(Mid(vcod, 10, 1))
+
+vd1	   	= Long(Mid(vcod, 1, 1)) * 10
+vd2     = Long(Mid(vcod, 2, 1)) * 9
+vd3     = Long(Mid(vcod, 3, 1)) * 8
+vd4     = Long(Mid(vcod, 4, 1)) * 7
+vd5     = Long(Mid(vcod, 5, 1)) * 6
+vd6     = Long(Mid(vcod, 6, 1)) * 5
+vd7     = Long(Mid(vcod, 7, 1)) * 4
+vd8     = Long(Mid(vcod, 8, 1)) * 3
+vd9     = Long(Mid(vcod, 9, 1)) * 2
+vsoma   = vd1 + vd2 + vd3 + vd4 + vd5 + vd6 + vd7 + vd8 + vd9
+
+vresto = Mod(vsoma, 11)
+
+If vresto < 2 Then
+	vresto = 0
+Else
+	vresto = 11 - vresto
+End If
+
+If vdigito <> vresto Then
+	return False
+End If
+
+// Segundo d$$HEX1$$ed00$$ENDHEX$$gito verificador
+vdigito = Long(Mid(vcod, 11, 1))
+
+vd1	   	= Long(Mid(vcod, 1, 1)) * 11
+vd2     = Long(Mid(vcod, 2, 1)) * 10
+vd3     = Long(Mid(vcod, 3, 1)) * 9
+vd4     = Long(Mid(vcod, 4, 1)) * 8
+vd5     = Long(Mid(vcod, 5, 1)) * 7
+vd6     = Long(Mid(vcod, 6, 1)) * 6
+vd7     = Long(Mid(vcod, 7, 1)) * 5
+vd8     = Long(Mid(vcod, 8, 1)) * 4
+vd9     = Long(Mid(vcod, 9, 1)) * 3
+vd10    = Long(Mid(vcod, 10, 1)) * 2
+
+vsoma   = vd1 + vd2 + vd3 + vd4 + vd5 + vd6 + vd7 + vd8 + vd9 + vd10
+
+vresto = Mod(vsoma, 11)
+
+If vresto < 2 Then
+	vresto = 0
+Else
+	vresto = 11 - vresto
+End If
+
+If vdigito <> vresto Then
+	return False
+End If
+
+Return True
+end function
+

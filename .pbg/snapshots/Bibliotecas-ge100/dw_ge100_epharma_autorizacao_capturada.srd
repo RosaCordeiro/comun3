@@ -1,0 +1,57 @@
+HA$PBExportHeader$dw_ge100_epharma_autorizacao_capturada.srd
+release 7;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=72 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=84 color="536870912" )
+table(column=(type=char(12) update=yes updatewhereclause=yes name=nr_autorizacao dbname="autorizacao_epharma_produto.nr_autorizacao" )
+ column=(type=long update=yes updatewhereclause=yes name=cd_produto dbname="autorizacao_epharma_produto.cd_produto" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=de_codigo_barras dbname="autorizacao_epharma_produto.de_codigo_barras" )
+ column=(type=long update=yes updatewhereclause=yes name=qt_autorizada dbname="autorizacao_epharma_produto.qt_autorizada" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_preco_maximo dbname="autorizacao_epharma_produto.vl_preco_maximo" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_preco_com_desconto dbname="autorizacao_epharma_produto.vl_preco_com_desconto" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_preco_epharma dbname="autorizacao_epharma_produto.vl_preco_epharma" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_preco_aquisicao dbname="autorizacao_epharma_produto.vl_preco_aquisicao" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_repasse_varejo dbname="autorizacao_epharma_produto.vl_repasse_varejo" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=cd_motivo_rejeicao dbname="autorizacao_epharma_produto.cd_motivo_rejeicao" )
+ column=(type=char(101) updatewhereclause=yes name=de_produto dbname="de_produto" )
+ retrieve="SELECT autorizacao_epharma_produto.nr_autorizacao,
+			autorizacao_epharma_produto.cd_produto, 
+			autorizacao_epharma_produto.de_codigo_barras, 
+			autorizacao_epharma_produto.qt_autorizada, 
+			autorizacao_epharma_produto.vl_preco_maximo,
+			autorizacao_epharma_produto.vl_preco_com_desconto,
+			autorizacao_epharma_produto.vl_preco_epharma,  
+			autorizacao_epharma_produto.vl_preco_aquisicao,
+			autorizacao_epharma_produto.vl_repasse_varejo, 
+			autorizacao_epharma_produto.cd_motivo_rejeicao,
+         produto_geral.de_produto + ':' + produto_geral.de_apresentacao_venda as de_produto
+			FROM autorizacao_epharma_produto,
+              produto_geral
+			WHERE ( autorizacao_epharma_produto.nr_autorizacao = :ps_autorizacao )
+           and ( autorizacao_epharma_produto.cd_produto     = produto_geral.cd_produto )
+			  and (autorizacao_epharma_produto.qt_autorizada 	> 0)" arguments=(("ps_autorizacao", string)) )
+text(band=header alignment="2" text="Nr Autorizacao" border="0" color="0" x="5" y="4" height="64" width="393"  name=nr_autorizacao_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cd Produto" border="0" color="0" x="402" y="4" height="64" width="329"  name=cd_produto_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="De Codigo Barras" border="0" color="0" x="736" y="4" height="64" width="576"  name=de_codigo_barras_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Qt Autorizada" border="0" color="0" x="1317" y="4" height="64" width="366"  name=qt_autorizada_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Preco Maximo" border="0" color="0" x="1687" y="4" height="64" width="457"  name=vl_preco_maximo_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Preco Com Desconto" border="0" color="0" x="2153" y="4" height="64" width="640"  name=vl_preco_com_desconto_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Preco Epharma" border="0" color="0" x="2798" y="4" height="64" width="485"  name=vl_preco_epharma_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Preco Aquisicao" border="0" color="0" x="3287" y="4" height="64" width="507"  name=vl_preco_aquisicao_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Repasse Varejo" border="0" color="0" x="3799" y="4" height="64" width="494"  name=vl_repasse_varejo_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cd Motivo Rejeicao" border="0" color="0" x="4297" y="4" height="64" width="507"  name=cd_motivo_rejeicao_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=10 border="0" color="0" x="5" y="4" height="76" width="357" format="[general]"  name=nr_autorizacao edit.limit=12 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=20 border="0" color="0" x="402" y="4" height="76" width="329" format="[general]"  name=cd_produto edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=30 border="0" color="0" x="736" y="4" height="76" width="576" format="[general]"  name=de_codigo_barras edit.limit=20 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="1" tabsequence=40 border="0" color="0" x="1317" y="4" height="76" width="329" format="[general]"  name=qt_autorizada edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="1" tabsequence=50 border="0" color="0" x="1687" y="4" height="76" width="329" format="[general]"  name=vl_preco_maximo edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="1" tabsequence=60 border="0" color="0" x="2158" y="4" height="76" width="329" format="[general]"  name=vl_preco_com_desconto edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="1" tabsequence=70 border="0" color="0" x="2798" y="4" height="76" width="329" format="[general]"  name=vl_preco_epharma edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="1" tabsequence=80 border="0" color="0" x="3287" y="4" height="76" width="329" format="[general]"  name=vl_preco_aquisicao edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="1" tabsequence=90 border="0" color="0" x="3799" y="4" height="76" width="329" format="[general]"  name=vl_repasse_varejo edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="0" tabsequence=100 border="0" color="0" x="4297" y="4" height="76" width="82" format="[general]"  name=cd_motivo_rejeicao edit.limit=2 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=11 alignment="0" tabsequence=32766 border="0" color="0" x="4786" y="8" height="64" width="2729" format="[general]"  name=de_produto edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" )

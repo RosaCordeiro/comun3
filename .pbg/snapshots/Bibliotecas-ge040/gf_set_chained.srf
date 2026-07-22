@@ -1,0 +1,22 @@
+HA$PBExportHeader$gf_set_chained.srf
+global type gf_set_chained from function_object
+end type
+
+forward prototypes
+global function boolean gf_set_chained (ref transaction ao_sqlca)
+end prototypes
+
+global function boolean gf_set_chained (ref transaction ao_sqlca);String	ls_sql
+
+
+if Handle(GetApplication()) = 0 then
+	ls_sql	= 'SET CHAINED ON'
+else
+	ls_sql	= 'SET CHAINED OFF'
+end if
+
+EXECUTE IMMEDIATE :ls_sql USING ao_SqlCa;
+
+return True
+end function
+

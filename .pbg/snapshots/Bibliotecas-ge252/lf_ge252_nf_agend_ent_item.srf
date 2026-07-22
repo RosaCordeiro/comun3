@@ -1,0 +1,53 @@
+HA$PBExportHeader$lf_ge252_nf_agend_ent_item.srf
+global type lf_ge252_nf_agend_ent_item from function_object
+end type
+
+forward prototypes
+global function boolean lf_ge252_nf_agend_ent_item (long pl_filial, string ps_fornecedor, long pl_nota, string ps_especie, string ps_serie, long pl_produto, ref decimal pdc_total_item, ref decimal pdc_desc_total, ref decimal pdc_bc_icms, ref decimal pdc_icms, ref decimal pdc_bc_ipi, ref decimal pdc_ipi, ref string ps_log, ref boolean pb_utiliza_totais)
+end prototypes
+
+global function boolean lf_ge252_nf_agend_ent_item (long pl_filial, string ps_fornecedor, long pl_nota, string ps_especie, string ps_serie, long pl_produto, ref decimal pdc_total_item, ref decimal pdc_desc_total, ref decimal pdc_bc_icms, ref decimal pdc_icms, ref decimal pdc_bc_ipi, ref decimal pdc_ipi, ref string ps_log, ref boolean pb_utiliza_totais);select 	sum(i.vl_total_item),
+			sum(i.vl_desconto_total),
+			sum(i.vl_bc_icms), 
+			sum(i.vl_icms), 
+			sum(i.vl_bc_ipi), 
+			sum(i.vl_ipi)
+Into :pdc_total_item, :pdc_desc_total, :pdc_bc_icms, :pdc_icms, :pdc_bc_ipi, :pdc_ipi
+from nf_compra n
+inner join nf_agendamento_ent_item i
+	on i.de_chave_acesso = n.de_chave_acesso
+where n.cd_filial 			= :pl_filial
+  and n.nr_nf 				= :pl_nota
+  and n.cd_fornecedor 	= :ps_fornecedor
+  and n.de_especie 		= :ps_especie
+  and n.de_serie 			= :ps_serie 
+  and i.cd_produto 		= :pl_produto
+ Using SqlCa;
+ 
+ Choose Case SqlCa.SqlCode
+	Case 0
+		
+		If Not IsNull(pdc_total_item) and pdc_total_item > 0 Then
+			If Not IsNull(pdc_desc_total) and pdc_desc_total >= 0 Then
+				If Not IsNull(pdc_bc_icms) and pdc_bc_icms >= 0 Then
+					If Not IsNull(pdc_icms) and pdc_icms >= 0 Then
+						If Not IsNull(pdc_bc_ipi) and pdc_bc_ipi >= 0 Then
+							If Not IsNull(pdc_ipi) and pdc_ipi >= 0 Then
+								pb_utiliza_totais = True
+							End If
+						End If						
+					End If
+				End If
+			End If
+		End If		
+				
+	Case 100
+		pb_utiliza_totais = False
+	Case -1
+		ps_log = "Erro ao localizar os dados da tabela [NF_AGENDAMENTO_ENT_ITEM] '" + SQLCA.SQLErrText + "'."
+		Return False
+End Choose
+
+Return True
+end function
+

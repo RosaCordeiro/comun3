@@ -1,0 +1,26 @@
+HA$PBExportHeader$gf_retorna_so_numeros.srf
+$PBExportComments$Retorna apenas os n$$HEX1$$fa00$$ENDHEX$$meros de uma string
+global type gf_retorna_so_numeros from function_object
+end type
+
+forward prototypes
+global function string gf_retorna_so_numeros (string ps_valor)
+end prototypes
+
+global function string gf_retorna_so_numeros (string ps_valor);/* Retorna apenas os n$$HEX1$$fa00$$ENDHEX$$meros da string passada como parametro */
+String lvs_Retorno = ''
+String lvs_Case = '1234567890'
+
+Long lvl_Char
+
+If IsNull(ps_valor) Then ps_valor = ""
+
+For lvl_Char = 1 to Len(ps_Valor)
+	If Pos(lvs_Case,Mid(ps_Valor,lvl_Char,1))>0 Then
+		lvs_Retorno += Mid(ps_Valor,lvl_Char,1)
+	End If
+Next
+
+Return lvs_Retorno
+end function
+

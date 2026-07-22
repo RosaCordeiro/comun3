@@ -1,0 +1,12 @@
+HA$PBExportHeader$t_ipi.srs
+global type t_ipi from structure
+	string		tipoipi
+	string		clenq
+	string		cnpjprod
+	string		cselo
+	Long		qselo
+	string		cenq
+	t_ipitrib		ipitrib
+	t_ipint		ipint
+end type
+

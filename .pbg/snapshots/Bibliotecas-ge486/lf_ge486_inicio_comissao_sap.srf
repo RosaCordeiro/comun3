@@ -1,0 +1,36 @@
+HA$PBExportHeader$lf_ge486_inicio_comissao_sap.srf
+global type lf_ge486_inicio_comissao_sap from function_object
+end type
+
+forward prototypes
+global function boolean lf_ge486_inicio_comissao_sap (ref date adt_inicio, ref string as_log)
+end prototypes
+
+global function boolean lf_ge486_inicio_comissao_sap (ref date adt_inicio, ref string as_log);String ls_Parametro
+
+Select vl_parametro
+Into :ls_Parametro
+From parametro_geral
+Where cd_parametro = 'DH_INICIO_COMISSAO_SAP'
+Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+	Case 0
+		
+		If IsDate(ls_Parametro) Then
+			adt_inicio = Date(ls_Parametro)
+		Else
+			as_log = "Data informada na tabela PARAMETRO_GERAL no par$$HEX1$$e200$$ENDHEX$$metro DH_INICIO_COMISSAO_SAP $$HEX1$$e900$$ENDHEX$$ inv$$HEX1$$e100$$ENDHEX$$lido '" + ls_Parametro + "'."
+			Return False
+		End If
+		
+	Case 100
+		adt_inicio = Date("31/12/2099")
+	Case -1
+		as_log = "Erro ao localizar a data do in$$HEX1$$ed00$$ENDHEX$$cio da comiss$$HEX1$$e300$$ENDHEX$$o SAP, fun$$HEX2$$e700e300$$ENDHEX$$o [lf_ge486_comissao_produto]. Erro: "+ SqlCa.SqlErrText
+		Return False
+End Choose
+
+Return True
+end function
+

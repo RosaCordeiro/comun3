@@ -1,0 +1,55 @@
+HA$PBExportHeader$gf_mover_arquivo_xml.srf
+global type gf_mover_arquivo_xml from function_object
+end type
+
+forward prototypes
+global function boolean gf_mover_arquivo_xml (string as_path, ref string as_log)
+end prototypes
+
+global function boolean gf_mover_arquivo_xml (string as_path, ref string as_log);Long 		ll_Linha, ll_retorno, ll_for
+String 	ls_Arquivo, ls_Lista_Arquivos[], ls_path[], ls_Path_XML, ls_Path_XML_destino, ls_arquivo_destino
+
+
+ls_Path[1] = as_path
+ls_Path[2] = as_path + "xml-grc\"
+
+for ll_for = 1 to Upperbound(ls_Path)	
+	If Not DirectoryExists(ls_Path[ll_for]) Then
+		If CreateDirectory(ls_Path[ll_for]) = -1 Then
+			MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao criar o diret$$HEX1$$f300$$ENDHEX$$rio para a movimenta$$HEX2$$e700e300$$ENDHEX$$o do XML '" + ls_Path[ll_for] + "'.")
+			Return False
+		End If
+	End If
+Next
+
+ls_Path_XML_destino	= ls_path[1]
+ls_Path_XML				= ls_path[2]
+
+//Pegar os arquivos xml
+gf_Dir_List(ls_Path_XML, "*.xml", 1, Ref ls_Lista_Arquivos[])
+
+For ll_Linha = 1 To UpperBound(ls_Lista_Arquivos[])
+	ls_arquivo							= ls_Path_XML + ls_Lista_Arquivos[ll_linha]
+	ls_arquivo_destino				= ls_Path_XML_destino + ls_Lista_Arquivos[ll_linha]
+	
+	if FileExists(ls_arquivo_destino) then
+		Filedelete(ls_arquivo_destino)
+	end if
+	
+	ll_retorno = FileMove(ls_arquivo, ls_arquivo_destino)
+	
+	choose case ll_retorno
+		case 1
+			//Deu certo
+		case -1
+			as_log	= "Erro ao Mover o arquivo:" + String(ls_arquivo) + "Para:" + String(ls_arquivo_destino)
+			return False
+		case -2 
+			as_log	= "Erro ao criar o novo arquivo."
+			return False		
+	end choose
+next
+
+Return True
+end function
+

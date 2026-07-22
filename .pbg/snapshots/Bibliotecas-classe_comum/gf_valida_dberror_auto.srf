@@ -1,0 +1,32 @@
+HA$PBExportHeader$gf_valida_dberror_auto.srf
+global type gf_valida_dberror_auto from function_object
+end type
+
+forward prototypes
+global function boolean gf_valida_dberror_auto (string as_dberror)
+end prototypes
+
+global function boolean gf_valida_dberror_auto (string as_dberror);Long		ll_position, ll_for
+String	ls_array_halt_errors[]
+
+
+if not gvb_Auto then
+	Return True
+end if
+
+ls_array_halt_errors[1]	= 'ct_connect'
+ls_array_halt_errors[2]	= 'ct_cmd_alloc'
+
+ll_position	= 0
+
+for ll_for = 1 to Upperbound(ls_array_halt_errors)
+	ll_position	= Pos(as_dberror, ls_array_halt_errors[ll_for])
+
+	if ll_position > 0 then
+		HALT
+	end if
+next
+
+Return True
+end function
+

@@ -1,0 +1,32 @@
+HA$PBExportHeader$gf_limpa_diretorio.srf
+global type gf_limpa_diretorio from function_object
+end type
+
+forward prototypes
+global function boolean gf_limpa_diretorio (string ps_dir)
+end prototypes
+
+global function boolean gf_limpa_diretorio (string ps_dir);String lvs_Arquivos[], & 
+		 lvs_Registro
+Long lvl_Linha
+
+	
+gf_dir_list(ps_dir, '*.*', 0 + 2 + 4, ref lvs_Arquivos)
+	
+For lvl_Linha = 1 To UpperBound(lvs_Arquivos)	
+		
+	lvs_Registro = lvs_Arquivos[lvl_Linha]
+		
+	FileDelete(lvs_Registro)		
+	
+Next	
+
+gf_dir_list(ps_dir, '*.*', 0 + 2 + 4, ref lvs_Arquivos)
+
+If UpperBound(lvs_Arquivos) > 0 Then
+	Return False
+Else
+	Return True
+End If
+end function
+

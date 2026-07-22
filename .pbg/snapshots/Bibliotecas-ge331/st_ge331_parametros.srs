@@ -1,0 +1,9 @@
+HA$PBExportHeader$st_ge331_parametros.srs
+global type st_ge331_parametros from structure
+	string		cd_fornecedor
+	string		nm_fornecedor
+	long		cd_produto
+	string		de_produto
+	string		de_chave_acesso
+end type
+

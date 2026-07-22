@@ -1,0 +1,19 @@
+HA$PBExportHeader$gf_set_string.srf
+global type gf_set_string from function_object
+end type
+
+forward prototypes
+global function string gf_set_string (any ps_valor)
+end prototypes
+
+global function string gf_set_string (any ps_valor);string ls_retorno
+
+if isnull(ps_valor ) Then
+	ls_retorno = ''
+else
+	ls_retorno = String(ps_valor)
+end if
+
+return ls_retorno
+end function
+

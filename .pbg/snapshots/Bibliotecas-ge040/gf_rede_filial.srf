@@ -1,0 +1,33 @@
+HA$PBExportHeader$gf_rede_filial.srf
+global type gf_rede_filial from function_object
+end type
+
+forward prototypes
+global function boolean gf_rede_filial (ref string as_retorno)
+end prototypes
+
+global function boolean gf_rede_filial (ref string as_retorno);Select id_rede_filial
+  Into :as_retorno
+  From filial
+ Where cd_filial = dbo.uf_Filial_Parametro()
+ Using SqlCa;
+ 
+Choose Case SqlCa.SqlCode
+	Case -1
+		SqlCa.of_MsgDbError("LOCALIZA$$HEX2$$c700c300$$ENDHEX$$O DO PAR$$HEX1$$c200$$ENDHEX$$METRO 'ID_REDE_FILIAL'.")
+		Return False
+
+	Case 100
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Parametro n$$HEX1$$e300$$ENDHEX$$o localizado 'ID_REDE_FILIAL' tabela filial.")
+		Return False
+		
+	Case 0
+		If IsNull(as_Retorno) Or Trim(as_Retorno) = "" Then
+			MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Parametro n$$HEX1$$e300$$ENDHEX$$o localizado 'ID_REDE_FILIAL' tabela filial.")
+			Return False
+		End If
+End Choose
+
+Return True
+end function
+

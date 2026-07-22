@@ -1,0 +1,7 @@
+HA$PBExportHeader$t_ibscbs.srs
+global type t_ibscbs from structure
+	string		cst
+	string		cclasstrib
+	t_gIBSCBS		gIBSCBS
+end type
+

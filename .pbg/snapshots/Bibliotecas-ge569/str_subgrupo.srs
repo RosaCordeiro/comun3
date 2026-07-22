@@ -1,0 +1,7 @@
+HA$PBExportHeader$str_subgrupo.srs
+global type str_subgrupo from structure
+	string		cd_subgrupo[]
+	string		de_subgrupo[]
+	string		de_subgrupo_in
+end type
+

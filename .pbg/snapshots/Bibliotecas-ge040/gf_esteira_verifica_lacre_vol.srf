@@ -1,0 +1,63 @@
+HA$PBExportHeader$gf_esteira_verifica_lacre_vol.srf
+global type gf_esteira_verifica_lacre_vol from function_object
+end type
+
+forward prototypes
+global function boolean gf_esteira_verifica_lacre_vol (long al_cd_esteira, long al_cd_filial, ref boolean ab_verifica, ref string as_log)
+end prototypes
+
+global function boolean gf_esteira_verifica_lacre_vol (long al_cd_esteira, long al_cd_filial, ref boolean ab_verifica, ref string as_log);Date		ld_dt_obriga_inf_lacre_separacao
+String	ls_vl_parametro, ls_id_lacre_etiq_fixa
+
+
+ab_verifica	= false
+
+select vl_parametro
+  into :ls_vl_parametro
+  from wms_parametro
+ where cd_parametro	= 'DT_OBRIGA_INF_LACRE_SEPARACAO';
+ 
+choose case sqlca.sqlcode
+	case -1
+		as_log = 'Erro ao procurar o par$$HEX1$$e200$$ENDHEX$$metro WMS DT_OBRIGA_INF_LACRE_SEPARACAO_WMS. ' + sqlca.sqlerrtext
+		return false
+	case 100
+		as_log = 'Par$$HEX1$$e200$$ENDHEX$$metro WMS DT_OBRIGA_INF_LACRE_SEPARACAO_WMS n$$HEX1$$e300$$ENDHEX$$o foi encontrado.'
+		return false
+	case 0
+		if IsDate(ls_vl_parametro) then
+			ld_dt_obriga_inf_lacre_separacao	= Date(ls_vl_parametro)
+		else
+			as_log = 'Par$$HEX1$$e200$$ENDHEX$$metro WMS DT_OBRIGA_INF_LACRE_SEPARACAO_WMS n$$HEX1$$e300$$ENDHEX$$o est$$HEX1$$e100$$ENDHEX$$ no formado de data. ' + ls_vl_parametro
+			return false
+		end if
+		
+		if ld_dt_obriga_inf_lacre_separacao > Date(gf_GetServerDate()) then
+			ab_verifica	= false
+			return true
+		end if
+end choose
+
+select id_lacre_etiq_fixa
+  into :ls_id_lacre_etiq_fixa
+  from wms_esteira
+ where cd_esteira = :al_cd_esteira;
+ 
+choose case sqlca.sqlcode
+	case -1
+		as_log = 'Erro ao procurar o campo id_lacre_etiq_fixa na tabela wms_esteira. ' + sqlca.sqlerrtext
+		return false
+	case 100
+		as_log = 'Esteira ' + String(al_cd_esteira) + ' n$$HEX1$$e300$$ENDHEX$$o foi encontrada.'
+		return false
+	case 0
+		if ls_id_lacre_etiq_fixa = 'S' then
+			ab_verifica	= true
+		else
+			ab_verifica	= false
+		end if
+end choose
+
+return true
+end function
+

@@ -1,0 +1,68 @@
+HA$PBExportHeader$gf_dados_cep.srf
+global type gf_dados_cep from function_object
+end type
+
+forward prototypes
+global function boolean gf_dados_cep (ref long pl_filial, ref long pl_filial_matriz)
+global function boolean gf_dados_cep (string ps_cep, ref string ps_cidade, ref string ps_uf, ref string ps_ibge, ref string ps_bairro, ref string ps_ddd, ref string ps_logradouro, ref string ps_complemento, ref string ps_longitude, ref string ps_latitude, ref string ps_altitude, ref boolean pb_cep_unico)
+end prototypes
+
+global function boolean gf_dados_cep (ref long pl_filial, ref long pl_filial_matriz);Long lvl_Filial, lvl_Filial_Matriz
+
+Select cd_filial,cd_filial_matriz 
+Into :lvl_Filial,:lvl_Filial_Matriz
+From parametro
+where id_parametro = '1'
+Using Sqlca;
+
+If Sqlca.Sqlcode = -1 Then 
+	Sqlca.of_MsgDbError("Localiza$$HEX2$$e700e300$$ENDHEX$$o filiais par$$HEX1$$e200$$ENDHEX$$metro.")
+	Return False
+ElseIf Sqlca.Sqlcode = 100 Then
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o","N$$HEX1$$e300$$ENDHEX$$o foi poss$$HEX1$$ed00$$ENDHEX$$vel localizar filiais par$$HEX1$$e200$$ENDHEX$$metro.",StopSign!)
+	Return False
+End If
+
+If IsNull(lvl_Filial) or lvl_Filial = 0 Then
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o","C$$HEX1$$f300$$ENDHEX$$digo da filial n$$HEX1$$e300$$ENDHEX$$o esta configurado nos par$$HEX1$$e200$$ENDHEX$$metros do sistema.",StopSign!)
+	Return False
+End If	
+
+If IsNull(lvl_Filial_Matriz) or lvl_Filial_Matriz = 0 Then
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o","C$$HEX1$$f300$$ENDHEX$$digo da filial matriz n$$HEX1$$e300$$ENDHEX$$o esta configurado nos par$$HEX1$$e200$$ENDHEX$$metros do sistema.",StopSign!)
+	Return False
+End If	
+
+pl_filial		  = lvl_Filial
+pl_filial_matriz = lvl_Filial_Matriz
+
+Return True
+end function
+
+global function boolean gf_dados_cep (string ps_cep, ref string ps_cidade, ref string ps_uf, ref string ps_ibge, ref string ps_bairro, ref string ps_ddd, ref string ps_logradouro, ref string ps_complemento, ref string ps_longitude, ref string ps_latitude, ref string ps_altitude, ref boolean pb_cep_unico);//FUN$$HEX2$$c700c300$$ENDHEX$$O GLOBAL QUE RETORNA DADOS DO CEP, ATRAV$$HEX1$$c900$$ENDHEX$$S DE CONSULTA A UMA API ABERTA GRATUITA NA WEB CEPABERTO.COM
+
+String ls_json, &
+		ls_erro
+
+uo_ge040_cepaberto lo_cep
+lo_cep = Create uo_ge040_cepaberto
+
+If lo_cep.of_dados_cep(ps_cep,ref ls_json, ref ls_erro) Then
+	ps_cidade 			= lo_cep.is_nm_cidade
+	ps_uf 					= lo_cep.is_uf
+	ps_ibge				= lo_cep.is_ibge
+	ps_bairro			= lo_cep.is_bairro
+	ps_ddd	 			= lo_cep.is_ddd
+	ps_logradouro  	= lo_cep.is_logradouro
+	ps_complemento 	= lo_cep.is_complemento
+	ps_longitude		= lo_cep.is_longitude
+	ps_latitude			= lo_cep.is_latitude
+	ps_altitude			= lo_cep.is_altitude
+	pb_cep_unico		= lo_cep.ib_cep_unico	
+End if
+
+Destroy(lo_cep)
+
+Return True
+end function
+

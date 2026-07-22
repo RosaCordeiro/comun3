@@ -1,0 +1,7 @@
+HA$PBExportHeader$st_produto.srs
+global type st_produto from structure
+	long		cd_produto[]
+	string		de_produto[]
+	string		id_situacao[]
+end type
+

@@ -1,0 +1,36 @@
+HA$PBExportHeader$gf_ge565_solicita_lote_quantidade.srf
+global type gf_ge565_solicita_lote_quantidade from function_object
+end type
+
+forward prototypes
+global function boolean gf_ge565_solicita_lote_quantidade (long pl_produto, ref long pl_qtde, ref string ps_lote)
+end prototypes
+
+global function boolean gf_ge565_solicita_lote_quantidade (long pl_produto, ref long pl_qtde, ref string ps_lote);String ls_Lote
+String ls_Parametro
+
+Boolean lb_Sucesso = False
+
+pl_qtde = 0
+
+OpenWithParm( w_ge565_informa_lote, pl_Produto )
+
+ls_Parametro = Message.StringParm
+
+If IsNull( ls_Parametro ) Then Return False
+
+pl_Qtde 	= Long( Mid( ls_Parametro, 1,3 ) )
+ls_Lote 	= Mid( ls_Parametro, 4 )	
+ps_Lote 	= ls_Lote
+	
+If Not gf_ge565_existe_lote_entrada_matriz( pl_produto, ps_lote, True ) Then
+	Return False
+End If
+
+Return True
+
+
+
+
+end function
+

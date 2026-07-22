@@ -1,0 +1,44 @@
+HA$PBExportHeader$gf_dia_semana.srf
+global type gf_dia_semana from function_object
+end type
+
+forward prototypes
+global function string gf_dia_semana (date pd_data)
+end prototypes
+
+global function string gf_dia_semana (date pd_data);
+String 	ls_DiaSemana
+String 	ls_DataExtenso
+
+Long 	 	ll_Mes
+Long 		ll_Ano
+Long 		ll_Dia
+
+ll_Ano	= Year(Date(pd_data))
+ll_Mes	= Month(Date(pd_data))
+ll_Dia	= Day(Date(pd_data))
+
+Choose Case DayNumber(pd_data)
+	Case 1
+		ls_DiaSemana = 'Domingo'	
+	Case 2
+		ls_DiaSemana = 'Segunda-feira'
+	Case 3
+		ls_DiaSemana = 'Ter$$HEX1$$e700$$ENDHEX$$a-feira'
+	Case 4
+		ls_DiaSemana = 'Quarta-feira'
+	Case 5
+		ls_DiaSemana = 'Quinta-feira'
+	Case 6
+		ls_DiaSemana = 'Sexta-feira'
+	Case 7
+		ls_DiaSemana = 'S$$HEX1$$e100$$ENDHEX$$bado'
+End Choose		
+
+ls_DataExtenso = ls_DiaSemana + ', ' + String(ll_Dia) + ' de ' + gf_Mes_Extenso(ll_Mes) + ' de ' + String(ll_Ano)
+
+Return ls_DataExtenso
+
+
+end function
+

@@ -1,0 +1,9 @@
+HA$PBExportHeader$st_parametros_tipo_ajuste.srs
+global type st_parametros_tipo_ajuste from structure
+	string		endereco
+	string		lote
+	datetime		validade
+	long		qt_saldo
+	string		id_confirmado
+end type
+

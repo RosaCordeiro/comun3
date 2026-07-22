@@ -1,0 +1,86 @@
+HA$PBExportHeader$gf_envia_email.srf
+global type gf_envia_email from function_object
+end type
+
+forward prototypes
+global function boolean gf_envia_email (ref integer pi_log, string ps_arquivo)
+global subroutine gf_envia_email (string ps_para, string ps_cc, string ps_cco, string ps_assunto, string ps_mensagem, string ps_anexo)
+end prototypes
+
+global function boolean gf_envia_email (ref integer pi_log, string ps_arquivo);pi_Log = FileOpen(ps_arquivo, LineMode!, Write!, Shared!, Append!)
+
+If pi_Log = -1 and not gvb_Auto Then	
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro na abertura do arquivo de log '.", StopSign!)
+	Return False
+End If
+
+Return True
+end function
+
+global subroutine gf_envia_email (string ps_para, string ps_cc, string ps_cco, string ps_assunto, string ps_mensagem, string ps_anexo);String 	lvs_Path_Email, &
+		lvs_Path_Email_Aux, &
+		lvs_Run, &
+		lvs_Parametro
+
+lvs_Parametro	= ""
+lvs_Path_Email = ProfileString(gvo_Aplicacao.ivs_Arquivo_INI, "Diretorio", "Executavel_Email","")
+
+If IsNull(lvs_Path_Email) Or Trim(lvs_Path_Email) = "" Then
+
+	lvs_Path_Email_Aux = "C:\Program Files (x86)\Microsoft Office\Office12\outlook.exe"
+
+	If Not FileExists(lvs_Path_Email_Aux) Then
+		lvs_Path_Email_Aux = "C:\Arquivos de Programas\Microsoft Office\Office12\outlook.exe"	
+
+		If Not FileExists(lvs_Path_Email_Aux) Then
+			lvs_Path_Email_Aux = "C:\Program Files\Microsoft Office\Office12\outlook.exe"	
+			
+			If Not FileExists(lvs_Path_Email_Aux) Then
+				lvs_Path_Email_Aux = ''
+				MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o!","N$$HEX1$$e300$$ENDHEX$$o foi encontrado o aplicativo para envio de e-mail. Gentileza informar na chave: [Diretorio]  - Executavel_Email. Processo de envio abortado.", Exclamation!)
+			End If
+		End If
+	End If
+
+	lvs_Path_Email = lvs_Path_Email_Aux
+	SetProfileString(gvo_Aplicacao.ivs_Arquivo_INI, "Diretorio", "Executavel_Email", lvs_Path_Email_Aux )
+	
+End If
+
+If lvs_Path_Email = '' and Not FileExists(lvs_Path_Email) Then Return
+
+lvs_Run  = '"' + lvs_Path_Email + '"'
+
+lvs_Run +=  '/c ipm.note /m '
+
+If ps_Para <> '' Then
+	lvs_Parametro = ps_Para
+End If
+
+If ps_CC <> '' Then
+	lvs_Parametro += '&cc=' + ps_CC
+End If
+
+If ps_CCO <> '' Then
+	lvs_Parametro += '&cco=' + ps_CCO
+End If
+
+If ps_Assunto <> '' Then
+	lvs_Parametro +=  "&subject=" + gf_Replace(ps_Assunto, ' ', '%20', Len(ps_Assunto))
+End If
+
+If ps_Mensagem <> '' Then
+	lvs_Parametro += "&body=" + gf_Replace(ps_Mensagem, ' ', '%20', Len(ps_Mensagem))
+End If
+
+If lvs_Parametro <> '' Then
+	lvs_Run += '"' + lvs_Parametro + '"'
+End If
+
+If ps_Anexo <> '' Then
+	lvs_Run += ' /a ' + ps_anexo
+End If
+
+Run(lvs_Run)
+end subroutine
+

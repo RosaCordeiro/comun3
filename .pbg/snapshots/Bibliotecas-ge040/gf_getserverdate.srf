@@ -1,0 +1,57 @@
+HA$PBExportHeader$gf_getserverdate.srf
+global type gf_getserverdate from function_object
+end type
+
+forward prototypes
+global function datetime gf_getserverdate ()
+global function datetime gf_getserverdate (boolean pb_exibe_msg)
+global function datetime gf_getserverdate (boolean pb_exibe_msg, ref string ps_msg)
+end prototypes
+
+global function datetime gf_getserverdate ();string lvs_Msg
+Return gf_getserverdate(True)
+end function
+
+global function datetime gf_getserverdate (boolean pb_exibe_msg);string lvs_Msg
+Return gf_getserverdate(pb_exibe_msg,lvs_Msg)
+end function
+
+global function datetime gf_getserverdate (boolean pb_exibe_msg, ref string ps_msg);/* Fun$$HEX2$$e700e300$$ENDHEX$$o com sobrecarga, pode ser utilizada sem os par$$HEX1$$e200$$ENDHEX$$metros pb_exibe_msg e/ou sem ps_msg */
+DateTime lvdh_Servidor
+
+If Sqlca.ivs_DataBase <> "ACCESS" Then
+	Select getdate() Into :lvdh_Servidor
+	From parametro
+	Using SqlCa;
+Else	
+	Select Now() Into :lvdh_Servidor
+	From parametro
+	Using SqlCa;
+End If	
+
+Choose Case SqlCa.SqlCode
+	Case 0
+		
+	Case 100
+		If pb_exibe_msg Then 
+			MessageBox( "Aten$$HEX2$$e700e300$$ENDHEX$$o", "GetDate n$$HEX1$$e300$$ENDHEX$$o localizado.", StopSign! )
+		else
+			ps_msg =  "Fun$$HEX2$$e700e300$$ENDHEX$$o GetDate n$$HEX1$$e300$$ENDHEX$$o localizada no banco de dados"
+		End If
+		
+		SetNull( lvdh_Servidor )
+		
+	Case -1
+		If pb_exibe_msg Then 
+			SqlCa.of_MsgdbError( "Erro na localiza$$HEX2$$e700e300$$ENDHEX$$o da data do servidor.~rGE040.gf_GetServerDate( )" )
+		else
+			ps_msg =  "Erro na localiza$$HEX2$$e700e300$$ENDHEX$$o da data do servidor.~rGE040.gf_GetServerDate( )" +SQLCa.SQLErrText
+		End If
+		
+		SetNull(lvdh_Servidor)
+		
+End Choose
+
+Return lvdh_Servidor
+end function
+

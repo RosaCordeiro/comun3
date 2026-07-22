@@ -1,0 +1,45 @@
+HA$PBExportHeader$gf_valida_pedido_ecommerce.srf
+global type gf_valida_pedido_ecommerce from function_object
+end type
+
+forward prototypes
+global function boolean gf_valida_pedido_ecommerce (dc_uo_transacao p_transacao, string ps_nr_pedido, string ps_id_ecommerce, boolean pb_consulta_loja, ref string ps_log)
+end prototypes
+
+global function boolean gf_valida_pedido_ecommerce (dc_uo_transacao p_transacao, string ps_nr_pedido, string ps_id_ecommerce, boolean pb_consulta_loja, ref string ps_log);long ll_existe
+
+if pb_consulta_loja = false Then
+	
+	select count(*)
+	into :ll_existe
+	from pedido_ecommerce
+	where id_ecommerce = :ps_id_ecommerce
+	and nr_pedido_ecommerce = :ps_nr_pedido
+	Using p_transacao;
+
+Else
+	
+	select count(*)
+	into :ll_existe
+	from pedido_drogaexpress
+	where id_plataforma_ecommerce = :ps_id_ecommerce
+	and nr_pedido_ecommerce_site = :ps_nr_pedido
+	and dh_emissao > ( now() - INTERVAL '10 DAY' )
+	Using p_transacao;
+
+End if
+
+	if p_transacao.sqlcode = -1 then
+		//ps_log = 'Objeto: ' + this.classname() + '; Problemas ao consultar o banco de dados: ' + p_transacao.sqlerrtext
+		ps_log = 'Problemas ao consultar pedido drogaexpress no banco de dados da filial.'
+		return false
+	end if
+	
+	if ll_existe > 0 then
+		ps_log = 'O pedido ' + ps_nr_pedido + ' j$$HEX1$$e100$$ENDHEX$$ existe no banco de dados.'
+		return false
+	end if
+	
+Return true
+end function
+

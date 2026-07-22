@@ -1,0 +1,85 @@
+HA$PBExportHeader$dw_troca_nf_transferencia_destino.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=80 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=92 color="536870912" )
+table(column=(type=long update=yes updatewhereclause=yes key=yes name=cd_filial_origem dbname="nf_transferencia.cd_filial_origem" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=nr_nf dbname="nf_transferencia.nr_nf" )
+ column=(type=char(3) update=yes updatewhereclause=yes key=yes name=de_especie dbname="nf_transferencia.de_especie" )
+ column=(type=char(3) update=yes updatewhereclause=yes key=yes name=de_serie dbname="nf_transferencia.de_serie" )
+ column=(type=long update=yes updatewhereclause=yes name=cd_filial_destino dbname="nf_transferencia.cd_filial_destino" )
+ column=(type=datetime update=yes updatewhereclause=yes name=dh_emissao dbname="nf_transferencia.dh_emissao" )
+ column=(type=datetime update=yes updatewhereclause=yes name=dh_movimentacao_caixa dbname="nf_transferencia.dh_movimentacao_caixa" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_bc_icms dbname="nf_transferencia.vl_bc_icms" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_icms dbname="nf_transferencia.vl_icms" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_bc_icms_st dbname="nf_transferencia.vl_bc_icms_st" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_icms_st dbname="nf_transferencia.vl_icms_st" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_total_produtos dbname="nf_transferencia.vl_total_produtos" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_total_nf dbname="nf_transferencia.vl_total_nf" )
+ column=(type=char(6) update=yes updatewhereclause=yes name=nr_matricula_operador dbname="nf_transferencia.nr_matricula_operador" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=id_produto_vencido dbname="nf_transferencia.id_produto_vencido" )
+ column=(type=datetime update=yes updatewhereclause=yes name=dh_recebimento dbname="nf_transferencia.dh_recebimento" )
+ column=(type=datetime update=yes updatewhereclause=yes name=dh_cancelamento dbname="nf_transferencia.dh_cancelamento" )
+ column=(type=char(6) update=yes updatewhereclause=yes name=nr_matricula_cancelamento dbname="nf_transferencia.nr_matricula_cancelamento" )
+ column=(type=datetime updatewhereclause=yes name=dh_atualizacao_filial dbname="nf_transferencia.dh_atualizacao_filial" )
+ retrieve="select cd_filial_origem,   
+       nr_nf,   
+       de_especie,   
+       de_serie,   
+       cd_filial_destino,   
+       dh_emissao,   
+       dh_movimentacao_caixa,   
+       vl_bc_icms,   
+       vl_icms,   
+       vl_bc_icms_st,   
+       vl_icms_st,   
+       vl_total_produtos,   
+       vl_total_nf,   
+       nr_matricula_operador,   
+       id_produto_vencido,   
+       dh_recebimento,   
+       dh_cancelamento,   
+       nr_matricula_cancelamento,   
+       dh_atualizacao_filial
+from nf_transferencia" update="nf_transferencia" updatewhere=1 updatekeyinplace=no  sort="dh_atualizacao_filial D " )
+text(band=header alignment="2" text="Cd Filial Origem"border="0" color="0" x="9" y="8" height="64" width="425"  name=cd_filial_origem_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Nf"border="0" color="0" x="443" y="8" height="64" width="329"  name=nr_nf_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="De Especie"border="0" color="0" x="782" y="8" height="64" width="306"  name=de_especie_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="De Serie"border="0" color="0" x="1097" y="8" height="64" width="229"  name=de_serie_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cd Filial Destino"border="0" color="0" x="1335" y="8" height="64" width="434"  name=cd_filial_destino_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Dh Emissao"border="0" color="0" x="1778" y="8" height="64" width="603"  name=dh_emissao_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Dh Movimentacao Caixa"border="0" color="0" x="2391" y="8" height="64" width="640"  name=dh_movimentacao_caixa_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Bc Icms"border="0" color="0" x="3040" y="8" height="64" width="329"  name=vl_bc_icms_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Icms"border="0" color="0" x="3378" y="8" height="64" width="329"  name=vl_icms_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Bc Icms St"border="0" color="0" x="3717" y="8" height="64" width="370"  name=vl_bc_icms_st_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Icms St"border="0" color="0" x="4096" y="8" height="64" width="329"  name=vl_icms_st_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Total Produtos"border="0" color="0" x="4434" y="8" height="64" width="457"  name=vl_total_produtos_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Total Nf"border="0" color="0" x="4901" y="8" height="64" width="329"  name=vl_total_nf_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Matricula Operador"border="0" color="0" x="5239" y="8" height="64" width="581"  name=nr_matricula_operador_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Id Produto Vencido"border="0" color="0" x="5829" y="8" height="64" width="503"  name=id_produto_vencido_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Dh Recebimento"border="0" color="0" x="6341" y="8" height="64" width="603"  name=dh_recebimento_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Dh Cancelamento"border="0" color="0" x="6953" y="8" height="64" width="603"  name=dh_cancelamento_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Matricula Cancelamento"border="0" color="0" x="7566" y="8" height="64" width="718"  name=nr_matricula_cancelamento_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Dh Atualizacao Filial"border="0" color="0" x="8297" y="4" height="76" width="503"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="1" tabsequence=10 border="0" color="0" x="9" y="8" height="76" width="425" format="[general]"  name=cd_filial_origem edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=20 border="0" color="0" x="443" y="8" height="76" width="329" format="[general]"  name=nr_nf edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=30 border="0" color="0" x="782" y="8" height="76" width="306" format="[general]"  name=de_especie edit.limit=3 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=40 border="0" color="0" x="1097" y="8" height="76" width="229" format="[general]"  name=de_serie edit.limit=3 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="1" tabsequence=50 border="0" color="0" x="1335" y="8" height="76" width="434" format="[general]"  name=cd_filial_destino edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=60 border="0" color="0" x="1778" y="8" height="76" width="603" format="[shortdate] [time]"  name=dh_emissao edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=70 border="0" color="0" x="2391" y="8" height="76" width="640" format="[shortdate] [time]"  name=dh_movimentacao_caixa edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="1" tabsequence=80 border="0" color="0" x="3040" y="8" height="76" width="329" format="[general]"  name=vl_bc_icms edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="1" tabsequence=90 border="0" color="0" x="3378" y="8" height="76" width="329" format="[general]"  name=vl_icms edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="1" tabsequence=100 border="0" color="0" x="3717" y="8" height="76" width="370" format="[general]"  name=vl_bc_icms_st edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=11 alignment="1" tabsequence=110 border="0" color="0" x="4096" y="8" height="76" width="329" format="[general]"  name=vl_icms_st edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=12 alignment="1" tabsequence=120 border="0" color="0" x="4434" y="8" height="76" width="457" format="[general]"  name=vl_total_produtos edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=13 alignment="1" tabsequence=130 border="0" color="0" x="4901" y="8" height="76" width="329" format="[general]"  name=vl_total_nf edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=14 alignment="0" tabsequence=140 border="0" color="0" x="5239" y="8" height="76" width="581" format="[general]"  name=nr_matricula_operador edit.limit=6 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=15 alignment="0" tabsequence=150 border="0" color="0" x="5829" y="8" height="76" width="503" format="[general]"  name=id_produto_vencido edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=16 alignment="0" tabsequence=160 border="0" color="0" x="6341" y="8" height="76" width="603" format="[shortdate] [time]"  name=dh_recebimento edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=17 alignment="0" tabsequence=170 border="0" color="0" x="6953" y="8" height="76" width="603" format="[shortdate] [time]"  name=dh_cancelamento edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=18 alignment="0" tabsequence=180 border="0" color="0" x="7566" y="8" height="76" width="718" format="[general]"  name=nr_matricula_cancelamento edit.limit=6 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=19 alignment="0" tabsequence=32766 border="0" color="0" x="8297" y="0" height="64" width="503" format="[shortdate] [time]"  name=dh_atualizacao_filial edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

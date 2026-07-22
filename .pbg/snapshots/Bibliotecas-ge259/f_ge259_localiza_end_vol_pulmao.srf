@@ -1,0 +1,87 @@
+HA$PBExportHeader$f_ge259_localiza_end_vol_pulmao.srf
+global type f_ge259_localiza_end_vol_pulmao from function_object
+end type
+
+forward prototypes
+global function boolean f_ge259_localiza_pedido_distribuidora (long al_nr_chave_volume, ref integer ai_empresa, ref long al_pedido, ref integer ai_volume)
+global function boolean f_ge259_localiza_end_vol_pulmao (long al_nr_chave_volume, ref long al_empresa, ref long al_pedido, ref long al_volume, ref string as_erro)
+global function boolean f_ge259_localiza_end_vol_pulmao (long al_nr_chave_volume, ref string as_cd_endereco, ref string as_erro)
+end prototypes
+
+global function boolean f_ge259_localiza_pedido_distribuidora (long al_nr_chave_volume, ref integer ai_empresa, ref long al_pedido, ref integer ai_volume);Return True
+end function
+
+global function boolean f_ge259_localiza_end_vol_pulmao (long al_nr_chave_volume, ref long al_empresa, ref long al_pedido, ref long al_volume, ref string as_erro);Select 
+	cd_filial, 
+	nr_pedido_distribuidora, 
+	nr_volume
+Into
+	:al_empresa,
+	:al_pedido,
+	:al_volume
+From	wms_lista_separacao
+Where	nr_chave_volume = :al_nr_chave_volume
+Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+	Case 0
+		Return True
+	Case 100
+		as_erro = "N$$HEX1$$e300$$ENDHEX$$o foi localizado pedido na distribuidora para o codigo de barras informado. ~n~rN$$HEX1$$fa00$$ENDHEX$$mero Chave do Volume: "+String(al_nr_chave_volume)
+		Return False
+	Case -1
+		as_erro = "Erro ao localizar o pedido na distribuidora para o codigo de barras informado. ~n~rDB Erro: "+SqlCa.SqlErrText
+		Return False
+End Choose
+end function
+
+global function boolean f_ge259_localiza_end_vol_pulmao (long al_nr_chave_volume, ref string as_cd_endereco, ref string as_erro);Long ll_count
+
+
+Select 
+	count(*)
+Into
+	:ll_count
+From	wms_lista_separacao wls 
+inner join wms_lista_separacao_produto wlsp
+on wls.cd_filial						= wlsp.cd_filial
+and wls.nr_pedido_distribuidora	= wlsp.nr_pedido_distribuidora
+and wls.nr_volume						= wlsp.nr_volume
+Where	wls.nr_chave_volume = :al_nr_chave_volume
+Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+	Case 0
+		if ll_count > 1 then
+			SetNull(as_cd_endereco)
+			return true
+		end if
+	Case 100
+		as_erro = "N$$HEX1$$e300$$ENDHEX$$o foi localizado pedido na distribuidora para o codigo de barras informado. ~n~rN$$HEX1$$fa00$$ENDHEX$$mero Chave do Volume: "+String(al_nr_chave_volume)
+		Return False
+	Case -1
+		as_erro = "Erro ao localizar o pedido na distribuidora para o codigo de barras informado. ~n~rDB Erro: "+SqlCa.SqlErrText
+		Return False
+End Choose
+
+Select 
+	wlsp.cd_endereco_localizacao
+Into
+	:as_cd_endereco
+From	wms_lista_separacao wls 
+inner join wms_lista_separacao_produto wlsp
+on wls.cd_filial						= wlsp.cd_filial
+and wls.nr_pedido_distribuidora	= wlsp.nr_pedido_distribuidora
+and wls.nr_volume						= wlsp.nr_volume
+Where	wls.nr_chave_volume = :al_nr_chave_volume
+Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+	Case 0, 100
+		Return True
+	Case -1
+		as_erro = "Erro ao localizar o endere$$HEX1$$e700$$ENDHEX$$o o codigo de barras informado. ~n~rDB Erro: "+SqlCa.SqlErrText
+		Return False
+End Choose
+end function
+

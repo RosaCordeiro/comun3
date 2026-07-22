@@ -1,0 +1,28 @@
+HA$PBExportHeader$gf_process_is_running.srf
+global type gf_process_is_running from function_object
+end type
+
+forward prototypes
+global function integer gf_process_is_running (string ps_processo)
+end prototypes
+
+global function integer gf_process_is_running (string ps_processo);/* Verifica se um processo est$$HEX1$$e100$$ENDHEX$$ em execu$$HEX2$$e700e300$$ENDHEX$$o e retorna a quantidade de vezes que o mesmo est$$HEX1$$e100$$ENDHEX$$ na lista de processos */
+
+OleObject wsh
+integer  li_rc
+int num, ret, i
+
+String ls_query
+
+ls_query = 'select name , description from Win32_Process where name = "' + ps_Processo + '.exe"'
+
+OleObject locator,service,props
+locator = CREATE OleObject
+ret = locator.ConnectToNewObject("WbemScripting.SWbemLocator");
+service = locator.ConnectServer();
+props = service.ExecQuery(ls_query);
+num = props.count()
+
+Return num
+end function
+

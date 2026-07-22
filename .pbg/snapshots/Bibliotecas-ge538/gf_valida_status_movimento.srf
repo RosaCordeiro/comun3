@@ -1,0 +1,39 @@
+HA$PBExportHeader$gf_valida_status_movimento.srf
+global type gf_valida_status_movimento from function_object
+end type
+
+forward prototypes
+global function string gf_valida_status_movimento (datetime pdh_movimento, string ps_id_tipo_envio)
+end prototypes
+
+global function string gf_valida_status_movimento (datetime pdh_movimento, string ps_id_tipo_envio);Long ll_existe
+
+DateTime ldh_data_1, ldh_data_2
+
+String ls_data
+
+ls_data = String(Date(pdh_movimento))
+
+ldh_data_1 =  DateTime(String(ls_data) + ' 00:00:00.000')
+ldh_data_2 =  DateTime(String(ls_data) + ' 23:59:59.000')
+
+Select count(1)
+   Into :ll_existe
+ From log_exportacao_scanntech
+Where dh_movimentacao_caixa Between :ldh_data_1 and :ldh_data_2
+    And id_tipo_envio =:ps_id_tipo_envio
+    And id_situacao = 'P'		 
+Using Sqlca;	 
+
+If Sqlca.Sqlcode = -1 Then
+	Return 'Erro'	
+End If	
+
+
+If ll_existe = 0 Then
+	Return 'SUCESSO'
+Else
+	Return 'PENDENTE'
+End If	
+end function
+

@@ -1,0 +1,44 @@
+HA$PBExportHeader$gf_retorna_campo_posicao.srf
+global type gf_retorna_campo_posicao from function_object
+end type
+
+forward prototypes
+global function string gf_retorna_campo_posicao (string ps_texto, long pl_posicao, string ps_separador)
+end prototypes
+
+global function string gf_retorna_campo_posicao (string ps_texto, long pl_posicao, string ps_separador);/////////////////////////////////////////////////////////////////////////////////////////
+// Descri$$HEX2$$e700e300$$ENDHEX$$o:																				//
+// 		Fun$$HEX2$$e700e300$$ENDHEX$$o utilizada para retorno de um campo em um arquivo separado//
+// 		por caracteres, como por exemplo o SPED Fiscal							//
+////////////////////////////////////////////////////////////////////////////////////////
+// Argumentos:																				//
+//			- ps_texto: texto onde ser$$HEX1$$e100$$ENDHEX$$ feita a busca.								//
+//			- pl_posicao: n$$HEX1$$fa00$$ENDHEX$$mero da posi$$HEX2$$e700e300$$ENDHEX$$o do campo no texto.					//
+//			- ps_separador: caracter separador de campos.						//
+////////////////////////////////////////////////////////////////////////////////////////
+// Autor: Marlon 																			//
+// Cria$$HEX2$$e700e300$$ENDHEX$$o: 01.07.2020																	//
+////////////////////////////////////////////////////////////////////////////////////////
+Integer lvi_I, lvi_X
+String lvs_Str
+
+if (pl_posicao>0)and(Len(ps_texto)>(pl_posicao*Len(ps_separador))) then
+	if Mid(ps_texto,1,Len(ps_separador))=ps_separador then ps_texto = Mid(ps_texto,Len(ps_separador) + 1)
+		
+    lvs_Str = ps_texto
+    lvi_I = 1
+
+    Do While (lvi_I<pl_posicao)and(lvs_Str<>'')
+		lvi_I ++
+		lvi_X = IIF(pl_posicao=1,1,Pos(lvs_Str,ps_separador)+Len(ps_separador))
+		lvs_Str = Mid(lvs_Str, lvi_X, Len(lvs_Str)+ 1 - lvi_X)
+	Loop
+
+    lvi_X = IIF(Pos(lvs_Str,ps_separador)>0,Pos(lvs_Str,ps_separador)-1,Len(lvs_Str))
+
+    Return Mid(lvs_Str,1,lvi_X)
+  else 
+	Return ''
+End If
+end function
+

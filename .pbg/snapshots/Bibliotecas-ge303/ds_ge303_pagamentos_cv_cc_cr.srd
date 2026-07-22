@@ -1,0 +1,145 @@
+HA$PBExportHeader$ds_ge303_pagamentos_cv_cc_cr.srd
+release 12;
+datawindow(units=0 timer_interval=0 color=1073741824 brushmode=0 transparency=0 gradient.angle=0 gradient.color=8421504 gradient.focus=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.repetition.mode=0 gradient.scale=100 gradient.spread=100 gradient.transparency=0 picture.blur=0 picture.clip.bottom=0 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.transparency=0 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes hidegrayline=no showbackcoloronxp=no picture.file="" )
+header(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+summary(height=80 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+detail(height=84 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+table(column=(type=char(3) updatewhereclause=yes name=tipo dbname="tipo" )
+ column=(type=long updatewhereclause=yes name=cd_filial dbname="cd_filial" )
+ column=(type=char(40) updatewhereclause=yes name=nm_fantasia dbname="nm_fantasia" )
+ column=(type=char(4) updatewhereclause=yes name=cd_conta_contabil dbname="cd_conta_contabil" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_pago dbname="vl_pago" )
+ retrieve="select 	'CV' as tipo,
+			f.cd_filial cd_filial,   
+			f.nm_fantasia nm_fantasia,
+			case t.cd_convenio
+				when 52575 then '1266'
+				when 53724 then '1267'
+				when 53725 then '1268'
+				when 52718 then '1269'
+				when 52349 then '1270'
+			else '1112' end as cd_conta_contabil,
+			sum(( m.vl_movimento + m.vl_desconto_concedido) - (m.vl_despesas_recebidas +  m.vl_juros_recebidos +  m.vl_multa_recebida)) vl_pago
+from movimento_titulo_receber m //(index idx_conta_tipo_data_movto)
+inner join titulo_receber t
+	on t.nr_titulo  = m.nr_titulo
+inner join convenio cv
+	on cv.cd_convenio    = t.cd_convenio  
+inner join filial f (index pk_filial)
+//	on f.cd_filial     = m.cd_filial_movimento
+	on f.cd_filial     = t.cd_filial
+where  m.id_estorno     = 'N'
+	and m.cd_tipo_movimento = 3
+	and m.dh_movimento	  between :pdt_inicio and :pdt_termino
+	and t.id_tipo_titulo = 'CV'
+	and t.cd_convenio not in (51014, 52602, 53847)
+	and not exists (select 1 
+						from caixa c1 
+						inner join controle_caixa cc1 on cc1.cd_caixa = c1.cd_caixa 
+						inner join lancamento_caixa lc1 on lc1.cd_caixa = cc1.cd_caixa and lc1.nr_controle_caixa = cc1.nr_controle_caixa
+						Where c1.id_caixa_geral = 'N'
+							and lc1.nr_recibo_cobranca = m.nr_recibo_cobranca
+							and lc1.cd_conta_fluxo_caixa in (2,212,218,219,220,221,222)
+							and c1.cd_filial = m.cd_filial_movimento
+							and cc1.dh_movimentacao_caixa = m.dh_movimento)
+group by f.cd_filial,   
+        		f.nm_fantasia,
+			case t.cd_convenio
+				when 52575 then '1266'
+				when 53724 then '1267'
+				when 53725 then '1268'
+				when 52718 then '1269'
+				when 52349 then '1270'
+			else '1112' end
+
+union all
+
+select 	'CV1' as tipo,
+			f.cd_filial cd_filial,   
+			f.nm_fantasia nm_fantasia,
+			case t.cd_convenio
+				when 52575 then '1266'
+				when 53724 then '1267'
+				when 53725 then '1268'
+				when 52718 then '1269'
+				when 52349 then '1270'
+			else '1112' end as cd_conta_contabil,
+			sum(( m.vl_movimento + m.vl_desconto_concedido) - (m.vl_despesas_recebidas +  m.vl_juros_recebidos +  m.vl_multa_recebida)) vl_pago
+from movimento_titulo_receber m //(index idx_conta_tipo_data_movto)
+inner join titulo_receber t
+	on t.nr_titulo  = m.nr_titulo
+inner join convenio cv
+	on cv.cd_convenio    = t.cd_convenio  
+left outer join lancamento_caixa lc
+	on lc.nr_recibo_cobranca = m.nr_recibo_cobranca
+left outer join controle_caixa cc
+	on cc.cd_caixa = lc.cd_caixa and 
+		cc.nr_controle_caixa = lc.nr_controle_caixa
+left outer join caixa cx
+	on cx.cd_caixa = cc.cd_caixa and 
+		cx.cd_filial = m.cd_filial_movimento
+inner join filial f
+	on f.cd_filial     = m.cd_filial_movimento
+where  m.id_estorno     = 'N'
+	and m.cd_tipo_movimento = 3
+	and m.dh_movimento	  between :pdt_inicio and :pdt_termino
+	and t.id_tipo_titulo = 'CV'
+   and cc.dh_movimentacao_caixa between :pdt_inicio and :pdt_termino
+	and cx.id_caixa_geral = 'N'
+   and lc.cd_conta_fluxo_caixa in (2,212,218,219,220,221,222)
+   and lc.nr_recibo_cobranca = m.nr_recibo_cobranca
+group by f.cd_filial,   
+			f.nm_fantasia,
+			case t.cd_convenio
+				when 52575 then '1266'
+				when 53724 then '1267'
+				when 53725 then '1268'
+				when 52718 then '1269'
+				when 52349 then '1270'
+			else '1112' end
+
+union all
+
+select 	t.id_tipo_titulo,
+			f.cd_filial,   
+			f.nm_fantasia,   
+			case when n.nr_nf is null then '1112' else '1192' end as cd_conta_contabil,
+			sum(( m.vl_movimento + m.vl_desconto_concedido) - (m.vl_despesas_recebidas +  m.vl_juros_recebidos +  m.vl_multa_recebida))
+from movimento_titulo_receber m //(index idx_conta_tipo_data_movto)
+inner join titulo_receber t (index pk_titulo_receber)
+	on t.nr_titulo  = m.nr_titulo
+inner join cliente c (index pk_cliente)
+	on c.cd_cliente = t.cd_cliente
+inner join filial f (index pk_filial)
+	on f.cd_filial  = m.cd_filial_movimento
+left outer join nf_diversa n
+	on n.cd_filial_origem = t.cd_filial_nf
+	and n.nr_nf = t.nr_nf
+	and n.de_especie = t.de_especie
+	and n.de_serie = t.de_serie
+where  m.id_estorno     = 'N'
+	and m.cd_tipo_movimento = 3
+	and m.dh_movimento	  between :pdt_inicio and :pdt_termino
+	and t.id_tipo_titulo in ('CC','CR')
+group by t.id_tipo_titulo,
+			f.cd_filial,   
+			f.nm_fantasia,
+			case when n.nr_nf is null then '1112' else '1192' end" arguments=(("pdt_inicio", date),("pdt_termino", date))  sort="cd_filial A tipo A " )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="18" y="4" height="64" width="128" format="[general]" html.valueishtml="0"  name=tipo visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="160" y="8" height="64" width="261" format="[general]" html.valueishtml="0"  name=cd_filial visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="443" y="12" height="64" width="462" format="[general]" html.valueishtml="0"  name=nm_fantasia visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="905" y="0" height="64" width="2135" format="[general]" html.valueishtml="0"  name=vl_pago visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="1632" y="0" height="64" width="110" format="[general]" html.valueishtml="0"  name=cd_conta_contabil visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+compute(band=summary alignment="0" expression="sum(vl_pago for all)"border="0" color="0" x="905" y="4" height="64" width="2135" format="[general]" html.valueishtml="0"  name=compute_1 visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

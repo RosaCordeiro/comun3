@@ -1,0 +1,16 @@
+HA$PBExportHeader$gf_nr_cpf_valido.srf
+global type gf_nr_cpf_valido from function_object
+end type
+
+forward prototypes
+global function boolean gf_nr_cpf_valido (string ps_nr_cpf)
+end prototypes
+
+global function boolean gf_nr_cpf_valido (string ps_nr_cpf);Boolean lvb_Ok 
+
+lvb_Ok = gf_nr_cpf_valido_sem_mensagem(ps_nr_cpf)
+If Not lvb_Ok Then	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "O n$$HEX1$$fa00$$ENDHEX$$mero do CPF informado n$$HEX1$$e300$$ENDHEX$$o $$HEX1$$e900$$ENDHEX$$ v$$HEX1$$e100$$ENDHEX$$lido.", Exclamation!)
+
+Return lvb_Ok
+end function
+

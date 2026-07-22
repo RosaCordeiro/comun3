@@ -1,0 +1,8 @@
+HA$PBExportHeader$t_infcarga_cte.srs
+global type t_infcarga_cte from structure
+	decimal		vcarga
+	string		propred
+	string		xoutcat
+	t_infq_cte		infq[]
+end type
+

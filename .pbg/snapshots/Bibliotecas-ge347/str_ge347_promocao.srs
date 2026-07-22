@@ -1,0 +1,7 @@
+HA$PBExportHeader$str_ge347_promocao.srs
+global type str_ge347_promocao from structure
+	string		id_permite
+	long		cd_promocao_sos
+	long		nr_vinculo
+end type
+

@@ -1,0 +1,19 @@
+HA$PBExportHeader$gf_retorna_rede_filial.srf
+global type gf_retorna_rede_filial from function_object
+end type
+
+forward prototypes
+global function string gf_retorna_rede_filial (integer ai_filial)
+end prototypes
+
+global function string gf_retorna_rede_filial (integer ai_filial);String ls_rede_filial
+
+Select id_rede_filial
+  Into :ls_rede_filial
+  From filial
+ Where cd_filial = :ai_filial
+ Using SqlCa;
+ 
+Return ls_rede_filial
+end function
+

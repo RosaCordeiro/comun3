@@ -1,0 +1,5 @@
+HA$PBExportHeader$str_ge556_combo.srs
+global type str_ge556_combo from structure
+	string		ean
+end type
+

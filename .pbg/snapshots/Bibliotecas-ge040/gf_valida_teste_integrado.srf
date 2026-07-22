@@ -1,0 +1,42 @@
+HA$PBExportHeader$gf_valida_teste_integrado.srf
+global type gf_valida_teste_integrado from function_object
+end type
+
+forward prototypes
+global function boolean gf_valida_teste_integrado ()
+end prototypes
+
+global function boolean gf_valida_teste_integrado ();Date		ld_dh_teste_integrado
+String	ls_dh_teste_integrado
+
+
+if not gvo_aplicacao.ivs_datasource = 'homologa' then
+	return False
+end if
+
+select vl_parametro
+  into :ls_dh_teste_integrado
+  from parametro_geral
+ where cd_parametro = 'DH_INICIO_TESTE_INTEGRADO'
+using SQLCA;
+
+Choose Case SQLCA.SQLCode
+	Case -1
+		Return False
+	Case 100
+		Return False
+End Choose
+
+if not IsDate(ls_dh_teste_integrado) then
+	return False
+end if
+
+ld_dh_teste_integrado = Date(ls_dh_teste_integrado)
+
+if ld_dh_teste_integrado > Date(gf_getserverdate()) then
+	return False
+end if
+
+return True
+end function
+

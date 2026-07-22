@@ -1,0 +1,69 @@
+HA$PBExportHeader$gf_ge202_formata_email_normal.srf
+global type gf_ge202_formata_email_normal from function_object
+end type
+
+forward prototypes
+global function string gf_ge202_formata_email_normal (string ps_mensagem, long pl_mensagem)
+global function string gf_ge202_formata_email_normal (string ps_mensagem, long pl_mensagem, string ps_telefone)
+global function string gf_ge202_formata_email_normal (string ps_mensagem, long pl_mensagem, boolean pb_assinatura)
+global function string gf_ge202_formata_email_normal (string ps_mensagem, long pl_mensagem, boolean pb_assinatura, string ps_telefone, boolean pb_nao_responda)
+end prototypes
+
+global function string gf_ge202_formata_email_normal (string ps_mensagem, long pl_mensagem); Return gf_ge202_formata_email_normal(ps_mensagem,pl_mensagem,True)
+end function
+
+global function string gf_ge202_formata_email_normal (string ps_mensagem, long pl_mensagem, string ps_telefone); Return gf_ge202_formata_email_normal(ps_mensagem,pl_mensagem, True, ps_telefone, True)
+end function
+
+global function string gf_ge202_formata_email_normal (string ps_mensagem, long pl_mensagem, boolean pb_assinatura); Return gf_ge202_formata_email_normal(ps_mensagem,pl_mensagem,pb_assinatura,'(47) 3461-9829', True)
+end function
+
+global function string gf_ge202_formata_email_normal (string ps_mensagem, long pl_mensagem, boolean pb_assinatura, string ps_telefone, boolean pb_nao_responda);String lvs_Mensagem
+
+lvs_Mensagem = Trim(ps_mensagem)
+lvs_Mensagem = gf_Replace(lvs_Mensagem,'<br>','~r~n',0)
+lvs_Mensagem = gf_Replace(lvs_Mensagem,'<Br>','~r~n',0)
+lvs_Mensagem = gf_Replace(lvs_Mensagem,'<bR>','~r~n',0)
+lvs_Mensagem = gf_Replace(lvs_Mensagem,'<BR>','~r~n',0)
+lvs_Mensagem = gf_Replace(lvs_Mensagem,'<li>','~r~n $$HEX1$$2220$$ENDHEX$$ ',0)
+lvs_Mensagem = gf_Replace(lvs_Mensagem,'<LI>','~r~n $$HEX1$$2220$$ENDHEX$$ ',0)
+lvs_Mensagem = gf_Replace(lvs_Mensagem,'<Li>','~r~n $$HEX1$$2220$$ENDHEX$$ ',0)
+lvs_Mensagem = gf_Replace(lvs_Mensagem,'<lI>','~r~n $$HEX1$$2220$$ENDHEX$$ ',0)
+
+Do While (Pos(lvs_Mensagem,'<')>0)and(Pos(lvs_Mensagem,'>')>0)
+	lvs_Mensagem = Mid(lvs_Mensagem,1,Pos(lvs_Mensagem,'<') - 1) + Mid(lvs_Mensagem,Pos(lvs_Mensagem,'>') + 1)
+Loop
+
+//Montagem Email
+//Assinatura
+If pb_assinatura Then
+	lvs_Mensagem +=	'~r~n' + &
+							'~r~n' + &
+							'Att,~r~n'+ &
+							'~r~n' + &
+							'Automa$$HEX2$$e700f500$$ENDHEX$$es Clamed~r~n'+ &
+							'Setor de Inform$$HEX1$$e100$$ENDHEX$$tica ~r~n'+ &
+							'Departamento TI ~r~n'	+ &
+							ps_telefone+'~r~n' + &
+							'Rua 9 de Mar$$HEX1$$e700$$ENDHEX$$o, 638 | 89201-400 | Joinville - SC ~r~n'+ &
+							'~r~n'
+	//Descritivo envio autom$$HEX1$$e100$$ENDHEX$$tico
+	if pb_nao_responda then
+		lvs_Mensagem +=	'Este $$HEX1$$e900$$ENDHEX$$ um email autom$$HEX1$$e100$$ENDHEX$$tico, n$$HEX1$$e300$$ENDHEX$$o deve ser respondido.~r~n '+ &
+								'    Host: '+IIF(IsNull(gvo_aplicacao.is_ComputerName),"",gvo_aplicacao.is_ComputerName)+' - Cod.: '+String(pl_mensagem)+'.'
+	else
+		lvs_Mensagem +=	'Host: '+IIF(IsNull(gvo_aplicacao.is_ComputerName),"",gvo_aplicacao.is_ComputerName)+' - Cod.: '+String(pl_mensagem)+'.'
+	end if
+End If
+
+//Banco de Dados de Produ$$HEX2$$e700e300$$ENDHEX$$o
+If Not SQLCa.Banco_Producao Then
+	lvs_Mensagem =	"-----------------------------------------------------------------------------------------------------------------------------"+ &
+							"EMAIL ENVIADO BASE DE HOMOLOGA$$HEX2$$c700c300$$ENDHEX$$O ("+Upper(IIF(IsNull(SQlca.ivs_database), "", SQlca.ivs_Database)+IIF(IsNull(SQLCa.Database),""," - "+SQLCa.Database))+")~r~n"+&
+							"-----------------------------------------------------------------------------------------------------------------------------"+ &
+							lvs_Mensagem
+End If
+
+Return lvs_Mensagem
+end function
+

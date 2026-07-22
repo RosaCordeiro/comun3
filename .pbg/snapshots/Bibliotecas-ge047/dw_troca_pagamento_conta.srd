@@ -1,0 +1,49 @@
+HA$PBExportHeader$dw_troca_pagamento_conta.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=144 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=92 color="536870912" )
+table(column=(type=long updatewhereclause=yes name=cd_filial dbname="parametro.cd_filial" )
+ column=(type=long updatewhereclause=yes name=nr_pagamento dbname="pagamento_conta.nr_pagamento" )
+ column=(type=datetime updatewhereclause=yes name=dh_movimentacao_caixa dbname="pagamento_conta.dh_movimentacao_caixa" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_pagamento dbname="pagamento_conta.vl_pagamento" )
+ column=(type=char(6) updatewhereclause=yes name=nr_matricula_responsavel dbname="pagamento_conta.nr_matricula_responsavel" )
+ column=(type=char(15) updatewhereclause=yes name=nr_documento dbname="pagamento_conta.nr_documento" )
+ column=(type=char(2) updatewhereclause=yes name=id_tipo dbname="pagamento_conta.id_tipo" )
+ column=(type=char(11) updatewhereclause=yes name=cd_cliente dbname="pagamento_conta.cd_cliente" )
+ column=(type=long updatewhereclause=yes name=cd_convenio dbname="pagamento_conta.cd_convenio" )
+ column=(type=char(40) updatewhereclause=yes name=de_historico dbname="pagamento_conta.de_historico" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"pagamento_conta~" )  TABLE(NAME=~"parametro~" ) COLUMN(NAME=~"parametro.cd_filial~") COLUMN(NAME=~"pagamento_conta.nr_pagamento~") COLUMN(NAME=~"pagamento_conta.dh_movimentacao_caixa~") COLUMN(NAME=~"pagamento_conta.vl_pagamento~") COLUMN(NAME=~"pagamento_conta.nr_matricula_responsavel~") COLUMN(NAME=~"pagamento_conta.nr_documento~") COLUMN(NAME=~"pagamento_conta.id_tipo~") COLUMN(NAME=~"pagamento_conta.cd_cliente~") COLUMN(NAME=~"pagamento_conta.cd_convenio~") COLUMN(NAME=~"pagamento_conta.de_historico~")WHERE(    EXP1 =~"pagamento_conta.dh_movimentacao_caixa~"   OP =~"=~"    EXP2 =~":pdt_data_base~" ) ) ARG(NAME = ~"pdt_data_base~" TYPE = date) " arguments=(("pdt_data_base", date)) )
+text(band=header alignment="2" text="Parametro
+Cd Filial"border="0" color="0" x="9" y="8" height="128" width="329"  name=parametro_cd_filial_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Pagamento Conta
+Nr Pagamento"border="0" color="0" x="347" y="8" height="128" width="475"  name=pagamento_conta_nr_pagamento_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Pagamento Conta
+Dh Movimentacao Caixa"border="0" color="0" x="832" y="8" height="128" width="640"  name=pagamento_conta_dh_movimentacao_caixa_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Pagamento Conta
+Vl Pagamento"border="0" color="0" x="1481" y="8" height="128" width="475"  name=pagamento_conta_vl_pagamento_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Pagamento Conta
+Nr Matricula Responsavel"border="0" color="0" x="1966" y="8" height="128" width="672"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Pagamento Conta
+Nr Documento"border="0" color="0" x="2647" y="8" height="128" width="475"  name=pagamento_conta_nr_documento_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Pagamento Conta
+Id Tipo"border="0" color="0" x="3131" y="8" height="128" width="475"  name=pagamento_conta_id_tipo_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Pagamento Conta
+Cd Cliente"border="0" color="0" x="3616" y="8" height="128" width="475"  name=pagamento_conta_cd_cliente_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Pagamento Conta
+Cd Convenio"border="0" color="0" x="4101" y="8" height="128" width="475"  name=pagamento_conta_cd_convenio_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Pagamento Conta
+De Historico"border="0" color="0" x="4585" y="8" height="128" width="1125"  name=pagamento_conta_de_historico_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="1" tabsequence=32766 border="0" color="0" x="9" y="8" height="76" width="329" format="[general]"  name=cd_filial edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="0" color="0" x="352" y="8" height="76" width="471" format="[general]"  name=nr_pagamento edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="837" y="8" height="76" width="635" format="[shortdate] [time]"  name=dh_movimentacao_caixa edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="0" color="0" x="1486" y="8" height="76" width="471" format="[general]"  name=vl_pagamento edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="1970" y="8" height="76" width="667" format="[general]"  name=nr_matricula_responsavel edit.limit=6 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="0" x="2651" y="8" height="76" width="471" format="[general]"  name=nr_documento edit.limit=15 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="0" x="3136" y="8" height="76" width="471" format="[general]"  name=id_tipo edit.limit=2 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="0" x="3621" y="8" height="76" width="471" format="[general]"  name=cd_cliente edit.limit=11 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="1" tabsequence=32766 border="0" color="0" x="4105" y="8" height="76" width="471" format="[general]"  name=cd_convenio edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="0" tabsequence=32766 border="0" color="0" x="4590" y="8" height="76" width="1120" format="[general]"  name=de_historico edit.limit=40 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

@@ -1,0 +1,41 @@
+HA$PBExportHeader$t_icms.srs
+global type t_icms from structure
+	string		tipoicms
+	long		orig
+	string		cst
+	long		csosn
+	long		modbc
+	double		predbc
+	double		vbc
+	double		picms
+	double		vicms
+	long		modbcst
+	double		pmvast
+	double		predbcst
+	double		vbcst
+	double		picmsst
+	double		vicmsst
+	string		ufst
+	double		pbcop
+	double		vbcstret
+	double		vicmsstret
+	string		motdesicms
+	double		pcredsn
+	double		vcredicmssn
+	double		vicmsdeson
+	double		vicmsop
+	double		pdif
+	double		vicmsdif
+	double		vbcfcp
+	double		pfcp
+	double		vfcp
+	double		vbcfcpst
+	double		pfcpst
+	double		vfcpst
+	double		vbcfcpstret
+	double		pfcpstret
+	double		vfcpstret
+	double		pst
+	double		vicmssubstituto
+end type
+

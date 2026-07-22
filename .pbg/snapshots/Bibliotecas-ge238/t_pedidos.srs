@@ -1,0 +1,5 @@
+HA$PBExportHeader$t_pedidos.srs
+global type t_pedidos from structure
+	long		nr_pedido[]
+end type
+

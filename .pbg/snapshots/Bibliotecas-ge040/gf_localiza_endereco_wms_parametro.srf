@@ -1,0 +1,50 @@
+HA$PBExportHeader$gf_localiza_endereco_wms_parametro.srf
+global type gf_localiza_endereco_wms_parametro from function_object
+end type
+
+forward prototypes
+global function boolean gf_localiza_endereco_wms_parametro (string as_parametro, ref string as_endereco, ref string as_log)
+end prototypes
+
+global function boolean gf_localiza_endereco_wms_parametro (string as_parametro, ref string as_endereco, ref string as_log);String ls_Achou
+
+If IsNull(as_parametro) or Trim(as_parametro) = '' Then
+	as_log = "Par$$HEX1$$e200$$ENDHEX$$metro informado na [gf_localiza_endereco_wms_parametro] $$HEX1$$e900$$ENDHEX$$ inv$$HEX1$$e100$$ENDHEX$$lido."
+	Return False
+End If
+
+Select vl_parametro
+Into :as_endereco
+From wms_parametro
+Where cd_parametro = :as_parametro
+Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+	Case 0
+		
+		Select cd_endereco
+		Into :ls_Achou
+		From wms_endereco
+		Where cd_endereco =:as_endereco
+		Using SqlCa;
+		
+		Choose Case SqlCa.SqlCode 
+			Case 0
+				Return True
+			Case 100
+				as_log = "Endere$$HEX1$$e700$$ENDHEX$$o n$$HEX1$$e300$$ENDHEX$$o localizado: '" + as_endereco + "'"
+			Case -1
+				as_log = "Erro ao localizar o endere$$HEX1$$e700$$ENDHEX$$o: '" + as_endereco + "', na tabela [WMS_ENDERECO]."
+		End Choose		
+		
+	Case 100
+		as_log = "Par$$HEX1$$e200$$ENDHEX$$metro [" + as_parametro + "] com o endere$$HEX1$$e700$$ENDHEX$$o do segregado n$$HEX1$$e300$$ENDHEX$$o foi localizado."
+		
+	Case -1
+		as_log = "Erro ao localizar o par$$HEX1$$e200$$ENDHEX$$metro [" + as_parametro + "] do endere$$HEX1$$e700$$ENDHEX$$o do segregado."
+		
+End Choose
+
+Return False
+end function
+

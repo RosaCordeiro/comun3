@@ -1,0 +1,31 @@
+HA$PBExportHeader$gf_retorna_valor_tag_xml.srf
+global type gf_retorna_valor_tag_xml from function_object
+end type
+
+forward prototypes
+global function string gf_retorna_valor_tag_xml (string as_xml, string as_tag, integer ai_pos)
+end prototypes
+
+global function string gf_retorna_valor_tag_xml (string as_xml, string as_tag, integer ai_pos);Integer li_Esp, li_i, li_Inicio, li_Fim
+string  ls_Result, ls_Xml_Aux
+
+as_Tag = gf_Replace(as_Tag, '/', '', 0)
+as_Tag = gf_Replace(as_Tag, '<', '', 0)
+as_Tag = gf_Replace(as_Tag, '>', '', 0)
+If Pos(' ', as_Tag) > 0 Then 
+	li_Esp = Pos(' ',as_Tag)
+Else
+	li_Esp = LenA(as_Tag)
+End If	
+
+li_Inicio = 1
+ls_Xml_Aux = as_xml
+for li_i = 1 to ai_Pos 
+	 ls_Result = Mid(	ls_Xml_Aux,  &
+	 						Pos(ls_Xml_Aux, '<'+as_tag+'>')+LenA(as_tag)+2, &
+	 						Pos(ls_Xml_Aux, '</'+as_tag+'>') - (Pos(ls_Xml_Aux, '<'+as_tag+'>')+LenA(as_tag)+2))
+	ls_Xml_Aux = Mid(ls_Xml_Aux, Pos(ls_Xml_Aux, '</'+as_tag+'>') +  LenA(as_tag)+3)
+Next
+ Return ls_Result
+end function
+

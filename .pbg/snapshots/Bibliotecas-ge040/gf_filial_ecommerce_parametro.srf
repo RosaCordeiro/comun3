@@ -1,0 +1,23 @@
+HA$PBExportHeader$gf_filial_ecommerce_parametro.srf
+global type gf_filial_ecommerce_parametro from function_object
+end type
+
+forward prototypes
+global function long gf_filial_ecommerce_parametro ()
+end prototypes
+
+global function long gf_filial_ecommerce_parametro ();Long  ll_Retorno
+String ls_Parametro 
+
+ls_Parametro = ProfileString(gvo_Aplicacao.ivs_Arquivo_INI, 'ECOMMERCE', 'Filial_Ecommerce', "")
+
+If Not IsNull(ls_Parametro) and Trim(ls_Parametro) <> ''  Then
+	ll_Retorno =  Long(ls_Parametro)
+Else
+	SetNull(ll_Retorno)
+End If
+
+Return ll_Retorno
+
+end function
+

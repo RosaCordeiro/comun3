@@ -1,0 +1,9 @@
+HA$PBExportHeader$t_reboque.srs
+global type t_reboque from structure
+	string		placa
+	string		UF
+	string		RNTC
+	string		vagao
+	string		balsa
+end type
+

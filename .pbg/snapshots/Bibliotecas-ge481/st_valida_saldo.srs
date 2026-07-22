@@ -1,0 +1,5 @@
+HA$PBExportHeader$st_valida_saldo.srs
+global type st_valida_saldo from structure
+	 st_saida		saida[]
+end type
+

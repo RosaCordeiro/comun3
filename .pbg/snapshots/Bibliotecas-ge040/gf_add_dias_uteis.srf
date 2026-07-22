@@ -1,0 +1,26 @@
+HA$PBExportHeader$gf_add_dias_uteis.srf
+global type gf_add_dias_uteis from function_object
+end type
+
+forward prototypes
+global function date gf_add_dias_uteis (date pdt_data, integer pl_dias)
+end prototypes
+
+global function date gf_add_dias_uteis (date pdt_data, integer pl_dias);Date lvdt_Aux
+
+Long lvl_Dias = 0
+Long lvl_Count = 0
+
+lvdt_Aux = pdt_data
+
+Do While lvl_Dias < pl_dias
+	lvl_Count ++
+	If (DayNumber(lvdt_Aux)<>1) and (DayNumber(lvdt_Aux)<>7) Then
+		lvl_Dias ++
+	End If
+	lvdt_Aux = RelativeDate(lvdt_Aux,1)
+Loop
+
+Return RelativeDate(pdt_data,lvl_Count)
+end function
+

@@ -1,0 +1,32 @@
+HA$PBExportHeader$gf_ge040_seq_log_exc_nf_compra.srf
+global type gf_ge040_seq_log_exc_nf_compra from function_object
+end type
+
+forward prototypes
+global function boolean gf_ge040_seq_log_exc_nf_compra (long al_filial, string as_fornecedor, long al_nota, string as_especie, string as_serie, ref long al_sequencial)
+end prototypes
+
+global function boolean gf_ge040_seq_log_exc_nf_compra (long al_filial, string as_fornecedor, long al_nota, string as_especie, string as_serie, ref long al_sequencial);Select coalesce(max(nr_sequencial), 0) + 1
+	Into :al_Sequencial
+From log_exclusao_nf_compra
+Where cd_filial = :al_Filial
+	And cd_fornecedor = :as_Fornecedor
+	And nr_nf = :al_Nota
+	And de_especie = :as_Especie
+	And de_serie = :as_Serie
+Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+	Case 0
+		Return True
+		
+	Case 100
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "N$$HEX1$$e300$$ENDHEX$$o foi localizada a nota fiscal no log exclus$$HEX1$$e300$$ENDHEX$$o.", Exclamation!)
+		
+	Case -1
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Ocorreu um erro ao localizar o sequencial no log de exclus$$HEX1$$e300$$ENDHEX$$o da nota fiscal. " + SqlCa.SqlErrText, StopSign!)
+End Choose
+
+Return False
+end function
+

@@ -1,0 +1,91 @@
+HA$PBExportHeader$gf_limite_credito_calculado.srf
+global type gf_limite_credito_calculado from function_object
+end type
+
+forward prototypes
+global function decimal gf_limite_credito_calculado (decimal adc_renda, integer ai_idade, string as_tempo_residencia, string as_tipo_residencia, string as_tempo_empresa, string as_estado_civil, string as_ocupacao, integer ai_pontos_filial)
+end prototypes
+
+global function decimal gf_limite_credito_calculado (decimal adc_renda, integer ai_idade, string as_tempo_residencia, string as_tipo_residencia, string as_tempo_empresa, string as_estado_civil, string as_ocupacao, integer ai_pontos_filial);Integer lvi_Pontos
+
+// Se a renda for at$$HEX1$$e900$$ENDHEX$$ R$300, o cr$$HEX1$$e900$$ENDHEX$$dito fica pendente
+If adc_Renda <= 300 Then
+	Return 0
+End If
+
+// Crit$$HEX1$$e900$$ENDHEX$$rio por Filial
+lvi_Pontos = ai_Pontos_Filial
+
+// Crit$$HEX1$$e900$$ENDHEX$$rio por Idade
+If ai_Idade <= 24 Then
+	lvi_Pontos += -10
+ElseIf ai_Idade >= 25 and ai_Idade <= 40 Then
+	lvi_Pontos += 10
+ElseIf ai_Idade >= 41 and ai_Idade <= 60 Then	
+	lvi_Pontos += 20
+ElseIf ai_Idade >= 61 Then
+	lvi_Pontos += 40
+End If
+
+// Crit$$HEX1$$e900$$ENDHEX$$rio por Tempo de Resid$$HEX1$$ea00$$ENDHEX$$ncia
+Choose Case as_Tempo_Residencia
+	Case "1" ; lvi_Pontos += 0     // 1 = Menos de 1 ano
+	Case "2" ; lvi_Pontos += 15    // 2 = De 1 a 4 anos
+	Case "3" ; lvi_Pontos += 20    // 3 = De 5 a 10 anos
+	Case "4" ; lvi_Pontos += 30    // 4 = Mais de 10 anos
+End Choose
+
+// Crit$$HEX1$$e900$$ENDHEX$$rio por Tipo de Resid$$HEX1$$ea00$$ENDHEX$$ncia
+Choose Case as_Tipo_Residencia
+	Case "1" ; lvi_Pontos += 20    // 1 = Pr$$HEX1$$f300$$ENDHEX$$pria Quitada
+	Case "2" ; lvi_Pontos += 10    // 2 = Pr$$HEX1$$f300$$ENDHEX$$pria Financiada
+	Case "3" ; lvi_Pontos += 5		 // 3 = Alugada
+End Choose
+
+// Crit$$HEX1$$e900$$ENDHEX$$rio por Estabilidade Profissional
+Choose Case as_Tempo_Empresa
+	Case "1" ; lvi_Pontos += 0     // Menos de 1 ano
+	Case "2" ; lvi_Pontos += 15    // 2 = De 1 a 4 anos
+	Case "3" ; lvi_Pontos += 20	 // 3 = De 5 a 10 anos	
+	Case "4" ; lvi_Pontos += 30    // 4 = Mais de 10 anos
+End Choose
+
+// Crit$$HEX1$$e900$$ENDHEX$$rio por Estado Civil
+Choose Case as_Estado_Civil
+	Case "S" ; lvi_Pontos += 0     // S = Solteiro
+	Case "C" ; lvi_Pontos += 10    // C = Casado
+	Case "D" ; lvi_Pontos += 5		 // D = Separado
+	Case "V" ; lvi_Pontos += 5		 // V = Vi$$HEX1$$fa00$$ENDHEX$$vo
+End Choose 
+
+// Crit$$HEX1$$e900$$ENDHEX$$rio por Natureza de Ocupa$$HEX2$$e700e300$$ENDHEX$$o
+Choose Case as_Ocupacao
+	Case "01" ; lvi_Pontos += 5    // 01 = Empres$$HEX1$$e100$$ENDHEX$$rio
+	Case "02" ; lvi_Pontos += 5    // 02 = Prof. Liberal
+	Case "03" ; lvi_Pontos += 20   // 03 = Func. P$$HEX1$$fa00$$ENDHEX$$blico 
+	Case "04" ; lvi_Pontos += 20   // 04 = Militar
+	Case "05" ; lvi_Pontos += 10   // 05 = Assalariado
+	Case "06" ; lvi_Pontos += 5    // 06 = Aut$$HEX1$$f400$$ENDHEX$$nomo
+	Case "07" ; lvi_Pontos += 5    // 07 = Trabalhador Rural
+	Case "08" ; lvi_Pontos += 20   // 08 = Aposentado / Pensionista
+	Case "09" ; lvi_Pontos += -10	 // 09 = Outros
+End Choose 
+
+// Crit$$HEX1$$e900$$ENDHEX$$rio por Renda Mensal Comprovada
+If adc_Renda >= 300.01 and adc_Renda <= 500 Then	
+	lvi_Pontos += 5
+ElseIf adc_Renda >= 500.01 and adc_Renda <= 1000 Then	
+	lvi_Pontos += 5
+ElseIf adc_Renda >= 1000.01 and adc_Renda <= 5000 Then	
+	lvi_Pontos += 10
+ElseIf adc_Renda >= 5000.01 Then	
+	lvi_Pontos += 15	
+End If
+
+If lvi_Pontos >= 80 Then
+	Return Round(adc_Renda * 0.20, 2)
+Else
+	Return 0
+End If
+end function
+

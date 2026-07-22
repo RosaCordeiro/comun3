@@ -1,0 +1,77 @@
+HA$PBExportHeader$ds_ge449_vendas_desconto.srd
+release 12;
+datawindow(units=0 timer_interval=0 color=1073741824 brushmode=0 transparency=0 gradient.angle=0 gradient.color=8421504 gradient.focus=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.repetition.mode=0 gradient.scale=100 gradient.spread=100 gradient.transparency=0 picture.blur=0 picture.clip.bottom=0 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.transparency=0 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes hidegrayline=no showbackcoloronxp=no picture.file="" )
+header(height=136 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+detail(height=84 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+table(column=(type=char(2) updatewhereclause=yes name=cd_unidade_federacao dbname="cd_unidade_federacao" )
+ column=(type=char(2) updatewhereclause=yes name=id_rede_filial dbname="id_rede_filial" )
+ column=(type=decimal(24) updatewhereclause=yes name=pc_desconto dbname="pc_desconto" )
+ retrieve="Select	 	c.cd_unidade_federacao,
+			f.id_rede_filial,
+			round((1 - round(sum((i.qt_vendida * i.vl_preco_praticado) - round( i.qt_vendida * i.vl_preco_praticado * (coalesce(n.pc_desconto,0) / 100), 2)) / sum(i.qt_vendida * vl_preco_unitario), 4)) * 100, 2) as pc_desconto
+from movimento_estoque m 
+inner join filial f (index pk_filial)
+	on f.cd_filial = m.cd_filial_movimento
+inner join cidade c (index pk_cidade)
+	on c.cd_cidade = f.cd_cidade
+inner join nf_venda n (index pk_nf_venda)
+	on n.cd_filial		= m.cd_filial_movimento+0
+	and n.nr_nf			= m.nr_nf+0
+	and n.de_especie	= m.de_especie
+	and n.de_serie		= m.de_serie
+inner join item_nf_venda i (index pk_item_nf_venda)
+	 on i.cd_filial			= m.cd_filial_movimento+0
+	 and i.nr_nf				= m.nr_nf+0
+	 and i.de_especie		= m.de_especie
+	 and i.de_serie			= m.de_serie
+	 and i.cd_produto		= m.cd_produto+0
+	 and i.nr_sequencial	= coalesce(m.nr_sequencial,1)
+left outer join promocao_sos ps (index pk_promocao_sos)
+	on ps.cd_promocao_sos = i.cd_promocao_sos+0
+left outer join venda_pbm_produto vpp (index PK_VENDA_PBM_PRODUTO)
+	 on vpp.cd_filial				= i.cd_filial+0
+	 and vpp.nr_nf				= i.nr_nf+0
+	 and vpp.de_especie		= i.de_especie||''
+	 and vpp.de_serie			= i.de_serie||''
+	 and vpp.cd_produto		= i.cd_produto+0
+	 and vpp.nr_sequencial	= coalesce(i.nr_sequencial,1)
+	 and vpp.id_pbm 			= 'N'
+left outer join item_nf_venda_desconto ivd (index pk_item_nf_venda_desconto)
+	on ivd.cd_filial 			= i.cd_filial+0
+	and ivd.nr_nf 			= i.nr_nf+0
+	and ivd.de_serie 		= i.de_serie
+	and ivd.de_especie 	= i.de_especie
+	and ivd.cd_produto 	= i.cd_produto+0
+	and ivd.nr_sequencial	= coalesce(i.nr_sequencial,1)
+where m.dh_movimento between :inicio_mes and :termino_mes
+	and m.cd_produto = :produto
+	and m.cd_filial_movimento <> 534
+	and m.cd_filial_movimento > 0
+	and m.cd_tipo_movimento = 1
+	and n.dh_cancelamento is null
+	and vpp.id_pbm is null
+	and n.nr_nf_anexa is null
+	and ((ps.nr_promocao_marketing is null and ps.id_tipo_promocao = 'N') or i.cd_promocao_sos is null) //Remove vendas de promo$$HEX2$$e700f500$$ENDHEX$$es vinculadas e SOS
+	and ivd.id_tipo_desconto is null
+group by c.cd_unidade_federacao,
+			f.id_rede_filial" arguments=(("inicio_mes", date),("termino_mes", date),("produto", number)) )
+text(band=header alignment="2" text="C
+Cd Unidade Federacao" border="0" color="33554432" x="5" y="4" height="128" width="603" html.valueishtml="0"  name=c_cd_unidade_federacao_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="F
+Id Rede Filial" border="0" color="33554432" x="613" y="4" height="128" width="343" html.valueishtml="0"  name=f_id_rede_filial_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="33554432" x="5" y="4" height="76" width="82" format="[general]" html.valueishtml="0"  name=cd_unidade_federacao visible="1" edit.limit=2 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="33554432" x="613" y="4" height="76" width="82" format="[general]" html.valueishtml="0"  name=id_rede_filial visible="1" edit.limit=2 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="33554432" x="955" y="0" height="64" width="2135" format="[general]" html.valueishtml="0"  name=pc_desconto visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

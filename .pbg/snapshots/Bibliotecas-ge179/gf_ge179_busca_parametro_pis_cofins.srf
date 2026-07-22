@@ -1,0 +1,87 @@
+HA$PBExportHeader$gf_ge179_busca_parametro_pis_cofins.srf
+global type gf_ge179_busca_parametro_pis_cofins from function_object
+end type
+
+forward prototypes
+global function boolean gf_ge179_busca_parametro_pis_cofins (ref decimal as_pis, ref decimal as_cofins, ref date as_ldh_inicio_pis_cofins, ref string as_msg)
+end prototypes
+
+global function boolean gf_ge179_busca_parametro_pis_cofins (ref decimal as_pis, ref decimal as_cofins, ref date as_ldh_inicio_pis_cofins, ref string as_msg);Boolean lb_successo
+
+String ls_cofins
+String ls_pis
+String ls_Inicio_pis_cofins
+
+lb_successo = True
+
+// Consulta para ID_PIS_COFINS_CALCULO_CUSTO
+Select vl_parametro
+Into :ls_Inicio_pis_cofins
+From parametro_geral 
+Where cd_parametro = 'DH_INICIO_OPERACAO_PIS_COFINS' 
+Using SqlCa;
+
+Choose Case Sqlca.SqlCode
+    Case 0
+		as_ldh_Inicio_pis_cofins = date(ls_Inicio_pis_cofins)
+		
+    Case 100
+        as_msg = "Erro na consulta de localiza$$HEX2$$e700e300$$ENDHEX$$o do par$$HEX1$$e200$$ENDHEX$$metro 'ID_PIS_COFINS_CALCULO_CUSTO': " + Sqlca.SqlErrText + "~n"
+        lb_successo = False
+		  
+    Case -1
+        as_msg = "Erro na consulta de localiza$$HEX2$$e700e300$$ENDHEX$$o do par$$HEX1$$e200$$ENDHEX$$metro 'ID_PIS_COFINS_CALCULO_CUSTO'." + "~n"
+        lb_successo = False
+End Choose
+
+// Consulta para PR_COFINS
+Select vl_parametro
+Into :ls_cofins
+From parametro_geral 
+Where cd_parametro = 'PC_COFINS' 
+Using SqlCa;
+
+Choose Case Sqlca.SqlCode
+    Case 0
+        ls_cofins = gf_replace(ls_cofins, ".", ",",1)
+        as_cofins = Double(ls_cofins)
+		  
+    Case 100
+        as_msg = "Erro na consulta de localiza$$HEX2$$e700e300$$ENDHEX$$o do par$$HEX1$$e200$$ENDHEX$$metro 'PR_COFINS': " + Sqlca.SqlErrText + "~n"
+        lb_successo = False
+		  
+    Case -1
+        as_msg = "Erro na consulta de localiza$$HEX2$$e700e300$$ENDHEX$$o do par$$HEX1$$e200$$ENDHEX$$metro 'PR_COFINS'." + "~n"
+        lb_successo = False
+End Choose
+
+// Consulta para PR_PIS
+Select vl_parametro
+Into :ls_pis
+From parametro_geral 
+Where cd_parametro = 'PC_PIS' 
+Using SqlCa;
+
+Choose Case Sqlca.SqlCode
+    Case 0
+        ls_pis = gf_replace(ls_pis, ".", ",",1)
+        as_pis = Double(ls_pis)
+
+    Case 100
+        as_msg = "Erro na consulta de localiza$$HEX2$$e700e300$$ENDHEX$$o do par$$HEX1$$e200$$ENDHEX$$metro 'PR_PIS': " + Sqlca.SqlErrText + "~n"
+        lb_successo = False
+		  
+    Case -1
+        as_msg = "Erro na consulta de localiza$$HEX2$$e700e300$$ENDHEX$$o do par$$HEX1$$e200$$ENDHEX$$metro 'PR_PIS'." + "~n"
+        lb_successo = False
+End Choose
+
+If lb_successo Then
+    Return True
+Else
+    MessageBox("Erro", as_msg)
+    Return False
+End If
+
+end function
+

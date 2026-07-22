@@ -1,0 +1,12 @@
+HA$PBExportHeader$t_is.srs
+global type t_is from structure
+	string		cstis
+	string		cClassTribIS
+	decimal{2}		vBCIS
+	decimal{4}		pIS
+	decimal{4}		pISEspec
+	string		uTrib
+	decimal{4}		qTrib
+	decimal{2}		vIS
+end type
+

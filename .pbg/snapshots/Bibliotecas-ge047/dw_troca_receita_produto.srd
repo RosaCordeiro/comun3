@@ -1,0 +1,25 @@
+HA$PBExportHeader$dw_troca_receita_produto.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=144 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=92 color="536870912" )
+table(column=(type=long updatewhereclause=yes name=cd_filial dbname="receita.cd_filial" )
+ column=(type=long updatewhereclause=yes name=nr_receita dbname="receita_produto.nr_receita" )
+ column=(type=long updatewhereclause=yes name=cd_produto dbname="receita_produto.cd_produto" )
+ column=(type=long updatewhereclause=yes name=qt_vendida dbname="receita_produto.qt_vendida" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"receita~" )  TABLE(NAME=~"receita_produto~" ) COLUMN(NAME=~"receita.cd_filial~") COLUMN(NAME=~"receita_produto.nr_receita~") COLUMN(NAME=~"receita_produto.cd_produto~") COLUMN(NAME=~"receita_produto.qt_vendida~")    JOIN (LEFT=~"receita_produto.nr_receita~"    OP =~"=~"RIGHT=~"receita.nr_receita~" )WHERE(    EXP1 =~"receita.dh_receita~"   OP =~"=~"    EXP2 =~":data_base~" ) ) ARG(NAME = ~"data_base~" TYPE = date) " arguments=(("data_base", date)) )
+text(band=header alignment="2" text="Receita
+Cd Filial"border="0" color="0" x="9" y="8" height="128" width="329"  name=receita_cd_filial_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Receita Produto
+Nr Receita"border="0" color="0" x="347" y="8" height="128" width="425"  name=receita_produto_nr_receita_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Receita Produto
+Cd Produto"border="0" color="0" x="782" y="8" height="128" width="425"  name=receita_produto_cd_produto_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Receita Produto
+Qt Vendida"border="0" color="0" x="1216" y="8" height="128" width="425"  name=receita_produto_qt_vendida_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="1" tabsequence=32766 border="0" color="0" x="9" y="8" height="76" width="329" format="[general]"  name=cd_filial edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="0" color="0" x="352" y="8" height="76" width="421" format="[general]"  name=nr_receita edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="0" x="786" y="8" height="76" width="421" format="[general]"  name=cd_produto edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="0" color="0" x="1221" y="8" height="76" width="421" format="[general]"  name=qt_vendida edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

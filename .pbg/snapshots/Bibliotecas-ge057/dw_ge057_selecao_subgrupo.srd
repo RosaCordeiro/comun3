@@ -1,0 +1,16 @@
+HA$PBExportHeader$dw_ge057_selecao_subgrupo.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=79741120 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=580 color="536870912" )
+table(column=(type=number updatewhereclause=no name=cd_grupo dbname="cd_grupo" )
+ column=(type=char(40) updatewhereclause=no name=de_subgrupo dbname="de_grupo" )
+ column=(type=char(40) updatewhereclause=no name=de_grupo dbname="de_subgrupo" )
+ )
+text(band=detail alignment="1" text="Grupo :"border="0" color="8388608" x="105" y="8" height="64" width="215"  name=cd_convenio_t  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="2" color="0" x="338" y="8" height="64" width="1198" format="[general]"  name=de_grupo edit.limit=0 edit.case=upper edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="1" tabsequence=32766 border="2" color="0" x="1385" y="88" height="64" width="151" format=""  name=cd_grupo edit.limit=0 edit.case=upper edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Descri$$HEX2$$e700e300$$ENDHEX$$o :"border="0" color="8388608" x="18" y="88" height="64" width="302"  name=cd_conveniado_t  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=20 border="2" color="0" x="338" y="88" height="64" width="965" format="[general]"  name=de_subgrupo edit.limit=0 edit.case=upper edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

@@ -1,0 +1,34 @@
+HA$PBExportHeader$gf_proximo_seq_int_wms.srf
+global type gf_proximo_seq_int_wms from function_object
+end type
+
+forward prototypes
+global function boolean gf_proximo_seq_int_wms (ref long pl_sequencial, ref string ps_log)
+end prototypes
+
+global function boolean gf_proximo_seq_int_wms (ref long pl_sequencial, ref string ps_log);String ls_erro
+
+Declare sp_seq Procedure for sp_proximo_seq_int_wms @proximo_sequencial_retorno  = :pl_sequencial output,  @mensagem_retorno = :ls_erro output
+USING SQLCA;
+	
+Execute sp_seq;
+		
+If sqlca.sqlcode = -1 then
+	 ps_log = 'Erro ao executar a procedure "SP_PROXIMO_SEQ_INT_WMS": ' + sqlca.sqlerrtext
+	 return false
+end if
+		
+Fetch sp_seq Into :pl_sequencial, :ls_erro;
+
+Close sp_seq;
+
+if pl_sequencial = -1 then
+	 ps_log = 'Erro ao executar a procedure "SP_PROXIMO_SEQ_INT_WMS": ' + ls_erro
+	 return false
+end if
+			
+Return True
+		
+
+end function
+

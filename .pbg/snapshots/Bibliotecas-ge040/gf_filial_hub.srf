@@ -1,0 +1,31 @@
+HA$PBExportHeader$gf_filial_hub.srf
+global type gf_filial_hub from function_object
+end type
+
+forward prototypes
+global function boolean gf_filial_hub (long al_filial, ref string as_vl_parametro)
+end prototypes
+
+global function boolean gf_filial_hub (long al_filial, ref string as_vl_parametro);String ls_hub
+
+Select vl_parametro
+Into :ls_hub
+From parametro_loja
+Where cd_parametro = 'ID_FILIAL_HUB_ECOMMERCE'
+and cd_filial = :al_filial
+Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+	Case 0
+		as_Vl_Parametro = ls_hub
+	Case 100
+		as_Vl_Parametro = "N"
+	Case -1
+		MessageBox("Erro", "Erro ao localizar o par$$HEX1$$e200$$ENDHEX$$metro 'ID_FILIAL_HUB_ECOMMERCE': "+SqlCa.SqlErrText)
+		Return False
+End Choose
+
+Return True
+
+end function
+

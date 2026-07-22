@@ -1,0 +1,116 @@
+HA$PBExportHeader$ds_ge473_nota_fiscal_lote.srd
+release 12;
+datawindow(units=0 timer_interval=0 color=1073741824 brushmode=0 transparency=0 gradient.angle=0 gradient.color=8421504 gradient.focus=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.repetition.mode=0 gradient.scale=100 gradient.spread=100 gradient.transparency=0 picture.blur=0 picture.clip.bottom=0 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.transparency=0 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes hidegrayline=no showbackcoloronxp=no picture.file="" )
+header(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+detail(height=240 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+table(column=(type=char(3) update=yes updatewhereclause=yes key=yes name=mandt dbname="mch1.mandt" )
+ column=(type=char(40) update=yes updatewhereclause=yes key=yes name=matnr dbname="mch1.matnr" )
+ column=(type=char(10) update=yes updatewhereclause=yes key=yes name=charg dbname="mch1.charg" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=nr_sequencial dbname="mch1.nr_sequencial" )
+ column=(type=char(12) update=yes updatewhereclause=yes name=aenam dbname="mch1.aenam" )
+ column=(type=char(16) update=yes updatewhereclause=yes name=batch_id dbname="mch1.batch_id" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=batch_type dbname="mch1.batch_type" )
+ column=(type=char(3) update=yes updatewhereclause=yes name=chame dbname="mch1.chame" )
+ column=(type=char(21) update=yes updatewhereclause=yes name=creation_datetime dbname="mch1.creation_datetime" )
+ column=(type=char(18) update=yes updatewhereclause=yes name=cuobj_bm dbname="mch1.cuobj_bm" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=deact_bm dbname="mch1.deact_bm" )
+ column=(type=char(12) update=yes updatewhereclause=yes name=ernam dbname="mch1.ernam" )
+ column=(type=datetime update=yes updatewhereclause=yes name=ersda dbname="mch1.ersda" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=ersda_tmstp dbname="mch1.ersda_tmstp" )
+ column=(type=char(6) update=yes updatewhereclause=yes name=ersda_tz_sys dbname="mch1.ersda_tz_sys" )
+ column=(type=char(6) update=yes updatewhereclause=yes name=ersda_tz_usr dbname="mch1.ersda_tz_usr" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=fsh_collection dbname="mch1.fsh_collection" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=fsh_season dbname="mch1.fsh_season" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=fsh_season_year dbname="mch1.fsh_season_year" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=fsh_theme dbname="mch1.fsh_theme" )
+ column=(type=datetime update=yes updatewhereclause=yes name=fvdt1 dbname="mch1.fvdt1" )
+ column=(type=datetime update=yes updatewhereclause=yes name=fvdt2 dbname="mch1.fvdt2" )
+ column=(type=datetime update=yes updatewhereclause=yes name=fvdt3 dbname="mch1.fvdt3" )
+ column=(type=datetime update=yes updatewhereclause=yes name=fvdt4 dbname="mch1.fvdt4" )
+ column=(type=datetime update=yes updatewhereclause=yes name=fvdt5 dbname="mch1.fvdt5" )
+ column=(type=datetime update=yes updatewhereclause=yes name=fvdt6 dbname="mch1.fvdt6" )
+ column=(type=char(3) update=yes updatewhereclause=yes name=herkl dbname="mch1.herkl" )
+ column=(type=char(3) update=yes updatewhereclause=yes name=herkr dbname="mch1.herkr" )
+ column=(type=datetime update=yes updatewhereclause=yes name=hsdat dbname="mch1.hsdat" )
+ column=(type=datetime update=yes updatewhereclause=yes name=laeda dbname="mch1.laeda" )
+ column=(type=char(21) update=yes updatewhereclause=yes name=lastchange_datetime dbname="mch1.lastchange_datetime" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=licha dbname="mch1.licha" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=lifnr dbname="mch1.lifnr" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=lvorm dbname="mch1.lvorm" )
+ column=(type=datetime update=yes updatewhereclause=yes name=lwedt dbname="mch1.lwedt" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=mtver dbname="mch1.mtver" )
+ column=(type=datetime update=yes updatewhereclause=yes name=qndat dbname="mch1.qndat" )
+ column=(type=char(40) update=yes updatewhereclause=yes name=sgt_scat dbname="mch1.sgt_scat" )
+ column=(type=datetime update=yes updatewhereclause=yes name=verab dbname="mch1.verab" )
+ column=(type=datetime update=yes updatewhereclause=yes name=vfdat dbname="mch1.vfdat" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=vlcha dbname="mch1.vlcha" )
+ column=(type=char(40) update=yes updatewhereclause=yes name=vlmat dbname="mch1.vlmat" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=vlwrk dbname="mch1.vlwrk" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=xpcbt dbname="mch1.xpcbt" )
+ column=(type=datetime update=yes updatewhereclause=yes name=zaedt dbname="mch1.zaedt" )
+ column=(type=datetime update=yes updatewhereclause=yes name=zfdat dbname="mch1.zfdat" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=zusch dbname="mch1.zusch" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=zustd dbname="mch1.zustd" )
+ retrieve="  SELECT mch1.mandt,   
+         mch1.matnr,   
+         mch1.charg,   
+         mch1.nr_sequencial,   
+         mch1.aenam,   
+         mch1.batch_id,   
+         mch1.batch_type,   
+         mch1.chame,   
+         mch1.creation_datetime,   
+         mch1.cuobj_bm,   
+         mch1.deact_bm,   
+         mch1.ernam,   
+         mch1.ersda,   
+         mch1.ersda_tmstp,   
+         mch1.ersda_tz_sys,   
+         mch1.ersda_tz_usr,   
+         mch1.fsh_collection,   
+         mch1.fsh_season,   
+         mch1.fsh_season_year,   
+         mch1.fsh_theme,   
+         mch1.fvdt1,   
+         mch1.fvdt2,   
+         mch1.fvdt3,   
+         mch1.fvdt4,   
+         mch1.fvdt5,   
+         mch1.fvdt6,   
+         mch1.herkl,   
+         mch1.herkr,   
+         mch1.hsdat,   
+         mch1.laeda,   
+         mch1.lastchange_datetime,   
+         mch1.licha,   
+         mch1.lifnr,   
+         mch1.lvorm,   
+         mch1.lwedt,   
+         mch1.mtver,   
+         mch1.qndat,   
+         mch1.sgt_scat,   
+         mch1.verab,   
+         mch1.vfdat,   
+         mch1.vlcha,   
+         mch1.vlmat,   
+         mch1.vlwrk,   
+         mch1.xpcbt,   
+         mch1.zaedt,   
+         mch1.zfdat,   
+         mch1.zusch,   
+         mch1.zustd  
+    FROM mch1   
+" update="mch1" updatewhere=0 updatekeyinplace=yes )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

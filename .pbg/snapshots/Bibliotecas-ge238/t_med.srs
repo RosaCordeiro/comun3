@@ -1,0 +1,9 @@
+HA$PBExportHeader$t_med.srs
+global type t_med from structure
+	string		nlote
+	double		qlote
+	date		dfab
+	date		dval
+	double		vpmc
+end type
+

@@ -1,0 +1,67 @@
+HA$PBExportHeader$gf_retorna_parametro_geral.srf
+global type gf_retorna_parametro_geral from function_object
+end type
+
+forward prototypes
+global function boolean gf_retorna_parametro_geral (string as_cd_parametro, ref string as_vl_parametro)
+global function boolean gf_retorna_parametro_geral (string as_cd_parametro, ref long al_vl_parametro)
+global function boolean gf_retorna_parametro_geral (string as_cd_parametro, string as_formato, ref date adt_vl_parametro)
+end prototypes
+
+global function boolean gf_retorna_parametro_geral (string as_cd_parametro, ref string as_vl_parametro);String lvs_Parametro
+//Seta nulo
+SetNull(as_vl_parametro)
+
+//Busca parametro
+Select vl_parametro
+Into :lvs_Parametro
+From parametro_geral
+Where cd_parametro = :as_cd_parametro
+Using SQLCa;
+
+If SQLCa.SQLCode=-1 or SQLCa.SQLCode=100 Then 
+	Return False
+End If
+
+//Seta retorno
+as_vl_parametro = lvs_Parametro
+
+Return True
+end function
+
+global function boolean gf_retorna_parametro_geral (string as_cd_parametro, ref long al_vl_parametro);String lvs_Parametro
+//Seta nulo
+SetNull(al_vl_parametro)
+//Retorna o parametro em string
+If gf_retorna_parametro_geral(as_cd_parametro, ref lvs_Parametro) Then Return False
+//Converte para long
+al_vl_parametro = Long(lvs_Parametro)
+
+Return True
+end function
+
+global function boolean gf_retorna_parametro_geral (string as_cd_parametro, string as_formato, ref date adt_vl_parametro);String lvs_Ano, lvs_Mes, lvs_Dia, lvs_Parametro
+//Seta nulo
+SetNull(adt_vl_parametro)
+//Busca o parametro como texto (overload desta fun$$HEX2$$e700e300$$ENDHEX$$o, veja pelo editsource)
+If Not gf_retorna_parametro_geral(as_cd_parametro, ref lvs_Parametro) Then Return False
+//Formato padr$$HEX1$$e300$$ENDHEX$$o
+if gf_coalesce(as_formato, '')='' Then as_formato='DD/MM/YYYY'
+//Caso seja informado formado AAAA ao inv$$HEX1$$e900$$ENDHEX$$s de YYYY
+as_formato = gf_Replace(as_formato, 'A','Y',0)
+//Capitaliza string para garantir a busca
+as_formato = Upper(as_formato)
+
+lvs_Ano = Mid(lvs_Parametro, Pos(as_formato,'YY'), IIF(Pos(as_formato,'YYYY')>0,4,2))
+lvs_Mes = Mid(lvs_Parametro, Pos(as_formato,'MM'), 2)
+lvs_Dia = Mid(lvs_Parametro, Pos(as_formato,'DD'), 2)
+
+//Verifica se $$HEX1$$e900$$ENDHEX$$ uma data v$$HEX1$$e100$$ENDHEX$$lida
+If Not IsDate(lvs_Ano+'-'+lvs_Mes+'-'+lvs_Dia) Then Return False
+
+//Seta data de retorno
+adt_vl_parametro = Date(lvs_Ano+'-'+lvs_Mes+'-'+lvs_Dia)
+
+Return True
+end function
+

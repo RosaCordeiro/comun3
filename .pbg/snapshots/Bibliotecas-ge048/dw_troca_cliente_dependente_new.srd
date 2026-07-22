@@ -1,0 +1,48 @@
+HA$PBExportHeader$dw_troca_cliente_dependente_new.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=72 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=84 color="536870912" )
+table(column=(type=char(13) update=yes updatewhereclause=yes key=yes name=cd_dependente_cliente dbname="cliente_dependente.cd_dependente_cliente" )
+ column=(type=char(40) update=yes updatewhereclause=yes name=nm_dependente dbname="cliente_dependente.nm_dependente" )
+ column=(type=datetime update=yes updatewhereclause=yes name=dh_nascimento dbname="cliente_dependente.dh_nascimento" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=id_grau_parentesco dbname="cliente_dependente.id_grau_parentesco" )
+ column=(type=char(11) update=yes updatewhereclause=yes name=cd_cliente dbname="cliente_dependente.cd_cliente" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=id_situacao dbname="cliente_dependente.id_situacao" )
+ column=(type=long update=yes updatewhereclause=yes name=cd_filial_atualizacao dbname="cliente_dependente.cd_filial_atualizacao" )
+ column=(type=datetime update=yes updatewhereclause=yes name=dh_atualizacao dbname="cliente_dependente.dh_atualizacao" )
+ column=(type=char(6) update=yes updatewhereclause=yes name=nr_matricula_atualizacao dbname="cliente_dependente.nr_matricula_atualizacao" )
+ retrieve="  SELECT cd_dependente_cliente,   
+         nm_dependente,   
+         dh_nascimento,   
+         id_grau_parentesco,   
+         cd_cliente,   
+         id_situacao,   
+         cd_filial_atualizacao,   
+         dh_atualizacao,   
+         nr_matricula_atualizacao  
+    FROM cliente_dependente
+	Where cd_filial_atualizacao = :filial
+     and dh_atualizacao >= :data_base
+     and dh_atualizacao <  DateAdd(day, 1, :data_base)" update="cliente_dependente" updatewhere=1 updatekeyinplace=no arguments=(("filial", number),("data_base", date)) )
+text(band=header alignment="2" text="Cd Dependente Cliente"border="0" color="0" x="5" y="4" height="64" width="608"  name=cd_dependente_cliente_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nm Dependente"border="0" color="0" x="617" y="4" height="64" width="1125"  name=nm_dependente_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Dh Nascimento"border="0" color="0" x="1746" y="4" height="64" width="603"  name=dh_nascimento_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Id Grau Parentesco"border="0" color="0" x="2354" y="4" height="64" width="512"  name=id_grau_parentesco_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cd Cliente"border="0" color="0" x="2871" y="4" height="64" width="329"  name=cd_cliente_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Id Situacao"border="0" color="0" x="3209" y="4" height="64" width="297"  name=id_situacao_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cd Filial Atualizacao"border="0" color="0" x="3511" y="4" height="64" width="544"  name=cd_filial_atualizacao_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Dh Atualizacao"border="0" color="0" x="4059" y="4" height="64" width="603"  name=dh_atualizacao_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Matricula Atualizacao"border="0" color="0" x="4667" y="4" height="64" width="649"  name=nr_matricula_atualizacao_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=10 border="0" color="0" x="5" y="4" height="76" width="384" format="[general]"  name=cd_dependente_cliente edit.limit=13 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=20 border="0" color="0" x="617" y="4" height="76" width="1125" format="[general]"  name=nm_dependente edit.limit=40 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=30 border="0" color="0" x="1746" y="4" height="76" width="603" format="[shortdate] [time]"  name=dh_nascimento edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=40 border="0" color="0" x="2354" y="4" height="76" width="55" format="[general]"  name=id_grau_parentesco edit.limit=1 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=50 border="0" color="0" x="2871" y="4" height="76" width="329" format="[general]"  name=cd_cliente edit.limit=11 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=60 border="0" color="0" x="3209" y="4" height="76" width="55" format="[general]"  name=id_situacao edit.limit=1 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="1" tabsequence=70 border="0" color="0" x="3511" y="4" height="76" width="329" format="[general]"  name=cd_filial_atualizacao edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="0" tabsequence=80 border="0" color="0" x="4059" y="4" height="76" width="603" format="[shortdate] [time]"  name=dh_atualizacao edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="0" tabsequence=90 border="0" color="0" x="4667" y="4" height="76" width="192" format="[general]"  name=nr_matricula_atualizacao edit.limit=6 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

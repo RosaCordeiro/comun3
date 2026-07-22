@@ -1,0 +1,95 @@
+HA$PBExportHeader$dw_ge571_endereco_vazio_controlado_nova.srd
+release 12;
+datawindow(units=0 timer_interval=0 color=1073741824 brushmode=0 transparency=0 gradient.angle=0 gradient.color=8421504 gradient.focus=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.repetition.mode=0 gradient.scale=100 gradient.spread=100 gradient.transparency=0 picture.blur=0 picture.clip.bottom=0 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.transparency=0 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes hidegrayline=no showbackcoloronxp=no picture.file="" )
+header(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+detail(height=76 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+table(column=(type=long updatewhereclause=yes name=cd_produto dbname="wms_endereco_produto.cd_produto" dbalias="a.cd_produto" )
+ column=(type=char(8) updatewhereclause=yes name=cd_endereco dbname="wms_endereco_produto.cd_endereco" dbalias="a.cd_endereco" )
+ column=(type=char(20) updatewhereclause=yes name=nr_lote dbname="wms_endereco_produto.nr_lote" dbalias="a.nr_lote" )
+ column=(type=datetime updatewhereclause=yes name=dh_inclusao dbname="wms_endereco_produto.dh_inclusao" dbalias="a.dh_inclusao" )
+ retrieve="-------------------- PRODUTOS CONTROLADOS   ---------------------------
+--- Lista todos os registros na wms_endereco_produto
+--  N$$HEX1$$c300$$ENDHEX$$O pode ter saldo no Flow
+-- N$$HEX1$$c300$$ENDHEX$$O pode ter movimentacao
+-- N$$HEX1$$c300$$ENDHEX$$O pode ter abastecimento
+-- N$$HEX1$$c300$$ENDHEX$$O pode ter saldo no Segregado: Retirada de Excesso//RET. EXCESSO
+-- N$$HEX1$$c300$$ENDHEX$$O pode estar em processo de separacao no momento de exclusao
+-- N$$HEX1$$c300$$ENDHEX$$O pode ter saldo no bairro que esta com o campo : id_bloq_exclusao_end_controlado = ~"S~"
+Select a.cd_produto , 
+		a.cd_endereco 	,
+		a.nr_lote,
+		a.dh_inclusao
+From   wms_endereco_produto a
+Inner join vw_wms_endereco b on b.cd_endereco  =a.cd_endereco 
+Inner join produto_geral c on c.cd_produto  = a.cd_produto 
+Inner join produto_central d on d.cd_produto  = a.cd_produto 
+Where c.cd_grupo_psico is not null
+And   a.nr_lote is not null   
+And   a.cd_esteira  = 3 
+and not exists (		select l.cd_produto, l.nr_lote, l.dh_validade
+						from wms_bairro b
+						inner join wms_endereco e on e.cd_bairro = b.cd_bairro
+						inner join wms_localizacao l on l.cd_endereco = e.cd_endereco
+						where b.id_flow_rack = 'S'
+						  and b.id_utiliza_saldo = 'S'
+						  and l.cd_produto = a.cd_produto
+						  and l.nr_lote 		= a.nr_lote)
+and not exists  ( select * 
+				from wms_movimentacao m
+				where m.cd_produto  = a.cd_produto
+				and   m.nr_lote  = a.nr_lote )  
+and not exists  ( select  *
+				  from wms_abastecimento_flow_rack abst
+				  where abst.cd_produto  = a.cd_produto 
+				  	and abst.nr_lote  = a.nr_lote )  
+and  not  exists ( 	select  x1.cd_produto, x1.nr_lote, x1.dh_validade
+					from 	wms_localizacao x1
+					where   x1.cd_endereco 		=  'B900200A'					
+					and     x1.cd_produto 		= a.cd_produto
+					 and    x1.nr_lote 				= a.nr_lote  ) 	
+and  not  exists ( 	select  x2.cd_produto, x2.nr_lote, x2.dh_validade  
+						from 	wms_localizacao x2
+						where   x2.cd_endereco 		=  'B900600A'					
+						and     x2.cd_produto 		= a.cd_produto
+						 and    x2.nr_lote 				= a.nr_lote) 	
+and not exists (select * 
+					from wms_lista_separacao wls 
+					inner join dbo.wms_lista_separacao_produto wlsp 
+								      on wlsp.cd_filial = wls.cd_filial 
+								      and wlsp.nr_pedido_distribuidora = wls.nr_pedido_distribuidora 
+				   where wls.cd_filial > 0
+			       and wls.dh_geracao >= dateadd(day, -5, getdate())
+			       and wls.cd_esteira = 3
+			       and wls.dh_termino_conferencia is null
+			       and wls.dh_cancelamento is null
+			       and wlsp.cd_produto = a.cd_produto
+			       and wlsp.cd_endereco_localizacao = a.cd_endereco)
+and not exists ( select l1.cd_produto, l1.nr_lote, l1.dh_validade
+					from wms_bairro b1
+					inner join wms_endereco e1 on e1.cd_bairro = b1.cd_bairro
+					inner join wms_localizacao l1 on l1.cd_endereco = e1.cd_endereco
+					where  b1.id_bloq_excl_end_controlado='S' 
+					and l1.cd_produto = a.cd_produto
+					and l1.nr_lote    = a.nr_lote)
+
+
+
+
+"  sort="cd_produto A " )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="2" color="0" x="997" y="8" height="52" width="539" format="[general]" html.valueishtml="0"  name=nr_lote visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="2" color="0" x="503" y="8" height="52" width="430" format="[general]" html.valueishtml="0"  name=cd_endereco visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="2" color="0" x="0" y="8" height="52" width="475" format="[general]" html.valueishtml="0"  name=cd_produto visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=4 alignment="0" tabsequence=0 border="0" color="0" x="1536" y="0" height="52" width="2135" html.valueishtml="0"  name=dh_inclusao visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

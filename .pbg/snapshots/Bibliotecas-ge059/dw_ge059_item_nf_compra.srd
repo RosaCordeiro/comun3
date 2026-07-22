@@ -1,0 +1,47 @@
+HA$PBExportHeader$dw_ge059_item_nf_compra.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=80 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=92 color="536870912" )
+table(column=(type=long update=yes updatewhereclause=yes key=yes name=cd_filial dbname="item_nf_compra.cd_filial" )
+ column=(type=char(9) update=yes updatewhereclause=yes key=yes name=cd_fornecedor dbname="item_nf_compra.cd_fornecedor" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=nr_nf dbname="item_nf_compra.nr_nf" )
+ column=(type=char(3) update=yes updatewhereclause=yes key=yes name=de_especie dbname="item_nf_compra.de_especie" )
+ column=(type=char(3) update=yes updatewhereclause=yes key=yes name=de_serie dbname="item_nf_compra.de_serie" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=cd_natureza_operacao dbname="item_nf_compra.cd_natureza_operacao" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=cd_produto dbname="item_nf_compra.cd_produto" )
+ column=(type=long update=yes updatewhereclause=yes name=qt_faturada dbname="item_nf_compra.qt_faturada" )
+ retrieve="select cd_filial,   
+       cd_fornecedor,   
+       nr_nf,   
+       de_especie,   
+       de_serie,   
+       cd_natureza_operacao,   
+       cd_produto,   
+       qt_faturada  
+from item_nf_compra   
+where cd_filial     = :filial
+  and cd_fornecedor = :fornecedor
+  and nr_nf         = :nf
+  and de_especie    = :especie
+  and de_serie      = :serie
+" update="item_nf_compra" updatewhere=1 updatekeyinplace=no arguments=(("filial", number),("fornecedor", string),("nf", number),("especie", string),("serie", string)) )
+text(band=header alignment="2" text="Cd Filial"border="0" color="0" x="9" y="8" height="64" width="329"  name=cd_filial_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cd Fornecedor"border="0" color="0" x="347" y="8" height="64" width="389"  name=cd_fornecedor_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Nf"border="0" color="0" x="745" y="8" height="64" width="329"  name=nr_nf_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="De Especie"border="0" color="0" x="1083" y="8" height="64" width="306"  name=de_especie_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="De Serie"border="0" color="0" x="1399" y="8" height="64" width="229"  name=de_serie_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cd Natureza Operacao"border="0" color="0" x="1637" y="8" height="64" width="603"  name=cd_natureza_operacao_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cd Produto"border="0" color="0" x="2249" y="8" height="64" width="329"  name=cd_produto_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Qt Faturada"border="0" color="0" x="2587" y="8" height="64" width="329"  name=qt_faturada_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="1" tabsequence=10 border="0" color="0" x="9" y="8" height="76" width="329" format="[general]"  name=cd_filial edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=20 border="0" color="0" x="347" y="8" height="76" width="389" format="[general]"  name=cd_fornecedor edit.limit=9 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=30 border="0" color="0" x="745" y="8" height="76" width="329" format="[general]"  name=nr_nf edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=40 border="0" color="0" x="1083" y="8" height="76" width="306" format="[general]"  name=de_especie edit.limit=3 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=50 border="0" color="0" x="1399" y="8" height="76" width="229" format="[general]"  name=de_serie edit.limit=3 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="1" tabsequence=60 border="0" color="0" x="1637" y="8" height="76" width="603" format="[general]"  name=cd_natureza_operacao edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="1" tabsequence=70 border="0" color="0" x="2249" y="8" height="76" width="329" format="[general]"  name=cd_produto edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="1" tabsequence=80 border="0" color="0" x="2587" y="8" height="76" width="329" format="[general]"  name=qt_faturada edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

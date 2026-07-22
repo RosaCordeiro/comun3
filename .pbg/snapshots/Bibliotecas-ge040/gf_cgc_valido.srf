@@ -1,0 +1,175 @@
+HA$PBExportHeader$gf_cgc_valido.srf
+global type gf_cgc_valido from function_object
+end type
+
+forward prototypes
+global function boolean gf_cgc_valido (string ps_nr_cgc)
+global function boolean gf_cgc_valido (string ps_nr_cgc, boolean pb_mensagem)
+end prototypes
+
+global function boolean gf_cgc_valido (string ps_nr_cgc);
+Return gf_cgc_valido(ps_nr_cgc,True)
+end function
+
+global function boolean gf_cgc_valido (string ps_nr_cgc, boolean pb_mensagem);BOOLEAN lvb_Retorno = False
+
+STRING  lvs_Digito
+
+INTEGER lvi_Dig2 , lvi_Dig3 , lvi_Dig4 , lvi_Dig5 , lvi_Dig6  , lvi_Dig7 , &
+        lvi_Dig8 , lvi_Dig9 , lvi_Dig10, lvi_Dig11, lvi_Dig12 , lvi_Dig13, lvi_Dig14
+		  
+LONG    lvl_Digito, lvl_Soma, lvl_Resto
+
+
+if isNumber(ps_nr_cgc) then
+
+	If LenA( TRIM( ps_Nr_Cgc ) ) = 14 and ps_nr_cgc <> '00000000000000' Then 
+	
+			lvl_Digito = INTEGER(MidA(ps_Nr_CGC, 13, 01 ))
+			
+			lvi_Dig3  = INTEGER(MidA(ps_Nr_CGC, 12, 01)) * 2
+			lvi_Dig4  = INTEGER(MidA(ps_Nr_CGC, 11, 01)) * 3
+			lvi_Dig5  = INTEGER(MidA(ps_Nr_CGC, 10, 01)) * 4
+			lvi_Dig6  = INTEGER(MidA(ps_Nr_CGC, 09, 01)) * 5
+			lvi_Dig7  = INTEGER(MidA(ps_Nr_CGC, 08, 01)) * 6
+			lvi_Dig8  = INTEGER(MidA(ps_Nr_CGC, 07, 01)) * 7
+			lvi_Dig9  = INTEGER(MidA(ps_Nr_CGC, 06, 01)) * 8
+			lvi_Dig10 = INTEGER(MidA(ps_Nr_CGC, 05, 01)) * 9
+			lvi_Dig11 = INTEGER(MidA(ps_Nr_CGC, 04, 01)) * 2
+			lvi_Dig12 = INTEGER(MidA(ps_Nr_CGC, 03, 01)) * 3
+			lvi_Dig13 = INTEGER(MidA(ps_Nr_CGC, 02, 01)) * 4
+			lvi_Dig14 = INTEGER(MidA(ps_Nr_CGC, 01, 01)) * 5
+			
+			lvl_Soma  = lvi_Dig3 + lvi_Dig4  + lvi_Dig5  + lvi_Dig6   + lvi_Dig7  + lvi_Dig8 + &
+							lvi_Dig9 + lvi_Dig10 + lvi_Dig11 + lvi_Dig12 + lvi_Dig13 + lvi_Dig14
+			
+			lvl_Resto = lvl_Soma - Int(lvl_Soma / 11) * 11
+					
+			IF (( lvl_Resto = 0 OR lvl_Resto = 1) AND lvl_Digito = 0 ) Then 
+				lvb_Retorno = True
+			ElseIf ( lvl_Resto = 1 AND lvl_Digito = 1 ) Then
+				lvb_Retorno = True         
+			ElseIf (11 - lvl_Resto = lvl_Digito ) Then
+				lvb_Retorno = True
+			Else
+				lvb_Retorno = False
+			End If
+			
+			If ( lvb_Retorno ) Then 
+			
+				lvl_Digito = INTEGER(MidA(ps_Nr_CGC, 14, 01))
+				lvi_Dig2   = INTEGER(MidA(ps_Nr_CGC, 13, 01)) * 2
+				lvi_Dig3   = INTEGER(MidA(ps_Nr_CGC, 12, 01)) * 3
+				lvi_Dig4   = INTEGER(MidA(ps_Nr_CGC, 11, 01)) * 4
+				lvi_Dig5   = INTEGER(MidA(ps_Nr_CGC, 10, 01)) * 5
+				lvi_Dig6   = INTEGER(MidA(ps_Nr_CGC, 09, 01)) * 6
+				lvi_Dig7   = INTEGER(MidA(ps_Nr_CGC, 08, 01)) * 7
+				lvi_Dig8   = INTEGER(MidA(ps_Nr_CGC, 07, 01)) * 8
+				lvi_Dig9   = INTEGER(MidA(ps_Nr_CGC, 06, 01)) * 9
+				lvi_Dig10  = INTEGER(MidA(ps_Nr_CGC, 05, 01)) * 2
+				lvi_Dig11  = INTEGER(MidA(ps_Nr_CGC, 04, 01)) * 3
+				lvi_Dig12  = INTEGER(MidA(ps_Nr_CGC, 03, 01)) * 4
+				lvi_Dig13  = INTEGER(MidA(ps_Nr_CGC, 02, 01)) * 5
+				lvi_Dig14  = INTEGER(MidA(ps_Nr_CGC, 01, 01)) * 6
+				
+				lvl_Soma  = lvi_Dig2 + lvi_Dig3 + lvi_Dig4  + lvi_Dig5  + lvi_Dig6   + lvi_Dig7  + & 
+								lvi_Dig8 + lvi_Dig9 + lvi_Dig10 + lvi_Dig11 + lvi_Dig12 + lvi_Dig13 + lvi_Dig14
+			
+				lvl_Resto = lvl_Soma - Int(lvl_Soma / 11) * 11
+				
+				If (( lvl_Resto = 0 OR lvl_Resto = 1) AND lvl_Digito = 0) Then 
+					lvb_Retorno = True
+				ElseIf (11 - lvl_Resto = lvl_Digito) Then 
+					lvb_Retorno = True
+				Else
+					lvb_Retorno = False
+				End If 
+				
+			End If
+		
+	End If 	
+	
+else
+	
+	// Nome da Fun$$HEX2$$e700e300$$ENDHEX$$o: f_valida_cnpj_alfanumerico
+// Argumento: string as_cnpj
+// Retorno: boolean
+ 
+	string ls_cnpj_limpo
+	string ls_caracter
+	integer li_pesos1[12] = {5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2}
+	integer li_pesos2[13] = {6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2}
+	integer li_valores[14]
+	integer i, li_soma, li_resto, li_digito1, li_digito2, li_asc
+	 
+	// 1. Limpa o CNPJ mantendo apenas letras e n$$HEX1$$fa00$$ENDHEX$$meros (remove pontos, barras e tra$$HEX1$$e700$$ENDHEX$$os)
+	ls_cnpj_limpo = ""
+	for i = 1 to Len(ps_Nr_Cgc)
+		 ls_caracter = Upper(Mid(ps_Nr_Cgc, i, 1))
+		 // Verifica se $$HEX1$$e900$$ENDHEX$$ n$$HEX1$$fa00$$ENDHEX$$mero (0-9) ou letra (A-Z)
+		 if (ls_caracter >= "0" and ls_caracter <= "9") or (ls_caracter >= "A" and ls_caracter <= "Z") then
+			  ls_cnpj_limpo += ls_caracter
+		 end if
+	next
+	 
+	// O CNPJ precisa ter exatamente 14 caracteres
+	if Len(ls_cnpj_limpo) <> 14 then
+		lvb_Retorno = false
+	else
+		lvb_Retorno = true
+	end if
+	 
+	// 2. Converte os caracteres do CNPJ para os valores num$$HEX1$$e900$$ENDHEX$$ricos correspondentes
+	for i = 1 to 14
+		 ls_caracter = Mid(ls_cnpj_limpo, i, 1)
+		 li_asc = Asc(ls_caracter)
+		 // Regra da Receita Federal: Valor = C$$HEX1$$f300$$ENDHEX$$digo ASCII do caractere - 48
+		 // Isso faz com que '0'-'9' vire 0-9 e 'A'-'Z' vire 17-42
+		 li_valores[i] = li_asc - 48
+	next
+	 
+	// 3. Valida$$HEX2$$e700e300$$ENDHEX$$o do Primeiro D$$HEX1$$ed00$$ENDHEX$$gito Verificador
+	li_soma = 0
+	for i = 1 to 12
+		 li_soma += li_valores[i] * li_pesos1[i]
+	next
+	 
+	li_resto = Mod(li_soma, 11)
+	if li_resto < 2 then
+		 li_digito1 = 0
+	else
+		 li_digito1 = 11 - li_resto
+	end if
+	 
+	// Se o primeiro d$$HEX1$$ed00$$ENDHEX$$gito calculado for diferente do informado, $$HEX1$$e900$$ENDHEX$$ inv$$HEX1$$e100$$ENDHEX$$lido
+	if li_valores[13] <> li_digito1 then lvb_Retorno = false
+	 
+	// 4. Valida$$HEX2$$e700e300$$ENDHEX$$o do Segundo D$$HEX1$$ed00$$ENDHEX$$gito Verificador
+	li_soma = 0
+	for i = 1 to 13
+		 li_soma += li_valores[i] * li_pesos2[i]
+	next
+	 
+	li_resto = Mod(li_soma, 11)
+	if li_resto < 2 then
+		 li_digito2 = 0
+	else
+		 li_digito2 = 11 - li_resto
+	end if
+	 
+	// Se o segundo d$$HEX1$$ed00$$ENDHEX$$gito calculado for diferente do informado, $$HEX1$$e900$$ENDHEX$$ inv$$HEX1$$e100$$ENDHEX$$lido
+	if li_valores[14] <> li_digito2 then 
+		lvb_Retorno = false
+	else
+		lvb_Retorno = true
+	end if
+	
+end if
+
+If Not ( lvb_Retorno ) Then
+	If pb_mensagem Then MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o!", "CNPJ informado n$$HEX1$$e300$$ENDHEX$$o $$HEX1$$e900$$ENDHEX$$ v$$HEX1$$e100$$ENDHEX$$lido." , Exclamation! )
+End If
+	
+RETURN lvb_Retorno 
+end function
+

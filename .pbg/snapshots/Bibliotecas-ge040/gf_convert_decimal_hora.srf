@@ -1,0 +1,29 @@
+HA$PBExportHeader$gf_convert_decimal_hora.srf
+global type gf_convert_decimal_hora from function_object
+end type
+
+forward prototypes
+global function string gf_convert_decimal_hora (decimal p_decimal)
+end prototypes
+
+global function string gf_convert_decimal_hora (decimal p_decimal);Decimal ldc_Total_Minutos, ldc_Hora, ldc_Minuto, ldc_Segundos
+
+String ls_Retorno
+
+// Deixa somente as casas decimais
+p_decimal = p_decimal - Truncate(p_decimal, 0)
+
+// 86400 -> total de minutos em 1 dia
+ldc_Total_Minutos = round(p_decimal * 86400, 2)
+
+ldc_Hora = ldc_Total_Minutos / 3600
+
+ldc_Minuto = (ldc_Total_Minutos - (Truncate(ldc_Hora, 0) * 3600)) / 60
+
+ldc_Segundos = ldc_Total_Minutos - (truncate(ldc_Hora, 0) * 3600) - (Truncate(ldc_Minuto, 0) * 60)
+
+ls_Retorno = string(truncate(ldc_Hora, 0), '00') + ':' + string(truncate(ldc_Minuto, 0), '00') + ':' + string(truncate(ldc_Segundos, 0), '00')
+
+Return ls_Retorno
+end function
+

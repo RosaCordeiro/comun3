@@ -1,0 +1,15 @@
+HA$PBExportHeader$s_email.srs
+global type s_email from structure
+	string		ps_to[]
+	string		ps_cc[]
+	string		ps_co[]
+	string		ps_assunto
+	string		ps_mensagem
+	string		ps_anexo[]
+	boolean		pb_assinatura
+	string		ps_telefone
+	boolean		pb_nao_formata		descriptor "comment" = "N$$HEX1$$e300$$ENDHEX$$o far$$HEX1$$e100$$ENDHEX$$ a formata$$HEX2$$e700e300$$ENDHEX$$o do email, enviar$$HEX1$$e100$$ENDHEX$$ da mesma maneira como enviado na vari$$HEX1$$e100$$ENDHEX$$vel ps_mensagem"
+	boolean		pb_rel_psico
+	boolean		pb_info_nao_responda
+end type
+

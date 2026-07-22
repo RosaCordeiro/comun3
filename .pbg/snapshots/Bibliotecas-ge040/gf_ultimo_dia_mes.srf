@@ -1,0 +1,29 @@
+HA$PBExportHeader$gf_ultimo_dia_mes.srf
+global type gf_ultimo_dia_mes from function_object
+end type
+
+forward prototypes
+global function boolean gf_ultimo_dia_mes (datetime pdh_data)
+global function boolean gf_ultimo_dia_mes (date pdt_data)
+end prototypes
+
+global function boolean gf_ultimo_dia_mes (datetime pdh_data);Return gf_ultimo_dia_mes(Date(pdh_data))
+end function
+
+global function boolean gf_ultimo_dia_mes (date pdt_data);Integer lvi_Mes, &
+        lvi_Proximo_Mes
+
+Date lvdt_Proximo_Dia
+
+lvdt_Proximo_Dia = RelativeDate(pdt_Data, 1)
+
+lvi_Mes         = Month(pdt_Data)
+lvi_Proximo_Mes = Month(lvdt_Proximo_Dia)
+
+If lvi_Mes <> lvi_Proximo_Mes Then
+	Return True
+Else
+	Return False
+End If
+end function
+

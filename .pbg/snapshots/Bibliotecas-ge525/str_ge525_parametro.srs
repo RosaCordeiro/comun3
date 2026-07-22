@@ -1,0 +1,7 @@
+HA$PBExportHeader$str_ge525_parametro.srs
+global type str_ge525_parametro from structure
+	long		cd_produto
+	string		de_produto
+	string		id_tipo
+end type
+

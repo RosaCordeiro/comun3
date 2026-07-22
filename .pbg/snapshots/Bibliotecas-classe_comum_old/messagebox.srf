@@ -1,0 +1,81 @@
+HA$PBExportHeader$messagebox.srf
+global type messagebox from function_object
+end type
+
+forward prototypes
+global function integer messagebox (integer pi_coderro, string ps_titulo, string ps_texto)
+global function integer messagebox (integer pi_coderro, string ps_titulo, string ps_texto, icon pic_tipo)
+global function integer messagebox (integer pi_coderro, string ps_titulo, string ps_texto, icon pic_tipo, button pbt_botao)
+global function integer messagebox (integer pi_coderro, string ps_titulo, string ps_texto, icon pic_tipo, button pbt_botao, integer pi_padrao)
+end prototypes
+
+global function integer messagebox (integer pi_coderro, string ps_titulo, string ps_texto);Return messagebox(pi_coderro, ps_titulo, ps_texto,Information!)
+end function
+
+global function integer messagebox (integer pi_coderro, string ps_titulo, string ps_texto, icon pic_tipo);Return MessageBox(pi_coderro, ps_titulo, ps_texto, pic_tipo,Ok!)
+end function
+
+global function integer messagebox (integer pi_coderro, string ps_titulo, string ps_texto, icon pic_tipo, button pbt_botao);Return MessageBox(pi_coderro, ps_titulo, ps_texto, pic_tipo, pbt_botao, 1)
+end function
+
+global function integer messagebox (integer pi_coderro, string ps_titulo, string ps_texto, icon pic_tipo, button pbt_botao, integer pi_padrao);/**********************************************************************************************************************
+Desc:	Se o primeiro argumento $$HEX1$$e900$$ENDHEX$$ v$$HEX1$$e100$$ENDHEX$$lido ent$$HEX1$$e300$$ENDHEX$$o a fun$$HEX2$$e700e300$$ENDHEX$$o efetuar$$HEX1$$e100$$ENDHEX$$ a busca no banco de dados pelo erro; 
+		Se o erro for encontrado os valores c$$HEX1$$f300$$ENDHEX$$digo de erro e library s$$HEX1$$e300$$ENDHEX$$o concatenados ao t$$HEX1$$ed00$$ENDHEX$$tulo e a solu$$HEX2$$e700e300$$ENDHEX$$o $$HEX1$$e900$$ENDHEX$$ concatenada ao texto.
+		Para utilizar a fun$$HEX2$$e700e300$$ENDHEX$$o basta adicionar na chamada da fun$$HEX2$$e700e300$$ENDHEX$$o MessageBox o c$$HEX1$$f300$$ENDHEX$$digo de erro como primeiro par$$HEX1$$e200$$ENDHEX$$metro.
+		
+		Exemplo:
+
+		MessageBox('Aten$$HEX2$$e700e300$$ENDHEX$$o','Voc$$HEX1$$ea00$$ENDHEX$$ clicou no bot$$HEX1$$e300$$ENDHEX$$o!') (fun$$HEX2$$e700e300$$ENDHEX$$o normal sem cadastro no catalogo de erros)
+		MessageBox(1,'Aten$$HEX2$$e700e300$$ENDHEX$$o','Voc$$HEX1$$ea00$$ENDHEX$$ clicou no bot$$HEX1$$e300$$ENDHEX$$o!') (fun$$HEX2$$e700e300$$ENDHEX$$o com leitura do catalogo de erros com codigo de erro igual 1)
+
+		-----------------------------------------------------------------------------------------------------------------
+		
+		CUIDADO! Necess$$HEX1$$e100$$ENDHEX$$rio primeiramente criar o c$$HEX1$$f300$$ENDHEX$$digo de erro na tabela catalogo_erros e posteriormente alterar a chamada da fun$$HEX2$$e700e300$$ENDHEX$$o,
+		caso esse processo n$$HEX1$$e300$$ENDHEX$$o seja realizado a mensagem ser$$HEX1$$e100$$ENDHEX$$ mostrada normalmente, por$$HEX1$$e900$$ENDHEX$$m sem a sua solu$$HEX2$$e700e300$$ENDHEX$$o e c$$HEX1$$f300$$ENDHEX$$digo!!!
+-----------------------------------------------------------------------------------------------------------------------
+Argumentos Obrigat$$HEX1$$f300$$ENDHEX$$rios:
+		pi_coderro (integer) - C$$HEX1$$f300$$ENDHEX$$digo do Erro cadastrado no catalago de erros.
+		ps_titulo (string) - T$$HEX1$$ed00$$ENDHEX$$tulo da Mensagem a ser concatenado com o c$$HEX1$$f300$$ENDHEX$$digo de erro.
+		ps_texto (string) - Texto com a descri$$HEX2$$e700e300$$ENDHEX$$o do erro ocorrido
+		
+Argumentos Opcionais:
+		pic_tipo (icon) - Tipo de mensagem (Information! (Default), StopSign!, Exclamation!, Question!, None!)
+		pbt_botao (button) - Bot$$HEX1$$f500$$ENDHEX$$es dispon$$HEX1$$ed00$$ENDHEX$$veis na mensagem (OK! (Default), OKCancel!, YesNo!, YesNoCancel!, RetryCancel!, AbortRetryIgnore!)
+		pi_padrao (integer) - Bot$$HEX1$$e300$$ENDHEX$$o padr$$HEX1$$e300$$ENDHEX$$o selecionado, o padr$$HEX1$$e300$$ENDHEX$$o $$HEX1$$e900$$ENDHEX$$ OK.
+		-----------------------------------------------------------------------------------------------------------------
+		Esta fun$$HEX2$$e700e300$$ENDHEX$$o tem sobrecarga para os argunmentos opcionais listados acima, ent$$HEX1$$e300$$ENDHEX$$o a fun$$HEX2$$e700e300$$ENDHEX$$o pode 
+		ser chamada com os par$$HEX1$$e200$$ENDHEX$$metros obrigat$$HEX1$$f300$$ENDHEX$$rios ou com os opcionais.
+		Para ver os overloads, abrir fun$$HEX2$$e700e300$$ENDHEX$$o no modo "Edit Source".
+-----------------------------------------------------------------------------------------------------------------------
+Retorno:	integer
+-----------------------------------------------------------------------------------------------------------------------
+Log:	18.Dez.2015 Marlon Kniss - Desenvolvimento
+**********************************************************************************************************************/
+
+
+String lvs_Desc
+String lvs_Resol
+String lvs_Tela
+
+select coalesce(de_descricao,''), coalesce(de_solucao,''), cd_library
+Into :lvs_Desc, :lvs_Resol, :lvs_Tela
+From catalogo_erros
+Where cd_erro = :pi_coderro
+Using SQLCa;
+
+If SQLCa.SQLCode = 0 Then
+	If Trim(lvs_Desc) <> '' Then lvs_Desc = '~r~n' + lvs_Desc 
+	If Trim(lvs_Resol) <> '' Then lvs_Resol = '~r~n~r~nSolu$$HEX2$$e700e300$$ENDHEX$$o: ~r~n'+lvs_Resol
+	
+	lvs_Desc = ''
+	
+	ps_titulo = lvs_Tela+'/'+String(pi_coderro,"000000")+' - '+ps_titulo
+	//ps_texto = 'Descri$$HEX2$$e700e300$$ENDHEX$$o: ~r~n'+ps_texto
+	ps_texto += lvs_Desc
+	ps_texto += lvs_Resol
+End If
+				
+Return MessageBox(ps_titulo, ps_texto, pic_tipo, pbt_botao, pi_padrao)
+
+end function
+

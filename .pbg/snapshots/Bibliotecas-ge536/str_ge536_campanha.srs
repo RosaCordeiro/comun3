@@ -1,0 +1,9 @@
+HA$PBExportHeader$str_ge536_campanha.srs
+global type str_ge536_campanha from structure
+	long		idcampanha[]
+	string		campanha[]
+	string		msgcupom[]
+	string		url[]
+	string		telefone[]
+end type
+

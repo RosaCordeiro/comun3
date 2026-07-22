@@ -1,0 +1,51 @@
+HA$PBExportHeader$gf_parametro_filial_vacina.srf
+global type gf_parametro_filial_vacina from function_object
+end type
+
+forward prototypes
+global function boolean gf_parametro_filial_vacina (long al_filial, long al_produto)
+end prototypes
+
+global function boolean gf_parametro_filial_vacina (long al_filial, long al_produto);Long ll_Categoria_Bloqueada
+
+String ls_Categoria
+String ls_Erro
+
+// Busca Categoria Produto Vacina
+select	substring(cd_subcategoria, 1,6)
+	Into :ls_Categoria
+from produto_geral 
+where cd_produto = :al_produto
+Using SqlCa;
+
+If SqlCa.SqlCode = -1 Then
+	ls_Erro = SqlCa.SqlErrText
+	SqlCa.of_RollBack();
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao localizar a categoria do produto [" + String(al_Produto) + "].~r" + ls_Erro, StopSign!)
+	Return false   
+End If
+
+Select count(*)
+Into :ll_Categoria_Bloqueada
+From parametro_loja
+Where cd_parametro = 'CD_CATEGORIA_PRD_MOVIMENTACAO_BLOQUEADA'
+	 and vl_parametro like  '%' + :ls_Categoria + '%'
+	 and cd_filial = :al_filial
+Using SqlCa;
+
+If SqlCa.SqlCode = -1 Then
+	ls_Erro = SqlCa.SqlErrText
+	SqlCa.of_RollBack();
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro na localiza$$HEX2$$e700e300$$ENDHEX$$o do par$$HEX1$$e200$$ENDHEX$$metro loja da filial [" + String(al_Filial) + "].~r" + ls_Erro, StopSign!)
+	Return False
+End If
+
+If ll_Categoria_Bloqueada > 0 Then
+	SqlCa.of_Rollback();
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "O produto [" + String(al_produto) + "] da categoria [" + ls_Categoria + "] n$$HEX1$$e300$$ENDHEX$$o est$$HEX1$$e100$$ENDHEX$$ liberado para movimenta$$HEX2$$e700e300$$ENDHEX$$o na filial [" + String(al_Filial) + "].", Exclamation!)
+	Return False
+End If
+
+Return True
+end function
+

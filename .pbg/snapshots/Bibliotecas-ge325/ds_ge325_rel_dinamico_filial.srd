@@ -1,0 +1,135 @@
+HA$PBExportHeader$ds_ge325_rel_dinamico_filial.srd
+release 12;
+datawindow(units=0 timer_interval=0 color=1073741824 brushmode=0 transparency=0 gradient.angle=0 gradient.color=8421504 gradient.focus=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.repetition.mode=0 gradient.scale=100 gradient.spread=100 gradient.transparency=0 picture.blur=0 picture.clip.bottom=0 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.transparency=0 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes hidegrayline=no showbackcoloronxp=no picture.file="" )
+header(height=112 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+detail(height=180 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+table(column=(type=long updatewhereclause=yes name=cd_filial dbname="cd_filial" )
+ column=(type=char(5) updatewhereclause=yes name=cd_cfop dbname="cd_cfop" )
+ column=(type=char(12) updatewhereclause=yes name=id_pis_cofins_prd dbname="id_pis_cofins_prd" )
+ column=(type=long updatewhereclause=yes name=nr_classificacao_fiscal dbname="nr_classificacao_fiscal" )
+ column=(type=long updatewhereclause=yes name=cd_produto dbname="cd_produto" )
+ column=(type=char(50) updatewhereclause=yes name=de_produto dbname="de_produto" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_total_bruto dbname="vl_total_bruto" )
+ column=(type=decimal(15) updatewhereclause=yes name=vl_total_liquido dbname="vl_total_liquido" )
+ column=(type=datetime updatewhereclause=yes name=dh_movimentacao_caixa dbname="dh_movimentacao_caixa" )
+ column=(type=char(2) updatewhereclause=yes name=cd_unidade_federacao dbname="cd_unidade_federacao" )
+ column=(type=long updatewhereclause=yes name=nr_nf dbname="nr_nf" )
+ column=(type=long updatewhereclause=yes name=qt_vendida dbname="qt_vendida" )
+ column=(type=char(1) updatewhereclause=yes name=cd_cst_origem dbname="cd_cst_origem" )
+ column=(type=decimal(28) updatewhereclause=yes name=vl_base_icms dbname="vl_base_icms" )
+ column=(type=decimal(2) updatewhereclause=yes name=pc_icms dbname="pc_icms" )
+ column=(type=decimal(38) updatewhereclause=yes name=vl_icms dbname="vl_icms" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_fcp dbname="vl_fcp" )
+ column=(type=decimal(15) updatewhereclause=yes name=vl_bc_pis dbname="vl_bc_pis" )
+ column=(type=decimal(19) updatewhereclause=yes name=vl_pis dbname="vl_pis" )
+ column=(type=decimal(15) updatewhereclause=yes name=vl_bc_cofins dbname="vl_bc_cofins" )
+ column=(type=decimal(18) updatewhereclause=yes name=vl_cofins dbname="vl_cofins" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_bc_icms_efetivo dbname="vl_bc_icms_efetivo" )
+ column=(type=decimal(4) updatewhereclause=yes name=pc_icms_efetivo dbname="pc_icms_efetivo" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_icms_efetivo dbname="vl_icms_efetivo" )
+ column=(type=char(44) updatewhereclause=yes name=de_chave_acesso dbname="de_chave_acesso" )
+ column=(type=decimal(2) updatewhereclause=yes name=pc_icms_atual dbname="pc_icms_atual" )
+ column=(type=decimal(2) updatewhereclause=yes name=pc_fcp_atual dbname="pc_fcp_atual" )
+ column=(type=decimal(2) updatewhereclause=yes name=pc_icms_mes dbname="pc_icms_mes" )
+ column=(type=decimal(2) updatewhereclause=yes name=pc_fcp_mes dbname="pc_fcp_mes" )
+ retrieve="select *
+from 
+(
+select n.cd_filial as cd_filial, 
+cast(i.cd_natureza_operacao as varchar(5)) as cd_cfop, 
+cast(case p.id_situacao_pis_cofins when 'P' then 'POSITIVA' when 'N' then 'NEGATIVA' else 'TRIBUTADA' end as varchar(12)) as id_pis_cofins_prd, 
+p.nr_classificacao_fiscal as nr_classificacao_fiscal, 
+i.cd_produto as cd_produto, 
+cast(p.de_produto ||': '|| p.de_apresentacao_venda as varchar(50)) as de_produto, 
+sum(i.qt_vendida * vl_preco_unitario) as vl_total_bruto, 
+sum((i.qt_vendida * i.vl_preco_praticado) - round( i.qt_vendida * i.vl_preco_praticado * (coalesce(n.pc_desconto,0) / 100), 2))  as vl_total_liquido, 
+n.dh_emissao as dh_movimentacao_caixa,
+cf.cd_unidade_federacao as cd_unidade_federacao,
+n.nr_nf as nr_nf, 
+sum(i.qt_vendida) as qt_vendida, 
+i.cd_cst_origem as cd_cst_origem, 
+sum(case when i.pc_icms > 0 then (round( (i.qt_vendida * vl_preco_praticado) * ( 1 - coalesce(i.pc_reducao_base_icms, 0) / 100) * ( 1 - (coalesce(n.pc_desconto,0) / 100) ), 2)) else 0.00 end) as vl_base_icms, 
+i.pc_icms as pc_icms, 
+sum(case when i.pc_icms > 0 then (round( (i.qt_vendida * vl_preco_praticado) * ( 1 - coalesce(i.pc_reducao_base_icms, 0) / 100) * ( 1 - (coalesce(n.pc_desconto,0) / 100) ) * i.pc_icms / 100, 2)) else 0.00 end) as vl_icms, 
+sum(id.vl_icms_fcp_uf_destino) as vl_fcp, 
+sum(case when i.cd_cst_pis = '01' or (coalesce(hp.id_situacao_pis_cofins, p.id_situacao_pis_cofins) = 'T' and i.cd_cst_pis is null) then (i.qt_vendida * i.vl_preco_praticado) - round( i.qt_vendida * i.vl_preco_praticado * (coalesce(n.pc_desconto,0) / 100), 2) else 0.00 end) as vl_bc_pis, 
+sum(case when i.cd_cst_pis = '01' or (coalesce(hp.id_situacao_pis_cofins, p.id_situacao_pis_cofins) = 'T' and i.cd_cst_pis is null) then round(((i.qt_vendida * i.vl_preco_praticado) - round( i.qt_vendida * i.vl_preco_praticado * (coalesce(n.pc_desconto,0) / 100), 2)) * 0.0165, 2) else 0.00 end) as vl_pis, 
+sum(case when i.cd_cst_cofins = '01' or (coalesce(hp.id_situacao_pis_cofins, p.id_situacao_pis_cofins) = 'T' and i.cd_cst_cofins is null) then (i.qt_vendida * i.vl_preco_praticado) - round( i.qt_vendida * i.vl_preco_praticado * (coalesce(n.pc_desconto,0) / 100), 2) else 0.00 end) as vl_bc_cofins, 
+sum(case when i.cd_cst_cofins = '01' or (coalesce(hp.id_situacao_pis_cofins, p.id_situacao_pis_cofins) = 'T' and i.cd_cst_cofins is null) then round(((i.qt_vendida * i.vl_preco_praticado) - round( i.qt_vendida * i.vl_preco_praticado * (coalesce(n.pc_desconto,0) / 100), 2)) * 0.076, 2) else 0.00 end) as vl_cofins, 
+sum(i.vl_bc_icms_efetivo) as vl_bc_icms_efetivo, 
+i.pc_icms_efetivo as pc_icms_efetivo, 
+sum(i.vl_icms_efetivo) as vl_icms_efetivo, 
+nfe.de_chave_acesso as de_chave_acesso, 
+aicms.pc_icms as pc_icms_atual, 
+aicms.pc_fcp as pc_fcp_atual, 
+coalesce(hpu.pc_icms, aicms.pc_icms) as pc_icms_mes, 
+coalesce(hpu.pc_fcp, aicms.pc_fcp) as pc_fcp_mes 
+from nf_venda n (index idx_data_filial)   
+	left join nf_venda_nfe nfe (index pk_nf_venda_nfe)      on nfe.cd_filial = n.cd_filial+0      and nfe.nr_nf = n.nr_nf+0      and nfe.de_serie = n.de_serie      and nfe.de_especie = n.de_especie 
+	inner join item_nf_venda i (index pk_item_nf_venda) 	on i.cd_filial = n.cd_filial+0 	and i.nr_nf = n.nr_nf+0 	and i.de_serie = n.de_serie 	and i.de_especie = n.de_especie 
+	inner join produto_geral p (index pk_produto_geral) 	on p.cd_produto = i.cd_produto+0 
+	inner join filial f (index pk_filial) 	on f.cd_filial = n.cd_filial+0 
+	inner join cidade cf (index pk_cidade) 	on cf.cd_cidade = f.cd_cidade+0 
+	left outer join cliente cl (index pk_cliente) 	on cl.cd_cliente = n.cd_cliente||'' 
+	left outer join convenio cv (index pk_convenio) 	on cv.cd_convenio = n.cd_convenio+0 
+	left outer join conveniado co (index pk_conveniado) 	on co.cd_convenio = n.cd_convenio+0   and co.cd_conveniado = n.cd_conveniado 
+	left outer join item_nf_venda_destino id (index pk_item_nf_venda_destino) 	on id.cd_filial = i.cd_filial+0 	and id.nr_nf = i.nr_nf+0 	and id.de_serie = i.de_serie 	and id.de_especie = i.de_especie 	and id.cd_produto = i.cd_produto 	and id.nr_sequencial = i.nr_sequencial 
+	left outer join condicao_venda_convenio cvc (index pk_condicao_venda_convenio)   on cvc.cd_condicao_convenio = n.cd_condicao_convenio 
+	left outer join dependente_conveniado dcv (index pk_dependente_conveniado) 	on dcv.cd_convenio = n.cd_convenio   and dcv.cd_conveniado = n.cd_conveniado   and dcv.cd_dependente = n.cd_dependente_conveniado 
+	left outer join usuario uvv (index pk_usuario) 	on uvv.nr_matricula = n.nr_matricula_vendedor 
+	left outer join usuario uov (index pk_usuario) 	on uov.nr_matricula = n.nr_matric_operador 
+	left outer join usuario uav (index pk_usuario) 	on uav.nr_matricula = n.nr_matric_alteracao_preco 
+	left outer join usuario ulbv (index pk_usuario) 	on ulbv.nr_matricula = n.nr_matric_liberacao_bloqueio 
+	left outer join usuario ulrv (index pk_usuario) 	on ulrv.nr_matricula = n.nr_matric_liberacao_restricao 
+	left outer join usuario ulsv (index pk_usuario) 	on ulsv.nr_matricula = n.nr_matric_liberacao_senha 
+	left outer join usuario ucv (index pk_usuario) 	on ucv.nr_matricula = n.nr_matricula_cancelamento 
+	left outer join pedido_ecommerce_auxiliar pea (index pk_pedido_ecommerce_auxiliar) 	on pea.cd_filial_ecommerce = n.cd_filial_ecommerce 	and pea.nr_pedido = n.nr_pedido_ecommerce 
+	left outer join pedido_ecommerce pe (index pk_pedido_ecommerce) 	on pe.cd_filial_ecommerce = n.cd_filial_ecommerce 	and pe.nr_pedido = n.nr_pedido_ecommerce 
+	left outer join historico_produto hp (index pk_historico_produto) 	on hp.cd_produto = p.cd_produto+0 	and hp.dh_historico = cast(cast(year(n.dh_movimentacao_caixa) as varchar)||'/'||cast(month(n.dh_movimentacao_caixa) as varchar)||'/01' as datetime)
+	left outer join historico_produto_uf hpu (index pk_historico_produto_uf) 	on hpu.cd_produto = hp.cd_produto+0 	and hpu.dh_historico = hp.dh_historico 	and hpu.cd_unidade_federacao = cf.cd_unidade_federacao 
+	left outer join subcategoria t (index pk_subcategoria) 	on t.cd_subcategoria = coalesce(hp.cd_subcategoria, p.cd_subcategoria) 
+	left outer join categoria c (index pk_categoria) 	on c.cd_categoria = t.cd_categoria||'' 
+	left outer join subgrupo s (index pk_subgrupo) 	on s.cd_subgrupo = c.cd_subgrupo||'' 
+	left outer join grupo g (index pk_grupo) 	on g.cd_grupo = s.cd_grupo||'' 
+	left outer join produto_uf pu (index pk_produto_uf) 	on pu.cd_produto = p.cd_produto+0 	and pu.cd_unidade_federacao = cf.cd_unidade_federacao 
+	left outer join tipo_icms aicms (index pk_tipo_icms) 	on aicms.cd_tipo_icms = pu.cd_tipo_icms 
+	left outer join movimento_estoque me (index idx_nota) 	on me.cd_filial_movimento = i.cd_filial+0 	and me.nr_nf = i.nr_nf+0 	and me.de_serie = i.de_serie 	and me.de_especie = i.de_especie 	and me.cd_produto = i.cd_produto+0 	and coalesce(me.nr_sequencial, 1) = i.nr_sequencial 
+	left outer join canal_venda cnv (index pk_canal_venda)  	on cnv.cd_canal_venda = upper(case when n.dh_movimentacao_caixa >= '2019/01/01' then coalesce(case when pe.de_canal_compra_vtex in ('app_android', 'app_ios', 'app_android_n', 'app_ios_n') then 'ap' else n.cd_canal_venda end, 'lf') else case when n.nr_pedido_ecommerce > 0 then 'ec'  else case when n.nr_pedido_drogaexpress is not null then 'de' else 'lf' end end end) 
+Where  n.dh_cancelamento is null 
+and  i.cd_natureza_operacao=5405 
+and  n.nr_nf_anexa is null 
+and  n.cd_filial= :pl_cd_filial
+and  n.dh_movimentacao_caixa<=:pdt_fim
+and  n.dh_movimentacao_caixa>=:pdt_ini
+group by n.cd_filial,
+cast(i.cd_natureza_operacao as varchar(5)), 
+cast(case p.id_situacao_pis_cofins when 'P' then 'POSITIVA' when 'N' then 'NEGATIVA' else 'TRIBUTADA' end as varchar(12)), 
+p.nr_classificacao_fiscal, 
+i.cd_produto, 
+cast(p.de_produto ||': '|| p.de_apresentacao_venda as varchar(50)), 
+n.dh_emissao,
+cf.cd_unidade_federacao,
+n.nr_nf,
+i.cd_cst_origem,
+i.pc_icms, 
+i.pc_icms_efetivo, 
+nfe.de_chave_acesso, 
+aicms.pc_icms, 
+aicms.pc_fcp, 
+coalesce(hpu.pc_icms, aicms.pc_icms), 
+coalesce(hpu.pc_fcp, aicms.pc_fcp)
+) Aux
+Where (Aux.vl_pis > 0 or Aux.vl_cofins > 0)" arguments=(("pl_cd_filial", number),("pdt_ini", datetime),("pdt_fim", datetime)) )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

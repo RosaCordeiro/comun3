@@ -1,0 +1,12 @@
+HA$PBExportHeader$t_dest_cte.srs
+global type t_dest_cte from structure
+	string		cnpj
+	string		cpf
+	string		ie
+	string		xnome
+	string		fone
+	long		isuf
+	string		email
+	t_enderdest_cte		enderdest
+end type
+

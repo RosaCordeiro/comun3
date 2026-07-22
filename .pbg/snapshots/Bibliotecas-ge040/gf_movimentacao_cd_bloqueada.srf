@@ -1,0 +1,31 @@
+HA$PBExportHeader$gf_movimentacao_cd_bloqueada.srf
+global type gf_movimentacao_cd_bloqueada from function_object
+end type
+
+forward prototypes
+global function boolean gf_movimentacao_cd_bloqueada ()
+end prototypes
+
+global function boolean gf_movimentacao_cd_bloqueada ();/*
+Chamado: 909207-91
+Motivo:  GO LIVE do SAP, ter$$HEX1$$e100$$ENDHEX$$ um per$$HEX1$$ed00$$ENDHEX$$odo de freezing para subir o saldo para o SAP, ou seja, n$$HEX1$$e300$$ENDHEX$$o poder ter movimenta$$HEX2$$e700e300$$ENDHEX$$o de estoque.
+*/
+
+Date ldt_Bloqueio
+Date ldt_Parametro
+
+ldt_Parametro = Date(gvo_parametro.dh_movimentacao)
+
+uo_parametro_filial lo_Parametro
+lo_Parametro = Create uo_parametro_filial
+lo_Parametro.of_localiza_parametro( 'DH_BLOQUEIO_TRANSFERENCIA_CD', Ref ldt_Bloqueio )
+If IsValid(lo_Parametro) Then Destroy lo_Parametro
+	
+If ldt_Parametro >= ldt_Bloqueio Then
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "A movimenta$$HEX2$$e700e300$$ENDHEX$$o no Estoque Central est$$HEX1$$e100$$ENDHEX$$ bloqueada devido $$HEX1$$e000$$ENDHEX$$ troca do sistema atual para o SAP.", Exclamation!)
+	Return True
+End If
+
+Return False
+end function
+

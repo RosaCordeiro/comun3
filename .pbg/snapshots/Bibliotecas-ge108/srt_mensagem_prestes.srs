@@ -1,0 +1,11 @@
+HA$PBExportHeader$srt_mensagem_prestes.srs
+global type srt_mensagem_prestes from structure
+	string		desc_produto
+	decimal { 2 }		pc_desconto
+	decimal { 2 }		vl_venda
+	string		de_titulo
+	long		cd_backcolor
+	datetime		dh_validade
+	long		qt_disponivel
+end type
+

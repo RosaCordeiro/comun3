@@ -1,0 +1,11 @@
+HA$PBExportHeader$t_rettrib.srs
+global type t_rettrib from structure
+	double		vRetPIS
+	double		vRetCOFINS
+	double		vRetCSLL
+	double		vBCIRRF
+	double		vIRRF
+	double		vBCRetPrev
+	double		vRetPrev
+end type
+

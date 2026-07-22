@@ -1,0 +1,63 @@
+HA$PBExportHeader$dw_troca_registro_transferencia_manip.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=144 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=92 color="536870912" )
+table(column=(type=long updatewhereclause=yes name=cd_filial_origem dbname="registro_transferencia_manip.cd_filial_origem" )
+ column=(type=long updatewhereclause=yes name=nr_nf dbname="registro_transferencia_manip.nr_nf" )
+ column=(type=char(3) updatewhereclause=yes name=de_especie dbname="registro_transferencia_manip.de_especie" )
+ column=(type=char(3) updatewhereclause=yes name=de_serie dbname="registro_transferencia_manip.de_serie" )
+ column=(type=long updatewhereclause=yes name=cd_natureza_operacao dbname="registro_transferencia_manip.cd_natureza_operacao" )
+ column=(type=long updatewhereclause=yes name=cd_produto dbname="registro_transferencia_manip.cd_produto" )
+ column=(type=long updatewhereclause=yes name=nr_registro dbname="registro_transferencia_manip.nr_registro" )
+ column=(type=long updatewhereclause=yes name=qt_registro dbname="registro_transferencia_manip.qt_registro" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_registro dbname="registro_transferencia_manip.vl_registro" )
+ retrieve="select r.cd_filial_origem,   
+       r.nr_nf,   
+       r.de_especie,   
+       r.de_serie,   
+       r.cd_natureza_operacao,   
+       r.cd_produto,   
+       r.nr_registro,   
+       r.qt_registro,   
+       r.vl_registro  
+from registro_transferencia_manip r,   
+     nf_transferencia n
+where n.cd_filial_origem = r.cd_filial_origem
+  and n.nr_nf            = r.nr_nf
+  and n.de_especie       = r.de_especie
+  and n.de_serie         = r.de_serie  
+  and n.cd_filial_origem = :filial
+  and n.dh_movimentacao_caixa = :data_base
+
+" arguments=(("filial", number),("data_base", date)) )
+text(band=header alignment="2" text="Registro Transferencia Manip
+Cd Filial Origem"border="0" color="0" x="9" y="8" height="128" width="768"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Registro Transferencia Manip
+Nr Nf"border="0" color="0" x="786" y="8" height="128" width="763"  name=registro_transferencia_manip_nr_nf_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Registro Transferencia Manip
+De Especie"border="0" color="0" x="1559" y="8" height="128" width="763"  name=registro_transferencia_manip_de_especie_  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Registro Transferencia Manip
+De Serie"border="0" color="0" x="2331" y="8" height="128" width="763"  name=registro_transferencia_manip_de_serie_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Registro Transferencia Manip
+Cd Natureza Operacao"border="0" color="0" x="3104" y="8" height="128" width="763"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Registro Transferencia Manip
+Cd Produto"border="0" color="0" x="3877" y="8" height="128" width="763"  name=registro_transferencia_manip_cd_produto_  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Registro Transferencia Manip
+Nr Registro"border="0" color="0" x="4649" y="8" height="128" width="763"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Registro Transferencia Manip
+Qt Registro"border="0" color="0" x="5422" y="8" height="128" width="763"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Registro Transferencia Manip
+Vl Registro"border="0" color="0" x="6194" y="8" height="128" width="763"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="1" tabsequence=32766 border="0" color="0" x="9" y="12" height="76" width="768" format="[general]"  name=cd_filial_origem edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="0" color="0" x="786" y="12" height="76" width="763" format="[general]"  name=nr_nf edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="1559" y="8" height="76" width="763" format="[general]"  name=de_especie edit.limit=3 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="2331" y="12" height="76" width="763" format="[general]"  name=de_serie edit.limit=3 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="0" color="0" x="3104" y="8" height="76" width="763" format="[general]"  name=cd_natureza_operacao edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="1" tabsequence=32766 border="0" color="0" x="3877" y="8" height="76" width="763" format="[general]"  name=cd_produto edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="1" tabsequence=32766 border="0" color="0" x="4649" y="8" height="76" width="763" format="[general]"  name=nr_registro edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="1" tabsequence=32766 border="0" color="0" x="5422" y="8" height="76" width="763" format="[general]"  name=qt_registro edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="1" tabsequence=32766 border="0" color="0" x="6194" y="8" height="76" width="763" format="[general]"  name=vl_registro edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

@@ -1,0 +1,6 @@
+HA$PBExportHeader$str_ge350_datas.srs
+global type str_ge350_datas from structure
+	datetime		dh_inicio_data
+	datetime		dh_fim_data
+end type
+

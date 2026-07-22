@@ -1,0 +1,7 @@
+HA$PBExportHeader$str_agendamento_pedido.srs
+global type str_agendamento_pedido from structure
+	string		filial
+	long		cd_filial
+	string		nr_dia_semana
+end type
+

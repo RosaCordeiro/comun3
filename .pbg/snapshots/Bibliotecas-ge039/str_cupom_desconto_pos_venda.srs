@@ -1,0 +1,8 @@
+HA$PBExportHeader$str_cupom_desconto_pos_venda.srs
+global type str_cupom_desconto_pos_venda from structure
+	long		nr_campanha
+	string		nr_vale_desconto
+	decimal { 2 }		pc_desconto
+	string		de_vale_desconto
+end type
+

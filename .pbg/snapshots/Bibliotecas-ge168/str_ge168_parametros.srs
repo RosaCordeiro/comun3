@@ -1,0 +1,6 @@
+HA$PBExportHeader$str_ge168_parametros.srs
+global type str_ge168_parametros from structure
+	long		cd_filial		descriptor "comment" = "Codigo da Filial"
+	string		nm_fantasia		descriptor "comment" = "Nome Fantasia da Filial"
+end type
+

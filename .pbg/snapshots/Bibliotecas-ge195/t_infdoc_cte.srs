@@ -1,0 +1,5 @@
+HA$PBExportHeader$t_infdoc_cte.srs
+global type t_infdoc_cte from structure
+	t_infnfe_cte		infnfe[]
+end type
+

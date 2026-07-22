@@ -1,0 +1,392 @@
+HA$PBExportHeader$dw_ge250_lista_destinadas.srd
+release 12;
+datawindow(units=0 timer_interval=0 color=134217739 brushmode=0 transparency=0 gradient.angle=0 gradient.color=8421504 gradient.focus=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.repetition.mode=0 gradient.scale=100 gradient.spread=100 gradient.transparency=0 picture.blur=0 picture.clip.bottom=0 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.transparency=0 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes hidegrayline=no showbackcoloronxp=no picture.file="" )
+header(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+detail(height=84 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+table(column=(type=long updatewhereclause=yes name=cd_filial dbname="cd_filial" )
+ column=(type=char(40) updatewhereclause=yes name=nm_fantasia_filial dbname="nm_fantasia" )
+ column=(type=char(9) updatewhereclause=yes name=cd_fornecedor dbname="cd_fornecedor" )
+ column=(type=char(40) updatewhereclause=yes name=nm_fantasia dbname="nm_fantasia" )
+ column=(type=datetime updatewhereclause=yes name=dh_emissao dbname="dh_emissao" )
+ column=(type=char(44) updatewhereclause=yes name=de_chave_acesso dbname="de_chave_acesso" )
+ column=(type=char(9) updatewhereclause=yes name=nr_nf dbname="nr_nf" )
+ column=(type=char(1) updatewhereclause=yes name=id_reimportacao dbname="id_reimportacao" )
+ column=(type=char(1) updatewhereclause=yes name=id_distribuidora dbname="id_distribuidora" )
+ column=(type=char(4) updatewhereclause=yes name=tipo dbname="TIPO" )
+ column=(type=char(1) updatewhereclause=yes name=id_verificado_divergencia_ped dbname="id_verificado_divergencia_ped" )
+ column=(type=long updatewhereclause=yes name=nr_pedido dbname="nr_pedido" )
+ column=(type=char(10) updatewhereclause=yes name=nr_recebimento dbname="nr_recebimento" )
+ column=(type=datetime updatewhereclause=yes name=dh_solicitacao_estorno dbname="dh_solicitacao_estorno" )
+ column=(type=char(1) updatewhereclause=yes name=id_permite_nota_sem_pedido dbname="id_permite_nota_sem_pedido" )
+ column=(type=char(1) updatewhereclause=yes name=id_sistema_java dbname="id_sistema_java" )
+ retrieve="select v.cd_filial,
+		v.nm_fantasia,
+		f.cd_fornecedor,
+		f.nm_fantasia,
+		n.dh_emissao,
+		n.de_chave_acesso,
+		substring(n.de_chave_acesso, 26, 9) nr_nf,
+		'N' as id_reimportacao,
+		coalesce(f.id_distribuidora, 'N') id_distribuidora,
+		'DEST' TIPO,
+		coalesce(id_verificado_divergencia_ped, 'N') as id_verificado_divergencia_ped,
+		rs.nr_pedido,
+		rs.nr_recebimento,
+		rs.dh_solicitacao_estorno,
+		case when coalesce(v.id_sistema_novo, 'N') = 'S' and coalesce(f.id_permite_nota_sem_pedido, 'N') = 'S' then 'S' else 'N' end as id_permite_nota_sem_pedido,
+		coalesce(v.id_sistema_novo, 'N') as id_sistema_java
+from nfe_destinadas n
+inner join filial v on v.nr_cgc = n.nr_cgc_destino 
+inner join fornecedor f on f.nr_cgc = n.nr_cgc_origem
+left outer join recebimento_sap rs (index idx_chave_acesso) on rs.de_chave_acesso = n.de_chave_acesso
+where n.id_tipo_nf 		= '1'
+	and v.id_situacao = 'A'
+    and (f.id_situacao = 'A' or f.id_situacao is null)
+	and (n.id_finnfe = '1' or n.id_finnfe is null)
+    and not exists (select 1 from nf_compra a  (index idx_chave_acesso)
+				  where a.de_chave_acesso = n.de_chave_acesso)
+    and not exists (select 1 from nf_compra_pendente p  (index idx_chave_acesso)
+						  where p.de_chave_acesso = n.de_chave_acesso)
+    and not exists (select 1 from nfe_compra_pendente e  (index idx_chave_acesso)
+						  where e.de_chave_acesso = n.de_chave_acesso)
+	and not exists (select 1 from nf_compra_reimportacao r  (index idx_chave_acesso)
+						  where r.de_chave_acesso = n.de_chave_acesso)
+	and not exists (select 1 from nfe_indexacao i (index pk_nfe_indexacao)
+						where i.id_nf = n.de_chave_acesso)
+	and not exists (select 1 from  log_importacao_nf_ped_elet li (index idx_chave_acesso)
+						  where li.de_chave_acesso = n.de_chave_acesso and li.id_resolvido = 'S')
+	and ((v.cd_filial <> 534 and (f.id_distribuidora = 'S' or coalesce(f.id_permite_nota_sem_pedido, 'N') = 'S')) or (v.cd_filial = 534))
+    and f.cd_fornecedor <> '053404705'
+	and n.nr_cgc_origem not in (select nr_cgc from filial)
+	and v.cd_filial <> 1
+	and coalesce(rs.id_situacao, 'C')	= 'C'
+
+union 
+
+select v.cd_filial,
+		v.nm_fantasia,
+		f.cd_fornecedor,
+		f.nm_fantasia,
+		n.dh_emissao,
+		n.id_nf as de_chave_acesso,
+		substring(n.id_nf, 26, 9) nr_nf,
+		'N' as id_reimportacao,
+		coalesce(f.id_distribuidora, 'N') id_distribuidora,
+		'IND ' TIPO,
+		coalesce(id_verificado_divergencia_ped, 'N') as id_verificado_divergencia_ped,
+		rs.nr_pedido,
+		rs.nr_recebimento,
+		rs.dh_solicitacao_estorno,
+		case when coalesce(v.id_sistema_novo, 'N') = 'S' and coalesce(f.id_permite_nota_sem_pedido, 'N') = 'S' then 'S' else 'N' end as id_permite_nota_sem_pedido,
+		coalesce(v.id_sistema_novo, 'N') as id_sistema_java
+from nfe_indexacao n
+inner join filial v on v.nr_cgc = n.cgc_destino 
+inner join fornecedor f on f.nr_cgc = n.cgc_origem
+left outer join recebimento_sap rs (index idx_chave_acesso) on rs.de_chave_acesso = n.id_nf
+where not exists (select 1 from nf_compra a (index idx_chave_acesso)
+				  where a.de_chave_acesso = n.id_nf)
+    and not exists (select 1 from nf_compra_pendente p (index idx_chave_acesso)
+						  where p.de_chave_acesso = n.id_nf)
+    and not exists (select 1 from nfe_compra_pendente e (index idx_chave_acesso)
+						  where e.de_chave_acesso = n.id_nf)
+    and not exists (select 1 from nf_compra_reimportacao r (index idx_chave_acesso)
+						  where r.de_chave_acesso = n.id_nf)
+    and not exists (select 1 from  log_importacao_nf_ped_elet li (index idx_chave_acesso)
+						  where li.de_chave_acesso = n.id_nf and li.id_resolvido = 'S')
+	and n.de_especie = 'NFE'
+    and (f.id_situacao = 'A' or f.id_situacao is null)
+	and (n.id_finnfe = '1' or n.id_finnfe is null)
+    and (f.id_distribuidora = 'S' or coalesce(f.id_permite_nota_sem_pedido, 'N') = 'S')
+    and f.cd_fornecedor <> '053404705'
+	and v.id_situacao = 'A'
+	and v.cd_filial <> 1
+	and coalesce(rs.id_situacao, 'C')	= 'C'
+
+union
+
+select v.cd_filial,
+		v.nm_fantasia,
+		f.cd_fornecedor,
+		f.nm_fantasia,
+		n.dh_emissao,
+		n.id_nf as de_chave_acesso,
+		substring(n.id_nf, 26, 9) nr_nf,
+		'N' as id_reimportacao,
+		coalesce(f.id_distribuidora, 'N') id_distribuidora,
+		'IND ' TIPO,
+		coalesce(id_verificado_divergencia_ped, 'N') as id_verificado_divergencia_ped,
+		rs.nr_pedido,
+		rs.nr_recebimento,
+		rs.dh_solicitacao_estorno,
+		case when coalesce(v.id_sistema_novo, 'N') = 'S' and coalesce(f.id_permite_nota_sem_pedido, 'N') = 'S' then 'S' else 'N' end as id_permite_nota_sem_pedido,
+		coalesce(v.id_sistema_novo, 'N') as id_sistema_java
+from nfe_indexacao n
+inner join filial v on v.nr_cgc = n.cgc_destino 
+inner join fornecedor f on f.nr_cgc = n.cgc_origem
+left outer join recebimento_sap rs on (rs.de_chave_acesso = n.id_nf)
+where not exists (select 1 from nf_compra a (index idx_chave_acesso)
+				  where a.de_chave_acesso = n.id_nf)
+    and not exists (select 1 from nf_compra_pendente p (index idx_chave_acesso)
+						  where p.de_chave_acesso = n.id_nf)
+    and not exists (select 1 from nfe_compra_pendente e (index idx_chave_acesso)
+						  where e.de_chave_acesso = n.id_nf)
+    and not exists (select 1 from nf_compra_reimportacao r (index idx_chave_acesso)
+						  where r.de_chave_acesso = n.id_nf)
+	and not exists	(select 1 from filial w (index idx_chave_acesso)
+						  where w.nr_cgc = n.cgc_origem)
+    and not exists (select 1 from  log_importacao_nf_ped_elet li (index idx_chave_acesso)
+						  where li.de_chave_acesso = n.id_nf and li.id_resolvido = 'S')
+	and ((v.cd_filial <> 534 and (f.id_distribuidora = 'S' or coalesce(f.id_permite_nota_sem_pedido, 'N') = 'S')) or (v.cd_filial = 534))
+	and n.de_especie = 'NFE'
+    and (f.id_situacao = 'A' or f.id_situacao is null)
+	and (n.id_finnfe = '1' or n.id_finnfe is null)
+    	and (f.id_distribuidora = 'N' or f.id_distribuidora is null or f.id_distribuidora = '')
+    and f.cd_fornecedor in (select fo.cd_fornecedor from fornecedor fo
+									where (fo.id_distribuidora is null or fo.id_distribuidora = 'N' or f.id_distribuidora = '')
+									  and fo.nr_cgc not in (select fo2.nr_cgc from fornecedor fo2 where fo2.id_distribuidora = 'S'))
+	and v.id_situacao = 'A'
+	and v.cd_filial <> 1
+	and coalesce(rs.id_situacao, 'C')	= 'C'
+
+union
+
+select r.cd_filial,
+		v.nm_fantasia,
+		r.cd_fornecedor,
+		f.nm_fantasia,
+		e.dh_emissao,
+		r.de_chave_acesso,
+		substring(r.de_chave_acesso, 26, 9) nr_nf,
+		'S' as id_reimportacao,
+		coalesce(f.id_distribuidora, 'N') id_distribuidora,
+		'REIM' TIPO,
+		'S' id_verificado_divergencia_ped,
+		null nr_pedido,
+		null nr_recebimento,
+		null dh_solicitacao_estorno,
+		case when coalesce(v.id_sistema_novo, 'N') = 'S' and coalesce(f.id_permite_nota_sem_pedido, 'N') = 'S' then 'S' else 'N' end as id_permite_nota_sem_pedido,
+		coalesce(v.id_sistema_novo, 'N') as id_sistema_java
+from nf_compra_reimportacao r
+inner join filial v
+	on v.cd_filial = r.cd_filial
+inner join fornecedor f 
+	on f.cd_fornecedor = r.cd_fornecedor
+inner join nfe_indexacao e (index pk_nfe_indexacao)
+	on e.id_nf = r.de_chave_acesso
+where r.dh_importacao is null
+	and e.de_especie = 'NFE'
+	and (e.id_finnfe = '1' or e.id_finnfe is null)
+	and v.id_situacao = 'A'
+	and v.cd_filial <> 1
+
+union
+
+select v.cd_filial,
+		v.nm_fantasia,
+		f.cd_fornecedor,
+		f.nm_fantasia,
+		n.dh_emissao,
+		n.id_nf as de_chave_acesso,
+		substring(n.id_nf, 26, 9) nr_nf,
+		'N' as id_reimportacao,
+		coalesce(f.id_distribuidora, 'N') id_distribuidora,
+		'CTE ' TIPO,
+		coalesce(id_verificado_divergencia_ped, 'N') as id_verificado_divergencia_ped,
+		rs.nr_pedido,
+		rs.nr_recebimento,
+		rs.dh_solicitacao_estorno,
+		case when coalesce(v.id_sistema_novo, 'N') = 'S' and coalesce(f.id_permite_nota_sem_pedido, 'N') = 'S' then 'S' else 'N' end as id_permite_nota_sem_pedido,
+		coalesce(v.id_sistema_novo, 'N') as id_sistema_java
+from nfe_indexacao n
+inner join filial v on v.nr_cgc = n.cgc_destino 
+left outer join fornecedor f on f.nr_cgc = n.cgc_origem
+left outer join recebimento_sap rs (index idx_chave_acesso) on (rs.de_chave_acesso = n.id_nf)
+where not exists (select * from conhecimento_transporte x
+						where x.de_chave_acesso = n.id_nf)
+	and n.de_especie = 'CTE'
+    and (f.id_situacao = 'A' or f.id_situacao is null)
+	and v.id_situacao = 'A'
+	and (n.id_verificado_divergencia_ped = 'N' or n.id_verificado_divergencia_ped is null)
+    and n.cgc_destino <> '84683481019943'
+	and v.cd_filial <> 1
+	and coalesce(rs.id_situacao, 'C')	= 'C'
+
+union
+
+select v.cd_filial,
+		v.nm_fantasia,
+		null,
+		null,
+		n.dh_emissao,
+		n.de_chave_acesso,
+		substring(n.de_chave_acesso, 26, 9) nr_nf,
+		'N' as id_reimportacao,
+		'N' id_distribuidora,
+		'DEST' TIPO,
+		coalesce(id_verificado_divergencia_ped, 'N') as id_verificado_divergencia_ped,
+		rs.nr_pedido,
+		rs.nr_recebimento,
+		rs.dh_solicitacao_estorno,
+		'N' as id_permite_nota_sem_pedido,
+		coalesce(v.id_sistema_novo, 'N') as id_sistema_java
+from nfe_destinadas n
+inner join filial v on v.nr_cgc = n.nr_cgc_destino
+left outer join recebimento_sap rs (index idx_chave_acesso) on rs.de_chave_acesso = n.de_chave_acesso
+where n.id_tipo_nf 		= '1'
+	and v.id_situacao = 'A'
+    and (n.id_finnfe = '1' or n.id_finnfe is null)
+    and not exists (select 1 from nf_compra a (index idx_chave_acesso)
+				  where a.de_chave_acesso = n.de_chave_acesso)
+    and not exists (select 1 from nf_compra_pendente p (index idx_chave_acesso)
+						  where p.de_chave_acesso = n.de_chave_acesso)
+    and not exists (select 1 from nfe_compra_pendente e (index idx_chave_acesso)
+						  where e.de_chave_acesso = n.de_chave_acesso)
+	and not exists (select 1 from nf_compra_reimportacao r (index idx_chave_acesso)
+						  where r.de_chave_acesso = n.de_chave_acesso)
+	and v.cd_filial = 534
+	and n.nr_cgc_origem not in (select nr_cgc from filial)
+    and not exists (select 1 from fornecedor fo
+                    where fo.nr_cgc = n.nr_cgc_origem)
+	and v.cd_filial <> 1
+	and coalesce(rs.id_situacao, 'C')	= 'C'
+
+union
+
+select v.cd_filial,
+		v.nm_fantasia,
+		null,
+		null,
+		n.dh_emissao,
+		n.id_nf,
+		substring(n.id_nf, 26, 9) nr_nf,
+		'N' as id_reimportacao,
+		'N' id_distribuidora,
+		'IND ' TIPO,
+		coalesce(id_verificado_divergencia_ped, 'N') as id_verificado_divergencia_ped,
+		rs.nr_pedido,
+		rs.nr_recebimento,
+		rs.dh_solicitacao_estorno,
+		'N' as id_permite_nota_sem_pedido,
+		coalesce(v.id_sistema_novo, 'N') as id_sistema_java
+from nfe_indexacao n
+inner join filial v on v.nr_cgc = n.cgc_destino 
+left outer join recebimento_sap rs  (index idx_chave_acesso) on rs.de_chave_acesso = n.id_nf
+where (n.id_finnfe = '1' or n.id_finnfe is null)
+	and v.id_situacao = 'A'
+    and (n.id_finnfe = '1' or n.id_finnfe is null)
+    and not exists (select 1 from nf_compra a  (index idx_chave_acesso)
+				  where a.de_chave_acesso = n.id_nf)
+    and not exists (select 1 from nf_compra_pendente p  (index idx_chave_acesso)
+						  where p.de_chave_acesso = n.id_nf)
+    and not exists (select 1 from nfe_compra_pendente e  (index idx_chave_acesso)
+						  where e.de_chave_acesso = n.id_nf)
+	and not exists (select 1 from nf_compra_reimportacao r  (index idx_chave_acesso)
+						  where r.de_chave_acesso = n.id_nf)
+	and v.cd_filial = 534
+	and n.cgc_origem not in (select nr_cgc from filial)
+    and not exists (select 1 from fornecedor fo
+                    where fo.nr_cgc = n.cgc_origem)
+	and v.cd_filial <> 1
+	and coalesce(rs.id_situacao, 'C')	= 'C'
+
+union
+
+select  distinct f.cd_filial,
+		f.nm_fantasia,
+		fr.cd_fornecedor,
+		fr.nm_fantasia,
+		rs.dh_nota,
+		rs.de_chave_acesso,
+		substring(rs.de_chave_acesso, 26, 9) nr_nf,
+		'N' id_reimportacao,
+		coalesce(fr.id_distribuidora, 'N') id_distribuidora, 
+		'LOJA' tipo,
+		'N' as id_verificado_divergencia_ped, 
+		rs.nr_pedido, 
+		rs.nr_recebimento, 
+		rs.dh_solicitacao_estorno,
+		case when coalesce(f.id_sistema_novo, 'N') = 'S' and coalesce(fr.id_permite_nota_sem_pedido, 'N') = 'S' then 'S' else 'N' end as id_permite_nota_sem_pedido,
+		coalesce(f.id_sistema_novo, 'N') as id_sistema_java
+from recebimento_sap rs
+inner join filial f on f.cd_filial = rs.cd_filial
+inner join fornecedor fr on fr.cd_fornecedor = rs.cd_fornecedor
+ where rs.dh_nf_agend_ent_integrada is null
+	and f.id_situacao = 'A'
+	and (fr.id_situacao = 'A' or fr.id_situacao is null)
+	and not exists (select 1 from nf_compra a  (index idx_chave_acesso) where a.de_chave_acesso = rs.de_chave_acesso)
+	and not exists (select 1 from nf_compra_pendente p (index idx_chave_acesso) where p.de_chave_acesso = rs.de_chave_acesso)
+	and not exists (select 1 from nfe_compra_pendente e (index idx_chave_acesso) where e.de_chave_acesso = rs.de_chave_acesso)
+	and not exists (select 1 from nf_compra_reimportacao r (index idx_chave_acesso) where r.de_chave_acesso = rs.de_chave_acesso)
+	and ((f.cd_filial <> 534 and fr.id_distribuidora = 'S') or (f.cd_filial = 534))
+   and fr.cd_fornecedor <> '053404705'
+	and f.cd_filial <> 1
+	and not exists (select 1 from nfe_destinadas d (index pk_nfe_destinadas) where d.de_chave_acesso = rs.de_chave_acesso and d.id_situacao_nf in ('2', '3'))
+	and rs.id_situacao = 'C'
+	and ((rs.nr_pedido is not null
+	and rs.nr_pedido > 0) 
+	or 
+	((rs.nr_pedido is null or rs.nr_pedido = 0)
+	and fr.id_permite_nota_sem_pedido	= 'S'
+	and exists (select 1 from parametro_odbc po where po.cd_filial = f.cd_filial and coalesce(po.id_pdv_java, 'N') = 'S')))
+
+
+union 
+
+
+select r.cd_filial,
+		v.nm_fantasia,
+		r.cd_fornecedor,
+		f.nm_fantasia,
+		e1.dh_emissao  as dh_emissao ,
+		r.de_chave_acesso,
+		substring(r.de_chave_acesso, 26, 9) nr_nf,
+		'S' as id_reimportacao,
+		coalesce(f.id_distribuidora, 'N') id_distribuidora,
+		'REIM' TIPO,
+		'S' id_verificado_divergencia_ped,
+		null nr_pedido,
+		null nr_recebimento,
+		null dh_solicitacao_estorno,
+		case when coalesce(v.id_sistema_novo, 'N') = 'S' and coalesce(f.id_permite_nota_sem_pedido, 'N') = 'S' then 'S' else 'N' end as id_permite_nota_sem_pedido,
+		coalesce(v.id_sistema_novo, 'N') as id_sistema_java
+from nf_compra_reimportacao r
+inner join filial v
+	on v.cd_filial = r.cd_filial
+inner join fornecedor f 
+	on f.cd_fornecedor = r.cd_fornecedor
+inner  join dbo.nfe_destinadas  e1
+	on e1.de_chave_acesso  =	r.de_chave_acesso
+where r.dh_importacao is null		
+	and (e1.id_situacao_nf  = '1' or e1.id_situacao_nf is null )
+	and v.id_situacao = 'A'
+	and v.cd_filial not in ( 1 ,  534  ) 
+	and v.nr_cgc  in (select nr_cgc from filial)
+"  sort="cd_fornecedor A cd_filial A dh_emissao A id_reimportacao A tipo A id_verificado_divergencia_ped D " )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="2" color="33554432" x="18" y="8" height="64" width="366" format="[general]" html.valueishtml="0"  name=cd_fornecedor visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33554431" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="2" color="33554432" x="398" y="8" height="64" width="617" format="[general]" html.valueishtml="0"  name=nm_fantasia visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33554431" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=1 alignment="1" tabsequence=32766 border="2" color="33554432" x="1029" y="8" height="64" width="169" format="[general]" html.valueishtml="0"  name=cd_filial visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33554431" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="2" color="33554432" x="1211" y="8" height="64" width="503" format="[general]" html.valueishtml="0"  name=nm_fantasia_filial visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33554431" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="2" color="33554432" x="1728" y="8" height="64" width="306" format="[shortdate] [time]" html.valueishtml="0"  name=dh_emissao visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33554431" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="2" color="33554432" x="2048" y="8" height="64" width="379" format="[general]" html.valueishtml="0"  name=nr_nf visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33554431" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="2" color="33554432" x="2446" y="8" height="64" width="1097" format="[general]" html.valueishtml="0"  name=de_chave_acesso visible="1" edit.limit=44 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33554431" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="2" color="33554432" x="3561" y="8" height="64" width="411" format="[general]" html.valueishtml="0"  name=id_reimportacao visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33554431" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="2" color="33554432" x="3991" y="8" height="64" width="201" format="[general]" html.valueishtml="0"  name=id_distribuidora visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33554431" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=10 alignment="0" tabsequence=32766 border="2" color="33554432" x="4210" y="8" height="64" width="201" format="[general]" html.valueishtml="0"  name=tipo visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33554431" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=11 alignment="0" tabsequence=32766 border="2" color="33554432" x="4430" y="8" height="64" width="201" format="[general]" html.valueishtml="0"  name=id_verificado_divergencia_ped visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33554431" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=12 alignment="0" tabsequence=32766 border="2" color="33554432" x="4649" y="8" height="64" width="201" format="[general]" html.valueishtml="0"  name=nr_pedido visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33554431" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=13 alignment="0" tabsequence=32766 border="2" color="33554432" x="4869" y="8" height="64" width="293" format="[general]" html.valueishtml="0"  name=nr_recebimento visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33554431" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=15 alignment="0" tabsequence=32766 border="2" color="33554432" x="5179" y="8" height="64" width="686" format="[general]" html.valueishtml="0"  name=id_permite_nota_sem_pedido visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33554431" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=16 alignment="0" tabsequence=32766 border="0" color="33554432" x="5865" y="0" height="48" width="23" format="[general]" html.valueishtml="0"  name=id_sistema_java visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33554431" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

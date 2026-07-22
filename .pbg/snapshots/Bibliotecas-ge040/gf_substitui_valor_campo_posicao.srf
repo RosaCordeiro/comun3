@@ -1,0 +1,59 @@
+HA$PBExportHeader$gf_substitui_valor_campo_posicao.srf
+global type gf_substitui_valor_campo_posicao from function_object
+end type
+
+forward prototypes
+global function string gf_substitui_valor_campo_posicao (string ps_texto, long pl_posicao, string ps_novo_valor, string ps_separador)
+end prototypes
+
+global function string gf_substitui_valor_campo_posicao (string ps_texto, long pl_posicao, string ps_novo_valor, string ps_separador);/////////////////////////////////////////////////////////////////////////////////////////
+// Descri$$HEX2$$e700e300$$ENDHEX$$o:																				//
+// 		Fun$$HEX2$$e700e300$$ENDHEX$$o utilizada para substituir o valor de um campo em um arquivo //
+//		separado por caracteres, como por exemplo o SPED Fiscal.				//
+////////////////////////////////////////////////////////////////////////////////////////
+// Argumentos:																				//
+//			- ps_texto: texto onde ser$$HEX1$$e100$$ENDHEX$$ feita a busca.								//
+//			- pl_posicao: n$$HEX1$$fa00$$ENDHEX$$mero da posi$$HEX2$$e700e300$$ENDHEX$$o do campo no texto.					//
+//			- ps_separador: caracter separador de campos.						//
+//	Retorno:																					//
+//			- Texto com o valor do campo substituido								//
+////////////////////////////////////////////////////////////////////////////////////////
+// Autor: Marlon 																			//
+// Cria$$HEX2$$e700e300$$ENDHEX$$o: 01.07.2020																	//
+////////////////////////////////////////////////////////////////////////////////////////
+Integer lvi_I, lvi_X, lvi_Y = 0
+String lvs_Str
+String lvs_Retorno=""
+String lvs_Valor_Ant
+
+If IsNull(ps_novo_valor) Then ps_novo_valor = ""
+
+if (pl_posicao>0)and(Len(ps_texto)>(pl_posicao*Len(ps_separador))) then
+	//Ignora separador no in$$HEX1$$ed00$$ENDHEX$$cio do arquivo
+	if Mid(ps_texto,1,Len(ps_separador))=ps_separador then 
+		lvs_Retorno	= ps_separador
+		lvi_Y			= Len(ps_separador)
+		ps_texto 		= Mid(ps_texto,Len(ps_separador) + 1)
+	End If
+		
+    lvs_Str = ps_texto
+    lvi_I = 1
+
+    Do While (lvi_I<pl_posicao)and(lvs_Str<>'')
+		lvi_I ++
+		lvi_X 		= IIF(pl_posicao=1,1,Pos(lvs_Str,ps_separador)+Len(ps_separador))
+		
+		lvi_Y 		+=  IIF(pl_posicao=1, 1, lvi_X - 1)
+		lvs_Str	= Mid(lvs_Str, lvi_X, Len(lvs_Str)+ 1 - lvi_X)
+	Loop
+	
+	lvi_X = IIF(Pos(lvs_Str,ps_separador)>0,Pos(lvs_Str,ps_separador)-1,Len(lvs_Str))
+	lvs_Valor_Ant = Mid(lvs_Str,1,lvi_X)
+	lvs_Retorno += Replace(ps_texto, lvi_Y, Len(lvs_Valor_Ant), ps_novo_valor)
+
+    Return lvs_Retorno
+Else 
+	Return ps_texto
+End If
+end function
+

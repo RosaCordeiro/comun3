@@ -1,0 +1,32 @@
+HA$PBExportHeader$gf_replace_tags_html.srf
+global type gf_replace_tags_html from function_object
+end type
+
+forward prototypes
+global function string gf_replace_tags_html (string ps_mensagem)
+end prototypes
+
+global function string gf_replace_tags_html (string ps_mensagem);String lvs_Mensagem
+
+lvs_Mensagem = Trim(ps_mensagem)
+lvs_Mensagem = gf_Replace(lvs_Mensagem,'<br>','~r~n',0)
+lvs_Mensagem = gf_Replace(lvs_Mensagem,'<br/>','~r~n',0)
+lvs_Mensagem = gf_Replace(lvs_Mensagem,'<br />','~r~n',0)
+lvs_Mensagem = gf_Replace(lvs_Mensagem,'<Br>','~r~n',0)
+lvs_Mensagem = gf_Replace(lvs_Mensagem,'<Br />','~r~n',0)
+lvs_Mensagem = gf_Replace(lvs_Mensagem,'<bR>','~r~n',0)
+lvs_Mensagem = gf_Replace(lvs_Mensagem,'<bR />','~r~n',0)
+lvs_Mensagem = gf_Replace(lvs_Mensagem,'<BR>','~r~n',0)
+lvs_Mensagem = gf_Replace(lvs_Mensagem,'<BR />','~r~n',0)
+lvs_Mensagem = gf_Replace(lvs_Mensagem,'<li>','~r~n $$HEX1$$2220$$ENDHEX$$ ',0)
+lvs_Mensagem = gf_Replace(lvs_Mensagem,'<LI>','~r~n $$HEX1$$2220$$ENDHEX$$ ',0)
+lvs_Mensagem = gf_Replace(lvs_Mensagem,'<Li>','~r~n $$HEX1$$2220$$ENDHEX$$ ',0)
+lvs_Mensagem = gf_Replace(lvs_Mensagem,'<lI>','~r~n $$HEX1$$2220$$ENDHEX$$ ',0)
+
+Do While (Pos(lvs_Mensagem,'<')>0)and(Pos(lvs_Mensagem,'>')>0)
+	lvs_Mensagem = Mid(lvs_Mensagem,1,Pos(lvs_Mensagem,'<') - 1) + Mid(lvs_Mensagem,Pos(lvs_Mensagem,'>') + 1)
+Loop
+
+Return lvs_Mensagem
+end function
+

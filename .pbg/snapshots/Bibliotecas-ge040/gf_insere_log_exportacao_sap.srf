@@ -1,0 +1,136 @@
+HA$PBExportHeader$gf_insere_log_exportacao_sap.srf
+global type gf_insere_log_exportacao_sap from function_object
+end type
+
+forward prototypes
+global function boolean gf_insere_log_exportacao_sap (st_log_export_sap st_log, ref string ps_log)
+end prototypes
+
+global function boolean gf_insere_log_exportacao_sap (st_log_export_sap st_log, ref string ps_log);String ls_erro
+String	ls_cd_chave 
+String	ls_id_tipo_nf 
+String	ls_de_especie               
+String	ls_de_serie                 
+String	ls_cd_fornecedor
+String	ls_id_documento_mult          
+String	ls_nr_documento_sap_estornado 
+String	ls_cd_tipo_documento           
+String	ls_cd_chave_interface         
+String	ls_nr_titulo                  
+String	ls_id_estoque_maior_10dias     
+String	ls_cd_varchar                  
+String	ls_cd_parametro_geral         
+String	ls_mensagem_retorno            
+
+Long	li_id_tipo_log
+Long	li_cd_filial                 
+Long	li_nr_nf                      
+Long	li_cd_produto
+Long	li_cd_promocao_sos            
+Long	li_qt_estoque_disponivel      
+Long	li_nr_lote_recebimento_wms    
+Long	li_cd_integer                 
+
+DateTime ldh_dh_documento           
+
+ls_cd_chave 				= st_log.cd_chave
+ls_id_tipo_nf 				= st_log.id_tipo_nf
+li_id_tipo_log 				= st_log.id_tipo_log
+ls_cd_tipo_documento	= st_log.cd_tipo_documento
+li_cd_produto 				= st_log.cd_produto 
+ls_cd_parametro_geral	= st_log.cd_parametro_geral
+li_cd_filial 					= st_log.cd_filial
+li_nr_nf						= st_log.nr_nf
+li_cd_integer				= st_log.cd_integer
+ls_cd_fornecedor			= st_log.cd_fornecedor
+ls_cd_varchar				= st_log.cd_varchar
+ldh_dh_documento		= st_log.dh_documento
+ls_cd_chave_interface	= st_log.cd_chave_interface
+
+ls_de_especie				= st_log.de_especie
+ls_de_serie					= st_log.de_serie
+
+If ls_cd_chave 					= '' Then SetNull(ls_cd_chave)
+If ls_id_tipo_nf 					= '' Then SetNull(ls_id_tipo_nf)
+If ls_cd_parametro_geral 	= '' Then SetNull(ls_cd_parametro_geral)
+If ls_cd_tipo_documento		= '' Then SetNull(ls_cd_tipo_documento)
+If ls_cd_fornecedor			= '' Then SetNull(ls_cd_fornecedor)
+If ls_cd_varchar				= '' Then SetNull(ls_cd_varchar)
+If ls_de_especie				= '' Then SetNull(ls_de_especie)
+If ls_de_serie					= '' Then SetNull(ls_de_serie)
+
+If li_id_tipo_log 					= 0 Then SetNull(li_id_tipo_log)
+If li_cd_produto 					= 0 Then SetNull(li_cd_produto)
+If li_cd_filial 						= 0 Then SetNull(li_cd_filial)
+If li_nr_nf							= 0 Then SetNull(li_nr_nf)
+If li_cd_integer 						= 0 Then SetNull(li_cd_integer)
+If li_cd_promocao_sos 			= 0 Then SetNull(li_cd_promocao_sos)
+If li_qt_estoque_disponivel		= 0 Then SetNull(li_qt_estoque_disponivel)
+If li_nr_lote_recebimento_wms = 0 Then SetNull(li_nr_lote_recebimento_wms)
+
+Declare sp_log Procedure for sp_inclui_log_export_sap 		@cd_chave  							=:ls_cd_chave ,
+																			@id_tipo_nf  							=:ls_id_tipo_nf ,
+																			@id_tipo_log 							=:li_id_tipo_log,
+																			@cd_filial                  				=:li_cd_filial,
+																			@nr_nf                       				=:li_nr_nf,
+																			@de_especie                				=:ls_de_especie               ,
+																			@de_serie                  				=:ls_de_serie                 ,
+																			@cd_fornecedor 						=:ls_cd_fornecedor,
+																			@id_documento_mult           		=:ls_id_documento_mult          ,
+																			@nr_documento_sap_estornado  	=:ls_nr_documento_sap_estornado ,
+																			@cd_tipo_documento            		=:ls_cd_tipo_documento           ,
+																			@cd_chave_interface          		=:ls_cd_chave_interface         ,
+																			@dh_documento                 		=:ldh_dh_documento                ,
+																			@nr_titulo                   				=:ls_nr_titulo                  ,
+																			@cd_produto 							=:li_cd_produto,
+																			@cd_promocao_sos             		=:li_cd_promocao_sos            ,
+																			@qt_estoque_disponivel       		=:li_qt_estoque_disponivel      ,
+																			@id_estoque_maior_10dias      	=:ls_id_estoque_maior_10dias     ,
+																			@nr_lote_recebimento_wms    	=:li_nr_lote_recebimento_wms    ,
+																			@cd_integer                 	 			=:li_cd_integer                 ,
+																			@cd_varchar                   			=:ls_cd_varchar                  ,
+																			@cd_parametro_geral          		=:ls_cd_parametro_geral         ,
+																			@mensagem_retorno             		=:ls_erro output
+
+
+USING SQLCA;
+	
+Execute sp_log;
+		
+If sqlca.sqlcode = -1 then
+	 ps_log = 'Erro ao executar a procedure [sp_inclui_log_export_sap]: ' + sqlca.sqlerrtext
+	 return false
+end if
+		
+Fetch sp_log Into :ls_erro;
+
+Close sp_log;
+
+if Not IsNull(ls_erro) and Trim(ls_erro) <> '' then
+	 ps_log = 'Erro ao executar a procedure [sp_solicitacao_sap_prox_seq]: ' + ls_erro
+	 return false
+end if
+
+//	// como usar
+//	st_log_export_sap st_log
+//	
+//	st_log.cd_chave 				= 'CHAVE'
+//	st_log.id_tipo_nf 				= 'WMM'
+//	st_log.cd_tipo_documento   = 'WMM'
+//	st_log.id_tipo_log 				= 73
+//	st_log.cd_produto  			= 636
+//	st_log.cd_parametro_geral  = 'DH_INICIO_OPERACAO_SAP'
+//	
+//	If Not gf_insere_log_exportacao_sap(st_log, ls_teste) then
+//		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", ls_teste)
+//		Sqlca.of_rollback();
+//	Else
+//		Sqlca.of_Commit();
+//	End If
+			
+Return True	
+
+
+
+end function
+

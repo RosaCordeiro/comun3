@@ -1,0 +1,8 @@
+HA$PBExportHeader$st_ge051_nota.srs
+global type st_ge051_nota from structure
+	long		cd_filial
+	long		nr_nf
+	string		de_especie
+	string		de_serie
+end type
+

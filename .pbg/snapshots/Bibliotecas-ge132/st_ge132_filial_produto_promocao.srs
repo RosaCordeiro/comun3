@@ -1,0 +1,7 @@
+HA$PBExportHeader$st_ge132_filial_produto_promocao.srs
+global type st_ge132_filial_produto_promocao from structure
+	long		cd_filial		descriptor "comment" = "C$$HEX1$$f300$$ENDHEX$$digo da filial"
+	long		cd_produto		descriptor "comment" = "C$$HEX1$$f300$$ENDHEX$$digo do produto"
+	long		cd_promocao_sos		descriptor "comment" = "C$$HEX1$$f300$$ENDHEX$$digo da promo$$HEX2$$e700e300$$ENDHEX$$o"
+end type
+

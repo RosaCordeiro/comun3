@@ -1,0 +1,15 @@
+HA$PBExportHeader$gf_retorna_fechamento_fiscal.srf
+global type gf_retorna_fechamento_fiscal from function_object
+end type
+
+forward prototypes
+global function date gf_retorna_fechamento_fiscal ()
+end prototypes
+
+global function date gf_retorna_fechamento_fiscal ();Date lvdt_Fech_Fiscal 
+
+If Not gf_retorna_parametro_geral('DH_FECHAMENTO_FISCAL', 'DD/MM/YYYY', ref lvdt_Fech_Fiscal) Then SetNull(lvdt_Fech_Fiscal)
+
+Return lvdt_Fech_Fiscal
+end function
+

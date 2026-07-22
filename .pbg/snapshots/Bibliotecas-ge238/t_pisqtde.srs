@@ -1,0 +1,8 @@
+HA$PBExportHeader$t_pisqtde.srs
+global type t_pisqtde from structure
+	string		cst
+	double		qbcprod
+	double		valiqprod
+	double		vpis
+end type
+

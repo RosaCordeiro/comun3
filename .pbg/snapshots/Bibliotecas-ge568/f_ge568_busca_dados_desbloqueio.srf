@@ -1,0 +1,45 @@
+HA$PBExportHeader$f_ge568_busca_dados_desbloqueio.srf
+global type f_ge568_busca_dados_desbloqueio from function_object
+end type
+
+forward prototypes
+global function boolean f_ge568_busca_dados_desbloqueio (long al_cd_produto, string as_cd_distribuidora, string as_cd_uf, string as_id_rede_filial, ref long al_cd_desbloqueio, ref string as_mensagem)
+end prototypes
+
+global function boolean f_ge568_busca_dados_desbloqueio (long al_cd_produto, string as_cd_distribuidora, string as_cd_uf, string as_id_rede_filial, ref long al_cd_desbloqueio, ref string as_mensagem);// chamado 902727-6 - funcao que busca os dados de desbloqueio do produto, pegando o top 1 com base no order by
+// - uma configuracao de desbloqueio com todos os criterios definidos tem prioridade em relacao a configuracoes com menos criterios definidos
+// - uma configuracao de desbloqueio com por produto tem prioridade sobre configuracao por distribuidora, que por sua vez tem prioridade sobre configuracao por bandeira, que por sua vez tem prioridade sobre configuracao por UF 
+
+as_mensagem = ''
+
+select top 1 pd.cd_desbloqueio 
+  into :al_cd_desbloqueio
+  from produto_compra_desbloqueio pd, parametro a
+ where pd.cd_produto           = :al_cd_produto
+	and pd.cd_unidade_federacao in ( :as_cd_uf, null )
+	and pd.cd_distribuidora     in ( :as_cd_distribuidora, null )
+	and pd.id_rede_filial       in ( :as_id_rede_filial, null )
+	and a.id_parametro = '1'
+	and a.dh_movimentacao between pd.dh_inicio and pd.dh_termino 
+ order by case when pd.cd_produto           is not null then '0' else '1' end + 
+			 case when pd.id_rede_filial       is not null then '0' else '1' end +   
+			 case when pd.cd_unidade_federacao is not null then '0' else '1' end + 
+			 case when pd.cd_distribuidora     is not null then '0' else '1' end 
+using sqlca;
+
+if sqlca.sqlcode = -1 then
+	as_mensagem = "Erro na localiza$$HEX2$$e700e300$$ENDHEX$$o dos dados de desbloqueio do produto '" + String(al_cd_Produto) + "'. " + SqlCa.SqlErrText
+	Return False
+end if
+
+if sqlca.sqlcode = 100 then
+	setnull(al_cd_desbloqueio)
+else
+	// codigo para colocar breakpoint para encontrar casos onde esta pegando configuracao de desbloqueio
+	al_cd_desbloqueio = al_cd_desbloqueio
+end if
+
+return true
+
+end function
+

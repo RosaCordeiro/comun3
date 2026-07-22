@@ -1,0 +1,9 @@
+HA$PBExportHeader$srt_ge108_painel_senha.srs
+global type srt_ge108_painel_senha from structure
+	integer		nr_caixa
+	oleobject		uo_painel_senha
+	oleobject		uo_painel_senha_2
+	uo_parametro_pdv		uo_parametro_pdv
+	string		id_painel_senha_auto_troca_dep
+end type
+

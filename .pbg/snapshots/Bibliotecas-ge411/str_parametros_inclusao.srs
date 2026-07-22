@@ -1,0 +1,6 @@
+HA$PBExportHeader$str_parametros_inclusao.srs
+global type str_parametros_inclusao from structure
+	long		cd_filial
+	string		nm_fantasia
+end type
+

@@ -1,0 +1,10 @@
+HA$PBExportHeader$t_issqn.srs
+global type t_issqn from structure
+	double		vbc
+	double		valiq
+	double		vissqn
+	Long		cmunfg
+	Long		clistserv
+	string		csittrib
+end type
+

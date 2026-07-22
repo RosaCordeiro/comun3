@@ -1,0 +1,48 @@
+HA$PBExportHeader$gf_coalesce.srf
+global type gf_coalesce from function_object
+end type
+
+forward prototypes
+global function decimal gf_coalesce (decimal pdc_valor, decimal pdc_nulo)
+global function date gf_coalesce (date pdt_valor, date pdt_nulo)
+global function datetime gf_coalesce (datetime pdh_valor, datetime pdh_nulo)
+global function time gf_coalesce (time ptm_valor, time ptm_nulo)
+global function long gf_coalesce (long pl_valor, long pl_nulo)
+global function string gf_coalesce (string ps_valor, string ps_nulo)
+end prototypes
+
+global function decimal gf_coalesce (decimal pdc_valor, decimal pdc_nulo);
+If IsNull( pdc_valor ) Then Return pdc_nulo
+Return pdc_valor
+end function
+
+global function date gf_coalesce (date pdt_valor, date pdt_nulo);
+If IsNull( pdt_valor ) Then Return pdt_nulo
+Return pdt_valor
+end function
+
+global function datetime gf_coalesce (datetime pdh_valor, datetime pdh_nulo);
+If IsNull( pdh_valor ) Then Return pdh_nulo
+Return pdh_valor
+end function
+
+global function time gf_coalesce (time ptm_valor, time ptm_nulo);
+If IsNull( ptm_valor ) Then Return ptm_nulo
+Return ptm_valor
+end function
+
+global function long gf_coalesce (long pl_valor, long pl_nulo);
+If IsNull( pl_valor ) Then Return pl_nulo
+Return pl_valor
+end function
+
+global function string gf_coalesce (string ps_valor, string ps_nulo);/* Fernando Lu$$HEX1$$ed00$$ENDHEX$$s Cambiaghi - 06/05/2016 */
+/* Se o ps_Texto estiver nulo, retorna ps_Retorno, sen$$HEX1$$e300$$ENDHEX$$o retorna ps_nulo */
+
+/* Marlon Kniss - 29/07/2020*/
+/* Adicionado overload para os demais tipos de vari$$HEX1$$e100$$ENDHEX$$veis (decimal, long, date, time, datetime) */
+If IsNull( ps_valor ) Then Return ps_nulo
+
+Return ps_valor
+end function
+

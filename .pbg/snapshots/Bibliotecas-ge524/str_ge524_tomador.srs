@@ -1,0 +1,13 @@
+HA$PBExportHeader$str_ge524_tomador.srs
+global type str_ge524_tomador from structure
+	string		cpf
+	string		nome
+	string		ddd
+	string		telefone
+	string		email
+	string		de_endereco
+	long		nr_endereco
+	string		cep
+	string		cidade
+end type
+

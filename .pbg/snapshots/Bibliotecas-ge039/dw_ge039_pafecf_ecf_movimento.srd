@@ -1,0 +1,25 @@
+HA$PBExportHeader$dw_ge039_pafecf_ecf_movimento.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=84 color="536870912" )
+table(column=(type=long updatewhereclause=yes name=nr_ecf dbname="nr_ecf" )
+ retrieve="  SELECT distinct(mapa_resumo_ecf.nr_ecf)
+    FROM mapa_resumo,   
+         mapa_resumo_ecf,   
+         parametro  
+   WHERE ( mapa_resumo_ecf.cd_filial = mapa_resumo.cd_filial ) and  
+         ( mapa_resumo_ecf.nr_mapa = mapa_resumo.nr_mapa ) and  
+         ( mapa_resumo_ecf.de_especie = mapa_resumo.de_especie ) and  
+         ( mapa_resumo_ecf.de_serie = mapa_resumo.de_serie ) and  
+         ( parametro.cd_filial = mapa_resumo.cd_filial ) and  
+         ( mapa_resumo.dh_movimentacao_caixa >= :pdh_inicial ) AND  
+         ( mapa_resumo.dh_movimentacao_caixa <= :pdh_final ) AND  
+         ( mapa_resumo_ecf.nr_ecf >= :pl_ecf_inicial ) AND
+         ( mapa_resumo_ecf.nr_ecf <= :pl_ecf_final )
+" arguments=(("pl_ecf_inicial", number),("pl_ecf_final", number),("pdh_inicial", date),("pdh_final", date))  sort="nr_ecf A " )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="5239" y="8" height="64" width="1161" format="[general]"  name=nr_ecf edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="16347" y="8" height="76" width="1376" format="[general]" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="0" tabsequence=0 border="0" color="0" x="805" y="8" height="76" width="128"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

@@ -1,0 +1,20 @@
+HA$PBExportHeader$dw_ge071_produto_pedido_estoque.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=80 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=92 color="536870912" )
+table(column=(type=long updatewhereclause=yes name=cd_produto dbname="pedido_distribuidora_produto.cd_produto" )
+ column=(type=long updatewhereclause=yes name=qt_pedida dbname="pedido_distribuidora_produto.qt_pedida" )
+ retrieve="select cd_produto,   
+       qt_pedida  
+from pedido_distribuidora_produto   
+where cd_filial = :filial
+  and nr_pedido_distribuidora = :pedido
+" arguments=(("filial", number),("pedido", number)) )
+text(band=header alignment="2" text="Cd Produto"border="0" color="0" x="9" y="8" height="64" width="329"  name=cd_produto_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Qt Pedida"border="0" color="0" x="347" y="8" height="64" width="329"  name=qt_pedida_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="1" tabsequence=32766 border="0" color="0" x="9" y="8" height="76" width="329" format="[general]"  name=cd_produto edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="0" color="0" x="347" y="8" height="76" width="329" format="[general]"  name=qt_pedida edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

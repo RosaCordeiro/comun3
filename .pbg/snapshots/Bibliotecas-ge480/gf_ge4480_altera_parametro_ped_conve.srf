@@ -1,0 +1,27 @@
+HA$PBExportHeader$gf_ge4480_altera_parametro_ped_conve.srf
+global type gf_ge4480_altera_parametro_ped_conve from function_object
+end type
+
+forward prototypes
+global function boolean gf_ge4480_altera_parametro_ped_conve (long al_filial, string as_vl_parametro)
+end prototypes
+
+global function boolean gf_ge4480_altera_parametro_ped_conve (long al_filial, string as_vl_parametro);String ls_Erro
+
+Update parametro_loja
+	Set vl_parametro = :as_vl_parametro
+From parametro_loja
+Where cd_parametro = 'ID_LIBERADO_PEDIDO_AUTO_CONVENIENCIA'
+	And cd_filial = :al_Filial
+Using SqlCa;
+
+If SqlCa.SqlCode = -1 Then
+	ls_Erro = SqlCa.SqlErrText
+	SqlCa.of_Rollback();
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro no update do parametro loja 'ID_LIBERADO_PEDIDO_AUTO_CONVENIENCIA' da filial " + String(al_Filial) + ".", StopSign!)
+	Return False
+End If
+
+Return True
+end function
+

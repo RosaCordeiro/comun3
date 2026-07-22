@@ -1,0 +1,8 @@
+HA$PBExportHeader$t_fat.srs
+global type t_fat from structure
+	string		nFat
+	double		vOrig
+	double		vDesc
+	double		vLiq
+end type
+

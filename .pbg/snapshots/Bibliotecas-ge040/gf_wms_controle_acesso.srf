@@ -1,0 +1,59 @@
+HA$PBExportHeader$gf_wms_controle_acesso.srf
+global type gf_wms_controle_acesso from function_object
+end type
+
+forward prototypes
+global function boolean gf_wms_controle_acesso (string as_parametro, long al_ordem)
+end prototypes
+
+global function boolean gf_wms_controle_acesso (string as_parametro, long al_ordem);String ls_Parametro
+Long ll_Ordem
+
+Select vl_parametro
+Into :ls_Parametro
+From wms_parametro
+Where cd_parametro = :as_parametro
+Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+	Case 0
+		If ls_Parametro <> 'S' and ls_Parametro <> 'N' Then
+			MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Par$$HEX1$$e200$$ENDHEX$$metro diferente do esperado 'S' ou 'N'.", StopSign!)
+			Return False
+		End If
+		
+		If ls_Parametro = 'N' Then
+			Return True
+		Else
+			Select top 1 a.nr_lote_recebimento
+			Into : ll_Ordem
+			from lote_recebimento_produto_wms a
+			inner join wms_endereco_produto b on b.cd_produto = a.cd_produto
+			where a.nr_lote_recebimento = :al_Ordem
+			and b.cd_esteira = 2
+			Using SqlCa;
+			
+			Choose Case SqlCa.SqlCode
+				Case 0
+					MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Esta fun$$HEX2$$e700e300$$ENDHEX$$o esta temporariamente bloqueada. ~r" +&
+														"Motivo: T$$HEX1$$e900$$ENDHEX$$rmino da implanta$$HEX2$$e700e300$$ENDHEX$$o do WMS.~r~r" +&
+														"Par$$HEX1$$e200$$ENDHEX$$metro: '" + as_parametro + "'" , Exclamation!)
+					Return False									
+				Case 100
+					Return True
+					
+				Case -1
+					SqlCa.of_MsgDbError("Erro na localiza$$HEX2$$e700e300$$ENDHEX$$o de perfumaria na ordem "+String(al_Ordem)+".")
+					Return False
+			End Choose						
+		End If
+	Case 100
+		Return True
+	Case -1
+		SqlCa.of_MsgDbError("Erro na localiza$$HEX2$$e700e300$$ENDHEX$$o da data de in$$HEX1$$ed00$$ENDHEX$$cio para utiliza$$HEX2$$e700e300$$ENDHEX$$o do WMS.")
+		Return False
+End Choose
+
+Return True
+end function
+

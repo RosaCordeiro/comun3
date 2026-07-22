@@ -1,0 +1,33 @@
+HA$PBExportHeader$dw_ge071_produto_pedido_distribuidora.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=80 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=92 color="536870912" )
+table(column=(type=char(20) updatewhereclause=yes name=cd_produto_distribuidora dbname="distribuidora_produto.cd_produto_distribuidora" )
+ column=(type=long updatewhereclause=yes name=qt_pedida dbname="pedido_distribuidora_produto.qt_pedida" )
+ column=(type=long updatewhereclause=yes name=cd_produto dbname="pedido_distribuidora_produto.cd_produto" )
+ retrieve="select d.cd_produto_distribuidora,   
+       p.qt_pedida,
+       p.cd_produto
+from pedido_distribuidora_produto p,
+     distribuidora_produto d
+where p.cd_filial               = :filial
+  and p.nr_pedido_distribuidora = :pedido
+  and d.cd_distribuidora = :distribuidora
+  and d.cd_produto = p.cd_produto
+  and d.cd_unidade_federacao = (select c.cd_unidade_federacao
+                                from filial f,
+                                     cidade c
+                                where f.cd_filial = :filial
+                                  and c.cd_cidade = f.cd_cidade)  
+
+" arguments=(("filial", number),("pedido", number),("distribuidora", string)) )
+text(band=header alignment="2" text="Qt Pedida"border="0" color="0" x="9" y="8" height="64" width="329"  name=qt_pedida_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Distribuidora Produto Cd Produto Distrib"border="0" color="0" x="347" y="4" height="76" width="530"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Pedido Distribuidora Produto Cd Produto"border="0" color="0" x="887" y="4" height="76" width="526"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="0" color="0" x="9" y="8" height="76" width="329" format="[general]"  name=qt_pedida edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="347" y="0" height="64" width="530" format="[general]"  name=cd_produto_distribuidora edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="887" y="0" height="64" width="526" format="[general]"  name=cd_produto edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

@@ -1,0 +1,106 @@
+HA$PBExportHeader$gf_verifica_campanha.srf
+global type gf_verifica_campanha from function_object
+end type
+
+forward prototypes
+global function boolean gf_verifica_campanha (string as_parametro, ref long al_campanha)
+global function boolean gf_verifica_campanha (string as_parametro, long al_filial, ref long al_campanha)
+global function boolean gf_verifica_campanha (string as_tipo_campanha, string as_parametro, long al_filial, ref long al_campanha)
+end prototypes
+
+global function boolean gf_verifica_campanha (string as_parametro, ref long al_campanha);Long ll_Filial
+SetNull(ll_Filial)
+
+Return gf_verifica_campanha(as_parametro,ll_Filial, Ref al_campanha  )
+end function
+
+global function boolean gf_verifica_campanha (string as_parametro, long al_filial, ref long al_campanha);String ls_Tipo_Campanha
+SetNull(ls_Tipo_Campanha)
+
+Return gf_verifica_campanha(ls_Tipo_Campanha, as_parametro, al_filial, ref al_campanha )
+end function
+
+global function boolean gf_verifica_campanha (string as_tipo_campanha, string as_parametro, long al_filial, ref long al_campanha);//***********************************
+//Outras chamadas desta funcao no Edit Source
+//***********************************
+
+
+// Busca no CENTRAL se o cliente esta ou n$$HEX1$$e300$$ENDHEX$$o em campanha
+String ls_Retorno
+String ls_Consulta
+Boolean lb_Sucesso = False
+Long  ll_Nr_Campanha
+Datetime dh_atual
+
+Try
+	SetNull(ll_Nr_Campanha)
+	dh_atual = gvo_Parametro.of_Dh_Movimentacao()	
+	uo_Transacao_Remota lo_Conexao
+	lo_Conexao = Create uo_Transacao_Remota
+
+	// Conecta no Banco
+	lo_Conexao.of_BancoProducao()
+	lo_Conexao.of_Define_Variaveis(True)
+	
+	//Se for Nulo considera AT
+	IF IsNull(as_tipo_campanha) Or Trim(as_tipo_campanha) = '' Then
+		as_tipo_campanha = 'AT'
+	End If
+			
+	// Consulta os dados do Cliente
+	If IsNull( al_Filial ) Then
+		ls_Consulta =   "	select a.nr_campanha as nr_campanha    from campanha a   " +&
+		"	inner join campanha_cliente b on a.nr_campanha = b.nr_campanha " + &
+		"	where    b.cd_cliente 				= '" + String (as_parametro)  + "'" +&
+		"	and		a.dh_termino			>='" + String(dh_atual,"yyyymmdd")  + "'"	+&
+		"	and		a.id_tipo_campanha 	= '" + as_tipo_campanha +"'" +& 
+		"	and		a.id_envia_loja			= 'S' " +&
+		"	and		a.id_avisa_cliente		= 'S' " +&
+		"   and        b.dh_tempo_salvar	 	is null  "
+	Else
+		ls_Consulta =   "	select a.nr_campanha as nr_campanha    from campanha a   " +&
+		"	inner join campanha_cliente b on a.nr_campanha = b.nr_campanha " + &
+		"	inner join campanha_filial c on c.nr_campanha = a.nr_campanha " 	+ &
+		"	where 	b.cd_cliente 			= '" + String (as_parametro)  			+ "'" +&
+		"	and		a.dh_termino			>= '" + String(dh_atual,"yyyymmdd")  + "'"	+&
+		"	and 		c.cd_filial					= " + String( al_filial ) 			+ &
+		"	and		a.id_tipo_campanha 	= '" + as_tipo_campanha +"'" +& 
+		"	and		a.id_envia_loja			= 'S' " +&
+		"	and		a.id_avisa_cliente		= 'S' " +&
+		"   and        b.dh_tempo_salvar is null  "
+	End If
+	
+	// Passa Consulta
+	lo_Conexao.of_executa_rotina( '0006', {  ls_Consulta   } )
+	lo_Conexao.of_retorno_dados(Ref ls_Retorno)
+	
+	If lo_Conexao.of_Erro_Execucao( ) Or lo_Conexao.of_Erro_Conexao( ) Then
+		MessageBox( "Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao localizar os dados na matriz.~rFun$$HEX2$$e700e300$$ENDHEX$$o: ge040.gf_verifica_campanha." , StopSign! )
+		Return False
+	End If
+	
+	lb_Sucesso = lo_Conexao.of_Retorno( 'nr_campanha', 	Ref ll_Nr_Campanha ) 
+	
+	//If Not lb_Sucesso Then
+	//	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao localizar os dados na matriz.~rFun$$HEX2$$e700e300$$ENDHEX$$o: ge040.gf_verifica_campanha.")
+	//	Return False
+	//End If
+	
+	//If IsNull( ll_Nr_Campanha ) Then 
+	//	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao localizar o cliente/campanha na matriz.~rFun$$HEX2$$e700e300$$ENDHEX$$o: ge040.gf_verifica_campanha.")
+	//	Return False
+	//End If	
+Finally
+	If IsValid( lo_Conexao ) Then Destroy lo_Conexao
+End Try
+
+If lb_Sucesso and ll_Nr_Campanha >0  Then 
+	lb_Sucesso = True
+	al_campanha = ll_Nr_Campanha
+Else 
+	lb_Sucesso = False
+End If 
+
+Return lb_Sucesso
+end function
+

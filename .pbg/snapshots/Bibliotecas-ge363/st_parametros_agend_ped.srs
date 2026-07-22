@@ -1,0 +1,12 @@
+HA$PBExportHeader$st_parametros_agend_ped.srs
+global type st_parametros_agend_ped from structure
+	long		cd_filial
+	string		nm_fantasia
+	long		nr_dia_semana
+	long		qt_dias_reforco
+	string		id_mix_completo
+	string		id_tipo
+	string		id_tela
+	string		id_pedido_controlado_exclusivo
+end type
+

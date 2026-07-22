@@ -1,0 +1,42 @@
+HA$PBExportHeader$gf_ge136_conecta_banco_filial.srf
+global type gf_ge136_conecta_banco_filial from function_object
+end type
+
+forward prototypes
+global function boolean gf_ge136_conecta_banco_filial (long pl_filial, ref uo_ge136_transacao_remota ptr_transaction)
+end prototypes
+
+global function boolean gf_ge136_conecta_banco_filial (long pl_filial, ref uo_ge136_transacao_remota ptr_transaction);Boolean lb_Sucesso = True
+
+String ls_Odbc
+
+Try
+	If Not IsValid( ptr_Transaction ) Then ptr_Transaction = Create uo_ge136_Transacao_Remota
+	
+	ls_Odbc = ptr_Transaction.of_Localiza_DataSource_Filial( pl_Filial )
+	
+	If IsNull( ls_Odbc ) Or Trim( ls_Odbc ) = "" Then Return False
+	
+	If ptr_Transaction.of_IsConnected( ) Then	ptr_Transaction.of_Disconnect( )
+	
+	ptr_Transaction.of_Set_Username( "teste_conexao" )
+	
+//	#IF DEFINED DEBUG THEN
+//		If MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o!","Voc$$HEX1$$ea00$$ENDHEX$$ deseja conectar no banco loja?", Question!, YesNo!,1) = 1 Then
+//			ls_Odbc = "0000_lojasap"
+//		End If
+//	#END IF
+	
+	ptr_Transaction.of_Set_DataSource( 'POSTGRESQL', ls_Odbc )
+	
+	lb_Sucesso = ptr_Transaction.of_Connect( ls_Odbc, gvo_Aplicacao.ivo_Seguranca.Cd_Sistema + "_" + gvo_Aplicacao.of_ComputerName( ) )
+	
+	If lb_Sucesso Then ptr_Transaction.of_End_Transaction( )
+	
+	Return lb_Sucesso
+	
+Catch( Exception ex )
+
+End Try
+end function
+

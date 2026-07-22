@@ -1,0 +1,7 @@
+HA$PBExportHeader$t_gibs_tot.srs
+global type t_gibs_tot from structure
+	t_gibsuf_tot		gibsuf_tot
+	t_gibsmun_tot		gibsmun_tot
+	decimal{2}		vIBS
+end type
+

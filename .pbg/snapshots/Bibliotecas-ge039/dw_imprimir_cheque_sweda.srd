@@ -1,0 +1,17 @@
+HA$PBExportHeader$dw_imprimir_cheque_sweda.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=79741120 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=260 color="536870912" )
+table(column=(type=decimal(2) updatewhereclause=no name=valor dbname="valor" initial="0" )
+ column=(type=long updatewhereclause=no name=documento dbname="documento" initial="0" )
+ column=(type=char(1) updatewhereclause=no name=tipo dbname="tipo" initial="A" values="FRENTE E VERSO	A/FRENTE	F/VERSO	V/" )
+ )
+column(band=detail id=3 alignment="0" tabsequence=30 border="2" color="0" x="338" y="180" height="64" width="494" format="[general]"  name=tipo ddlb.limit=0 ddlb.allowedit=no ddlb.case=any  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Imprimir:"border="0" color="8388608" x="27" y="180" height="64" width="297"  name=imprimir  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=20 border="2" color="0" x="338" y="100" height="64" width="242" format="[general]"  name=documento edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Documento:"border="0" color="8388608" x="27" y="100" height="64" width="297"  name=doc  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="1" tabsequence=10 border="2" color="0" x="338" y="20" height="64" width="411" format="###,##0.00"  name=valor editmask.mask="###,###,##0.00" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Valor:"border="0" color="8388608" x="27" y="20" height="64" width="297"  name=valor_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

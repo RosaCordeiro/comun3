@@ -1,0 +1,336 @@
+HA$PBExportHeader$ds_ge473_contabil_bkpf.srd
+release 12;
+datawindow(units=0 timer_interval=0 color=1073741824 brushmode=0 transparency=0 gradient.angle=0 gradient.color=8421504 gradient.focus=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.repetition.mode=0 gradient.scale=100 gradient.spread=100 gradient.transparency=0 picture.blur=0 picture.clip.bottom=0 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.transparency=0 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes hidegrayline=no showbackcoloronxp=no picture.file="" )
+header(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+detail(height=88 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+table(column=(type=char(3) update=yes updatewhereclause=yes key=yes name=mandt dbname="bkpf.mandt" )
+ column=(type=char(4) update=yes updatewhereclause=yes key=yes name=bukrs dbname="bkpf.bukrs" )
+ column=(type=char(10) update=yes updatewhereclause=yes key=yes name=belnr dbname="bkpf.belnr" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=gjahr dbname="bkpf.gjahr" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=nr_sequencial dbname="bkpf.nr_sequencial" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=acc_principle dbname="bkpf.acc_principle" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=adisc dbname="bkpf.adisc" )
+ column=(type=char(8) update=yes updatewhereclause=yes name=aedat dbname="bkpf.aedat" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=afabespec_pn dbname="bkpf.afabespec_pn" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=anxamnt dbname="bkpf.anxamnt" )
+ column=(type=char(9) update=yes updatewhereclause=yes name=anxperc dbname="bkpf.anxperc" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=anxtype dbname="bkpf.anxtype" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=arcid dbname="bkpf.arcid" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=ausbk dbname="bkpf.ausbk" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=awkey dbname="bkpf.awkey" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=aworg_rev dbname="bkpf.aworg_rev" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=awref_rev dbname="bkpf.awref_rev" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=awsys dbname="bkpf.awsys" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=awtyp dbname="bkpf.awtyp" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=basw2 dbname="bkpf.basw2" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=basw3 dbname="bkpf.basw3" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=batch dbname="bkpf.batch" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=belnr_sender dbname="bkpf.belnr_sender" )
+ column=(type=char(25) update=yes updatewhereclause=yes name=bktxt dbname="bkpf.bktxt" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=blart dbname="bkpf.blart" )
+ column=(type=char(8) update=yes updatewhereclause=yes name=bldat dbname="bkpf.bldat" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=blind dbname="bkpf.blind" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=blo dbname="bkpf.blo" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=brnch dbname="bkpf.brnch" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=bstat dbname="bkpf.bstat" )
+ column=(type=char(8) update=yes updatewhereclause=yes name=budat dbname="bkpf.budat" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=bukrs_sender dbname="bkpf.bukrs_sender" )
+ column=(type=char(16) update=yes updatewhereclause=yes name=bvorg dbname="bkpf.bvorg" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=cash_alloc dbname="bkpf.cash_alloc" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=ccins dbname="bkpf.ccins" )
+ column=(type=char(25) update=yes updatewhereclause=yes name=ccnum dbname="bkpf.ccnum" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=cnt dbname="bkpf.cnt" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=co_alebn dbname="bkpf.co_alebn" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=co_belnr_sender dbname="bkpf.co_belnr_sender" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=co_refbt dbname="bkpf.co_refbt" )
+ column=(type=char(8) update=yes updatewhereclause=yes name=co_valdt dbname="bkpf.co_valdt" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=co_vrgng dbname="bkpf.co_vrgng" )
+ column=(type=char(8) update=yes updatewhereclause=yes name=cpudt dbname="bkpf.cpudt" )
+ column=(type=char(6) update=yes updatewhereclause=yes name=cputm dbname="bkpf.cputm" )
+ column=(type=char(14) update=yes updatewhereclause=yes name=ctxkrs dbname="bkpf.ctxkrs" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=curt2 dbname="bkpf.curt2" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=curt3 dbname="bkpf.curt3" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=dbblg dbname="bkpf.dbblg" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=dbblg_bukrs dbname="bkpf.dbblg_bukrs" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=dbblg_gjahr dbname="bkpf.dbblg_gjahr" )
+ column=(type=char(6) update=yes updatewhereclause=yes name=doccat dbname="bkpf.doccat" )
+ column=(type=char(40) update=yes updatewhereclause=yes name=dokid dbname="bkpf.dokid" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=duefl dbname="bkpf.duefl" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=exclude_flag dbname="bkpf.exclude_flag" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=fikrs dbname="bkpf.fikrs" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=fm_umart dbname="bkpf.fm_umart" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=follow_on dbname="bkpf.follow_on" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=frath dbname="bkpf.frath" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=gjahr_sender dbname="bkpf.gjahr_sender" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=glbtgrp dbname="bkpf.glbtgrp" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=glvor dbname="bkpf.glvor" )
+ column=(type=char(12) update=yes updatewhereclause=yes name=grpid dbname="bkpf.grpid" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=hwae2 dbname="bkpf.hwae2" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=hwae3 dbname="bkpf.hwae3" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=hwaer dbname="bkpf.hwaer" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=iblar dbname="bkpf.iblar" )
+ column=(type=char(8) update=yes updatewhereclause=yes name=intdate dbname="bkpf.intdate" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=intform dbname="bkpf.intform" )
+ column=(type=char(6) update=yes updatewhereclause=yes name=intsubid dbname="bkpf.intsubid" )
+ column=(type=char(8) update=yes updatewhereclause=yes name=inwarddt_hd dbname="bkpf.inwarddt_hd" )
+ column=(type=char(30) update=yes updatewhereclause=yes name=inwardno_hd dbname="bkpf.inwardno_hd" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=knumv dbname="bkpf.knumv" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=kokrs_sender dbname="bkpf.kokrs_sender" )
+ column=(type=char(42) update=yes updatewhereclause=yes name=kur2x dbname="bkpf.kur2x" )
+ column=(type=char(42) update=yes updatewhereclause=yes name=kur3x dbname="bkpf.kur3x" )
+ column=(type=char(14) update=yes updatewhereclause=yes name=kurs2 dbname="bkpf.kurs2" )
+ column=(type=char(14) update=yes updatewhereclause=yes name=kurs3 dbname="bkpf.kurs3" )
+ column=(type=char(14) update=yes updatewhereclause=yes name=kursf dbname="bkpf.kursf" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=kurst dbname="bkpf.kurst" )
+ column=(type=char(42) update=yes updatewhereclause=yes name=kursx dbname="bkpf.kursx" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=kuty2 dbname="bkpf.kuty2" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=kuty3 dbname="bkpf.kuty3" )
+ column=(type=char(14) update=yes updatewhereclause=yes name=kzkrs dbname="bkpf.kzkrs" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=kzwrs dbname="bkpf.kzwrs" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=ldgrp dbname="bkpf.ldgrp" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=ldgrpspec_pn dbname="bkpf.ldgrpspec_pn" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=logsystem_sender dbname="bkpf.logsystem_sender" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=lotkz dbname="bkpf.lotkz" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=monat dbname="bkpf.monat" )
+ column=(type=char(3) update=yes updatewhereclause=yes name=numpg dbname="bkpf.numpg" )
+ column=(type=char(8) update=yes updatewhereclause=yes name=offset_refer_dat dbname="bkpf.offset_refer_dat" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=offset_status dbname="bkpf.offset_status" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=penrc dbname="bkpf.penrc" )
+ column=(type=char(8) update=yes updatewhereclause=yes name=ppdat dbname="bkpf.ppdat" )
+ column=(type=char(12) update=yes updatewhereclause=yes name=ppnam dbname="bkpf.ppnam" )
+ column=(type=char(6) update=yes updatewhereclause=yes name=pptme dbname="bkpf.pptme" )
+ column=(type=char(13) update=yes updatewhereclause=yes name=propmano dbname="bkpf.propmano" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=psoak dbname="bkpf.psoak" )
+ column=(type=char(8) update=yes updatewhereclause=yes name=psobt dbname="bkpf.psobt" )
+ column=(type=char(8) update=yes updatewhereclause=yes name=psodt dbname="bkpf.psodt" )
+ column=(type=char(30) update=yes updatewhereclause=yes name=psofn dbname="bkpf.psofn" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=psoks dbname="bkpf.psoks" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=psosg dbname="bkpf.psosg" )
+ column=(type=char(6) update=yes updatewhereclause=yes name=psotm dbname="bkpf.psotm" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=psoty dbname="bkpf.psoty" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=psozl dbname="bkpf.psozl" )
+ column=(type=char(8) update=yes updatewhereclause=yes name=pybasdat dbname="bkpf.pybasdat" )
+ column=(type=char(16) update=yes updatewhereclause=yes name=pybasno dbname="bkpf.pybasno" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=pybastyp dbname="bkpf.pybastyp" )
+ column=(type=char(34) update=yes updatewhereclause=yes name=pyiban dbname="bkpf.pyiban" )
+ column=(type=char(8) update=yes updatewhereclause=yes name=reindat dbname="bkpf.reindat" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=reprocessing_status_code dbname="bkpf.reprocessing_status_code" )
+ column=(type=char(8) update=yes updatewhereclause=yes name=resubmission dbname="bkpf.resubmission" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=rldnr dbname="bkpf.rldnr" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=sampled dbname="bkpf.sampled" )
+ column=(type=char(12) update=yes updatewhereclause=yes name=sname dbname="bkpf.sname" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=ssblk dbname="bkpf.ssblk" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=status dbname="bkpf.status" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=stblg dbname="bkpf.stblg" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=stgrd dbname="bkpf.stgrd" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=stjah dbname="bkpf.stjah" )
+ column=(type=char(8) update=yes updatewhereclause=yes name=stodt dbname="bkpf.stodt" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=subset dbname="bkpf.subset" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=tcode dbname="bkpf.tcode" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=trava_pn dbname="bkpf.trava_pn" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=trr_partial_ind dbname="bkpf.trr_partial_ind" )
+ column=(type=char(14) update=yes updatewhereclause=yes name=txkrs dbname="bkpf.txkrs" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=umrd2 dbname="bkpf.umrd2" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=umrd3 dbname="bkpf.umrd3" )
+ column=(type=char(8) update=yes updatewhereclause=yes name=upddt dbname="bkpf.upddt" )
+ column=(type=char(12) update=yes updatewhereclause=yes name=usnam dbname="bkpf.usnam" )
+ column=(type=char(8) update=yes updatewhereclause=yes name=vatdate dbname="bkpf.vatdate" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=waers dbname="bkpf.waers" )
+ column=(type=char(8) update=yes updatewhereclause=yes name=wwert dbname="bkpf.wwert" )
+ column=(type=char(16) update=yes updatewhereclause=yes name=xblnr dbname="bkpf.xblnr" )
+ column=(type=char(26) update=yes updatewhereclause=yes name=xblnr_alt dbname="bkpf.xblnr_alt" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=xmca dbname="bkpf.xmca" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=xmwst dbname="bkpf.xmwst" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=xnetb dbname="bkpf.xnetb" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=xref1_hd dbname="bkpf.xref1_hd" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=xref2_hd dbname="bkpf.xref2_hd" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=xreorg dbname="bkpf.xreorg" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=xreversal dbname="bkpf.xreversal" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=xreversed dbname="bkpf.xreversed" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=xreversing dbname="bkpf.xreversing" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=xrueb dbname="bkpf.xrueb" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=xsecondary dbname="bkpf.xsecondary" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=xsnet dbname="bkpf.xsnet" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=xsplit dbname="bkpf.xsplit" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=xstov dbname="bkpf.xstov" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=xusvr dbname="bkpf.xusvr" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=xwvof dbname="bkpf.xwvof" )
+ column=(type=char(8) update=yes updatewhereclause=yes name=zvat_indc dbname="bkpf.zvat_indc" )
+ column=(type=char(8) update=yes updatewhereclause=yes name=cdataaging dbname="bkpf._dataaging" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=id_status dbname="bkpf.id_status" )
+ column=(type=char(200) update=yes updatewhereclause=yes name=de_log dbname="bkpf.de_log" )
+ column=(type=datetime update=yes updatewhereclause=yes name=dh_inclusao dbname="bkpf.dh_inclusao" )
+ column=(type=datetime update=yes updatewhereclause=yes name=dh_processamento dbname="bkpf.dh_processamento" )
+ retrieve="  SELECT bkpf.mandt,   
+         bkpf.bukrs,   
+         bkpf.belnr,   
+         bkpf.gjahr,   
+         bkpf.nr_sequencial,   
+         bkpf.acc_principle,   
+         bkpf.adisc,   
+         bkpf.aedat,   
+         bkpf.afabespec_pn,   
+         bkpf.anxamnt,   
+         bkpf.anxperc,   
+         bkpf.anxtype,   
+         bkpf.arcid,   
+         bkpf.ausbk,   
+         bkpf.awkey,   
+         bkpf.aworg_rev,   
+         bkpf.awref_rev,   
+         bkpf.awsys,   
+         bkpf.awtyp,   
+         bkpf.basw2,   
+         bkpf.basw3,   
+         bkpf.batch,   
+         bkpf.belnr_sender,   
+         bkpf.bktxt,   
+         bkpf.blart,   
+         bkpf.bldat,   
+         bkpf.blind,   
+         bkpf.blo,   
+         bkpf.brnch,   
+         bkpf.bstat,   
+         bkpf.budat,   
+         bkpf.bukrs_sender,   
+         bkpf.bvorg,   
+         bkpf.cash_alloc,   
+         bkpf.ccins,   
+         bkpf.ccnum,   
+         bkpf.cnt,   
+         bkpf.co_alebn,   
+         bkpf.co_belnr_sender,   
+         bkpf.co_refbt,   
+         bkpf.co_valdt,   
+         bkpf.co_vrgng,   
+         bkpf.cpudt,   
+         bkpf.cputm,   
+         bkpf.ctxkrs,   
+         bkpf.curt2,   
+         bkpf.curt3,   
+         bkpf.dbblg,   
+         bkpf.dbblg_bukrs,   
+         bkpf.dbblg_gjahr,   
+         bkpf.doccat,   
+         bkpf.dokid,   
+         bkpf.duefl,   
+         bkpf.exclude_flag,   
+         bkpf.fikrs,   
+         bkpf.fm_umart,   
+         bkpf.follow_on,   
+         bkpf.frath,   
+         bkpf.gjahr_sender,   
+         bkpf.glbtgrp,   
+         bkpf.glvor,   
+         bkpf.grpid,   
+         bkpf.hwae2,   
+         bkpf.hwae3,   
+         bkpf.hwaer,   
+         bkpf.iblar,   
+         bkpf.intdate,   
+         bkpf.intform,   
+         bkpf.intsubid,   
+         bkpf.inwarddt_hd,   
+         bkpf.inwardno_hd,   
+         bkpf.knumv,   
+         bkpf.kokrs_sender,   
+         bkpf.kur2x,   
+         bkpf.kur3x,   
+         bkpf.kurs2,   
+         bkpf.kurs3,   
+         bkpf.kursf,   
+         bkpf.kurst,   
+         bkpf.kursx,   
+         bkpf.kuty2,   
+         bkpf.kuty3,   
+         bkpf.kzkrs,   
+         bkpf.kzwrs,   
+         bkpf.ldgrp,   
+         bkpf.ldgrpspec_pn,   
+         bkpf.logsystem_sender,   
+         bkpf.lotkz,   
+         bkpf.monat,   
+         bkpf.numpg,   
+         bkpf.offset_refer_dat,   
+         bkpf.offset_status,   
+         bkpf.penrc,   
+         bkpf.ppdat,   
+         bkpf.ppnam,   
+         bkpf.pptme,   
+         bkpf.propmano,   
+         bkpf.psoak,   
+         bkpf.psobt,   
+         bkpf.psodt,   
+         bkpf.psofn,   
+         bkpf.psoks,   
+         bkpf.psosg,   
+         bkpf.psotm,   
+         bkpf.psoty,   
+         bkpf.psozl,   
+         bkpf.pybasdat,   
+         bkpf.pybasno,   
+         bkpf.pybastyp,   
+         bkpf.pyiban,   
+         bkpf.reindat,   
+         bkpf.reprocessing_status_code,   
+         bkpf.resubmission,   
+         bkpf.rldnr,   
+         bkpf.sampled,   
+         bkpf.sname,   
+         bkpf.ssblk,   
+         bkpf.status,   
+         bkpf.stblg,   
+         bkpf.stgrd,   
+         bkpf.stjah,   
+         bkpf.stodt,   
+         bkpf.subset,   
+         bkpf.tcode,   
+         bkpf.trava_pn,   
+         bkpf.trr_partial_ind,   
+         bkpf.txkrs,   
+         bkpf.umrd2,   
+         bkpf.umrd3,   
+         bkpf.upddt,   
+         bkpf.usnam,   
+         bkpf.vatdate,   
+         bkpf.waers,   
+         bkpf.wwert,   
+         bkpf.xblnr,   
+         bkpf.xblnr_alt,   
+         bkpf.xmca,   
+         bkpf.xmwst,   
+         bkpf.xnetb,   
+         bkpf.xref1_hd,   
+         bkpf.xref2_hd,   
+         bkpf.xreorg,   
+         bkpf.xreversal,   
+         bkpf.xreversed,   
+         bkpf.xreversing,   
+         bkpf.xrueb,   
+         bkpf.xsecondary,   
+         bkpf.xsnet,   
+         bkpf.xsplit,   
+         bkpf.xstov,   
+         bkpf.xusvr,   
+         bkpf.xwvof,   
+         bkpf.zvat_indc,   
+         bkpf._dataaging,   
+         bkpf.id_status,   
+         bkpf.de_log,   
+         bkpf.dh_inclusao,   
+         bkpf.dh_processamento  
+    FROM bkpf   
+" update="bkpf" updatewhere=0 updatekeyinplace=yes )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

@@ -1,0 +1,14 @@
+HA$PBExportHeader$dw_ge017_selecao.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=79741120 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=580 color="536870912" )
+table(column=(type=number updatewhereclause=no name=cd_administradora dbname="cd_administradora" )
+ column=(type=char(40) updatewhereclause=no name=nm_estabelecimento dbname="nm_estabelecimento" )
+ )
+text(band=detail alignment="1" text="Administradora:"border="0" color="8388608" x="46" y="8" height="64" width="421"  name=cd_convenio_t  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Estabelecimento:"border="0" color="8388608" x="14" y="88" height="64" width="453"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="2" color="0" x="485" y="8" height="64" width="1202" format=""  name=cd_administradora dddw.name=ddw_cartao_administradora dddw.displaycolumn=nm_administradora dddw.datacolumn=cd_administradora dddw.percentwidth=100 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.useasborder=no dddw.case=any  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=10 border="2" color="0" x="485" y="88" height="64" width="1202" format="[general]"  name=nm_estabelecimento edit.limit=0 edit.case=upper edit.focusrectangle=no edit.autoselect=no edit.nilisnull=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

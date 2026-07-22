@@ -1,0 +1,50 @@
+HA$PBExportHeader$gf_remove_enter_tab.srf
+global type gf_remove_enter_tab from function_object
+end type
+
+forward prototypes
+global function string gf_remove_enter_tab (string as_texto)
+end prototypes
+
+global function string gf_remove_enter_tab (string as_texto);Boolean lb_Removeu = False
+
+Long ll_Pos
+Long ll_Len
+
+//Retira enter e tab do texto para n$$HEX1$$e300$$ENDHEX$$o "quebrar" o xml
+
+//Procura o Enter
+If Not IsNull( as_Texto ) Then
+	If Pos(as_Texto, "~r~n") > 0 Then //Substitui o enter do texto por um caracter vazio
+		as_Texto = gf_Replace( as_Texto, "~r~n", " ", 0 )
+		
+		lb_Removeu = True
+	End If
+	
+	//Procura o tab
+	ll_Pos = PosA(as_Texto, Char(9))
+	
+	If ll_Pos > 0 Then //Se localizou, substitui o tab por um caracter vazio
+		as_Texto = MidA(as_Texto, 1, ll_Pos -1) + " " + MidA(as_Texto, ll_Pos + 1)
+		
+		lb_Removeu = True
+	End If
+	
+	If lb_Removeu Then
+		ll_Len = LenA(as_Texto)
+		
+		//Se a primeira posi$$HEX2$$e700e300$$ENDHEX$$o $$HEX1$$e900$$ENDHEX$$ um caracter vazio, captura o valor a partir da segunda posi$$HEX2$$e700e300$$ENDHEX$$o
+		If MidA(as_Texto, 1, 1) = " " Then
+			as_Texto = MidA(as_Texto, 2, ll_Len)
+		End If
+		
+		//Se a $$HEX1$$fa00$$ENDHEX$$ltima posi$$HEX2$$e700e300$$ENDHEX$$o $$HEX1$$e900$$ENDHEX$$ um caracter vazio, captura o valor de toda string exceto a $$HEX1$$fa00$$ENDHEX$$ltima posi$$HEX2$$e700e300$$ENDHEX$$o
+		If MidA(as_Texto, ll_Len, 1) = " " Then
+			as_Texto = MidA(as_Texto, 1, ll_Len - 1)
+		End If
+	End If
+End If
+
+Return as_Texto
+end function
+

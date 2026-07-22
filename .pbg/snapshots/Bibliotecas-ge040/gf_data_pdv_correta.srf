@@ -1,0 +1,40 @@
+HA$PBExportHeader$gf_data_pdv_correta.srf
+global type gf_data_pdv_correta from function_object
+end type
+
+forward prototypes
+global function boolean gf_data_pdv_correta (ref string ps_mensagem)
+end prototypes
+
+global function boolean gf_data_pdv_correta (ref string ps_mensagem);Boolean lb_Retorno = True
+
+DateTime ldh_Data_Parametro
+
+Date ldt_Data_PDV
+Date ldt_Data_Servidor
+
+ldt_Data_Servidor		= Date( gf_GetServerDate() )
+ldt_Data_PDV 			= Today()
+If Not gf_Data_Parametro( ref ldh_Data_Parametro ) Then Return False
+
+If String( ldh_Data_Parametro, 'yyyymmdd' ) <> String( ldt_Data_PDV, 'yyyymmdd' ) Then
+		ps_Mensagem = "Data de movimenta$$HEX2$$e700e300$$ENDHEX$$o ( "+ String(ldh_Data_Parametro, 'dd/mm/yyyy') +" ) " + &
+							  " est$$HEX1$$e100$$ENDHEX$$~r diferente da data do PDV ( "+ String(ldt_Data_PDV, 'dd/mm/yyyy') + " ). "
+	lb_Retorno = False
+Else
+	If String( ldt_Data_Servidor, 'yyyymmdd' ) <> String( ldt_Data_PDV, 'yyyymmdd' ) Then
+			ps_Mensagem = "Data do Servidor ( "+ String(ldt_Data_Servidor, 'dd/mm/yyyy') +" ) " + &
+								  " est$$HEX1$$e100$$ENDHEX$$~r diferente da data do PDV ( "+ String(ldt_Data_PDV, 'dd/mm/yyyy') + " ). "
+		lb_Retorno = False
+	Else		
+		If String( ldt_Data_Servidor, 'yyyymmdd' ) <> String( ldh_Data_Parametro, 'yyyymmdd' ) Then
+				ps_Mensagem = "Data do Servidor ( "+ String(ldt_Data_Servidor, 'dd/mm/yyyy') +" ) " + &
+									  " est$$HEX1$$e100$$ENDHEX$$ diferente~r da data de movimenta$$HEX2$$e700e300$$ENDHEX$$o ( "+ String(ldh_Data_Parametro, 'dd/mm/yyyy') + " ). "
+			lb_Retorno = False
+		End If
+	End If	
+End If
+
+Return lb_Retorno
+end function
+

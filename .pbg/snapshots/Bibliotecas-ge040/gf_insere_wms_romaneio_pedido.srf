@@ -1,0 +1,121 @@
+HA$PBExportHeader$gf_insere_wms_romaneio_pedido.srf
+global type gf_insere_wms_romaneio_pedido from function_object
+end type
+
+forward prototypes
+global function boolean gf_insere_wms_romaneio_pedido (long al_nr_pedido, long al_nr_romaneio)
+global function boolean gf_insere_wms_romaneio_pedido (long al_nr_pedido, long al_nr_romaneio, long al_cd_filial, string as_geladeira, date adt_data_pedido)
+end prototypes
+
+global function boolean gf_insere_wms_romaneio_pedido (long al_nr_pedido, long al_nr_romaneio);return true
+end function
+
+global function boolean gf_insere_wms_romaneio_pedido (long al_nr_pedido, long al_nr_romaneio, long al_cd_filial, string as_geladeira, date adt_data_pedido);Long		ll_nr_romaneio, ll_Achou, ll_Romaneio
+String	ls_msg , ls_ConfereMesmoDia 
+Date ldt_Romaneio 
+
+ldt_Romaneio = RelativeDate(Date(gvo_Parametro.of_Dh_Movimentacao()), -0)
+
+If as_geladeira = 'S' Then 
+	
+	// Verifica se Filial/Pedido $$HEX1$$e900$$ENDHEX$$ Geladeira/Vacina
+	Select count (*) 
+	Into :ll_Achou
+	From   wms_lista_separacao a
+	Inner join pedido_distribuidora b on a.cd_filial = b.cd_filial and a.nr_pedido_distribuidora = b.nr_pedido_distribuidora
+	Where  a.nr_pedido_distribuidora =:al_nr_pedido
+	And a.cd_filial =:al_cd_filial
+	And a.dh_cancelamento is null 
+	And a.cd_tipo_volume 		= 1
+	And b.id_tipo_pedido = 'G'
+	And a.cd_esteira IN (4,6)
+	Using SqlCA;
+	
+	If SqlCa.SqlCode = -1 Then
+		ls_msg	= "Erro ao localizar o lista de separacao geladera. " + SQLCA.SQLErrText
+		SqlCa.of_Rollback()
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", ls_MSG, StopSign!)
+		Return False
+	End If
+		
+	// Troca data para o Romaneio
+	If ll_Achou > 0 Then 
+		Select min(dh_movimentacao) 
+		Into :ldt_Romaneio
+		From wms_romaneio 
+		Where cd_filial =:al_cd_filial 
+		And   dh_fechamento is null 
+		And  dh_movimentacao>=:adt_data_pedido
+		Using SqlCA;	
+		
+		If SqlCa.SqlCode = -1 Then
+			ls_msg = 	"Erro ao Localizar Data do Romaneio(Geladeira) Filial '" + string(al_cd_Filial) + "', fun$$HEX2$$e700e300$$ENDHEX$$o 'gf_insere_wms_romaneio_pedido'" + SQLCA.SQLErrText
+			SqlCa.of_Rollback()
+			MessageBox("Erro", ls_MSG, StopSign!)
+			Return False
+		End If	
+	End If 	
+End If 	
+
+Select Distinct Coalesce(nr_romaneio, 0) AS nr_romaneio
+Into :ll_Romaneio
+From wms_lista_separacao
+Where cd_filial = :al_cd_filial
+And nr_pedido_distribuidora = :al_nr_pedido
+And id_volume_extra = 'N'
+and dh_cancelamento is null
+Using SqlCa;
+
+If SqlCa.SqlCode = -1 Then
+	ls_msg = 	"Erro ao Localizaro numero do romaneio na Filial '" + string(al_cd_Filial) + "', tabela wms_lista_separacao fun$$HEX2$$e700e300$$ENDHEX$$o 'gf_insere_romaneio_pedido'" + SQLCA.SQLErrText
+	SqlCa.of_Rollback()
+	MessageBox("Erro", ls_MSG, StopSign!)
+	Return False
+End If	
+
+If ll_Romaneio > 0 Then
+	al_nr_romaneio = ll_Romaneio
+End If
+
+if IsNull(al_nr_romaneio) then
+	select nr_romaneio
+	  into :ll_nr_romaneio
+	  from wms_romaneio
+	 where cd_filial = :al_cd_filial and 
+	 		 dh_fechamento		is null	and
+			 dh_movimentacao =:ldt_Romaneio
+	Using SqlCa;
+	
+	Choose Case SqlCa.SqlCode
+		Case 100
+			SqlCa.of_Rollback()
+			MessageBox('Aten$$HEX2$$e700e300$$ENDHEX$$o', 'N$$HEX1$$e300$$ENDHEX$$o foi poss$$HEX1$$ed00$$ENDHEX$$vel encontrar nenhum romaneio no dia de hoje.')
+			Return False
+		Case -1
+			ls_msg	= "Erro ao localizar o romaneio. " + SQLCA.SQLErrText
+			SqlCa.of_Rollback()
+			MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", ls_MSG, StopSign!)
+			Return False
+	End Choose
+else
+	ll_nr_romaneio	= al_nr_romaneio
+end if
+
+insert into wms_romaneio_pedido  
+			(nr_romaneio,   
+			 cd_filial,   
+			 nr_pedido_distribuidora)
+  values (:ll_nr_romaneio,
+          :al_cd_filial,
+          :al_nr_pedido);
+
+if SqlCa.SqlCode = -1 then
+	ls_msg	= "Erro ao inserir na wms_romaneio_pedido. " + SQLCA.SQLErrText
+	SqlCa.of_Rollback()
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", ls_msg, StopSign!)
+	Return False
+end if
+
+Return True
+end function
+

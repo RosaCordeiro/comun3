@@ -1,0 +1,69 @@
+HA$PBExportHeader$gf_troca_caracteres_especiais.srf
+global type gf_troca_caracteres_especiais from function_object
+end type
+
+forward prototypes
+global function string gf_troca_caracteres_especiais (string ps_texto)
+end prototypes
+
+global function string gf_troca_caracteres_especiais (string ps_texto);String ls_Retorno
+
+ls_Retorno = gf_Replace(ps_texto, '$$HEX1$$aa00$$ENDHEX$$','', 0)
+ls_Retorno = gf_Replace(ls_Retorno, '&','e', 0)
+ls_Retorno = gf_Replace(ls_Retorno, '?','', 0)
+ls_Retorno = gf_Replace(ls_Retorno, '$$HEX1$$b000$$ENDHEX$$','', 0)
+
+ls_Retorno = gf_Replace(ls_Retorno, '$$HEX1$$fd00$$ENDHEX$$','y', 0)
+ls_Retorno = gf_Replace(ls_Retorno, '$$HEX1$$dd00$$ENDHEX$$','Y', 0)
+
+ls_Retorno = gf_Replace(ls_Retorno, '$$HEX1$$f100$$ENDHEX$$','n', 0)
+ls_Retorno = gf_Replace(ls_Retorno, '$$HEX1$$d100$$ENDHEX$$','N', 0)
+ls_Retorno = gf_Replace(ls_Retorno, '$$HEX1$$e700$$ENDHEX$$','c', 0)
+ls_Retorno = gf_Replace(ls_Retorno, '$$HEX1$$c700$$ENDHEX$$','C', 0)
+ls_Retorno = gf_Replace(ls_Retorno, '^','', 0)
+ls_Retorno = gf_Replace(ls_Retorno, '$$HEX1$$b400$$ENDHEX$$','', 0)
+ls_Retorno = gf_Replace(ls_Retorno, '`','', 0)
+ls_Retorno = gf_Replace(ls_Retorno, '$$HEX1$$a800$$ENDHEX$$','', 0)
+ls_Retorno = gf_Replace(ls_Retorno, '$$HEX1$$c200$$ENDHEX$$','A', 0)
+ls_Retorno = gf_Replace(ls_Retorno, '$$HEX1$$c300$$ENDHEX$$','A', 0)
+ls_Retorno = gf_Replace(ls_Retorno, '$$HEX1$$c100$$ENDHEX$$','A', 0)
+ls_Retorno = gf_Replace(ls_Retorno, '$$HEX1$$ca00$$ENDHEX$$','E', 0)
+ls_Retorno = gf_Replace(ls_Retorno, '$$HEX1$$c900$$ENDHEX$$','E', 0)
+ls_Retorno = gf_Replace(ls_Retorno, '$$HEX1$$d400$$ENDHEX$$','O', 0)
+ls_Retorno = gf_Replace(ls_Retorno, '$$HEX1$$d500$$ENDHEX$$','O', 0)
+ls_Retorno = gf_Replace(ls_Retorno, '$$HEX1$$d300$$ENDHEX$$','O', 0)
+ls_Retorno = gf_Replace(ls_Retorno, '$$HEX1$$d500$$ENDHEX$$','O', 0)
+ls_Retorno = gf_Replace(ls_Retorno, '$$HEX1$$db00$$ENDHEX$$','U', 0)
+ls_Retorno = gf_Replace(ls_Retorno, '$$HEX1$$da00$$ENDHEX$$','U', 0)
+
+Return ls_Retorno
+
+//  Str := StringReplace(Str,'$$HEX1$$e000$$ENDHEX$$','a',[rfReplaceAll]);
+//  Str := StringReplace(Str,'$$HEX1$$c000$$ENDHEX$$','A',[rfReplaceAll]);
+//  Str := StringReplace(Str,'$$HEX1$$e200$$ENDHEX$$','a',[rfReplaceAll]);
+//  Str := StringReplace(Str,'$$HEX1$$e100$$ENDHEX$$','a',[rfReplaceAll]);
+//  Str := StringReplace(Str,'$$HEX1$$e300$$ENDHEX$$','a',[rfReplaceAll]);
+//  Str := StringReplace(Str,'$$HEX1$$e800$$ENDHEX$$','e',[rfReplaceAll]);
+//  Str := StringReplace(Str,'$$HEX1$$c800$$ENDHEX$$','E',[rfReplaceAll]);
+//  Str := StringReplace(Str,'$$HEX1$$ea00$$ENDHEX$$','e',[rfReplaceAll]);
+//  Str := StringReplace(Str,'$$HEX1$$e900$$ENDHEX$$','e',[rfReplaceAll]);
+//  Str := StringReplace(Str,'$$HEX1$$ec00$$ENDHEX$$','i',[rfReplaceAll]);
+//  Str := StringReplace(Str,'$$HEX1$$cc00$$ENDHEX$$','I',[rfReplaceAll]);
+//  Str := StringReplace(Str,'$$HEX1$$ee00$$ENDHEX$$','i',[rfReplaceAll]);
+//  Str := StringReplace(Str,'$$HEX1$$ce00$$ENDHEX$$','I',[rfReplaceAll]);
+//  Str := StringReplace(Str,'$$HEX1$$ed00$$ENDHEX$$','i',[rfReplaceAll]);
+//  Str := StringReplace(Str,'$$HEX1$$cd00$$ENDHEX$$','I',[rfReplaceAll]);
+//  Str := StringReplace(Str,'$$HEX1$$f200$$ENDHEX$$','o',[rfReplaceAll]);
+//  Str := StringReplace(Str,'$$HEX1$$d200$$ENDHEX$$','O',[rfReplaceAll]);
+//  Str := StringReplace(Str,'$$HEX1$$f400$$ENDHEX$$','o',[rfReplaceAll]);
+//  Str := StringReplace(Str,'$$HEX1$$f300$$ENDHEX$$','o',[rfReplaceAll]);
+//  Str := StringReplace(Str,'$$HEX1$$f500$$ENDHEX$$','o',[rfReplaceAll]);
+//  Str := StringReplace(Str,'$$HEX1$$f900$$ENDHEX$$','u',[rfReplaceAll]);
+//  Str := StringReplace(Str,'$$HEX1$$d900$$ENDHEX$$','U',[rfReplaceAll]);
+//  Str := StringReplace(Str,'$$HEX1$$fb00$$ENDHEX$$','u',[rfReplaceAll]);
+//
+//  Str := StringReplace(Str,'$$HEX1$$fa00$$ENDHEX$$','u',[rfReplaceAll]);
+
+
+end function
+

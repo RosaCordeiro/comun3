@@ -1,0 +1,133 @@
+HA$PBExportHeader$gf_cancela_titulo_receber.srf
+global type gf_cancela_titulo_receber from function_object
+end type
+
+forward prototypes
+global function integer gf_cancela_titulo_receber (long pl_filial, long pl_nf, string ps_especie, string ps_serie)
+end prototypes
+
+global function integer gf_cancela_titulo_receber (long pl_filial, long pl_nf, string ps_especie, string ps_serie);Datetime lvdh_Baixa
+Datetime lvdh_Movto
+
+Long lvl_Movto
+Long lvl_Linha
+Long lvl_Nr_Movto
+Long lvl_Filial
+
+String lvs_Titulo
+String lvs_Situacao
+String lvs_Historico
+String lvs_Msg
+
+Decimal{2} lvdc_Vl_Movto
+Decimal{2} lvdc_Vl_Desc
+Decimal{2} lvdc_Vl_Juro
+Decimal{2} lvdc_Vl_Desp
+
+dc_uo_ds_base lvds_titulo
+lvds_titulo = Create dc_uo_ds_base
+
+If Not lvds_titulo.of_changedataobject('ds_ge020_titulo_receber') Then
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o!","Ocorreu um erro ao tentar alterar para a ds_ge020_titulo_receber.~r~n"+ &
+					"A nota n$$HEX1$$e300$$ENDHEX$$o ser$$HEX1$$e100$$ENDHEX$$ cancelada.",StopSign!);
+	Destroy(lvds_titulo)
+	SqlCa.of_RollBack();
+	Return 1
+End If
+
+uo_titulo lvo_titulo
+lvo_titulo = Create uo_titulo
+
+lvs_Historico = 'ESTORNO POR CANCELAMENTO NOTA'
+lvl_Filial = gvo_Parametro.of_Filial()
+
+lvs_Msg = '<b>Filial:</b>'+String(pl_filial)+'<br />' + &
+			  '<b>Nota:</b>'+String(pl_nf)+'<br />' + &
+			  '<b>Esp$$HEX1$$e900$$ENDHEX$$cie:</b>'+ps_especie+'<br />' + &
+			  '<b>S$$HEX1$$e900$$ENDHEX$$rie:</b>'+ps_serie+'<br />'+ &
+			  '<b>Observa$$HEX2$$e700f500$$ENDHEX$$es:</b>Trata-se de uma nota diversa j$$HEX1$$e100$$ENDHEX$$ cancelada.'
+
+lvds_titulo.Retrieve(pl_filial,pl_Nf,ps_especie,ps_serie)
+For lvl_Linha = 1 To lvds_titulo.RowCount()
+	lvs_Titulo 	= lvds_titulo.Object.nr_titulo	[lvl_Linha]
+	lvdh_Baixa	= lvds_titulo.Object.dh_baixa	[lvl_Linha]
+	lvs_Situacao	= lvds_titulo.Object.id_situacao	[lvl_Linha]
+	
+	If (lvs_Situacao = 'A') and (IsNull(lvdh_Baixa)) Then
+		lvl_Movto = lvo_Titulo.of_Movto_Estorno_Abertura()
+		
+		Update movimento_titulo_receber
+		Set id_estorno = 'S'
+		Where nr_titulo           		= :lvs_Titulo
+		  and cd_filial_movimento 	= :pl_filial
+		  and cd_tipo_movimento    	= 1 //ABERTURA
+		Using SqlCa;
+		
+		If SqlCa.SQLCode <> -1 Then
+			Select coalesce(max(nr_movimento),0)+1 Into :lvl_Nr_Movto
+			From movimento_titulo_receber
+			Where nr_titulo           = :lvs_Titulo
+			  and cd_filial_movimento = :pl_filial
+			Using SqlCa;
+			
+			Select vl_movimento, vl_juros_recebidos, vl_desconto_concedido, vl_despesas_recebidas, dh_movimento
+			Into :lvdc_Vl_Movto, :lvdc_Vl_Juro, :lvdc_Vl_Desc, :lvdc_Vl_Desp, :lvdh_Movto
+			From movimento_titulo_receber
+			Where nr_titulo           = :lvs_Titulo
+			  and cd_filial_movimento = :pl_filial
+			  and cd_tipo_movimento    	= 1 //ABERTURA
+			Using SqlCa;
+			
+			Insert Into movimento_titulo_receber (nr_titulo,   
+															  cd_filial_movimento,   
+															  nr_movimento,   
+															  cd_tipo_movimento,   
+															  nr_matricula_responsavel,   
+															  dh_sistema,   
+															  dh_movimento,   
+															  dh_credito,   
+															  vl_movimento,   
+															  vl_juros_recebidos,   
+															  vl_desconto_concedido,   
+															  vl_despesas_recebidas,   
+															  id_estorno,   
+															  de_historico,   
+															  nr_recibo_cobranca,   
+															  nr_matric_juros_desconto)
+			Values (:lvs_Titulo,
+					  :lvl_Filial,
+					  :lvl_Nr_Movto, 
+					  2,
+					  :gvo_Aplicacao.ivo_Seguranca.Nr_Matricula,
+					  getdate(),
+					  :lvdh_Movto,
+					  :lvdh_Movto,
+					  :lvdc_Vl_Movto,
+					  :lvdc_Vl_Juro, 
+					  :lvdc_Vl_Desc,
+					  :lvdc_Vl_Desp,
+					  'N',
+					  :lvs_Historico,
+					  null,
+					  null)
+			Using SqlCa;
+			
+			If SqlCa.SQLCode = -1 Then
+				If lvl_Filial = gvo_Parametro.of_Filial_Matriz() Then
+					gf_ge202_envia_email_automatico(43,'',lvs_Msg+'<br />'+SqlCa.SQLErrText,{''})
+				End If
+			End If
+		End If
+	Else
+		If lvl_Filial = gvo_Parametro.of_Filial_Matriz() Then
+			gf_ge202_envia_email_automatico(42,'',lvs_Msg,{''})
+		End If
+		SQLCa.Of_RollBack()
+		Exit
+	End If
+Next
+
+If IsValid(lvds_titulo) Then Destroy(lvds_titulo)
+If IsValid(lvo_titulo) Then Destroy(lvo_titulo)
+end function
+

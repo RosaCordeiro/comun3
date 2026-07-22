@@ -1,0 +1,53 @@
+HA$PBExportHeader$gf_url_encode.srf
+global type gf_url_encode from function_object
+end type
+
+forward prototypes
+global function string gf_url_encode (string as_input)
+end prototypes
+
+global function string gf_url_encode (string as_input);/* Fun$$HEX2$$e700e300$$ENDHEX$$o para codificar caracteres especiais de um string em hexadecimal para composi$$HEX2$$e700e300$$ENDHEX$$o de URLs
+	Autor: Jo$$HEX1$$e300$$ENDHEX$$o Carlos Ribeiro (19/07/2024) [p$$HEX1$$f300$$ENDHEX$$s uo_windows_version e ChatGPT]
+	
+	Exemplo de convers$$HEX1$$e300$$ENDHEX$$o:
+	original   : Ab%*E/ [8#
+	convertido : Ab%25%2AE%2F%20%5B8%23
+*/
+
+Char				lch_hex[0 to 15] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'}
+Integer			li_length = 2
+Long				ll_length, ll_pos, ll_decimal
+String			ls_output, lc_char, ls_hex
+
+ll_length = Len (as_input)
+
+For ll_pos = 1 to ll_length
+	lc_char = Mid (as_input, ll_pos, 1)
+	
+	Choose case lc_char
+		
+		case 'A' to 'Z', 'a' to 'z', '0' to '9'
+			ls_output += lc_char
+			
+		case else
+			//Converte pra hexadecimal
+			ll_decimal = AscA (lc_char)
+			ls_hex     = ''
+			
+			Do 
+				ls_hex      = lch_hex [mod (ll_decimal, 16)] + ls_hex
+				ll_decimal /= 16
+			Loop Until ll_decimal = 0
+			
+			//Acrescenta zeros $$HEX1$$e000$$ENDHEX$$ esquerda
+			ls_hex = Fill  ('0', li_length) + ls_hex
+			ls_hex = Right (ls_hex, li_length)
+			
+			ls_output += '%' + ls_hex
+			
+	End choose
+Next
+
+Return ls_output
+end function
+

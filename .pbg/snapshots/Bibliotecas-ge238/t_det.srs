@@ -1,0 +1,10 @@
+HA$PBExportHeader$t_det.srs
+global type t_det from structure
+	string		nitem
+	t_prod		prod
+	t_imposto		imposto
+	string		infadprod
+	decimal{2}		vitem
+	t_DFeReferenciado		DFeReferenciado
+end type
+

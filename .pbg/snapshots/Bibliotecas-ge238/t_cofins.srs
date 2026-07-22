@@ -1,0 +1,9 @@
+HA$PBExportHeader$t_cofins.srs
+global type t_cofins from structure
+	string		TipoCofins
+	t_cofinsaliq		COFINSAliq
+	t_cofinsqtde		COFINSQtde
+	t_cofinsnt		COFINSNT
+	t_cofinsoutr		COFINSOutr
+end type
+

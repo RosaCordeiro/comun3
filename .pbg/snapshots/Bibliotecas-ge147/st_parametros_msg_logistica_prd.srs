@@ -1,0 +1,12 @@
+HA$PBExportHeader$st_parametros_msg_logistica_prd.srs
+global type st_parametros_msg_logistica_prd from structure
+	long		nr_pedido
+	long		cd_produto
+	long		qt_pedida
+	string		nr_matricula
+	long		cd_mensagem
+	string		de_produto
+	long		nr_sequencial
+	long		cd_filial
+end type
+

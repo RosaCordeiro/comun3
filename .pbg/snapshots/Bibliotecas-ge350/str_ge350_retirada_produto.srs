@@ -1,0 +1,12 @@
+HA$PBExportHeader$str_ge350_retirada_produto.srs
+global type str_ge350_retirada_produto from structure
+	long		cd_filial[]
+	long		cd_produto[]
+	long		qt_solicitada[]
+	long		qt_aprovada[]
+	decimal		vl_custo_medio[]
+	long		cd_tipo_prd_fiscal[]
+	string		id_dev_transf[]
+	string		de_observacao[]
+end type
+

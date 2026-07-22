@@ -1,0 +1,65 @@
+HA$PBExportHeader$gf_ge380_alerta_desconto.srf
+global type gf_ge380_alerta_desconto from function_object
+end type
+
+forward prototypes
+global function boolean gf_ge380_alerta_desconto (dc_uo_dw_base adw, string as_tipo_promocao)
+end prototypes
+
+global function boolean gf_ge380_alerta_desconto (dc_uo_dw_base adw, string as_tipo_promocao);If as_Tipo_Promocao <> "N" Then Return True
+
+str_ge380_dados_promocao st
+
+Decimal ldc_Desconto
+Decimal ldc_Desc_Ant
+Decimal ldc_Desconto_Clube
+Decimal ldc_Desc_Clube_Ant
+
+Long ll_Linha
+
+String ls_Responsavel
+String ls_Retorno
+
+adw.AcceptText()
+
+For ll_Linha = 1 To adw.RowCount()
+	ldc_Desconto			= adw.Object.Pc_Desconto						[ll_Linha]
+	ldc_Desc_Ant			= adw.Object.pc_desconto_anterior			[ll_Linha]
+	ldc_Desconto_Clube	= adw.Object.Pc_Desconto_Clube				[ll_Linha]
+	ldc_Desc_Clube_Ant	= adw.Object.pc_desconto_clube_anterior	[ll_Linha]
+	
+	If (ldc_Desconto <> ldc_Desc_Ant) Or (ldc_Desconto_Clube <> ldc_Desc_Clube_Ant) Then
+	
+		If ldc_Desconto > 75.00 Or ldc_Desconto_Clube > 75.00 Then
+			st.Cd_Produto	[UpperBound(st.Cd_Produto[]) + 1]	= adw.Object.Cd_Produto	[ll_Linha]
+			st.De_Produto	[UpperBound(st.De_Produto[]) + 1]	= adw.Object.De_Produto	[ll_Linha]
+					
+			If IsNull(ldc_Desc_Ant) Then
+				ldc_Desc_Ant = 0.00
+			End If
+			
+			If IsNull(ldc_Desc_Clube_Ant) Then
+				ldc_Desc_Clube_Ant = 0.00
+			End If
+			
+			st.Pc_Desconto			[UpperBound(st.Pc_Desconto[]) + 1]			= ldc_Desconto
+			st.Pc_Desconto_Clube	[UpperBound(st.Pc_Desconto_Clube[]) + 1]	= ldc_Desconto_Clube
+		End If
+	End If
+Next
+
+If UpperBound(st.Cd_Produto[]) > 0 Then	
+	OpenWithParm(w_ge380_alerta_desconto, st)
+	
+	ls_Retorno = Message.StringParm
+	
+	If ls_Retorno = "OK" Then
+		Return True
+	Else
+		Return False
+	End If
+End If
+
+Return True
+end function
+

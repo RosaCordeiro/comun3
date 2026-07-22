@@ -1,0 +1,48 @@
+HA$PBExportHeader$dw_troca_refcom_cliente_loja_central.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=72 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=84 color="536870912" )
+table(column=(type=char(11) update=yes updatewhereclause=yes key=yes name=cd_cliente dbname="referencia_comercial_cliente.cd_cliente" )
+ column=(type=char(40) update=yes updatewhereclause=yes key=yes name=nm_referencia dbname="referencia_comercial_cliente.nm_referencia" )
+ column=(type=char(40) update=yes updatewhereclause=yes name=de_endereco dbname="referencia_comercial_cliente.de_endereco" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=de_bairro dbname="referencia_comercial_cliente.de_bairro" )
+ column=(type=char(8) update=yes updatewhereclause=yes name=nr_cep dbname="referencia_comercial_cliente.nr_cep" )
+ column=(type=char(3) update=yes updatewhereclause=yes name=nr_ddd_telefone dbname="referencia_comercial_cliente.nr_ddd_telefone" )
+ column=(type=char(8) update=yes updatewhereclause=yes name=nr_telefone dbname="referencia_comercial_cliente.nr_telefone" )
+ column=(type=long update=yes updatewhereclause=yes name=cd_filial_atualizacao dbname="referencia_comercial_cliente.cd_filial_atualizacao" )
+ column=(type=datetime update=yes updatewhereclause=yes name=dh_atualizacao_filial dbname="referencia_comercial_cliente.dh_atualizacao_filial" )
+ retrieve="  SELECT referencia_comercial_cliente.cd_cliente,   
+         referencia_comercial_cliente.nm_referencia,   
+         referencia_comercial_cliente.de_endereco,   
+         referencia_comercial_cliente.de_bairro,   
+         referencia_comercial_cliente.nr_cep,   
+         referencia_comercial_cliente.nr_ddd_telefone,   
+         referencia_comercial_cliente.nr_telefone,   
+         referencia_comercial_cliente.cd_filial_atualizacao,   
+         referencia_comercial_cliente.dh_atualizacao_filial  
+    FROM referencia_comercial_cliente  
+   WHERE ( referencia_comercial_cliente.cd_filial_atualizacao = :filial ) AND  
+         ( referencia_comercial_cliente.dh_atualizacao_filial = :data_base )    
+" update="referencia_comercial_cliente" updatewhere=1 updatekeyinplace=no arguments=(("filial", number),("data_base", date)) )
+text(band=header alignment="2" text="Cd Cliente"border="0" color="0" x="5" y="4" height="64" width="329"  name=cd_cliente_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nm Referencia"border="0" color="0" x="338" y="4" height="64" width="1125"  name=nm_referencia_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="De Endereco"border="0" color="0" x="1467" y="4" height="64" width="1125"  name=de_endereco_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="De Bairro"border="0" color="0" x="2601" y="4" height="64" width="576"  name=de_bairro_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Cep"border="0" color="0" x="3182" y="4" height="64" width="247"  name=nr_cep_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Ddd Telefone"border="0" color="0" x="3433" y="4" height="64" width="421"  name=nr_ddd_telefone_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Telefone"border="0" color="0" x="3858" y="4" height="64" width="297"  name=nr_telefone_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cd Filial Atualizacao"border="0" color="0" x="4160" y="4" height="64" width="544"  name=cd_filial_atualizacao_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Dh Atualizacao Filial"border="0" color="0" x="4709" y="4" height="64" width="603"  name=dh_atualizacao_filial_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=10 border="0" color="0" x="5" y="4" height="76" width="329" format="[general]"  name=cd_cliente edit.limit=11 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=20 border="0" color="0" x="338" y="4" height="76" width="1125" format="[general]"  name=nm_referencia edit.limit=40 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=30 border="0" color="0" x="1467" y="4" height="76" width="1125" format="[general]"  name=de_endereco edit.limit=40 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=40 border="0" color="0" x="2601" y="4" height="76" width="576" format="[general]"  name=de_bairro edit.limit=20 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=50 border="0" color="0" x="3182" y="4" height="76" width="247" format="[general]"  name=nr_cep edit.limit=8 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=60 border="0" color="0" x="3433" y="4" height="76" width="110" format="[general]"  name=nr_ddd_telefone edit.limit=3 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=70 border="0" color="0" x="3858" y="4" height="76" width="247" format="[general]"  name=nr_telefone edit.limit=8 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="1" tabsequence=80 border="0" color="0" x="4160" y="4" height="76" width="329" format="[general]"  name=cd_filial_atualizacao edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="0" tabsequence=90 border="0" color="0" x="4709" y="4" height="76" width="603" format="[shortdate] [time]"  name=dh_atualizacao_filial edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

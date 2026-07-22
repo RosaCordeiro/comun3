@@ -1,0 +1,11 @@
+HA$PBExportHeader$t_transporta.srs
+global type t_transporta from structure
+	string		CNPJ
+	string		CPF
+	string		xNome
+	string		IE
+	string		xEnder
+	string		xMun
+	string		UF
+end type
+

@@ -1,0 +1,33 @@
+HA$PBExportHeader$ds_dependente_conveniado_nao_atualizado.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=88 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=92 color="536870912" )
+table(column=(type=char(15) updatewhereclause=yes name=cd_conveniado dbname="dependente_conveniado.cd_conveniado" )
+ column=(type=long updatewhereclause=yes name=cd_dependente dbname="dependente_conveniado.cd_dependente" )
+ retrieve="Select dc.cd_conveniado,
+       dc.cd_dependente
+From convenio cv, 
+     conveniado co,
+     dependente_conveniado dc
+Where cv.cd_convenio   = :convenio
+  and co.cd_convenio   = cv.cd_convenio
+  and dc.cd_convenio   = co.cd_convenio
+  and dc.cd_conveniado = co.cd_conveniado
+  and dc.dh_atualizacao_filial < cv.dh_atualizacao_conveniado
+  and not exists (Select *
+						From bloqueio b
+						Where b.id_tipo_bloqueio   = 'DCO' 
+						  and b.cd_convenio        = co.cd_convenio
+						  and b.cd_conveniado      = co.cd_conveniado 
+                    and b.cd_dependente      = dc.cd_dependente
+						  and b.cd_motivo_bloqueio = :Motivo
+						  and b.dh_liberacao is null)
+" arguments=(("convenio", number),("motivo", string)) )
+text(band=header alignment="0" text="Dependente Conveniado Cd Dependente"border="0" color="0" x="9" y="4" height="76" width="485"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Dependente Conveniado Cd Conveniado"border="0" color="0" x="503" y="4" height="76" width="471"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="9" y="0" height="76" width="485" format="[general]"  name=cd_dependente edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="503" y="0" height="76" width="471" format="[general]"  name=cd_conveniado edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

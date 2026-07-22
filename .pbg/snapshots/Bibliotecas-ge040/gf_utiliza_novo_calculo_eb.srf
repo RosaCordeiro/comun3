@@ -1,0 +1,29 @@
+HA$PBExportHeader$gf_utiliza_novo_calculo_eb.srf
+global type gf_utiliza_novo_calculo_eb from function_object
+end type
+
+forward prototypes
+global function boolean gf_utiliza_novo_calculo_eb (long al_filial, ref string as_utiliza_novo_calculo)
+end prototypes
+
+global function boolean gf_utiliza_novo_calculo_eb (long al_filial, ref string as_utiliza_novo_calculo);Select  vl_parametro 
+Into :as_utiliza_novo_calculo
+From parametro_loja
+where cd_filial = :al_filial
+	and cd_parametro = 'ID_UTILIZA_NOVO_CALCULO_ESTOQUE_BASE'
+Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+	Case 0
+		If as_utiliza_novo_calculo <> 'S' and as_utiliza_novo_calculo <> 'N' Then
+			Messagebox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Par$$HEX1$$e200$$ENDHEX$$metro 'ID_UTILIZA_NOVO_CALCULO_ESTOQUE_BASE' esta diferente do esperado (S/N).")
+			Return False
+		End If
+	Case 100
+		as_utiliza_novo_calculo = 'N'
+	Case -1
+		SqlCa.of_MsgDbError("Erro ao localizar o par$$HEX1$$e200$$ENDHEX$$metro da loja 'ID_UTILIZA_NOVO_CALCULO_ESTOQUE_BASE'.")
+		Return False
+End Choose
+end function
+

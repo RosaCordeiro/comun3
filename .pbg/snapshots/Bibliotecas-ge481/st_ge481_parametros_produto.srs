@@ -1,0 +1,24 @@
+HA$PBExportHeader$st_ge481_parametros_produto.srs
+global type st_ge481_parametros_produto from structure
+	long		cd_produto
+	string		de_produto
+	string		nr_lote
+	datetime		dh_validade
+	long		qt_recebida
+	long		tipo
+	string		id_sucesso
+	string		id_perfumaria
+	string		id_vencido_danificado
+	string		id_controlado
+	string		id_retirada_excesso
+	string		nr_protocolo
+	long		nr_motivo
+	long		cd_filial
+	long		nr_nf
+	string		de_especie
+	string		de_serie
+	string		id_protocolo_ativo
+	string		cd_endereco_wms
+	string		id_exige_protocolo
+end type
+

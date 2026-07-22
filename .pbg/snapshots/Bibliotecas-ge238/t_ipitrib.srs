@@ -1,0 +1,10 @@
+HA$PBExportHeader$t_ipitrib.srs
+global type t_ipitrib from structure
+	string		CST
+	double		vBC
+	double		pIPI
+	double		qUnid
+	double		vUnid
+	double		vIPI
+end type
+

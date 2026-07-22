@@ -1,0 +1,77 @@
+HA$PBExportHeader$ds_ge501_ordem_distribuidora_produto.srd
+release 12;
+datawindow(units=0 timer_interval=0 color=67108864 brushmode=0 transparency=0 gradient.angle=0 gradient.color=8421504 gradient.focus=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.repetition.mode=0 gradient.scale=100 gradient.spread=100 gradient.transparency=0 picture.blur=0 picture.clip.bottom=0 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.transparency=0 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes hidegrayline=no showbackcoloronxp=no picture.file="" )
+header(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+detail(height=76 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+table(column=(type=char(9) updatewhereclause=yes name=cd_distribuidora dbname="cd_distribuidora" )
+ column=(type=long updatewhereclause=yes name=qt_estoque_disponivel dbname="qt_estoque_disponivel" )
+ column=(type=long updatewhereclause=yes name=nr_prior_atend_ped_empurrado dbname="nr_prior_atend_ped_empurrado" )
+ retrieve="select cd_distribuidora, qt_estoque_disponivel, nr_prior_atend_ped_empurrado
+from 
+(
+	Select   d.cd_distribuidora, d.qt_estoque_disponivel, ec.nr_prior_atend_ped_empurrado
+	From distribuidora_produto d
+	Inner join fornecedor f
+		on f.cd_fornecedor = d.cd_distribuidora
+	Inner join filial_distribuidora fd
+		on fd.cd_distribuidora = d.cd_distribuidora
+	inner join filial fi
+		on fi.cd_filial = fd.cd_filial
+	inner join cidade ci
+		on ci.cd_cidade = fi.cd_cidade
+	inner join ecommerce_distrib ec
+		on ec.id_ecommerce = '2'
+		and ec.cd_distribuidora = d.cd_distribuidora
+	    and ec.cd_filial = fd.cd_filial
+	Where  fd.cd_filial = :pl_cd_filial
+	  and d.cd_produto = :pl_cd_produto
+	  and coalesce(f.id_atende_pedido_ecommerce, 'N') = 'S'
+	  and coalesce(f.id_situacao, 'A') = 'A'
+	  and fd.id_situacao = 'A'
+	  and ( 
+			( coalesce(ec.id_estoque_maior_10dias, 'N') = 'S' and coalesce(d.id_estoque_maior_10dias, 'N') = 'S' )
+		or ( coalesce(ec.id_estoque_maior_10dias, 'N') = 'N' )
+			)
+	  and d.cd_unidade_federacao = ci.cd_unidade_federacao
+	  and d.qt_estoque_disponivel >= ec.qt_minima_estoque
+	  and ec.dh_inicio_saldo <= cast(getdate() as date)
+	  and ec.dh_termino_saldo >= cast(getdate() as date)
+	
+	union
+	
+	select fo.cd_fornecedor, sa.qt_saldo_final as qt_estoque_disponivel, ec.nr_prior_atend_ped_empurrado
+	from fornecedor fo
+	inner join filial fi
+		on fi.cd_filial = 534
+	inner join saldo_produto sa
+		on sa.cd_filial = fi.cd_filial
+		and sa.dh_saldo = fi.dh_ultimo_saldo
+	inner join ecommerce_distrib ec
+		on ec.id_ecommerce = '2'
+		and ec.cd_distribuidora = fo.cd_fornecedor
+		and ec.cd_filial = :pl_cd_filial -- necess$$HEX1$$e100$$ENDHEX$$rio ser a filial que esta sendo atualizada
+	where fo.cd_fornecedor = '053404705'
+	  and coalesce(fo.id_atende_pedido_ecommerce, 'N') = 'S'
+	  and sa.cd_produto = :pl_cd_produto
+	  and sa.qt_saldo_final >= ec.qt_minima_estoque
+	  and ec.dh_inicio_saldo <= cast(getdate() as date)
+	  and ec.dh_termino_saldo >= cast(getdate() as date)
+) as tudo
+order by nr_prior_atend_ped_empurrado
+" arguments=(("pl_cd_filial", number),("pl_cd_produto", number)) )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="33554432" x="14" y="8" height="60" width="512" format="[general]" html.valueishtml="0"  name=cd_distribuidora visible="1" edit.limit=9 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="33554432" x="544" y="8" height="60" width="261" format="[general]" html.valueishtml="0"  name=qt_estoque_disponivel visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="33554432" x="827" y="8" height="60" width="530" format="[general]" html.valueishtml="0"  name=nr_prior_atend_ped_empurrado visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

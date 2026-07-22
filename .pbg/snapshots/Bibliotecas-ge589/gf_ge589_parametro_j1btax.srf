@@ -1,0 +1,20 @@
+HA$PBExportHeader$gf_ge589_parametro_j1btax.srf
+global type gf_ge589_parametro_j1btax from function_object
+end type
+
+forward prototypes
+global function string gf_ge589_parametro_j1btax (string ps_cd_parametro, string ps_ambiente_sap)
+end prototypes
+
+global function string gf_ge589_parametro_j1btax (string ps_cd_parametro, string ps_ambiente_sap);String vls_parametro=''
+
+SELECT vl_parametro
+INTO 	:vls_parametro
+FROM	parametro_j1btax
+WHERE	cd_parametro = :ps_cd_parametro
+	AND cd_ambiente_sap = :ps_ambiente_sap
+USING SQLCA;
+
+Return vls_parametro
+end function
+

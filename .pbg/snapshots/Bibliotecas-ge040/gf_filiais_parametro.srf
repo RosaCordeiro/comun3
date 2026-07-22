@@ -1,0 +1,40 @@
+HA$PBExportHeader$gf_filiais_parametro.srf
+global type gf_filiais_parametro from function_object
+end type
+
+forward prototypes
+global function boolean gf_filiais_parametro (ref long pl_filial, ref long pl_filial_matriz)
+end prototypes
+
+global function boolean gf_filiais_parametro (ref long pl_filial, ref long pl_filial_matriz);Long lvl_Filial, lvl_Filial_Matriz
+
+Select cd_filial,cd_filial_matriz 
+Into :lvl_Filial,:lvl_Filial_Matriz
+From parametro
+where id_parametro = '1'
+Using Sqlca;
+
+If Sqlca.Sqlcode = -1 Then 
+	Sqlca.of_MsgDbError("Localiza$$HEX2$$e700e300$$ENDHEX$$o filiais par$$HEX1$$e200$$ENDHEX$$metro.")
+	Return False
+ElseIf Sqlca.Sqlcode = 100 Then
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o","N$$HEX1$$e300$$ENDHEX$$o foi poss$$HEX1$$ed00$$ENDHEX$$vel localizar filiais par$$HEX1$$e200$$ENDHEX$$metro.",StopSign!)
+	Return False
+End If
+
+If IsNull(lvl_Filial) or lvl_Filial = 0 Then
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o","C$$HEX1$$f300$$ENDHEX$$digo da filial n$$HEX1$$e300$$ENDHEX$$o esta configurado nos par$$HEX1$$e200$$ENDHEX$$metros do sistema.",StopSign!)
+	Return False
+End If	
+
+If IsNull(lvl_Filial_Matriz) or lvl_Filial_Matriz = 0 Then
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o","C$$HEX1$$f300$$ENDHEX$$digo da filial matriz n$$HEX1$$e300$$ENDHEX$$o esta configurado nos par$$HEX1$$e200$$ENDHEX$$metros do sistema.",StopSign!)
+	Return False
+End If	
+
+pl_filial		  = lvl_Filial
+pl_filial_matriz = lvl_Filial_Matriz
+
+Return True
+end function
+

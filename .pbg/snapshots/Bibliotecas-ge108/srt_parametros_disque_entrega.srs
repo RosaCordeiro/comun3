@@ -1,0 +1,8 @@
+HA$PBExportHeader$srt_parametros_disque_entrega.srs
+global type srt_parametros_disque_entrega from structure
+	string		cd_cliente
+	long		sequencial_cliente_caixa
+	string		nr_matricula_vendedor
+	decimal{2}		vl_total_pedido
+end type
+

@@ -1,0 +1,58 @@
+HA$PBExportHeader$gf_ge033_cancela_nf_regra_depto_fiscal.srf
+global type gf_ge033_cancela_nf_regra_depto_fiscal from function_object
+end type
+
+forward prototypes
+global function boolean gf_ge033_cancela_nf_regra_depto_fiscal (date pdh_emissao)
+global function boolean gf_ge033_cancela_nf_regra_depto_fiscal (date pdh_emissao, string ps_tipo_nf)
+end prototypes
+
+global function boolean gf_ge033_cancela_nf_regra_depto_fiscal (date pdh_emissao);String ls_Tipo_NF
+SetNull(ls_Tipo_NF)
+
+Return gf_ge033_cancela_nf_regra_depto_fiscal (pdh_emissao, ls_Tipo_NF)
+end function
+
+global function boolean gf_ge033_cancela_nf_regra_depto_fiscal (date pdh_emissao, string ps_tipo_nf);Date ldh_Parametro
+
+String ls_Mensagem
+
+//Verifica problemas de data na m$$HEX1$$e100$$ENDHEX$$quina/fiscal
+If Not gf_Data_Pdv_Correta( Ref ls_Mensagem ) Then
+	MessageBox( "Aten$$HEX2$$e700e300$$ENDHEX$$o", ls_Mensagem, Exclamation! )
+	Return False
+End If
+
+//Recupera data do par$$HEX1$$e200$$ENDHEX$$metro na loja
+If Not gf_Data_Parametro( ldh_Parametro ) Then Return False
+
+//Se j$$HEX1$$e100$$ENDHEX$$ tiver mudado de m$$HEX1$$ea00$$ENDHEX$$s n$$HEX1$$e300$$ENDHEX$$o ser$$HEX1$$e100$$ENDHEX$$ mais poss$$HEX1$$ed00$$ENDHEX$$vel cancelar
+If Month( ldh_Parametro ) <> Month( pdh_emissao ) Then
+	//Se for diferente de domingo ou n$$HEX1$$e300$$ENDHEX$$o o primeiro dia do m$$HEX1$$ea00$$ENDHEX$$s, n$$HEX1$$e300$$ENDHEX$$o permite cancelar pois o fechamento pode ja ter ocorrido
+	If DayNumber(ldh_Parametro)<>1 or Day(ldh_Parametro)<>1 Then
+		//Se a data movto da nota for inferior a data do par$$HEX1$$e200$$ENDHEX$$metro
+		If pdh_emissao < ldh_Parametro Then
+			//Em processo de fechamento (antes do dia 4)
+			If  Day(ldh_Parametro) <= 4 Then
+				ls_Mensagem = "N$$HEX1$$e300$$ENDHEX$$o $$HEX1$$e900$$ENDHEX$$ poss$$HEX1$$ed00$$ENDHEX$$vel cancelar notas fiscais do m$$HEX1$$ea00$$ENDHEX$$s "+String( pdh_emissao, "MM/YYYY")+", pois o Depto. Fiscal est$$HEX1$$e100$$ENDHEX$$ em fechamento mensal."
+			Else //Setor Fiscal j$$HEX1$$e100$$ENDHEX$$ fechou o m$$HEX1$$ea00$$ENDHEX$$s (ap$$HEX1$$f300$$ENDHEX$$s dia 5)
+				ls_Mensagem = "N$$HEX1$$e300$$ENDHEX$$o $$HEX1$$e900$$ENDHEX$$ poss$$HEX1$$ed00$$ENDHEX$$vel cancelar notas fiscais do m$$HEX1$$ea00$$ENDHEX$$s "+String( pdh_emissao, "MM/YYYY")+", pois o Depto. Fiscal est$$HEX1$$e100$$ENDHEX$$ com este m$$HEX1$$ea00$$ENDHEX$$s encerrado."
+			End If
+	
+			//Devolucao_compra
+			If ps_tipo_nf = 'DC' Then
+				ls_Mensagem = ls_Mensagem + "~r~rNecess$$HEX1$$e100$$ENDHEX$$rio contatar o Depto. Fiscal, via chamado, para solicitar nota de estorno fora do prazo."
+			End If
+			
+			MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", ls_Mensagem, Exclamation!)
+			
+			Return False
+		End If
+	Else
+		//Domingo $$HEX1$$e900$$ENDHEX$$ dia primeiro do m$$HEX1$$ea00$$ENDHEX$$s, ent$$HEX1$$e300$$ENDHEX$$o permite cancelar
+	End If
+End If
+
+Return True
+end function
+

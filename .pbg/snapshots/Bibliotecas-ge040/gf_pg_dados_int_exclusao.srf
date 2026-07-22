@@ -1,0 +1,71 @@
+HA$PBExportHeader$gf_pg_dados_int_exclusao.srf
+$PBExportComments$Fun$$HEX2$$e700e300$$ENDHEX$$o para conectar ao Postgres dadosintegra
+global type gf_pg_dados_int_exclusao from function_object
+end type
+
+forward prototypes
+global function boolean gf_pg_dados_int_exclusao (ref string as_erro)
+end prototypes
+
+global function boolean gf_pg_dados_int_exclusao (ref string as_erro);Date 		ldt_data_exclusao
+String	ls_usuario, ls_senha, ls_data_source, ls_datasource_sistema
+String	ls_Anexo[],ls_Tipo
+// Conex$$HEX1$$e300$$ENDHEX$$o com banco dadosintegra
+dc_uo_transacao SQLCA_PG_DADOSINT
+
+ls_data_source	= 'dadosintegra'
+ls_usuario		= 'usr-dadosintegra'
+ls_senha			= 'V8mideQU!res'
+ls_Tipo			= 'Exclus$$HEX1$$e300$$ENDHEX$$o'
+ldt_data_exclusao = RelativeDate(Today(),-90)
+
+SQLCA_PG_DADOSINT = Create dc_uo_transacao
+
+SQLCA_PG_DADOSINT.DBMS			= "ODBC"
+SQLCA_PG_DADOSINT.AutoCommit	= False
+SQLCA_PG_DADOSINT.DataBase		= 'postgres'
+SQLCA_PG_DADOSINT.dbParm			= "ConnectString='UID=" + ls_usuario + &
+                           ";PWD=" + ls_senha + &
+                           ";DSN=" + ls_data_source + &
+                           "', SqlCache=0, " + &
+                           "DisableBind=1" + "', " + &
+                           "CommitOnDisconnect='No'"
+
+Try
+    Connect Using SQLCA_PG_DADOSINT;
+	 
+	//Caso n$$HEX1$$e300$$ENDHEX$$o conseguir conectar 
+    If SQLCA_PG_DADOSINT.SqlCode = -1 Then
+        as_erro = "Falha na conex$$HEX1$$e300$$ENDHEX$$o com o Banco de Dados PG_DADOSINT."
+		  gf_ge202_envia_email_automatico(326, " - Erro na tarefa de " + ls_Tipo, as_erro + "~r~nTarefa GE040-gf_pg_dados_int_exclusao", ls_Anexo[], False)
+        Return False
+    End If
+
+//Delete
+DELETE FROM historico_distribuidora_produto
+WHERE dh_importacao_historico < :ldt_data_exclusao
+Using SQLCA_PG_DADOSINT;
+
+        If SQLCA_PG_DADOSINT.SqlCode <> 0 Then
+				//as_erro = lvs_mensagem
+            as_erro = "Falha ao excluir os dados na tabela historico_distribuidora_produto.~r~rErro:" + SQLCA_PG_DADOSINT.SQLERRTEXT
+            SQLCA_PG_DADOSINT.of_rollback();
+				gf_ge202_envia_email_automatico(326, " - Erro na tarefa de " + ls_Tipo, as_erro + "~r~nTarefa GE040-gf_pg_dados_int_exclusao", ls_Anexo[], False)
+            Return False
+        Else
+            SQLCA_PG_DADOSINT.of_commit();
+        End If
+	 
+Catch (RunTimeError lrte)
+		as_erro = lrte.getmessage()
+		SQLCA_PG_DADOSINT.of_rollback(); // Rollback em caso de RunTimeError
+		gf_ge202_envia_email_automatico(326, " - Erro na tarefa de " + ls_Tipo, as_erro + "~r~nTarefa GE040-gf_pg_dados_int_exclusao", ls_Anexo[], False)
+    Return False
+
+Finally
+    Disconnect using SQLCA_PG_DADOSINT;
+    Destroy SQLCA_PG_DADOSINT
+End TRY
+
+end function
+

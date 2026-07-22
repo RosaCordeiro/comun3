@@ -1,0 +1,37 @@
+HA$PBExportHeader$gf_replace.srf
+global type gf_replace from function_object
+end type
+
+forward prototypes
+global function string gf_replace (string ps_assunto, string ps_pesquisa, string ps_substitui, long pl_qtde)
+end prototypes
+
+global function string gf_replace (string ps_assunto, string ps_pesquisa, string ps_substitui, long pl_qtde);Long lvl_Pos, &
+	  lvl_Contador, &
+	  lvl_Len, &
+	  lvl_Pos_Aux
+ 
+lvl_Pos = PosA(ps_Assunto, ps_Pesquisa)
+lvl_Len = LenA(ps_Pesquisa)
+lvl_Contador = 0
+
+//Enquanto houverem ocorr$$HEX1$$ea00$$ENDHEX$$ncias para substituir
+Do While lvl_Pos > 0
+	// Efetua a substitui$$HEX2$$e700e300$$ENDHEX$$o
+	ps_Assunto = ReplaceA(ps_Assunto, lvl_Pos, lvl_Len, ps_Substitui)	
+	// Incrementa o contador de vezes que houve substitui$$HEX2$$e700f500$$ENDHEX$$es
+	lvl_Contador ++
+	// Incrementa a posi$$HEX2$$e700e300$$ENDHEX$$o at$$HEX1$$e900$$ENDHEX$$ a qual j$$HEX1$$e100$$ENDHEX$$ foi efetuada a substitui$$HEX2$$e700e300$$ENDHEX$$o 
+	lvl_Pos += Len(ps_substitui)
+	// Verifica se ainda existem mais ocorr$$HEX1$$ea00$$ENDHEX$$ncias para substituir
+	lvl_Pos_Aux = PosA(Mid(ps_Assunto, lvl_Pos), ps_Pesquisa)
+	// Se n$$HEX1$$e300$$ENDHEX$$o tiver mais nenhuma ocorr$$HEX1$$ea00$$ENDHEX$$ncia recebe zero
+	// Sen$$HEX1$$e300$$ENDHEX$$o acumula a posi$$HEX2$$e700e300$$ENDHEX$$o anterior mais com a nova para que n$$HEX1$$e300$$ENDHEX$$o inicie o replace no caracter errado
+	lvl_Pos = IIF(lvl_Pos_Aux = 0, 0, lvl_Pos + lvl_Pos_Aux - 1)
+	// Quanto for para executar um n$$HEX1$$ba00$$ENDHEX$$ delimitado de vezes
+	If (pl_Qtde > 0) and (lvl_Contador >= pl_Qtde)  Then Exit
+Loop
+
+Return ps_Assunto
+end function
+

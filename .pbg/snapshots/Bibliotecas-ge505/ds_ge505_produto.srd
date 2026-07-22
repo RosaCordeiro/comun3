@@ -1,0 +1,55 @@
+HA$PBExportHeader$ds_ge505_produto.srd
+release 12;
+datawindow(units=0 timer_interval=0 color=67108864 brushmode=0 transparency=0 gradient.angle=0 gradient.color=8421504 gradient.focus=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.repetition.mode=0 gradient.scale=100 gradient.spread=100 gradient.transparency=0 picture.blur=0 picture.clip.bottom=0 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.transparency=0 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes hidegrayline=no showbackcoloronxp=no picture.file="" )
+header(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+detail(height=64 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+table(column=(type=long updatewhereclause=yes name=cd_produto dbname="produto_geral.cd_produto" dbalias="pg.cd_produto" )
+ column=(type=long updatewhereclause=yes name=cd_marca_ecommerce dbname="produto_geral.cd_marca_ecommerce" dbalias="pg.cd_marca_ecommerce" )
+ column=(type=char(40) updatewhereclause=yes name=de_marca dbname="marca_ecommerce.de_marca" dbalias="me.de_marca" )
+ column=(type=char(3) updatewhereclause=yes name=cd_unidade_medida_venda dbname="produto_geral.cd_unidade_medida_venda" dbalias="pg.cd_unidade_medida_venda" )
+ column=(type=char(20) updatewhereclause=yes name=de_codigo_barras dbname="produto_geral.de_codigo_barras" dbalias="pg.de_codigo_barras" )
+ column=(type=char(60) updatewhereclause=yes name=de_produto dbname="produto_geral.de_produto" dbalias="pg.de_produto" )
+ column=(type=char(40) updatewhereclause=yes name=de_apresentacao_venda dbname="produto_geral.de_apresentacao_venda" dbalias="pg.de_apresentacao_venda" )
+ column=(type=char(1) updatewhereclause=yes name=id_situacao dbname="produto_geral.id_situacao" dbalias="pg.id_situacao" )
+ column=(type=long updatewhereclause=yes name=cd_categoria_ecommerce dbname="produto_central.cd_categoria_ecommerce" dbalias="pc.cd_categoria_ecommerce" )
+ column=(type=char(1) updatewhereclause=yes name=id_visivel_prd dbname="id_visivel_prd" )
+ retrieve="Select pg.cd_produto, pg.cd_marca_ecommerce, me.de_marca,
+		pg.cd_unidade_medida_venda,
+		pg.de_codigo_barras,
+		pg.de_produto,
+		pg.de_apresentacao_venda,
+		pg.id_situacao, 
+		pc.cd_categoria_ecommerce,
+		coalesce(ep.id_visivel_prd, 'S') id_visivel_prd
+from 
+(
+  Select distinct convert(int,de_chave) as cd_produto, cd_filial_ecommerce
+    From log_exportacao_ecommerce  l
+   Where  l.id_processado = 'P' 
+ 	 and l.nm_tabela = 'PRODUTO_GERAL'
+	 and l.cd_filial_ecommerce = :pl_cd_filial
+	 and l.id_ecommerce = :ps_id_ecommerce
+	--and l.de_chave in ('700457', '700214')
+) Aux inner join produto_geral pg on (pg.cd_produto = Aux.cd_produto)
+		inner join produto_central pc on (pc.cd_produto = pg.cd_produto)
+		left join marca_ecommerce me on (me.cd_marca = pg.cd_marca_ecommerce)
+		inner join filial fi on (fi.cd_filial = Aux.cd_filial_ecommerce)
+		left join ecommerce_prd ep on (ep.id_ecommerce = :ps_id_ecommerce)
+											and (ep.id_rede_filial = fi.id_rede_filial)
+											and (ep.cd_produto = pg.cd_produto)
+where pg.cd_subcategoria <> '901001001' -- INTERFACE SAP" arguments=(("ps_id_ecommerce", string),("pl_cd_filial", number))  sort="cd_produto A " )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="0" x="14" y="4" height="52" width="402" format="[general]" html.valueishtml="0"  name=cd_categoria_ecommerce visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=10 alignment="0" tabsequence=0 border="0" color="0" x="430" y="4" height="52" width="238" html.valueishtml="0"  name=id_visivel_prd visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

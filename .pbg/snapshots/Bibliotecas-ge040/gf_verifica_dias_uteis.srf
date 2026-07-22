@@ -1,0 +1,47 @@
+HA$PBExportHeader$gf_verifica_dias_uteis.srf
+global type gf_verifica_dias_uteis from function_object
+end type
+
+forward prototypes
+global function boolean gf_verifica_dias_uteis (long al_grupo_feriado, date adt_data, ref boolean ab_dia_util)
+end prototypes
+
+global function boolean gf_verifica_dias_uteis (long al_grupo_feriado, date adt_data, ref boolean ab_dia_util);Long	ll_Achou
+Long	ll_Dia_semana
+
+ab_Dia_Util = False
+
+// 1:'Domingo' - 2:'Segunda' - 3:'Ter$$HEX1$$e700$$ENDHEX$$a' - 4:'Quarta' - 5:'Quinta' - 6:'Sexta' - 7:'S$$HEX1$$e100$$ENDHEX$$bado'
+ll_Dia_semana = DayNumber(adt_data)
+
+If ll_Dia_semana >= 2 And ll_Dia_semana <= 6 Then // Dias $$HEX1$$fa00$$ENDHEX$$teis (segunda a sexta)
+
+	SELECT count(*) 
+	INTO :ll_Achou
+	FROM feriado 
+	WHERE cd_grupo_feriado = :al_grupo_feriado
+		AND dh_feriado = :adt_data
+	Using SqlCa;
+
+	// Tratamento de erro na consulta
+	If SqlCa.SqlCode = -1 Then
+		Return False 
+	End If
+
+	ab_Dia_Util = (ll_Achou = 0)
+	 
+//	If ll_Achou = 0 Then
+//		// N$$HEX1$$e300$$ENDHEX$$o $$HEX1$$e900$$ENDHEX$$ feriado
+//		ab_Dia_Util = True
+//	Else
+//		ab_Dia_Util = False
+//	End If
+	 
+Else
+	// Fim de semana (domingo ou s$$HEX1$$e100$$ENDHEX$$bado)
+	ab_Dia_Util = False
+End If
+
+Return True
+end function
+

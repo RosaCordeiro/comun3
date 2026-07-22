@@ -1,0 +1,25 @@
+HA$PBExportHeader$gf_secondsafter.srf
+global type gf_secondsafter from function_object
+end type
+
+forward prototypes
+global function long gf_secondsafter (datetime pdh_1, datetime pdh_2)
+end prototypes
+
+global function long gf_secondsafter (datetime pdh_1, datetime pdh_2);Long lvl_Retorno
+
+If Date(pdh_1)=Date(pdh_2) Then
+	lvl_Retorno = SecondsAfter(Time(pdh_1), Time(pdh_2))
+Else
+	If Date(pdh_1) > Date(pdh_2) Then
+		lvl_Retorno = DaysAfter(Date(pdh_1), Date(pdh_2)) * 86400
+		lvl_Retorno += SecondsAfter(Time(pdh_1), Time(pdh_2))
+	Else
+		lvl_Retorno = DaysAfter(Date(pdh_1), Date(pdh_2)) * 86400
+		lvl_Retorno += SecondsAfter(Time(pdh_1), Time(pdh_2))
+	End If
+End If
+
+Return lvl_Retorno
+end function
+

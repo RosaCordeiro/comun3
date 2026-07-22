@@ -1,0 +1,11 @@
+HA$PBExportHeader$str_ge536_kit.srs
+global type str_ge536_kit from structure
+	long		idcampanha[]
+	string		codigokit[]
+	string		codigoproduto[]
+	string		produto[]
+	long		tipoproduto[]
+	decimal		desconto[]
+	long		quantidademin[]
+end type
+

@@ -1,0 +1,5 @@
+HA$PBExportHeader$t_compl_cte.srs
+global type t_compl_cte from structure
+	string		xobs
+end type
+

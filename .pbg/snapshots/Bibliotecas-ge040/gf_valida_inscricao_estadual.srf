@@ -1,0 +1,60 @@
+HA$PBExportHeader$gf_valida_inscricao_estadual.srf
+global type gf_valida_inscricao_estadual from function_object
+end type
+
+forward prototypes
+global function boolean gf_valida_inscricao_estadual (integer ai_cd_cidade, string as_inscricao_estadual)
+global function boolean gf_valida_inscricao_estadual (string as_uf, string as_inscricao_estadual)
+end prototypes
+
+global function boolean gf_valida_inscricao_estadual (integer ai_cd_cidade, string as_inscricao_estadual);String ls_UF
+
+If (Trim(as_inscricao_estadual) = "") or IsNull(ai_cd_cidade) Then
+	Return True	
+End If
+
+select cd_unidade_federacao
+into :ls_UF
+from cidade 
+where cd_cidade = :ai_cd_cidade
+Using SqlCa;
+
+If SqlCa.SqlCode = -1 Then	
+	SqlCa.of_msgDbError("Erro no Select da UF da Cidade.")
+	Return True	
+End If
+
+Return gf_valida_inscricao_estadual(ls_UF, as_inscricao_estadual)
+end function
+
+global function boolean gf_valida_inscricao_estadual (string as_uf, string as_inscricao_estadual);Boolean lb_Retorno
+
+String ls_Inscricao_Estadual
+String ls_Mensagem
+
+If (Trim(as_inscricao_estadual) = "") or IsNull(as_inscricao_estadual) or (Trim(as_inscricao_estadual) = "ISENTO") Then Return True	
+
+//Retira os caracteres da mascara
+ls_Inscricao_Estadual = gf_Replace(as_inscricao_estadual, "-", "", 0)	
+ls_Inscricao_Estadual = gf_Replace(ls_Inscricao_Estadual, ".", "", 0)
+ls_Inscricao_Estadual = gf_Replace(ls_Inscricao_Estadual, "/", "", 0)
+ls_Inscricao_Estadual = gf_Replace(ls_Inscricao_Estadual, "-", "", 0)
+
+//A fun$$HEX2$$e700e300$$ENDHEX$$o da DLL n$$HEX1$$e300$$ENDHEX$$o est$$HEX1$$e100$$ENDHEX$$ retornando inv$$HEX1$$e100$$ENDHEX$$lidas inscri$$HEX2$$e700f500$$ENDHEX$$es estaduais com zero esquerda
+// Por exemplo: 096/3297066 ($$HEX1$$e900$$ENDHEX$$ v$$HEX1$$e100$$ENDHEX$$lida), mas 96/3297066 n$$HEX1$$e300$$ENDHEX$$o, e a fun$$HEX2$$e700e300$$ENDHEX$$o retorna ambas como corretas.
+If as_uf = "RS" and gf_retorna_so_numeros(ls_Inscricao_Estadual) <> "" and Len(ls_Inscricao_Estadual) <> 10 Then Return False
+
+Try
+	dc_uo_inscricao_estadual lvo_Inscricao_Estadual
+	lvo_Inscricao_Estadual = Create dc_uo_inscricao_estadual
+		
+	lb_Retorno = lvo_Inscricao_Estadual.of_valida_inscricao_estadual(as_uf, ls_Inscricao_Estadual)
+Finally
+	Destroy(lvo_Inscricao_Estadual)
+End Try	
+	
+Return lb_Retorno
+
+
+end function
+

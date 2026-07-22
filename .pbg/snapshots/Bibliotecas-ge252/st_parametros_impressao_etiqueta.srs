@@ -1,0 +1,6 @@
+HA$PBExportHeader$st_parametros_impressao_etiqueta.srs
+global type st_parametros_impressao_etiqueta from structure
+	string		nome_dw		descriptor "comment" = "Nome da DW que ser$$HEX1$$e100$$ENDHEX$$ utilizada para impress$$HEX1$$e300$$ENDHEX$$o da etiqueta."
+	integer		orientacao		descriptor "comment" = "Orienta$$HEX2$$e700e300$$ENDHEX$$o do papel para impress$$HEX1$$e300$$ENDHEX$$o da etiqueta (1 - landscape / 2 - portrait). Corresponde $$HEX1$$e000$$ENDHEX$$ propriedade Orientation do objeto DataWindow."
+end type
+

@@ -1,0 +1,23 @@
+HA$PBExportHeader$str_ge556_produto.srs
+global type str_ge556_produto from structure
+	string		ean
+	string		industryid
+	string		industryname
+	string		informativetext
+	string		discountmax
+	string		discountmin
+	string		suggestedprice
+	string		authorizer
+	string		requestholderid
+	string		requestcoupon
+	string		discountabsolute
+	string		pointing
+	string		allchain
+	string		requiredonline
+	str_ge556_combo		eacombos[]
+	long		cd_produto_interno
+	string		json_prd
+	string		discountMaxNewPatient
+	string		qtyForDiscountMax
+end type
+

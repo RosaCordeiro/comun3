@@ -1,0 +1,44 @@
+HA$PBExportHeader$dw_ge038_pafecf_sum_nota.srd
+release 7;
+datawindow(units=0 timer_interval=0 color=80269524 processing=0 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=96 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=108 color="536870912" )
+table(column=(type=char(2) updatewhereclause=yes name=cd_situacao_tributaria dbname="item_nf_venda.cd_situacao_tributaria" )
+ column=(type=long updatewhereclause=yes name=cd_natureza_operacao dbname="item_nf_venda.cd_natureza_operacao" )
+ column=(type=decimal(2) updatewhereclause=yes name=pc_icms dbname="item_nf_venda.pc_icms" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_preco_unitario dbname="vl_preco_unitario" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_preco_praticado dbname="vl_preco_praticado" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_bc_icms dbname="vl_bc_icms" )
+ column=(type=decimal(6) updatewhereclause=yes name=vl_icms dbname="vl_icms" )
+ retrieve="SELECT	i.cd_situacao_tributaria ,
+			i.cd_natureza_operacao ,
+			i.pc_icms,
+			Sum(i.vl_preco_unitario * i.qt_vendida) as vl_preco_unitario,
+			Sum(i.vl_preco_praticado * i.qt_vendida) as vl_preco_praticado,
+			Sum(i.vl_preco_praticado * i.qt_vendida) as vl_bc_icms,
+			Sum(Round(Round(i.vl_preco_praticado * i.qt_vendida,2) * (pc_icms * 0.01),2)) as vl_icms
+  FROM	item_nf_venda i
+  WHERE i.cd_filial = :cd_filial
+	and  i.nr_nf = :nr_nota
+GROUP BY i.cd_situacao_tributaria ,
+		 i.cd_natureza_operacao,
+		 i.pc_icms
+" arguments=(("nr_nota", number),("cd_filial", number)) )
+text(band=header alignment="2" text="Cd Situacao Tributaria" border="0" color="8388608" x="18" y="16" height="64" width="585"  name=cd_situacao_tributaria_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cd Natureza Operacao" border="0" color="8388608" x="622" y="16" height="64" width="603"  name=cd_natureza_operacao_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Pc Icms" border="0" color="8388608" x="1243" y="16" height="64" width="329"  name=pc_icms_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Preco Unitario" border="0" color="8388608" x="1591" y="16" height="64" width="448"  name=vl_preco_unitario_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Preco Praticado" border="0" color="8388608" x="2057" y="16" height="64" width="494"  name=vl_preco_praticado_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Bc Icms" border="0" color="8388608" x="2569" y="16" height="64" width="329"  name=vl_bc_icms_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Icms" border="0" color="8388608" x="2917" y="16" height="64" width="329"  name=vl_icms_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="2" color="0" x="18" y="16" height="76" width="82" format="[general]"  name=cd_situacao_tributaria edit.limit=2 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="2" color="0" x="622" y="16" height="76" width="329" format="[general]"  name=cd_natureza_operacao edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="2" color="0" x="1243" y="16" height="76" width="329" format="[general]"  name=pc_icms edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="2" color="0" x="1591" y="16" height="76" width="329" format="[general]"  name=vl_preco_unitario edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="2" color="0" x="2057" y="16" height="76" width="329" format="[general]"  name=vl_preco_praticado edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=6 alignment="1" tabsequence=32766 border="2" color="0" x="2569" y="16" height="76" width="329" format="[general]"  name=vl_bc_icms edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=7 alignment="1" tabsequence=32766 border="2" color="0" x="2917" y="16" height="76" width="329" format="[general]"  name=vl_icms edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" )

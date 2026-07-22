@@ -1,0 +1,11 @@
+HA$PBExportHeader$st_parametros_altera_protocolo.srs
+global type st_parametros_altera_protocolo from structure
+	long		cd_produto
+	string		de_produto
+	string		nr_lote
+	string		id_agrupamento
+	long		nr_agrupamento
+	long		cd_defeito
+	string		nr_protocolo
+end type
+

@@ -1,0 +1,10 @@
+HA$PBExportHeader$st_ge642_parametros_nota.srs
+global type st_ge642_parametros_nota from structure
+	string		id_acao		descriptor "comment" = "C = cancelar volume / I = imprimir etiqueta"
+	long		cd_filial
+	string		nm_fantasia
+	long		nr_nf
+	string		de_especie
+	string		de_serie
+end type
+

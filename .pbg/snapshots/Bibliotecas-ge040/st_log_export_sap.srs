@@ -1,0 +1,26 @@
+HA$PBExportHeader$st_log_export_sap.srs
+global type st_log_export_sap from structure
+	string		cd_chave
+	string		id_tipo_nf
+	long		id_tipo_log
+	long		cd_filial
+	long		nr_nf
+	string		de_especie
+	string		de_serie
+	string		cd_fornecedor
+	string		id_documento_mult
+	string		nr_documento_sap_estornado
+	string		cd_tipo_documento
+	string		cd_chave_interface
+	datetime		dh_documento
+	string		nr_titulo
+	long		cd_produto
+	long		cd_promocao_sos
+	long		qt_estoque_disponivel
+	string		id_estoque_maior_10dias
+	long		nr_lote_recebimento_wms
+	long		cd_integer
+	string		cd_varchar
+	string		cd_parametro_geral
+end type
+

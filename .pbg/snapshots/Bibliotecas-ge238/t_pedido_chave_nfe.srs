@@ -1,0 +1,6 @@
+HA$PBExportHeader$t_pedido_chave_nfe.srs
+global type t_pedido_chave_nfe from structure
+	long		nr_pedido[]
+	string		de_chave_acesso[]
+end type
+

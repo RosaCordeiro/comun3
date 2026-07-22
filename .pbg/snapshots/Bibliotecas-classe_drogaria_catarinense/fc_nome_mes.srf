@@ -1,0 +1,47 @@
+HA$PBExportHeader$fc_nome_mes.srf
+global type fc_nome_mes from function_object
+end type
+
+forward prototypes
+global function string fc_nome_mes (date dt_parametro)
+end prototypes
+
+global function string fc_nome_mes (date dt_parametro);SetPointer(HourGlass!)
+
+String lvs_nome_mes
+
+// Obt$$HEX1$$e900$$ENDHEX$$m o nome do m$$HEX1$$ea00$$ENDHEX$$s de acordo com a data recebida como par$$HEX1$$e200$$ENDHEX$$metro
+
+CHOOSE CASE Month(dt_parametro)
+	CASE 1
+		lvs_nome_mes = "Janeiro"
+	CASE 2
+		lvs_nome_mes = "Fevereiro"
+	CASE 3
+		lvs_nome_mes = "Mar$$HEX1$$e700$$ENDHEX$$o"
+	CASE 4
+		lvs_nome_mes = "Abril"
+	CASE 5
+		lvs_nome_mes = "Maio"
+	CASE 6
+		lvs_nome_mes = "Junho"
+	CASE 7
+		lvs_nome_mes = "Julho"
+	CASE 8
+		lvs_nome_mes = "Agosto"
+	CASE 9
+		lvs_nome_mes = "Setembro"
+	CASE 10
+		lvs_nome_mes = "Outubro"
+	CASE 11
+		lvs_nome_mes = "Novembro"
+	CASE Else
+		lvs_nome_mes = "Dezembro"
+END CHOOSE
+
+// Retorna o valor encontrado
+
+Return lvs_nome_mes
+
+end function
+

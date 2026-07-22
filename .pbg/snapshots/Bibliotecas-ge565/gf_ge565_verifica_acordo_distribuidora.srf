@@ -1,0 +1,149 @@
+HA$PBExportHeader$gf_ge565_verifica_acordo_distribuidora.srf
+global type gf_ge565_verifica_acordo_distribuidora from function_object
+end type
+
+forward prototypes
+global function boolean gf_ge565_verifica_acordo_distribuidora (long al_produto, string as_lote_prestes, string as_tipo_operacao, ref string as_id_possui_acordo, ref string as_distribuidora_acordo)
+end prototypes
+
+global function boolean gf_ge565_verifica_acordo_distribuidora (long al_produto, string as_lote_prestes, string as_tipo_operacao, ref string as_id_possui_acordo, ref string as_distribuidora_acordo);Date ldt_Limite
+
+Long ll_Total
+Long ll_Linha
+Long ll_Achou
+
+String ls_Retorno
+String ls_Distribuidora
+String ls_Lote_Acordo
+String ls_Id_Informa
+String ls_Grupo
+
+Try
+	as_Id_Possui_Acordo = "N"
+	SetNull(as_Distribuidora_Acordo)
+	
+	dc_uo_ds_Base lds
+	lds = Create dc_uo_ds_Base
+	
+	If Not lds.of_ChangeDataObject("ds_ge565_lista_distribuidora_acordo") Then 
+		Return False
+	End If
+	
+	lds.of_AppendWhere("d.cd_produto = " + String(al_Produto))
+	
+	 //Tratamento BA e SP
+	If gvo_Parametro.ivs_UF_Filial= "BA" Or gvo_Parametro.ivs_UF_Filial= "SP" Then
+		If as_Tipo_Operacao = "R" Then
+			//N$$HEX1$$e300$$ENDHEX$$o possui acordo
+			as_Id_Possui_Acordo = "N"
+			Return True
+		Else
+			lds.of_AppendWhere("d.cd_distribuidora <> '053404705'")
+		End If
+	Else //Demais Estados
+		If as_Tipo_Operacao = "R" Then
+			lds.of_AppendWhere("d.cd_distribuidora = '053404705'")
+		End If
+	End If
+	
+	//R = Retirada, quando for retirada verifica se tem acordo somente com o Estoque Central
+	//C = Cadastro de prestes
+//	If as_Tipo_Operacao = "R" Then
+//		lds.of_AppendWhere("d.cd_distribuidora = '053404705'")
+//	End If
+	
+	uo_Transacao_Remota lvo_Conexao
+	lvo_Conexao = Create uo_Transacao_Remota
+	
+	lvo_Conexao.of_BancoProducao()
+	
+	lvo_Conexao.of_ConverteVirgula( True )
+	lvo_Conexao.of_Retrieve(lds.GetSQLSelect(), Ref ls_Retorno)
+	
+	If lvo_Conexao.of_Erro_Execucao() Or lvo_Conexao.of_Erro_Conexao() Then
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro na conex$$HEX1$$e300$$ENDHEX$$o com o servidor distribu$$HEX1$$ed00$$ENDHEX$$do.")
+		Return False
+	End If
+	
+	//Se n$$HEX1$$e300$$ENDHEX$$o tem acordo de devolu$$HEX2$$e700e300$$ENDHEX$$o para o produto
+	If IsNull(ls_Retorno) Or ls_Retorno = '' Then 
+		Return True
+	End If
+	
+	lds.Reset( )
+	ll_Total = lds.ImportString(ls_Retorno)
+	
+	ldt_Limite = RelativeDate( Date (gvo_Parametro.of_dh_movimentacao()), -1095 )
+	
+	For ll_Linha = 1 To ll_Total
+		ls_Distribuidora	= lds.Object.Cd_Distribuidora			[ll_Linha]
+		ls_Lote_Acordo	= lds.Object.Nr_Lote						[ll_Linha]
+		ls_Id_Informa	= lds.Object.Id_Informa_Lote_Acordo[ll_Linha]
+		ls_Grupo			= MidA(lds.Object.Cd_Subcategoria	[ll_Linha], 1, 1)
+		
+		If IsNull(ls_Lote_Acordo) Or ((Not IsNull(ls_Lote_Acordo) And as_Lote_Prestes = ls_Lote_Acordo)) Then
+			
+			If gf_ge565_Existe_Lote_Entrada_Matriz_Nova(ls_Distribuidora, al_Produto, as_Lote_Prestes, False) Then		
+				//Possui acordo com a distribuidora, n$$HEX1$$e300$$ENDHEX$$o permite desconto
+				as_Id_Possui_Acordo = "S"
+				as_Distribuidora_Acordo = ls_Distribuidora
+				Return True
+				
+			Else
+				
+				//Se a distribuidora n$$HEX1$$e300$$ENDHEX$$o informa o lote no XML de compra para N$$HEX1$$c300$$ENDHEX$$O medicamentos, valida na movimento_estoque
+				If ls_Grupo <> "1" And ls_Id_Informa = "N" Then
+					//Se n$$HEX1$$e300$$ENDHEX$$o localizar na produto_lote_nf_entrada, faz a busca na movimentacao_estoque da filial
+					If ls_Distribuidora <> "053404705" Then
+						select count(cd_fornecedor), cd_fornecedor
+							Into :ll_Achou, :ls_Distribuidora
+						from movimento_estoque m
+						where m.dh_movimento >= :ldt_Limite
+							and m.cd_tipo_movimento = 3
+							and m.cd_fornecedor = :ls_Distribuidora
+							and m.cd_produto = :al_Produto
+							and not exists (select *
+												from nf_devolucao_compra n
+													inner join item_nf_devolucao_compra i
+														on i.cd_filial = n.cd_filial
+														and i.nr_nf = n.nr_nf
+														and i.de_especie = n.de_especie
+														and i.de_serie = n.de_serie
+												where n.cd_fornecedor = m.cd_fornecedor
+													and n.nr_nf_compra = m.nr_nf
+													and n.de_especie_compra = m.de_especie
+													and n.de_serie_compra = m.de_serie
+													and n.dh_movimentacao_caixa >= :ldt_Limite
+													and n.dh_cancelamento is null
+													and i.cd_produto = m.cd_produto)
+						group by cd_fornecedor
+						Using SqlCa;
+						
+						If SqlCa.SqlCode = -1 Then
+							MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao verificar se possui movimenta$$HEX2$$e700e300$$ENDHEX$$o de compra para o produto [" + String(al_Produto) + "], distribuidora [" + ls_Distribuidora + "]. " + SqlCa.SqlErrTExt)
+							Return False						
+						End If
+						
+						If ll_Achou > 0 Then
+							as_Id_Possui_Acordo = "S"
+							as_Distribuidora_Acordo = ls_Distribuidora
+							Return True
+						End If
+					End If	//If ls_Distribuidora <> "053404705" Then
+				End If
+			End If
+		End If
+	Next
+	
+	Return True
+
+Catch (RunTimeError lo_error)
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", lo_error.GetMessage( ), StopSign!)
+	Return False
+
+Finally
+	If IsValid(lds) 				Then Destroy lds
+	If IsValid(lvo_Conexao) 	Then Destroy lvo_Conexao
+End Try
+end function
+

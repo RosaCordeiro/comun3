@@ -1,0 +1,25 @@
+HA$PBExportHeader$gf_proximo_bloqueio.srf
+global type gf_proximo_bloqueio from function_object
+end type
+
+forward prototypes
+global function long gf_proximo_bloqueio (long pl_filial)
+end prototypes
+
+global function long gf_proximo_bloqueio (long pl_filial);Long lvl_Bloqueio
+
+Select max(nr_bloqueio) Into :lvl_Bloqueio
+From bloqueio
+Where cd_filial = :pl_Filial;
+
+If SqlCa.SqlCode = 0 Then
+	If IsNull(lvl_Bloqueio) or lvl_Bloqueio = 0 Then
+		lvl_Bloqueio = 1
+	Else
+		lvl_Bloqueio ++			
+	End If
+End If
+
+Return lvl_Bloqueio
+end function
+

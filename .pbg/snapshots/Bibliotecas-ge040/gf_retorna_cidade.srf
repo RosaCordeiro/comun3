@@ -1,0 +1,68 @@
+HA$PBExportHeader$gf_retorna_cidade.srf
+global type gf_retorna_cidade from function_object
+end type
+
+forward prototypes
+global function boolean gf_retorna_cidade (string ps_cep, string ps_nm_cidade, string ps_uf, ref long pl_cidade, ref string ps_ibge, ref string ps_log)
+end prototypes
+
+global function boolean gf_retorna_cidade (string ps_cep, string ps_nm_cidade, string ps_uf, ref long pl_cidade, ref string ps_ibge, ref string ps_log);//Localiza c$$HEX1$$f300$$ENDHEX$$digo da cidade e domicilio fiscal
+select top 1 cid.cd_cidade, coalesce(cid.cd_cidade_ibge, e.cd_cidade_ibge)
+Into :pl_cidade, :ps_ibge
+from ect_localidade_faixa_cep fx (index idx_tipo_faixa_inicio)
+inner join ect_localidade e 
+	on e.nr_localidade = fx.nr_localidade  
+inner join cidade cid (index idx_ibge) 
+	on cid.cd_cidade_ibge = e.cd_cidade_ibge
+where fx.nr_cep_inicio <= :ps_cep
+    and fx.nr_cep_fim >= :ps_cep
+    and fx.id_tipo_faixa = 'T'
+    and coalesce(cid.cd_cidade_ibge, e.cd_cidade_ibge) is not null
+    and coalesce(cid.id_situacao, 'A') = 'A'
+Using SqlCa;
+
+If SqlCa.SqlCode = -1 Then
+	ps_log = 'Fun$$HEX2$$e700e300$$ENDHEX$$o: gf_retorna_cidade(1). Erro: ' + SQLCA.SQLErrText
+	Return False
+End If
+
+if IsNull(pl_cidade) Then
+	
+    select top 1 cd_cidade, cd_cidade_ibge
+	Into :pl_cidade, :ps_ibge
+    from cidade (index idx_cep_padrao) 
+    where nr_cep_padrao = :ps_cep
+	 and nr_localidade_ect is not null
+	Using SqlCa;
+
+  	If SqlCa.SqlCode = -1 Then
+		ps_log = 'Fun$$HEX2$$e700e300$$ENDHEX$$o: gf_retorna_cidade(2). Erro: ' + SQLCA.SQLErrText
+		Return False
+	End If
+    
+    if IsNull(pl_cidade) Then
+		
+        select cd_cidade, cd_cidade_ibge
+	   Into :pl_cidade, :ps_ibge
+        from cidade cid (index idx_uf_nome) 
+        where cid.cd_unidade_federacao = :ps_uf
+            and cid.nm_cidade = dbo.remove_acento(:ps_nm_cidade)
+		Using SqlCa;	
+
+		If SqlCa.SqlCode = -1 Then
+			ps_log = 'Fun$$HEX2$$e700e300$$ENDHEX$$o: gf_retorna_cidade(2). Erro: ' + SQLCA.SQLErrText
+			Return False
+		end If 
+		
+	End If
+	
+End If
+
+if IsNull(pl_cidade) Then
+	ps_log = 'Fun$$HEX2$$e700e300$$ENDHEX$$o: gf_retorna_cidade(2). A cidade n$$HEX1$$e300$$ENDHEX$$o foi localizada.'
+	Return False
+End If
+
+Return True
+end function
+

@@ -1,0 +1,31 @@
+HA$PBExportHeader$dw_ge001_alteracao_preco_regionalizado.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=72 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=84 color="536870912" )
+table(column=(type=long updatewhereclause=yes key=yes name=cd_filial dbname="preco_regionalizado.cd_filial" )
+ column=(type=long updatewhereclause=yes key=yes name=cd_produto dbname="preco_regionalizado.cd_produto" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_preco_venda_futuro dbname="preco_regionalizado.vl_preco_venda_futuro" )
+ column=(type=datetime update=yes updatewhereclause=yes name=dh_preco_venda_futuro dbname="preco_regionalizado.dh_preco_venda_futuro" )
+ column=(type=char(6) update=yes updatewhereclause=yes name=nr_matric_preco_venda_futuro dbname="preco_regionalizado.nr_matric_preco_venda_futuro" )
+ retrieve="select cd_filial,
+       cd_produto,   
+       vl_preco_venda_futuro,   
+       dh_preco_venda_futuro,
+       nr_matric_preco_venda_futuro
+from preco_regionalizado   
+where dh_preco_venda_futuro <= :data_base
+  and vl_preco_venda_futuro is not null" update="preco_regionalizado" updatewhere=0 updatekeyinplace=no arguments=(("data_base", date)) )
+text(band=header alignment="2" text="Cd Produto"border="0" color="0" x="9" y="8" height="56" width="274"  name=cd_produto_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Preco Venda Futuro"border="0" color="0" x="293" y="8" height="56" width="503"  name=vl_preco_venda_futuro_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Dh Preco Venda Futuro"border="0" color="0" x="805" y="8" height="56" width="517"  name=dh_preco_venda_futuro_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Nr Matric Preco Venda Futuro"border="0" color="0" x="1330" y="4" height="76" width="261"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Cd Filial"border="0" color="0" x="1600" y="4" height="76" width="206"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="0" color="0" x="9" y="8" height="68" width="274" format="[general]"  name=cd_produto edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="0" x="293" y="8" height="68" width="503" format="[general]"  name=vl_preco_venda_futuro edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="805" y="8" height="68" width="517" format="[shortdate] [time]"  name=dh_preco_venda_futuro edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="1330" y="0" height="56" width="261" format="[general]"  name=nr_matric_preco_venda_futuro edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="1600" y="0" height="56" width="206" format="[general]"  name=cd_filial edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

@@ -1,0 +1,25 @@
+HA$PBExportHeader$gf_instala_pb12.srf
+global type gf_instala_pb12 from function_object
+end type
+
+forward prototypes
+global subroutine gf_instala_pb12 ()
+end prototypes
+
+global subroutine gf_instala_pb12 ();//Instala$$HEX2$$e700e300$$ENDHEX$$o para PB12
+String ps_Baixar[]
+String ps_Validar[]
+
+ps_Validar = {"PBVM120.DLL"}
+ps_Baixar  = {'PBCLTRT120.msi'}
+
+
+If Not FileExists("C:\Arquiv~~1\Sybase\Shared\PowerBuilder\PBVM120.DLL") Then
+	If gf_Download_Matriz(ps_Validar, ps_Baixar, "C:\Arquiv~~1\Sybase\Shared\PowerBuilder", "PB12", False) Then
+		gf_Run("C:\Arquiv~~1\Sybase\Shared\PowerBuilder\PBCLTRT120.msi /passive IACCEPTSQLNCLILICENSETERMS=YES")
+	End If
+End If
+//
+
+end subroutine
+

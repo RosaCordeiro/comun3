@@ -1,0 +1,47 @@
+HA$PBExportHeader$gf_inicio_operacao_wms.srf
+global type gf_inicio_operacao_wms from function_object
+end type
+
+forward prototypes
+global function boolean gf_inicio_operacao_wms ()
+end prototypes
+
+global function boolean gf_inicio_operacao_wms ();Boolean lvb_Sucesso = False
+
+Date ldh_Data_Movimento, ldh_Data_Parametro
+
+String ls_Data
+
+ldh_Data_Movimento = Date(gf_GetServerDate())
+
+Select vl_parametro
+Into :ls_Data
+From wms_parametro
+Where cd_parametro = 'DH_INICIO_OPERACAO_WMS'
+Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+	Case 0
+		
+		ldh_Data_Parametro = Date(ls_Data)
+		
+		If IsDate(ls_Data) Then
+			If ldh_Data_Movimento <  Date(ls_Data) Then
+				lvb_Sucesso = True
+			Else
+				MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Esta tela foi transferida para o sistema WMS.", Exclamation!)
+			End If
+		Else
+			MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "A data para o in$$HEX1$$ed00$$ENDHEX$$cio da utiliza$$HEX2$$e700e300$$ENDHEX$$o do WMS $$HEX1$$e900$$ENDHEX$$ INV$$HEX1$$c100$$ENDHEX$$LIDA.", Exclamation!)
+		End If
+		
+	Case 100
+		lvb_Sucesso = True
+	Case -1
+		SqlCa.of_MsgDbError("Erro na localiza$$HEX2$$e700e300$$ENDHEX$$o da data de in$$HEX1$$ed00$$ENDHEX$$cio para utiliza$$HEX2$$e700e300$$ENDHEX$$o do WMS.")
+End Choose
+
+Return lvb_Sucesso
+
+end function
+

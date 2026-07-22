@@ -1,0 +1,12 @@
+HA$PBExportHeader$p_hml_nfe_retrecepcao.srj
+$PBExportComments$Generated Web Service Proxy Project
+GeneratorID:{1B1DCEE2-E514-11D1-B30A-006008925BD4}GENBC00000000
+WSDLLOCATION:S:\Sistemas_PB12\Nfe\HMLE\nfeRetRecepcao2.wsdl
+ASSEMBLY:1	1	hml_NfeRetRecepcao2.dll
+COMPONENT:1	WebService.NfeRetRecepcao2::WebService.NfeRetRecepcao2::WebService.NfeRetRecepcao2
+PACKAGE:1	WebService.nfeCabecMsg
+COMMENT:Web Service Proxy Generator
+DEPLOYMENT:S:\Sistemas_PB12\Comuns\Bibliotecas\ge203.pbl	0	0
+PROJECT:p_hml_nfe_retrecepcao
+PREFIX:px_
+

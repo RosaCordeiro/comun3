@@ -1,0 +1,30 @@
+HA$PBExportHeader$t_prod.srs
+global type t_prod from structure
+	string		cprod
+	string		cean
+	string		xprod
+	long		ncm
+	string		cest
+	string		cbenef
+	string		extipi
+	string		cfop
+	string		ucom
+	double		qcom
+	double		vuncom
+	double		vprod
+	string		ceantrib
+	string		utrib
+	double		qtrib
+	double		vuntrib
+	double		vfrete
+	double		vseg
+	double		vdesc
+	double		voutro
+	long		indtot
+	t_med		med[]
+	string		xped
+	long		nitemped
+	long		cd_produto_clamed 
+	double		vpmc
+end type
+

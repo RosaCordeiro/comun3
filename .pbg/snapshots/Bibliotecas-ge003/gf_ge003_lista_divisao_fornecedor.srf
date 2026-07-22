@@ -1,0 +1,66 @@
+HA$PBExportHeader$gf_ge003_lista_divisao_fornecedor.srf
+global type gf_ge003_lista_divisao_fornecedor from function_object
+end type
+
+forward prototypes
+global function boolean gf_ge003_lista_divisao_fornecedor (dc_uo_dw_base adw, string as_fornecedor, long al_linha)
+end prototypes
+
+global function boolean gf_ge003_lista_divisao_fornecedor (dc_uo_dw_base adw, string as_fornecedor, long al_linha);DataWindowChild lvdwc
+
+Long ll_Achou, ll_Nulo
+
+String ls_SQL, ls_Situacao
+
+adw.AcceptText()
+
+SetNull(ll_Nulo)
+adw.Object.Nr_Divisao_Fornecedor[al_Linha] = ll_Nulo
+
+//ls_Fornecedor = adw.Object.cd_fornecedor[al_Linha]
+
+If IsNull(as_Fornecedor) Or Trim(as_Fornecedor) = "" Then
+	as_Fornecedor = "999999999"
+End If
+
+Select Count(*)
+	Into :ll_Achou
+From fornecedor_divisao
+Where cd_fornecedor = :as_Fornecedor
+Using SqlCa;
+
+If SqlCa.SqlCode = -1 Then
+	SqlCa.of_MsgdbError("Erro ao localizar a divis$$HEX1$$e300$$ENDHEX$$o do fornecedor. Fun$$HEX2$$e700e300$$ENDHEX$$o gf_ge003_lista_divisao_fornecedor")
+	Return False
+End If
+	
+If ll_Achou > 0 Then
+	ls_Situacao = "TODAS"
+	adw.Object.Nr_Divisao_Fornecedor.Protect = 0
+Else
+	ls_Situacao = "NENHUMA"
+	adw.Object.Nr_Divisao_Fornecedor.Protect = 1
+End If
+
+If adw.GetChild("nr_divisao_fornecedor", lvdwc) = 1 Then
+		
+	lvdwc.SetTransObject(SQLCA)
+		
+	ls_SQL = " SELECT 	cast(f.nr_divisao as char(5)) + ' - ' + f.nm_divisao + ' | ' +  u.nm_usuario de_divisao, f.nr_divisao FROM fornecedor_divisao f   " +&
+				 " inner join usuario u on u.nr_matricula = f.nr_matricula_comprador " +&
+				 " where f.cd_fornecedor = '" + string(as_Fornecedor) + "'" +&
+				 " union " +&
+				 " select '" + ls_Situacao + "', null"				 
+	
+	lvdwc.SetSQLSelect(ls_SQL)
+		
+	If lvdwc.Retrieve() < 0 Then
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao localizar as divis$$HEX1$$f500$$ENDHEX$$es do fornecedor.")
+		Return False
+	End If		
+Else
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro no getchild divis$$HEX1$$e300$$ENDHEX$$o fornecedor.")
+	Return False
+End If
+end function
+

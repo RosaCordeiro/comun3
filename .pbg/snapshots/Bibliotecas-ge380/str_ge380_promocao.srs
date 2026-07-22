@@ -1,0 +1,8 @@
+HA$PBExportHeader$str_ge380_promocao.srs
+global type str_ge380_promocao from structure
+	string		id_copia
+	long		cd_promocao
+	string		id_produto
+	string		id_filial
+end type
+

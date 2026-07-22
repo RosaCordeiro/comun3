@@ -1,0 +1,29 @@
+HA$PBExportHeader$dw_ge079_lista_bloqueio.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=79741120 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=92 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=80 color="536870912" )
+table(column=(type=char(3) updatewhereclause=yes name=id_tipo_bloqueio dbname="bloqueio.id_tipo_bloqueio" )
+ column=(type=char(3) updatewhereclause=yes name=cd_motivo_bloqueio dbname="bloqueio.cd_motivo_bloqueio" )
+ column=(type=char(40) updatewhereclause=yes name=de_motivo_bloqueio dbname="motivo_bloqueio.de_motivo_bloqueio" )
+ column=(type=char(1) updatewhereclause=yes name=id_permite_liberacao dbname="motivo_bloqueio.id_permite_liberacao" )
+ retrieve="select b.id_tipo_bloqueio,
+       b.cd_motivo_bloqueio,   
+       m.de_motivo_bloqueio,   
+       m.id_permite_liberacao  
+from bloqueio b,   
+     motivo_bloqueio m
+where m.cd_motivo_bloqueio = b.cd_motivo_bloqueio
+  and b.dh_liberacao is null"  sort="id_ordem A de_motivo_bloqueio A " )
+group(level=1 header.height=92 trailer.height=0 by=("id_tipo_bloqueio" ) header.color="536870912" trailer.color="536870912" )
+text(band=header alignment="0" text="Motivo"border="0" color="8388608" x="238" y="8" height="64" width="1454"  name=motivo_bloqueio_de_motivo_bloqueio_t  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=header x1="238" y1="84" x2="1691" y2="84" pen.style="0" pen.width="9" pen.color="8388608"  background.mode="2" background.color="16777215" )
+line(band=header x1="14" y1="84" x2="219" y2="84" pen.style="0" pen.width="9" pen.color="8388608"  background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="C$$HEX1$$f300$$ENDHEX$$digo"border="0" color="8388608" x="14" y="8" height="64" width="206"  name=bloqueio_cd_motivo_bloqueio_t  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header.1 alignment="0" expression="case( id_tipo_bloqueio when ~"CLI~" then ~"CLIENTE~" when ~"DEP~" then ~"DEPENDENTE DO CLIENTE~" when ~"CON~" then ~"CONV$$HEX1$$ca00$$ENDHEX$$NIO~" when ~"CDO~" then ~"CONVENIADO~" when ~"DCO~" then ~"DEPENDENTE DO CONVENIADO~" when ~"CCO~" then ~"CONTA CORRENTE~" when ~"CRE~" then ~"CREDI$$HEX1$$c100$$ENDHEX$$RIO~" else ~"TIPO N$$HEX1$$c300$$ENDHEX$$O PREVISTO~")"border="0" color="0" x="14" y="12" height="64" width="1673" format="[general]"  name=de_tipo_bloqueio  font.face="Verdana" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="80269524" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="2" color="0~tIF ( id_permite_liberacao = ~"S~",RGB(0,0,0),RGB(255,0,0))" x="238" y="4" height="64" width="1454" format="[general]"  name=de_motivo_bloqueio edit.limit=40 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="2" expression="case( id_tipo_bloqueio when ~"CLI~" then ~"1~" when ~"DEP~" then ~"2~" when ~"CON~" then ~"3~" when ~"CDO~" then ~"4~" when ~"DCO~" then ~"5~" when ~"CCO~" then ~"6~" when ~"CRE~" then ~"7~" else ~"10~")"border="2" color="0" x="1728" y="4" height="64" width="110" format="[general]"  name=id_ordem visible="1~t0"  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="2" color="0~tIF ( id_permite_liberacao = ~"S~",RGB(0,0,0),RGB(255,0,0))" x="14" y="4" height="64" width="206" format="[general]"  name=cd_motivo_bloqueio edit.limit=3 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

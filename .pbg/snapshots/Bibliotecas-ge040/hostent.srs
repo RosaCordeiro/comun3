@@ -1,0 +1,9 @@
+HA$PBExportHeader$hostent.srs
+global type hostent from structure
+	long		hName
+	long		hAliases
+	integer		hAddrType
+	integer		hLength
+	long		hAddrList
+end type
+

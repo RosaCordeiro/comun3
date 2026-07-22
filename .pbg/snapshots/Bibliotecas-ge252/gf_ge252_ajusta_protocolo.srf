@@ -1,0 +1,113 @@
+HA$PBExportHeader$gf_ge252_ajusta_protocolo.srf
+global type gf_ge252_ajusta_protocolo from function_object
+end type
+
+forward prototypes
+global function boolean gf_ge252_ajusta_protocolo (long al_produto, string as_lote, string as_protocolo, long al_motivo, long al_qtd_movto, string as_origem_ajuste)
+end prototypes
+
+global function boolean gf_ge252_ajusta_protocolo (long al_produto, string as_lote, string as_protocolo, long al_motivo, long al_qtd_movto, string as_origem_ajuste);/*----------------------------------------------------------------------------------\
+|	Origens do ajuste, caso seja necess$$HEX1$$e100$$ENDHEX$$rio diferenci$$HEX1$$e100$$ENDHEX$$-las:									|
+|		ESD: Entrada no Segregado de Devolu$$HEX2$$e700e300$$ENDHEX$$o (W_WS008_ENTRADA_SEGREGADO_DEVOLUCAO)	|
+|		AJP: Ajuste de Protocolo               (W_GE252_AJUSTE_PROTOCOLO)					|
+\----------------------------------------------------------------------------------*/
+Long	ll_qtd_registrada
+Long	ll_qtd_itens
+
+SELECT qt_lote
+  INTO :ll_qtd_registrada
+  FROM wms_protocolo
+ WHERE cd_produto        = :al_produto
+ 	AND nr_lote           = :as_lote
+ 	AND nr_protocolo      = :as_protocolo
+ 	AND cd_motivo_defeito = :al_motivo
+ USING SQLCA;
+
+Choose case SQLCA.SQLCode
+	case is < 0
+		SQLCA.of_Msgdberror ('Erro ao verificar se o protocolo est$$HEX1$$e100$$ENDHEX$$ cadastrado!')
+		Return False
+	case 100
+		INSERT INTO wms_protocolo
+							(	cd_produto
+							,	nr_lote
+							,	nr_protocolo
+							,	qt_lote
+							,	qt_utilizado
+							,	id_mudou_endereco
+							,	cd_motivo_defeito)
+					VALUES (	:al_produto
+							,	:as_lote
+							,	:as_protocolo
+							,	:al_qtd_movto
+							,	0
+							,	'N'
+							,	:al_motivo)
+		 USING SQLCA;
+		
+		If SQLCA.SQLCode < 0 then
+			SQLCA.of_Msgdberror ('Erro ao incluir o protocolo!')
+			Return False
+		End if
+		
+	case 0
+//		//Na entrada no segregado s$$HEX1$$f300$$ENDHEX$$ $$HEX1$$e900$$ENDHEX$$ permitida a inclus$$HEX1$$e300$$ENDHEX$$o de protocolo
+//		If as_origem_ajuste = 'ESD' then
+//			MessageBox ('Aten$$HEX2$$e700e300$$ENDHEX$$o', 'Este protocolo/motivo j$$HEX1$$e100$$ENDHEX$$ est$$HEX1$$e100$$ENDHEX$$ cadastrado para este produto/lote!', Exclamation!)
+//			Return False
+//		End if
+		
+		UPDATE wms_protocolo
+			SET qt_lote = qt_lote + :al_qtd_movto
+		 WHERE cd_produto        = :al_produto
+			AND nr_lote           = :as_lote
+			AND nr_protocolo      = :as_protocolo
+			AND cd_motivo_defeito = :al_motivo
+		 USING SQLCA;
+		
+		If SQLCA.SQLCode < 0 then
+			SQLCA.of_Msgdberror ('Erro ao alterar o protocolo!')
+			Return False
+		End if
+		
+//		SELECT COUNT (*)
+//		  INTO :ll_qtd_itens
+//		  FROM item_nf_transferencia_lote_prt
+//		 WHERE cd_produto           = :al_produto
+//			AND nr_lote              = :as_lote
+//			AND nr_protocolo_defeito = :as_protocolo
+//			AND cd_motivo_defeito    = :al_motivo
+//		 USING SQLCA;
+//		
+//		If SQLCA.SQLCode < 0 then
+//			SQLCA.of_Msgdberror ('Erro na leitura dos itens da NF de transfer$$HEX1$$ea00$$ENDHEX$$ncia!')
+//			Return False
+//		End if
+//		
+//		Choose case ll_qtd_itens
+//			case 0
+//				//ignorar se n$$HEX1$$e300$$ENDHEX$$o tiver item associado? ou dar erro?
+//			case 1
+//				UPDATE item_nf_transferencia_lote_prt
+//					SET qt_lote = qt_lote + :al_qtd_movto
+//				 WHERE cd_produto           = :al_produto
+//					AND nr_lote              = :as_lote
+//					AND nr_protocolo_defeito = :as_protocolo
+//					AND cd_motivo_defeito    = :al_motivo
+//				 USING SQLCA;
+//				
+//				If SQLCA.SQLCode < 0 then
+//					SQLCA.of_Msgdberror ('Erro ao alterar o protocolo no item da NF!')
+//					Return False
+//				End if
+//				
+//			case is > 1
+//				MessageBox ('Aten$$HEX2$$e700e300$$ENDHEX$$o', 'H$$HEX1$$e100$$ENDHEX$$ mais de uma NF de transfer$$HEX1$$ea00$$ENDHEX$$ncia para este produto/lote com o mesmo protocolo!', Exclamation!)
+//				Return False
+//		End choose
+		
+End choose
+
+Return True
+end function
+

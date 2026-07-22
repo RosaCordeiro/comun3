@@ -1,0 +1,254 @@
+HA$PBExportHeader$gf_grava_log_alteracao.srf
+global type gf_grava_log_alteracao from function_object
+end type
+
+forward prototypes
+global function boolean gf_grava_log_alteracao (dc_uo_dw_base pdw_log)
+end prototypes
+
+global function boolean gf_grava_log_alteracao (dc_uo_dw_base pdw_log);Long lvl_Colunas
+Long lvl_Coluna
+Long lvl_Linhas
+Long lvl_Linha
+
+String lvs_Coluna
+String lvs_DBColuna
+String lvs_ValorDe
+String lvs_ValorPara
+String lvs_Tabela
+String lvs_Tipo
+String lvs_Key[]
+String lvs_Chave
+String lvs_Aux
+String lvs_SQL
+String lvs_SQL2
+String lvs_Edit
+String lvs_ColunmType
+
+//Verifica se tem altera$$HEX2$$e700f500$$ENDHEX$$es
+If pdw_log.ModifiedCount()+pdw_log.DeletedCount() > 0 Then
+	//Recupera o nome da tabela que ser$$HEX1$$e100$$ENDHEX$$ atualizada
+	lvs_Tabela		= pdw_log.Object.DataWindow.Table.UpdateTable
+	//N$$HEX1$$e300$$ENDHEX$$o habilitado as propriedades de update na datawindow
+	If lvs_Tabela = "?" Or lvs_Tabela = "" Then Return False
+	//Recupera o total de campos
+	lvl_Colunas = Long(pdw_log.Describe("DataWindow.Column.Count"))
+	//Montagem de SQL
+	lvs_SQL = "SELECT "
+	//Recupera os campos chave da atualiza$$HEX2$$e700e300$$ENDHEX$$o
+	For lvl_Coluna = 1 To lvl_Colunas
+		lvs_Coluna		= pdw_log.Describe("#"+String(lvl_Coluna)+".Name")
+		lvs_DBColuna	= gf_replace(pdw_log.Describe("#"+String(lvl_Coluna)+".DBName"),lvs_Tabela+'.','',0)
+		If Lower(pdw_log.Describe("#"+String(lvl_Coluna)+".Key")) = 'yes' Then
+			lvs_Key[UpperBound(lvs_Key)+1]	= lvs_DBColuna
+			If UpperBound(lvs_Key)>1 Then lvs_SQL += ", "
+			lvs_SQL += lvs_Coluna
+		End If
+	Next
+	
+	If pdw_log.ModifiedCount() > 0 Then
+		lvs_SQL2 = lvs_SQL + " FROM "+lvs_Tabela+" WHERE "
+		
+		//Recupera a pr$$HEX1$$f300$$ENDHEX$$xima linha atualizada
+		lvl_Linha = pdw_log.GetNextModified(0,Primary!)
+		
+		//Repete o comando para cada linha de altera$$HEX2$$e700e300$$ENDHEX$$o
+		Do While lvl_Linha > 0
+			lvs_Chave = ''
+			lvs_SQL = lvs_SQL2
+			//Recupera os valores dos campos chave desta linha
+			For lvl_Coluna = 1 To UpperBound(lvs_Key)
+				If lvl_Coluna > 1 Then 
+					lvs_SQL += " AND "
+					lvs_Chave += '@#!'
+				End If
+				//Recupera o tipo de dado da coluna
+				lvs_ColunmType = Upper(pdw_log.Describe(lvs_Key[lvl_Coluna]+".Coltype"))
+				lvs_Edit = Lower(pdw_log.Describe(lvs_Key[lvl_Coluna]+".Edit.Style"))
+				//Recupera o dado da coluna conforme o tipo e converte para string
+				Choose Case lvs_ColunmType
+					Case 'NUMBER','LONG','INT','ULONG'
+						lvs_Chave += String(pdw_log.GetItemNumber(lvl_Linha,lvs_Key[lvl_Coluna]))
+						lvs_SQL	+= lvs_Key[lvl_Coluna]+"="+String(pdw_log.GetItemNumber(lvl_Linha,lvs_Key[lvl_Coluna]))
+					Case 'DATE'
+						lvs_Chave += String(pdw_log.GetItemDate(lvl_Linha,lvs_Key[lvl_Coluna]))
+						lvs_SQL	+= lvs_Key[lvl_Coluna]+"='"+String(pdw_log.GetItemDate(lvl_Linha,lvs_Key[lvl_Coluna]),'YYYY.MM.DD')+"'"
+					Case 'DATETIME'
+						lvs_Chave += String(pdw_log.GetItemDateTime(lvl_Linha,lvs_Key[lvl_Coluna]))
+						lvs_SQL	+= lvs_Key[lvl_Coluna]+"='"+String(pdw_log.GetItemDateTime(lvl_Linha,lvs_Key[lvl_Coluna]),'YYYY.MM.DD HH:MM:SS')+"'"
+					Case Else	
+						If (Pos(lvs_ColunmType,'DECIMAL')>0)or(lvs_ColunmType='REAL') Then
+							lvs_Chave += String(pdw_log.GetItemDecimal(lvl_Linha,lvs_Key[lvl_Coluna]),'#,##0.00##')
+							lvs_SQL	+= lvs_Key[lvl_Coluna]+"="+gf_replace(String(pdw_log.GetItemDecimal(lvl_Linha,lvs_Key[lvl_Coluna]),'###0.00##'),',','.',0)
+						Else
+							lvs_Aux		=	pdw_log.GetItemFormattedString(lvl_Linha,lvs_Key[lvl_Coluna])
+							If IsNull(lvs_Aux) or Trim(lvs_Aux)='' or (lvs_Edit='ddlb') Then lvs_Aux = pdw_log.GetItemString(lvl_Linha,lvs_Key[lvl_Coluna])
+							lvs_Chave	+= lvs_Aux
+							lvs_SQL		+= lvs_Key[lvl_Coluna]+"='"+lvs_Aux+"'"
+						End If
+				End Choose					
+			Next
+			
+			If IsNull(lvs_Chave) Then 
+				lvl_Linha = pdw_log.GetNextModified(0,Primary!)
+				Continue
+			End If
+			
+			//Executa SQL para verificar se o registro j$$HEX1$$e100$$ENDHEX$$ existe no banco (o controle por GetItemStatus n$$HEX1$$e300$$ENDHEX$$o funcionou corretamente em nossa classe)
+			PREPARE SQLSA FROM :lvs_SQL ;
+			DESCRIBE SQLSA INTO SQLDA ;
+			DECLARE lcu_cursor DYNAMIC CURSOR FOR SQLSA ;
+			OPEN DYNAMIC lcu_cursor USING DESCRIPTOR SQLDA ;
+			FETCH lcu_cursor USING DESCRIPTOR SQLDA ;
+			//Verifica o tipo de modifica$$HEX2$$e700e300$$ENDHEX$$o se inser$$HEX2$$e700e300$$ENDHEX$$o ou atualiza$$HEX2$$e700e300$$ENDHEX$$o
+			Choose Case SQLCa.SQLCode
+				Case -1
+					Return False
+				Case 100
+					lvs_Tipo = 'I'
+					//Insere LOG		
+					Insert Into historico_alteracao_tabela(nm_tabela, de_chave, nm_coluna, nr_matric_alteracao, id_alteracao)
+					Values (Upper(:lvs_Tabela), :lvs_Chave, '', :gvo_aplicacao.ivo_seguranca.nr_matricula, 'I')
+					Using SqlCa;
+					
+					If SqlCa.SqlCode = -1 Then
+						MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao gravar hist$$HEX1$$f300$$ENDHEX$$rico de altera$$HEX2$$e700f500$$ENDHEX$$es. Tabela "+lvs_Tabela+".~r~n"+SqlCa.SQLErrText, StopSign!)
+						SqlCa.of_RollBack()
+						Return False
+					End If
+					
+					lvl_Linha = pdw_log.GetNextModified(lvl_Linha,Primary!)
+					Continue
+				Case Else
+					lvs_Tipo = 'A'
+			End Choose
+			CLOSE lcu_cursor ;
+			
+			//Verifica quais colunas foram modificadas
+			For lvl_Coluna = 1 To lvl_Colunas
+				//Recupera nome da coluna atual
+				lvs_Coluna		= pdw_log.Describe("#"+String(lvl_Coluna)+".Name")
+				lvs_DBColuna	= gf_replace(pdw_log.Describe("#"+String(lvl_Coluna)+".DBName"),lvs_Tabela+'.','',0)
+				//Somente se a coluna estiver marcada para alterar nas propriedades
+				If Lower(pdw_log.Describe("#"+String(lvl_Coluna)+".Update")) <> 'yes' Then Continue
+				//Foi modicada?
+				If pdw_log.GetItemStatus(lvl_Linha,lvs_Coluna,Primary!) <> NotModified! Then				
+					//Recupera o tipo de dado da coluna alterada
+					lvs_ColunmType = Upper(pdw_log.Describe("#"+String(lvl_Coluna)+".Coltype"))
+					//Recupera os valores atual e antigo da coluna conforme o tipo de dado e converte para string
+					Choose Case lvs_ColunmType
+						Case 'NUMBER','LONG','INT','ULONG'
+							lvs_ValorDe		= String(pdw_log.GetItemNumber(lvl_Linha,lvs_Coluna,Primary!,True))
+							lvs_ValorPara	= String(pdw_log.GetItemNumber(lvl_Linha,lvs_Coluna,Primary!,False))
+						Case 'DATE'
+							lvs_ValorDe		= String(pdw_log.GetItemDate(lvl_Linha,lvs_Coluna,Primary!,True),'DD/MM/YYYY')
+							lvs_ValorPara	= String(pdw_log.GetItemDate(lvl_Linha,lvs_Coluna,Primary!,False),'DD/MM/YYYY')
+						Case 'DATETIME'
+							lvs_ValorDe		= String(pdw_log.GetItemDateTime(lvl_Linha,lvs_Coluna,Primary!,True),'DD/MM/YYYY HH:MM:SS')
+							lvs_ValorPara	= String(pdw_log.GetItemDateTime(lvl_Linha,lvs_Coluna,Primary!,False),'DD/MM/YYYY HH:MM:SS')
+						Case Else	
+							If (Pos(lvs_ColunmType,'DECIMAL')>0)or(lvs_ColunmType='REAL') Then
+								lvs_ValorDe		= String(pdw_log.GetItemDecimal(lvl_Linha,lvs_Coluna,Primary!,True),'#,##0.00##')
+								lvs_ValorPara	= String(pdw_log.GetItemDecimal(lvl_Linha,lvs_Coluna,Primary!,False),'#,##0.00##')
+							Else
+								lvs_ValorDe		= pdw_log.GetItemString(lvl_Linha,lvs_Coluna,Primary!,True)
+								lvs_ValorPara	= pdw_log.GetItemString(lvl_Linha,lvs_Coluna,Primary!,False)
+							End If
+					End Choose			
+					
+					If IsNull(lvs_ValorDe) Then lvs_ValorDe = ''
+					If IsNull(lvs_ValorPara) Then lvs_ValorPara = ''
+					
+					If (lvs_ValorDe <> lvs_ValorPara) Then
+						//Insere LOG
+						Insert Into historico_alteracao_tabela(nm_tabela, de_chave, nm_coluna, de_alteracao_de, de_alteracao_para, nr_matric_alteracao, id_alteracao)
+						Values (Upper(:lvs_Tabela), :lvs_Chave, Upper(:lvs_DBColuna), :lvs_ValorDe, :lvs_ValorPara, :gvo_aplicacao.ivo_seguranca.nr_matricula, :lvs_Tipo)
+						Using SqlCa;
+						
+						If SqlCa.SqlCode = -1 Then
+							MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao gravar hist$$HEX1$$f300$$ENDHEX$$rico de altera$$HEX2$$e700f500$$ENDHEX$$es. Tabela "+lvs_Tabela+".~r~n"+SqlCa.SQLErrText, StopSign!)
+							SqlCa.of_RollBack()
+							Return False
+						End If
+					End If
+				End If
+			Next
+			
+			//Recupera a pr$$HEX1$$f300$$ENDHEX$$xima linha da DW com atualiza$$HEX2$$e700e300$$ENDHEX$$o para continua$$HEX2$$e700e300$$ENDHEX$$o do WHILE
+			lvl_Linha = pdw_log.GetNextModified(lvl_Linha,Primary!)
+		Loop
+	End If
+
+	//Registros deletados
+	If pdw_log.DeletedCount() > 0 Then
+		lvs_Tipo = 'E'
+		lvl_Colunas = Long(pdw_log.Describe("DataWindow.Column.Count"))
+		//Recupera o total de campos
+		For lvl_Linha = 1 To pdw_log.DeletedCount()
+			
+			lvs_Chave = ''
+			//Recupera os valores dos campos chave desta linha
+			For lvl_Coluna = 1 To UpperBound(lvs_Key)
+				If lvl_Coluna > 1 Then lvs_Chave += '@#!'
+				//Recupera o tipo de dado da coluna
+				lvs_ColunmType = Upper(pdw_log.Describe(lvs_Key[lvl_Coluna]+".Coltype"))
+				//Recupera o dado da coluna conforme o tipo e converte para string
+				Choose Case lvs_ColunmType
+					Case 'NUMBER','LONG','INT','ULONG'
+						lvs_Chave += String(pdw_log.GetItemNumber(lvl_Linha,lvs_Key[lvl_Coluna],Delete!,True))
+					Case 'DATE'
+						lvs_Chave += String(pdw_log.GetItemDate(lvl_Linha,lvs_Key[lvl_Coluna],Delete!,True))
+					Case 'DATETIME'
+						lvs_Chave += String(pdw_log.GetItemDateTime(lvl_Linha,lvs_Key[lvl_Coluna],Delete!,True))
+					Case Else	
+						If (Pos(lvs_ColunmType,'DECIMAL')>0)or(lvs_ColunmType='REAL') Then
+							lvs_Chave += String(pdw_log.GetItemDecimal(lvl_Linha,lvs_Key[lvl_Coluna],Delete!,True),'#,##0.00##')
+						Else
+							lvs_Chave += pdw_log.GetItemFormattedString(lvl_Linha,lvs_Key[lvl_Coluna],Delete!,True)
+						End If
+				End Choose					
+			Next
+			
+			If IsNull(lvs_Chave) Then Return False
+			
+			//Verifica quais colunas foram modificadas
+			For lvl_Coluna = 1 To lvl_Colunas
+				//Recupera nome da coluna atual
+				lvs_Coluna		= pdw_log.Describe("#"+String(lvl_Coluna)+".Name")	
+				lvs_DBColuna	= gf_replace(pdw_log.Describe("#"+String(lvl_Coluna)+".DBName"),lvs_Tabela+'.','',0)
+				//Recupera o tipo de dado da coluna alterada
+				lvs_ColunmType = Upper(pdw_log.Describe("#"+String(lvl_Coluna)+".Coltype"))
+				//Recupera os valores atual e antigo da coluna conforme o tipo de dado e converte para string
+				Choose Case lvs_ColunmType
+					Case 'NUMBER','LONG','INT','ULONG'
+						lvs_ValorDe		= String(pdw_log.GetItemNumber(lvl_Linha,lvs_Coluna,Delete!,True))
+					Case 'DATE'
+						lvs_ValorDe		= String(pdw_log.GetItemDate(lvl_Linha,lvs_Coluna,Delete!,True),'DD/MM/YYYY')
+					Case 'DATETIME'
+						lvs_ValorDe		= String(pdw_log.GetItemDateTime(lvl_Linha,lvs_Coluna,Delete!,True),'DD/MM/YYYY HH:MM:SS')
+					Case Else	
+						If (Pos(lvs_ColunmType,'DECIMAL')>0)or(lvs_ColunmType='REAL') Then
+							lvs_ValorDe		= String(pdw_log.GetItemDecimal(lvl_Linha,lvs_Coluna,Delete!,True),'#,##0.00##')
+						Else
+							lvs_ValorDe		= pdw_log.GetItemString(lvl_Linha,lvs_Coluna,Delete!,True)
+						End If
+				End Choose			
+				
+				//Insere LOG
+				Insert Into historico_alteracao_tabela(nm_tabela, de_chave, nm_coluna, de_alteracao_de, nr_matric_alteracao, id_alteracao)
+				Values (Upper(:lvs_Tabela), :lvs_Chave, Upper(:lvs_DBColuna), :lvs_ValorDe, :gvo_aplicacao.ivo_seguranca.nr_matricula, :lvs_Tipo)
+				Using SqlCa;
+				
+				If SqlCa.SqlCode = -1 Then
+					MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao gravar hist$$HEX1$$f300$$ENDHEX$$rico de altera$$HEX2$$e700f500$$ENDHEX$$es. Tabela "+lvs_Tabela+".~r~n"+SqlCa.SQLErrText, StopSign!)
+					SqlCa.of_RollBack()
+					Return False
+				End If
+			Next
+		Next
+	End If
+End If
+
+Return True
+end function
+

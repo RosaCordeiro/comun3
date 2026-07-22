@@ -1,0 +1,59 @@
+HA$PBExportHeader$gf_get_nfe_part.srf
+global type gf_get_nfe_part from function_object
+end type
+
+forward prototypes
+global function boolean gf_get_nfe_part (string as_chave, string as_part, ref string as_value, ref string as_log)
+end prototypes
+
+global function boolean gf_get_nfe_part (string as_chave, string as_part, ref string as_value, ref string as_log);// of_get_nfe_part(as_key, as_part)
+// Retorna: string - valor da parte solicitada, ou vazio se inv$$HEX1$$e100$$ENDHEX$$lido
+// Par$$HEX1$$e200$$ENDHEX$$metros:
+//   as_key  : string - chave de acesso de 44 d$$HEX1$$ed00$$ENDHEX$$gitos
+//   as_part : string - nome da parte desejada ("CNPJ", "UF", "ANO", etc.)
+// Exemplos: "CNPJ", "UF", "ANO", "MES", "MODELO", "SERIE", "NUMERO",
+//           "TPEMIS", "CNF", "CDV", "CHAVE"
+
+st_nfe_chave_info lst_nfe_chave_info
+
+
+if not gf_extract_nfe_info(as_chave, REF lst_nfe_chave_info, REF as_log) then
+    Return False
+end if
+
+// Normaliza o nome da parte (mai$$HEX1$$fa00$$ENDHEX$$sculo)
+as_part = upper(as_part)
+
+choose case as_part
+    case "UF"
+        as_value = lst_nfe_chave_info.uf
+    case "CNPJ"
+        as_value = lst_nfe_chave_info.cnpj
+    case "ANO"
+        as_value = lst_nfe_chave_info.ano
+    case "MES"
+        as_value = lst_nfe_chave_info.mes
+    case "MODELO"
+        as_value = lst_nfe_chave_info.modelo
+    case "SERIE"
+        as_value = lst_nfe_chave_info.serie
+    case "NUMERO"
+        as_value = lst_nfe_chave_info.numero
+    case "TPEMIS", "TP_EMIS", "TIPO_EMISSAO"
+        as_value = lst_nfe_chave_info.tp_emis
+    case "CNF"
+        as_value = lst_nfe_chave_info.cnf
+    case "CDV", "DV"
+        as_value = lst_nfe_chave_info.cdv
+    case "CHAVE"
+        as_value = as_chave
+    case else
+        // Para retornar qualquer parte arbitr$$HEX1$$e100$$ENDHEX$$ria (ex: "7-20" etc), 
+        // pode-se tamb$$HEX1$$e900$$ENDHEX$$m interpretar intervalos, mas n$$HEX1$$e300$$ENDHEX$$o solicitado.
+        // Retorna vazio para nomes n$$HEX1$$e300$$ENDHEX$$o reconhecidos.
+        as_value = ""
+end choose
+
+Return True
+end function
+

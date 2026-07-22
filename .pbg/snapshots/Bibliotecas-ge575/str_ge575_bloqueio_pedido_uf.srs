@@ -1,0 +1,10 @@
+HA$PBExportHeader$str_ge575_bloqueio_pedido_uf.srs
+global type str_ge575_bloqueio_pedido_uf from structure
+	string		cd_distribuidora[]
+	string		nm_fantasia[]
+	string		de_motivo_bloqueio[]
+	datetime		dh_inicio_bloqueio[]
+	datetime		dh_termino_bloqueio[]
+	string		cd_uf[]
+end type
+

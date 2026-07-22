@@ -1,0 +1,10 @@
+HA$PBExportHeader$str_etiqueta1.srs
+global type str_etiqueta1 from structure
+	long		al_nr_nf
+	string		as_de_especie
+	string		as_de_serie
+	string		as_acao
+	long		al_volume
+	string		as_nr_cnpj
+end type
+

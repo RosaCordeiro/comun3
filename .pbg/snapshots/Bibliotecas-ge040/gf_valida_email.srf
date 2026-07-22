@@ -1,0 +1,111 @@
+HA$PBExportHeader$gf_valida_email.srf
+global type gf_valida_email from function_object
+end type
+
+forward prototypes
+global function boolean gf_valida_email (string ps_email)
+global function boolean gf_valida_email (string ps_email, boolean pb_mostra_mensagem, ref string ps_mensagem)
+end prototypes
+
+global function boolean gf_valida_email (string ps_email)
+String ls_MSG
+
+Return gf_valida_email(ps_email, TRUE, REF ls_MSG )
+end function
+
+global function boolean gf_valida_email (string ps_email, boolean pb_mostra_mensagem, ref string ps_mensagem);	/* 
+	*	Este arquivo cont$$HEX1$$e900$$ENDHEX$$m v$$HEX1$$e100$$ENDHEX$$rias fun$$HEX2$$e700f500$$ENDHEX$$es. 
+	*	Para poder editar/visualizar todas, $$HEX1$$e900$$ENDHEX$$ necess$$HEX1$$e100$$ENDHEX$$rio usar a op$$HEX2$$e700e300$$ENDHEX$$o Edit Source
+	*
+	*	Assinaturas:
+	*	gf_valida_email	( string )
+	*	gf_valida_email	( string, boolean, ref string )
+	*/
+Boolean lb_Sucesso = True
+
+String lvs_Aux, ls_descricao_erro
+
+Long ll_Pos
+
+ls_descricao_erro = ""
+
+If PosA(ps_email, ";") > 1 Then
+	lb_Sucesso = False
+End If
+
+If PosA(ps_email, ",") > 1 Then
+	lb_Sucesso = False
+End If
+
+If PosA(ps_Email, "@") < 1 Then
+	lb_Sucesso = False
+Else
+	//Recebe o dom$$HEX1$$ed00$$ENDHEX$$nio do email
+	lvs_Aux = Mid(ps_Email, PosA(ps_Email, "@") + 1)
+	//No dom$$HEX1$$ed00$$ENDHEX$$nio tem que haver ponto
+	If PosA(lvs_Aux, ".") < 1 Then
+		lb_Sucesso = False
+	End If
+	
+	//No dom$$HEX1$$ed00$$ENDHEX$$nio n$$HEX1$$e300$$ENDHEX$$o conter @
+	If PosA(lvs_Aux, "@") > 0 Then
+		lb_Sucesso = False
+	End If
+End If
+
+If PosA(ps_Email, "hotemail") > 0 Then
+	lb_Sucesso = False
+End If
+
+If PosA(ps_Email, "rotmail") > 0 Then
+	lb_Sucesso = False
+End If
+
+If PosA(ps_Email, "rotemail") > 0 Then
+	lb_Sucesso = False
+End If
+
+If PosA(ps_Email, "hotmaill") > 0 Then
+	lb_Sucesso = False
+End If
+
+If PosA(ps_Email, "rotmaill") > 0 Then
+	lb_Sucesso = False
+End If
+
+If PosA(ps_Email, "hotemaill") > 0 Then
+	lb_Sucesso = False
+End If
+
+If PosA(ps_Email, "gemail") > 0 Then
+	lb_Sucesso = False
+End If
+
+If PosA(ps_Email, " ") > 0 Then
+	lb_Sucesso = False
+End If
+
+If PosA( ps_Email, "@gmail.com.br" ) > 0 Then
+	ls_descricao_erro = "~r~rAlguns e-mail n$$HEX1$$e300$$ENDHEX$$o possuem '.br'."
+	lb_Sucesso = False
+End If
+
+If PosA( ps_Email, "@hotmail.com.br" ) > 0 Then
+	ls_descricao_erro = "~r~rAlguns e-mails n$$HEX1$$e300$$ENDHEX$$o possuem '.br'."
+	lb_Sucesso = False	
+End If
+
+If Not Match(ps_Email,'^[a-zA-Z0-9][a-zA-Z\0-9\-_\.]*[^.]\@[^.][a-zA-Z\0-9\-_\.]+\.[a-zA-Z\0-9\-_\.]*[a-zA-Z\0-9]+$') Then
+	lb_Sucesso = False
+end if
+
+If Not lb_Sucesso Then
+	ps_mensagem = 'O e-mail '+ps_email+' cadastrado n$$HEX1$$e300$$ENDHEX$$o $$HEX1$$e900$$ENDHEX$$ v$$HEX1$$e100$$ENDHEX$$lido.' + ls_descricao_erro 
+	If pb_mostra_mensagem Then
+		MessageBox('Aten$$HEX2$$e700e300$$ENDHEX$$o', ps_mensagem+' Por favor verifique.', Exclamation!)
+	End If
+End If
+
+Return lb_Sucesso
+end function
+

@@ -1,0 +1,61 @@
+HA$PBExportHeader$lf_ge252_item_nf_compra.srf
+global type lf_ge252_item_nf_compra from function_object
+end type
+
+forward prototypes
+global function boolean lf_ge252_item_nf_compra (long pl_filial, string ps_fornecedor, long pl_nota, string ps_especie, string ps_serie, long pl_produto, ref boolean pb_utiliza_totais)
+end prototypes
+
+global function boolean lf_ge252_item_nf_compra (long pl_filial, string ps_fornecedor, long pl_nota, string ps_especie, string ps_serie, long pl_produto, ref boolean pb_utiliza_totais);Decimal ldc_vl_total_item
+Decimal ldc_vl_desconto_total
+Decimal ldc_vl_bc_icms_total
+Decimal ldc_vl_icms_total
+Decimal ldc_vl_bc_ipi_total
+Decimal ldc_vl_ipi_total
+
+pb_utiliza_totais = false
+
+select 	i.vl_total_item,
+			i.vl_desconto_total,
+			i.vl_bc_icms_total,
+			i.vl_icms_total,
+			i.vl_bc_ipi_total,
+			i.vl_ipi_total
+Into :ldc_vl_total_item, :ldc_vl_desconto_total, :ldc_vl_bc_icms_total, :ldc_vl_icms_total, :ldc_vl_bc_ipi_total, :ldc_vl_ipi_total
+from item_nf_compra i
+where i.cd_filial 			= :pl_filial
+  and i.nr_nf 				= :pl_nota
+  and i.cd_fornecedor 	= :ps_fornecedor
+  and i.de_especie 		= :ps_especie
+  and i.de_serie 			= :ps_serie 
+  and i.cd_produto 		= :pl_produto
+ Using SqlCa;
+ 
+ Choose Case SqlCa.SqlCode
+	Case 0
+		
+		If Not IsNull(ldc_vl_total_item) and ldc_vl_total_item > 0 Then
+			If Not IsNull(ldc_vl_desconto_total) and ldc_vl_desconto_total >= 0 Then
+				If Not IsNull(ldc_vl_bc_icms_total) and ldc_vl_bc_icms_total >= 0 Then
+					If Not IsNull(ldc_vl_icms_total) and ldc_vl_icms_total >= 0 Then
+						If Not IsNull(ldc_vl_bc_ipi_total) and ldc_vl_bc_ipi_total >= 0 Then
+							If Not IsNull(ldc_vl_ipi_total) and ldc_vl_ipi_total >= 0 Then
+								pb_utiliza_totais = True
+							End If
+						End If						
+					End If
+				End If
+			End If
+		End If
+						
+	Case 100
+		Messagebox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Item da nota fiscal de compra n$$HEX1$$e300$$ENDHEX$$o localizado.")
+		Return False
+	Case -1
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao localizar os dados da tabela [ITEM_NF_COMPRA] '" + SQLCA.SQLErrText + "'." )
+		Return False
+End Choose
+
+Return True
+end function
+

@@ -1,0 +1,32 @@
+HA$PBExportHeader$dw_conveniado_de_para.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=80 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=92 color="536870912" )
+table(column=(type=long updatewhereclause=yes key=yes name=cd_convenio dbname="conveniado_de_para.cd_convenio" )
+ column=(type=char(15) updatewhereclause=yes key=yes name=cd_conveniado_de dbname="conveniado_de_para.cd_conveniado_de" )
+ column=(type=char(15) updatewhereclause=yes key=yes name=cd_conveniado_para dbname="conveniado_de_para.cd_conveniado_para" )
+ column=(type=datetime updatewhereclause=yes key=yes name=dh_alteracao dbname="conveniado_de_para.dh_alteracao" )
+ column=(type=datetime update=yes updatewhereclause=yes name=dh_exclusao dbname="conveniado_de_para.dh_exclusao" )
+ retrieve="select cd_convenio,   
+       cd_conveniado_de,   
+       cd_conveniado_para,
+       dh_alteracao,
+       dh_exclusao
+from conveniado_de_para
+where dh_alteracao <= :data_base
+  and dh_exclusao is null
+" update="conveniado_de_para" updatewhere=0 updatekeyinplace=no arguments=(("data_base", date)) )
+text(band=header alignment="2" text="Cd Convenio"border="0" color="0" x="9" y="8" height="64" width="329"  name=cd_convenio_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cd Conveniado De"border="0" color="0" x="347" y="8" height="64" width="485"  name=cd_conveniado_de_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cd Conveniado Para"border="0" color="0" x="841" y="8" height="64" width="535"  name=cd_conveniado_para_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Dh Exclusao"border="0" color="0" x="1385" y="8" height="64" width="503"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Dh Alteracao"border="0" color="0" x="1897" y="8" height="64" width="503"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="1" tabsequence=32766 border="0" color="0" x="9" y="8" height="76" width="329" format="[general]"  name=cd_convenio edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="347" y="8" height="76" width="485" format="[general]"  name=cd_conveniado_de edit.limit=15 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="841" y="8" height="76" width="535" format="[general]"  name=cd_conveniado_para edit.limit=15 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="1385" y="8" height="76" width="503" format="[shortdate] [time]"  name=dh_exclusao edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="1897" y="8" height="76" width="503" format="[shortdate] [time]"  name=dh_alteracao edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

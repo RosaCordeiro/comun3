@@ -1,0 +1,81 @@
+HA$PBExportHeader$gf_grupo_nao_psico.srf
+global type gf_grupo_nao_psico from function_object
+end type
+
+forward prototypes
+global function boolean gf_nao_psico (long pl_cd_filial_origem, long pl_cd_filial_destino)
+global function boolean gf_grupo_nao_psico (string ps_grupo, ref string ps_retorno)
+end prototypes
+
+global function boolean gf_nao_psico (long pl_cd_filial_origem, long pl_cd_filial_destino);String lvs_uf_filial_origem , &
+		 lvs_uf_filial_destino
+		 
+lvs_uf_filial_origem  = gf_uf_filial(pl_cd_filial_origem)
+lvs_uf_filial_destino =	gf_uf_filial(pl_cd_filial_destino)	 
+
+If IsNull(lvs_uf_filial_origem)  Then Return False
+If IsNull(lvs_uf_filial_destino) Then Return False
+
+If lvs_uf_filial_origem <> lvs_uf_filial_destino Then
+	Return True
+Else
+	Return False
+End If
+	 
+
+end function
+
+global function boolean gf_grupo_nao_psico (string ps_grupo, ref string ps_retorno);String ls_Grupo
+String ls_Achou
+
+If Trim(ps_grupo) = "" or IsNull(ps_grupo) Then
+	ps_retorno = 'S'
+	Return True
+End If
+
+ls_Grupo = "%" + ps_grupo + "%"
+
+Select vl_parametro
+  Into :ls_Achou
+  From parametro_loja
+ Where cd_parametro = 'CD_GRUPO_NAO_PSICO'
+ Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+		
+	Case -1
+		SqlCa.of_MsgDbError("Localiza$$HEX2$$e700e300$$ENDHEX$$o do par$$HEX1$$e200$$ENDHEX$$metro 'CD_GRUPO_NAO_PSICO'.")
+		Return False
+		
+	Case 100
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Par$$HEX1$$e200$$ENDHEX$$metro 'CD_GRUPO_NAO_PSICO' n$$HEX1$$e300$$ENDHEX$$o localizado na tabela PARAMETRO_LOJA", StopSign!)
+		Return False
+		
+End Choose
+
+
+Select vl_parametro
+  Into :ls_Achou
+  From parametro_loja
+ Where cd_parametro = 'CD_GRUPO_NAO_PSICO'
+   And vl_parametro like :ls_Grupo
+  Using SqlCa;
+  
+Choose Case SqlCa.SqlCode
+		
+	Case -1
+		SqlCa.of_MsgDbError("Localiza$$HEX2$$e700e300$$ENDHEX$$o do par$$HEX1$$e200$$ENDHEX$$metro 'CD_GRUPO_NAO_PSICO'.")
+		Return False
+		
+	Case 100
+		ps_retorno = 'N'
+		
+	Case 0
+		ps_retorno = 'S'
+		
+End Choose
+
+Return True
+
+end function
+

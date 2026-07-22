@@ -1,0 +1,87 @@
+HA$PBExportHeader$dw_lancamento_psico_produto.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=80269524 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=136 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=84 color="536870912" )
+table(column=(type=long updatewhereclause=yes name=cd_filial dbname="lancamento_psico_produto.cd_filial" )
+ column=(type=long updatewhereclause=yes name=nr_nf dbname="lancamento_psico_produto.nr_nf" )
+ column=(type=char(3) updatewhereclause=yes name=de_especie dbname="lancamento_psico_produto.de_especie" )
+ column=(type=char(3) updatewhereclause=yes name=de_serie dbname="lancamento_psico_produto.de_serie" )
+ column=(type=long updatewhereclause=yes name=nr_nsr dbname="lancamento_psico_produto.nr_nsr" )
+ column=(type=long updatewhereclause=yes name=cd_produto dbname="lancamento_psico_produto.cd_produto" )
+ column=(type=long updatewhereclause=yes name=qt_dispensada dbname="lancamento_psico_produto.qt_dispensada" )
+ column=(type=long updatewhereclause=yes name=qt_prescrita dbname="lancamento_psico_produto.qt_prescrita" )
+ column=(type=decimal(2) updatewhereclause=yes name=qt_posologia dbname="lancamento_psico_produto.qt_posologia" )
+ column=(type=char(20) updatewhereclause=yes name=id_apresentacao dbname="lancamento_psico_produto.id_apresentacao" )
+ column=(type=long updatewhereclause=yes name=qt_frequencia dbname="lancamento_psico_produto.qt_frequencia" )
+ column=(type=char(1) updatewhereclause=yes name=id_frequencia dbname="lancamento_psico_produto.id_frequencia" )
+ column=(type=char(1) updatewhereclause=yes name=id_situacao dbname="lancamento_psico_produto.id_situacao" )
+ column=(type=char(1) updatewhereclause=yes name=id_estorno dbname="lancamento_psico_produto.id_estorno" )
+ retrieve="  SELECT p.cd_filial,   
+         p.nr_nf,   
+         p.de_especie,   
+         p.de_serie,   
+         p.nr_nsr,   
+         p.cd_produto,   
+         p.qt_dispensada,   
+         p.qt_prescrita,   
+         p.qt_posologia,   
+         p.id_apresentacao,   
+         p.qt_frequencia,   
+         p.id_frequencia,   
+         p.id_situacao,   
+         p.id_estorno  
+    FROM lancamento_psico l,   
+         lancamento_psico_produto p  
+   WHERE l.dh_exportacao = :data
+     AND p.cd_filial		 = l.cd_filial
+     AND p.nr_nf			 = l.nr_nf
+     AND p.de_especie	 = l.de_especie
+     AND p.de_serie		 = l.de_serie
+     AND p.nr_nsr			 = l.nr_nsr
+" arguments=(("data", date))  sort="cd_filial A nr_nf A de_especie A de_serie A cd_produto A " )
+text(band=header alignment="2" text="Lancamento Psico Produto
+Cd Filial"border="0" color="8388608" x="5" y="4" height="128" width="718"  name=lancamento_psico_produto_cd_filial_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Lancamento Psico Produto
+Nr Nf"border="0" color="8388608" x="727" y="4" height="128" width="718"  name=lancamento_psico_produto_nr_nf_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Lancamento Psico Produto
+De Especie"border="0" color="8388608" x="1449" y="4" height="128" width="718"  name=lancamento_psico_produto_de_especie_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Lancamento Psico Produto
+De Serie"border="0" color="8388608" x="2176" y="4" height="128" width="718"  name=lancamento_psico_produto_de_serie_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Lancamento Psico Produto
+Nr Nsr"border="0" color="8388608" x="2898" y="4" height="128" width="718"  name=lancamento_psico_produto_nr_nsr_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Lancamento Psico Produto
+Cd Produto"border="0" color="8388608" x="3621" y="4" height="128" width="718"  name=lancamento_psico_produto_cd_produto_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Lancamento Psico Produto
+Qt Dispensada"border="0" color="8388608" x="4343" y="4" height="128" width="718"  name=lancamento_psico_produto_qt_dispensada_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Lancamento Psico Produto
+Qt Prescrita"border="0" color="8388608" x="5065" y="4" height="128" width="718"  name=lancamento_psico_produto_qt_prescrita_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Lancamento Psico Produto
+Qt Posologia"border="0" color="8388608" x="5787" y="4" height="128" width="718"  name=lancamento_psico_produto_qt_posologia_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Lancamento Psico Produto
+Id Apresentacao"border="0" color="8388608" x="6514" y="4" height="128" width="718"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Lancamento Psico Produto
+Qt Frequencia"border="0" color="8388608" x="7237" y="4" height="128" width="718"  name=lancamento_psico_produto_qt_frequencia_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Lancamento Psico Produto
+Id Frequencia"border="0" color="8388608" x="7959" y="4" height="128" width="718"  name=lancamento_psico_produto_id_frequencia_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Lancamento Psico Produto
+Id Situacao"border="0" color="8388608" x="8681" y="4" height="128" width="718"  name=lancamento_psico_produto_id_situacao_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Lancamento Psico Produto
+Id Estorno"border="0" color="8388608" x="9403" y="4" height="128" width="718"  name=lancamento_psico_produto_id_estorno_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="1" tabsequence=32766 border="0" color="0" x="5" y="4" height="64" width="215" format="[general]"  name=cd_filial edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="0" color="0" x="238" y="8" height="64" width="265" format="[general]"  name=nr_nf edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="521" y="8" height="64" width="192" format="[general]"  name=de_especie edit.limit=3 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="731" y="8" height="64" width="169" format="[general]"  name=de_serie edit.limit=3 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="0" color="0" x="914" y="8" height="64" width="329" format="[general]"  name=nr_nsr edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="1" tabsequence=32766 border="0" color="0" x="1257" y="8" height="64" width="329" format="[general]"  name=cd_produto edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="1" tabsequence=32766 border="0" color="0" x="1600" y="8" height="64" width="329" format="[general]"  name=qt_dispensada edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="1" tabsequence=32766 border="0" color="0" x="1947" y="8" height="64" width="329" format="[general]"  name=qt_prescrita edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="1" tabsequence=32766 border="0" color="0" x="2290" y="8" height="64" width="329" format="[general]"  name=qt_posologia edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="0" tabsequence=32766 border="0" color="0" x="2633" y="8" height="64" width="576" format="[general]"  name=id_apresentacao edit.limit=20 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=11 alignment="1" tabsequence=32766 border="0" color="0" x="3227" y="8" height="64" width="329" format="[general]"  name=qt_frequencia edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=12 alignment="0" tabsequence=32766 border="0" color="0" x="3570" y="8" height="64" width="398" format="[general]"  name=id_frequencia edit.limit=1 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=13 alignment="0" tabsequence=32766 border="0" color="0" x="4009" y="8" height="64" width="466" format="[general]"  name=id_situacao edit.limit=1 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=14 alignment="0" tabsequence=32766 border="0" color="0" x="4489" y="8" height="64" width="389" format="[general]"  name=id_estorno edit.limit=1 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

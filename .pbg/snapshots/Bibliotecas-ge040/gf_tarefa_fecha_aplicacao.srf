@@ -1,0 +1,26 @@
+HA$PBExportHeader$gf_tarefa_fecha_aplicacao.srf
+global type gf_tarefa_fecha_aplicacao from function_object
+end type
+
+forward prototypes
+global subroutine gf_tarefa_fecha_aplicacao (long p_cd_tarefa)
+end prototypes
+
+global subroutine gf_tarefa_fecha_aplicacao (long p_cd_tarefa);string lvs_id_situacao
+
+select id_situacao
+into :lvs_id_situacao
+from tarefa
+where cd_tarefa = :p_cd_tarefa
+Using SQLCa;
+
+if lvs_id_situacao = 'I' then 
+	If IsValid(w_aguarde) Then Close(w_Aguarde)
+	If IsValid(w_aguarde_1) Then Close(w_Aguarde_1)
+	gvo_aplicacao.Event ue_Exit()
+	HALT CLOSE
+End If
+
+
+end subroutine
+

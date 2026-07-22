@@ -1,0 +1,13 @@
+HA$PBExportHeader$t_enderemit_cte.srs
+global type t_enderemit_cte from structure
+	string		xlgr
+	string		nro
+	string		xcpl
+	string		xbairro
+	long		cmun
+	string		xmun
+	string		cep
+	string		uf
+	string		fone
+end type
+

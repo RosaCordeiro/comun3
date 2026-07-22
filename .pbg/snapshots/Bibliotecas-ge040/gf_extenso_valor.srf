@@ -1,0 +1,190 @@
+HA$PBExportHeader$gf_extenso_valor.srf
+global type gf_extenso_valor from function_object
+end type
+
+forward prototypes
+global function string gf_extenso_valor (decimal pvdec_valor)
+end prototypes
+
+global function string gf_extenso_valor (decimal pvdec_valor);
+STRING lvs_ext, lvs_valor, lvs_unid, lvs_dez, lvs_valor_extenso
+
+String CentavosExt, DezenaExt, CentenaExt, MilharExt, Extenso[3], Valores[3]
+
+String unidades[9]  = {'um', 'dois', 'tr$$HEX1$$ea00$$ENDHEX$$s', 'quatro', 'cinco', 'seis', 'sete', 'oito', 'nove'}, &
+		 Dez [10]     = {'dez','onze', 'doze', 'treze', 'quatorze', 'quinze', 'dezesseis', 'dezessete', 'dezoito', 'dezenove'}, &
+		 Dezenas[9]   = {'', 'vinte', 'trinta', 'quarenta', 'cinquenta', 'sessenta', 'setenta', 'oitenta', 'noventa'}, &
+ 		 Centenas [9] = {'cento', 'duzentos', 'trezentos', 'quatrocentos', 'quinhentos', 'seiscentos', 'setecentos', 'oitocentos', 'novecentos'};
+		
+Long lvl_len, lvl_ind
+
+Long   Centavos, Dezena, Centena, Milhar, Milhao 
+Double Inteiro
+
+IF IsNull( pvdec_valor ) OR pvdec_valor <= 0.00 THEN RETURN "0,00"
+
+lvs_valor = String( pvdec_valor, "000,000,000.00" )
+lvl_len = LenA(lvs_valor)
+
+Valores [3] = MidA(lvs_valor,1,3) // Milh$$HEX1$$f500$$ENDHEX$$es
+Valores [2] = MidA(lvs_valor,5,3) // Milhar
+Valores [1] = MidA(lvs_valor,9,3) // Centena
+
+Inteiro  = Double(MidA (lvs_valor, 1,11))
+Centavos = Long(MidA (lvs_valor, 13,2))
+
+
+/*************** Centavos ************************************************/
+If Centavos = 0 Then
+	CentavosExt = ""
+Else
+	If Centavos < 10 Then
+		CentavosExt = Unidades[Centavos]
+	ElseIf Centavos < 20 Then
+		CentavosExt = Dez [Centavos -9]
+	Else	
+		lvs_unid = MidA(String(Centavos),2,1)
+		lvs_dez  = MidA(String(Centavos),1,1)
+		lvs_dez  = Dezenas [Long(lvs_dez)]
+		If Long(lvs_unid) > 0 Then
+			CentavosExt = lvs_dez + " e " + Unidades [Long(lvs_unid)]
+		Else
+			CentavosExt = lvs_dez
+		End If
+	End If
+End If		
+If Centavos = 1 Then 
+	CentavosExt += " centavo"
+ElseIf Centavos > 1 Then
+	CentavosExt += " centavos"
+End If
+
+/************************************************************************/
+
+For lvl_ind = 1 TO 3 
+	
+	Dezena   = Long(MidA (valores[lvl_ind], 2,2))
+	Centena  = Long(MidA (valores[lvl_ind], 1,1))
+	
+	/***************** Dezena *********************/	
+	If Dezena = 0 Then
+		DezenaExt = ""
+	Else
+		If Dezena < 10 Then
+			DezenaExt = Unidades[Dezena]
+		ElseIf Dezena < 20 Then
+			DezenaExt = Dez [Dezena -9]
+		Else	
+			lvs_unid = MidA(String(Dezena),2,1)
+			lvs_dez  = MidA(String(Dezena),1,1)
+			lvs_dez  = Dezenas [Long(lvs_dez)]
+			If Long(lvs_unid) > 0 Then
+				DezenaExt = lvs_dez + " e " + Unidades [Long(lvs_unid)]
+			Else
+				DezenaExt = lvs_dez
+			End If
+		End If
+	End If
+			
+	/***************** CENTENA ********************/	
+	If Centena = 0 Then
+		CentenaExt = ""
+	ElseIf Centena = 1 and Dezena = 0 Then // Deve-se escrever cem, e n$$HEX1$$e300$$ENDHEX$$o cento
+		CentenaExt = "cem"
+	Else		
+		CentenaExt = Centenas [Centena]
+	End If
+	
+	// Concatena centena e dezena
+	If CentenaExt <> "" Then
+		If DezenaExt <> "" Then
+			CentenaExt += " e " +DezenaExt
+		End If
+	Else
+		CentenaExt = DezenaExt
+	End If	
+	
+	Extenso [lvl_ind] = CentenaExt
+	
+Next
+
+
+/***************** TOTALIZA ********************/
+
+
+If Long(Valores [3]) = 1 Then
+	Extenso [3] += " milh$$HEX1$$e300$$ENDHEX$$o"
+ElseIf Long(Valores [3]) > 1 Then
+	Extenso [3] += " milh$$HEX1$$f500$$ENDHEX$$es"
+End If
+
+If Long(Valores [2]) > 0 Then
+	Extenso [2] += " mil"
+End If
+
+
+// Contatena Centena, Milhar, Milh$$HEX1$$f500$$ENDHEX$$es
+For lvl_ind = 3 To 1 Step -1
+	
+	If Extenso [lvl_ind] = "" Then Continue
+	
+	If lvs_valor_extenso <> "" Then
+		
+		If lvl_ind = 2 Then			
+			
+			If Extenso [1] <> "" Then
+				lvs_valor_extenso += ", "
+			Else
+				// Verifica se tem centena e dezena
+				If Long(MidA(Valores [lvl_ind],1,1)) > 0 Then // Centena
+				
+					If Long(MidA(Valores [lvl_ind],2,2)) > 0 Then // Dezena
+						lvs_valor_extenso += ", "				
+					Else
+						lvs_valor_extenso += " e "
+					End If
+					 
+				Else
+					lvs_valor_extenso += " e "
+				End If
+				
+			End If
+			
+		Else
+			
+			// Verifica se tem centena e dezena
+				If Long(MidA(Valores [lvl_ind],1,1)) > 0 Then // Centena
+				
+					If Long(MidA(Valores [lvl_ind],2,2)) > 0 Then // Dezena
+						lvs_valor_extenso += ", "				
+					Else
+						lvs_valor_extenso += " e "
+					End If
+					 
+				Else
+					lvs_valor_extenso += " e "
+				End If
+				
+		End If
+		
+	End If
+	
+	lvs_valor_extenso += Extenso [lvl_ind]
+Next
+
+// Concatena nome da moeda
+If Inteiro = 1 Then
+	lvs_valor_extenso += " real"
+ElseIf Inteiro > 1 Then
+	lvs_valor_extenso += " reais"
+End If
+// Concatena Centavos
+If CentavosExt <> "" Then
+	If lvs_valor_extenso <> "" Then lvs_valor_extenso += " e "
+	lvs_valor_extenso += CentavosExt
+End If
+
+Return Upper(lvs_valor_extenso)
+
+end function
+

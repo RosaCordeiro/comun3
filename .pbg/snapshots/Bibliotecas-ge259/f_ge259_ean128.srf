@@ -1,0 +1,77 @@
+HA$PBExportHeader$f_ge259_ean128.srf
+global type f_ge259_ean128 from function_object
+end type
+
+forward prototypes
+global function string f_ge259_ean128 (string as_etiqueta)
+end prototypes
+
+global function string f_ge259_ean128 (string as_etiqueta);
+String 	ls_Etiqueta,&
+			ls_Retorno,&
+			ls_Caracteres,&
+			ls_Numero
+
+Long 	ll_Tamanho,&
+		ll_Bloco,&
+		ll_Contador,&
+		ll_Dig_Verificador,&
+		ll_Soma,&
+		ll_Numero
+		
+
+
+//Calcula o d$$HEX1$$ed00$$ENDHEX$$gito verificador
+ll_Bloco = 0
+//ls_Etiqueta = Right("0000000000"+String(al_Etiqueta), 10)	
+ls_Etiqueta = as_Etiqueta
+
+ll_Tamanho = Len(ls_Etiqueta)
+
+For ll_Contador = 1 To ll_Tamanho 
+	
+	ll_Bloco = ll_Bloco + 1
+
+	ls_Numero = Mid(ls_Etiqueta, ll_Contador, 2)
+	
+	ll_Soma = ll_Soma + (Long(ls_Numero) * ll_Bloco)
+	
+	ll_Contador = ll_Contador + 1
+Next
+
+ll_Dig_Verificador = Mod(ll_Soma + 105, 103)
+
+
+//Gera o EAN128
+//				   1   2   3   4   5  6    7   8   9   0   1   2   3   4   5   6   7   8   9   0   1   2   3   4   5
+//ls_Caracteres = {'!','"','#','$','%','&','$$HEX1$$1820$$ENDHEX$$','(',')','*','+',',','-','.','/','0','1','2','3','4','5','6','7','8','9',&
+//				  ':',';','<','=','>','?','@','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R',&
+//				  'S','T','U','V','W','X','Y','Z','[','\',']','^','_','`','a','b','c','d','e','f','g','h','i','j','k',&
+//				  'l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','{','|','}','~~','$$HEX1$$c300$$ENDHEX$$','$$HEX1$$c400$$ENDHEX$$','$$HEX1$$c500$$ENDHEX$$','$$HEX1$$c600$$ENDHEX$$','$$HEX1$$c700$$ENDHEX$$','$$HEX1$$c800$$ENDHEX$$','$$HEX1$$c900$$ENDHEX$$','$$HEX1$$ca00$$ENDHEX$$','$$HEX1$$cb00$$ENDHEX$$','$$HEX1$$cc00$$ENDHEX$$','$$HEX1$$cd00$$ENDHEX$$','$$HEX1$$c200$$ENDHEX$$'}
+ls_Caracteres = "!"+'"'+"#$%&"+"'"+"()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_"+"`"+"abcdefghijklmnopqrstuvwxyz{|}~~$$HEX13$$c300c400c500c600c700c800c900ca00cb00cc00cd00ce00c200$$ENDHEX$$"				  
+
+For ll_Contador = 1 To Len(ls_Etiqueta) 
+	
+	ll_Numero = Integer(Mid(ls_Etiqueta, ll_Contador, 2))
+	
+	If ll_Numero = 0 Then
+		ll_Numero = 107 // '$$HEX1$$c200$$ENDHEX$$'
+	End If
+	
+	//ls_Retorno = ls_Retorno + Mid(ls_Caracteres[ll_Numero], 1,1)
+	ls_Retorno = ls_Retorno + Mid(ls_Caracteres, ll_Numero,1)
+	
+	ll_Contador = ll_Contador + 1
+Next
+
+If ll_Dig_Verificador = 0 Then
+	ll_Dig_Verificador = 107 // "$$HEX1$$c200$$ENDHEX$$"
+End If
+
+//ls_Retorno = "$$HEX1$$cd00$$ENDHEX$$" + ls_Retorno + Mid(ls_Caracteres[ll_Dig_Verificador], 1,1) + '$$HEX1$$d300$$ENDHEX$$'
+ls_Retorno = "$$HEX1$$cd00$$ENDHEX$$" + ls_Retorno + Mid(ls_Caracteres, ll_Dig_Verificador,1) + '$$HEX1$$d300$$ENDHEX$$'
+Return ls_Retorno
+
+
+end function
+

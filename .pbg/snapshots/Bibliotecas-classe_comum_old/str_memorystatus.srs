@@ -1,0 +1,13 @@
+HA$PBExportHeader$str_memorystatus.srs
+global type str_memorystatus from structure
+	unsignedlong		ul_Length
+	unsignedlong		ul_MemoryLoad
+	longlong		ll_TotalPhys
+	longlong		ll_AvailPhys
+	longlong		ll_TotalPageFile
+	longlong		ll_AvailPageFile
+	longlong		ll_TotalVirtual
+	longlong		ll_AvailVirtual
+    longlong		ll_AvailExtendedVirtual
+end type
+

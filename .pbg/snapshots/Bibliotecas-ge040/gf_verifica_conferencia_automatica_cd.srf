@@ -1,0 +1,47 @@
+HA$PBExportHeader$gf_verifica_conferencia_automatica_cd.srf
+global type gf_verifica_conferencia_automatica_cd from function_object
+end type
+
+forward prototypes
+global function boolean gf_verifica_conferencia_automatica_cd (long al_filial, ref boolean ab_conferencia_automatica)
+end prototypes
+
+global function boolean gf_verifica_conferencia_automatica_cd (long al_filial, ref boolean ab_conferencia_automatica);Long lvl_Filial, lvl_Matriz
+String ls_Valor
+
+ab_conferencia_automatica = False
+
+gf_Filiais_Parametro(ref lvl_Filial, ref lvl_Matriz)
+
+If lvl_Matriz = lvl_Filial Then
+	Select vl_parametro
+	  Into :ls_Valor
+	  From parametro_loja
+	 Where cd_parametro = 'ID_CONFERENCIA_AUTOMATICA_PEDIDO_CD'
+	   and cd_filial    = :al_filial
+	 Using SqlCa;
+
+Else
+	
+	Select vl_parametro
+	  Into :ls_Valor
+	  From parametro_loja
+	 Where cd_parametro = 'ID_CONFERENCIA_AUTOMATICA_PEDIDO_CD'
+	 Using SqlCa;
+
+End If
+
+Choose Case SqlCa.SqlCode	
+	Case -1
+		SqlCa.of_MsgDbError("LOCALIZA$$HEX2$$c700c300$$ENDHEX$$O DO PAR$$HEX1$$c200$$ENDHEX$$METRO 'ID_CONFERENCIA_AUTOMATICA_PEDIDO_CD'.")
+		Return False
+	Case 100
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Par$$HEX1$$e200$$ENDHEX$$metro n$$HEX1$$e300$$ENDHEX$$o localizado na tabela parametro_loja: 'ID_CONFERENCIA_AUTOMATICA_PEDIDO_CD'.")
+		Return False	
+End Choose
+
+ab_conferencia_automatica = (ls_Valor = 'S')
+
+Return True
+end function
+

@@ -1,0 +1,8 @@
+HA$PBExportHeader$str_ge536_projeto.srs
+global type str_ge536_projeto from structure
+	long		idprojeto[]
+	string		projeto[]
+	string		tipoprojeto[]
+	string		msgprojeto[]
+end type
+

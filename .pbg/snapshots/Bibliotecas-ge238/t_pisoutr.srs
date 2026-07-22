@@ -1,0 +1,10 @@
+HA$PBExportHeader$t_pisoutr.srs
+global type t_pisoutr from structure
+	string		cst
+	double		vbc
+	double		ppis
+	double		qbcprod
+	double		valiqprod
+	double		vpis
+end type
+

@@ -1,0 +1,48 @@
+HA$PBExportHeader$dw_ge039_pafecf_documento.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=72 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=84 color="536870912" )
+table(column=(type=long update=yes updatewhereclause=yes key=yes name=nr_coo dbname="documento_ecf.nr_coo" )
+ column=(type=datetime update=yes updatewhereclause=yes key=yes name=dh_movimento dbname="documento_ecf.dh_movimento" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=nr_ecf dbname="documento_ecf.nr_ecf" )
+ column=(type=datetime update=yes updatewhereclause=yes name=dh_final dbname="documento_ecf.dh_final" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=id_documento dbname="documento_ecf.id_documento" )
+ column=(type=long update=yes updatewhereclause=yes name=nr_gnf dbname="documento_ecf.nr_gnf" )
+ column=(type=long update=yes updatewhereclause=yes name=nr_grg dbname="documento_ecf.nr_grg" )
+ column=(type=long update=yes updatewhereclause=yes name=nr_cdc dbname="documento_ecf.nr_cdc" )
+ column=(type=char(15) updatewhereclause=yes name=cd_forma_pagamento dbname="documento_ecf.cd_forma_pagamento" )
+ retrieve="  SELECT documento_ecf.nr_coo,   
+         documento_ecf.dh_movimento,   
+         documento_ecf.nr_ecf,   
+         documento_ecf.dh_final,   
+         documento_ecf.id_documento,   
+         documento_ecf.nr_gnf,   
+         documento_ecf.nr_grg,   
+         documento_ecf.nr_cdc,
+  			documento_ecf.cd_forma_pagamento
+    FROM documento_ecf   
+where documento_ecf.dh_movimento >= :pdh_inicial
+  and documento_ecf.dh_movimento <= :pdh_final
+  and documento_ecf.nr_ecf        = :pl_ecf
+ " update="documento_ecf" updatewhere=1 updatekeyinplace=no arguments=(("pl_ecf", number),("pdh_inicial", date),("pdh_final", date)) )
+text(band=header alignment="2" text="Nr Coo"border="0" color="0" x="5" y="4" height="64" width="329"  name=nr_coo_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Dh Movimento"border="0" color="0" x="338" y="4" height="64" width="603"  name=dh_movimento_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Ecf"border="0" color="0" x="946" y="4" height="64" width="329"  name=nr_ecf_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Dh Final"border="0" color="0" x="1280" y="4" height="64" width="603"  name=dh_final_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Id Documento"border="0" color="0" x="1888" y="4" height="64" width="366"  name=id_documento_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Gnf"border="0" color="0" x="2258" y="4" height="64" width="329"  name=nr_gnf_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Grg"border="0" color="0" x="2592" y="4" height="64" width="329"  name=nr_grg_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Cdc"border="0" color="0" x="2930" y="4" height="64" width="325"  name=nr_cdc_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="1" tabsequence=10 border="0" color="0" x="5" y="4" height="76" width="329" format="[general]"  name=nr_coo edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=20 border="0" color="0" x="338" y="4" height="76" width="603" format="[shortdate] [time]"  name=dh_movimento edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=30 border="0" color="0" x="946" y="4" height="76" width="329" format="[general]"  name=nr_ecf edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=40 border="0" color="0" x="1280" y="4" height="76" width="603" format="[shortdate] [time]"  name=dh_final edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=50 border="0" color="0" x="1888" y="4" height="76" width="82" format="[general]"  name=id_documento edit.limit=2 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="1" tabsequence=60 border="0" color="0" x="2258" y="4" height="76" width="329" format="[general]"  name=nr_gnf edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="1" tabsequence=70 border="0" color="0" x="2592" y="4" height="76" width="329" format="[general]"  name=nr_grg edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="1" tabsequence=80 border="0" color="0" x="2930" y="4" height="76" width="325" format="[general]"  name=nr_cdc edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="0" tabsequence=0 border="0" color="0" x="3255" y="4" height="76" width="407"  name=cd_forma_pagamento  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

@@ -1,0 +1,10 @@
+HA$PBExportHeader$t_vol.srs
+global type t_vol from structure
+	Long		qvol
+	string		esp
+	string		marca
+	string		nvol
+	double		pesol
+	double		pesob
+end type
+

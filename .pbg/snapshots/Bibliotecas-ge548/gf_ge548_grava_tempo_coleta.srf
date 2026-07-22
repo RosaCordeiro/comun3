@@ -1,0 +1,55 @@
+HA$PBExportHeader$gf_ge548_grava_tempo_coleta.srf
+global type gf_ge548_grava_tempo_coleta from function_object
+end type
+
+forward prototypes
+global function boolean gf_ge548_grava_tempo_coleta (string ps_cliente, datetime pdt_inicio, datetime pdt_termino, string ps_matricula, string ps_id_fone, string ps_id_titular)
+end prototypes
+
+global function boolean gf_ge548_grava_tempo_coleta (string ps_cliente, datetime pdt_inicio, datetime pdt_termino, string ps_matricula, string ps_id_fone, string ps_id_titular);Long ll_Filial, ll_Row
+
+String ls_Colunas, ls_Values, ls_Tabela
+
+ll_Filial = gvo_Parametro.cd_filial
+
+Insert into historico_coleta_consentimento(cd_filial, cd_cliente, dh_abertura_tela, dh_fechamento_tela, nr_matricula_operador, id_atendimento_telefonico, id_cliente_titular )
+Values( :ll_Filial, :ps_Cliente, :pdt_Inicio, :pdt_Termino, :ps_Matricula, :ps_id_fone, :ps_id_titular )
+Using SqlCa;
+
+If SqlCa.SqlCode = -1 Then
+	SqlCa.of_rollback( )
+	SqlCa.of_msgdberror( "Erro no insert historico_coleta_consentimento. Cliente: " + ps_Cliente )
+	Return False
+End If
+
+//Commit
+SqlCa.of_commit( )
+
+//Atualiza na matriz para evitar solicitar a confirma$$HEX2$$e700e300$$ENDHEX$$o do mesmo cliente em filiais pr$$HEX1$$f300$$ENDHEX$$ximas
+Try
+	uo_Transacao_Remota lo_Conexao
+	lo_Conexao = Create uo_Transacao_Remota 
+	
+	lo_Conexao.of_BancoProducao()
+	
+	ls_Tabela 	= "historico_coleta_consentimento"
+	ls_Colunas 	= "cd_filial, cd_cliente, dh_abertura_tela, dh_fechamento_tela, nr_matricula_operador, id_atendimento_telefonico, id_cliente_titular"
+	
+	ls_Values = String(ll_Filial) + ",'" + ps_cliente + "', " + &
+					"'" + String( pdt_Inicio,"yyyy/mm/dd hh:mm:ss") + "', " + &
+					"'" + String( pdt_Termino,"yyyy/mm/dd hh:mm:ss") + "', " + &
+					"'" + ps_Matricula + "','" + ps_id_fone + "'," + "'" + ps_id_titular + "'"
+		
+	If Not lo_Conexao.of_Insert_Registro(ls_Tabela, ls_Colunas, ls_Values, Ref ll_Row) Then
+		gvo_Aplicacao.of_grava_log( "GE548: gf_grava_tempo_coleta: Erro na grava$$HEX2$$e700e300$$ENDHEX$$o da coleta do consentimento. Cliente: " + ps_Cliente)
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o","Erro na grava$$HEX2$$e700e300$$ENDHEX$$o da coleta do consentimento na matriz. Cliente: '" + ps_Cliente + "'.")
+		//Return False
+	End If
+		
+Finally
+	If IsValid(lo_Conexao) Then Destroy(lo_Conexao)	
+End Try
+
+Return True
+end function
+

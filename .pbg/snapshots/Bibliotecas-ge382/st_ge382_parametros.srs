@@ -1,0 +1,6 @@
+HA$PBExportHeader$st_ge382_parametros.srs
+global type st_ge382_parametros from structure
+	string		tabela[]
+	string		chave
+end type
+

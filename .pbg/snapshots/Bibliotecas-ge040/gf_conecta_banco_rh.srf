@@ -1,0 +1,24 @@
+HA$PBExportHeader$gf_conecta_banco_rh.srf
+global type gf_conecta_banco_rh from function_object
+end type
+
+forward prototypes
+global function boolean gf_conecta_banco_rh (ref dc_uo_transacao ptr_trans, string ps_usuario)
+end prototypes
+
+global function boolean gf_conecta_banco_rh (ref dc_uo_transacao ptr_trans, string ps_usuario);// Conex$$HEX1$$e300$$ENDHEX$$o com o banco Oracle - RH
+if Not(IsValid(ptr_trans)) Then ptr_trans = Create dc_uo_transacao
+
+If Not(ptr_trans.of_isconnected()) Then
+	ptr_trans.ivs_DataBase 	= "ORACLE_RH"
+	ptr_trans.ivs_Usuario 		= Lower(ps_usuario)
+	
+	If Not ptr_trans.of_Connect(Upper(ps_usuario), gvo_aplicacao.ivo_seguranca.cd_sistema) Then
+		Return False
+	End If
+End If
+
+Return True
+
+end function
+

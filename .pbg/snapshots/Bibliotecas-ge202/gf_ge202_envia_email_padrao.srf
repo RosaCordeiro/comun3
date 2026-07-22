@@ -1,0 +1,317 @@
+HA$PBExportHeader$gf_ge202_envia_email_padrao.srf
+global type gf_ge202_envia_email_padrao from function_object
+end type
+
+forward prototypes
+global function boolean gf_ge202_envia_email_padrao (integer pl_mensagem, s_email pst_email)
+global function boolean gf_ge202_envia_email_padrao (integer pl_mensagem, s_email pst_email, boolean pb_exibe_mensagem)
+end prototypes
+
+global function boolean gf_ge202_envia_email_padrao (integer pl_mensagem, s_email pst_email); Return gf_ge202_envia_email_padrao(pl_mensagem, pst_email, True)
+end function
+
+global function boolean gf_ge202_envia_email_padrao (integer pl_mensagem, s_email pst_email, boolean pb_exibe_mensagem);String lvs_Para[]
+String lvs_Copia[]
+String lvs_CCO[]
+
+String lvs_Assunto
+String lvs_Msg
+String lvs_Msg_Ass
+String lvs_Msg_Erro
+String lvs_Obs
+String lvs_Sistema
+String lvs_Telefone
+String lvs_Erro = ''
+String ls_End_Remetente
+String ls_Nm_Remetente
+
+String ls_nr_matricula
+String ls_id_usuario_informatica
+
+Long lvl_Linha
+
+Boolean lvb_Envia
+Boolean lvb_Anexo = False
+
+Try
+	If IsNull( pst_email.ps_assunto ) Then pst_email.ps_assunto = ""
+	If IsNull( pst_email.ps_mensagem ) Then pst_email.ps_mensagem = ""
+	
+	//Se estiver no modo automatico n$$HEX1$$e100$$ENDHEX$$o exibe mensagem
+	If gvb_Auto Then pb_exibe_mensagem = False
+	
+	uo_smtp lvo_smtp
+	dc_uo_ds_base lvds_email
+	
+	//Cria Objecto SMTP para envio
+	lvo_smtp = Create uo_smtp
+	lvo_smtp.ib_grava_log_db = False
+	//Cria Objecto Para localizar emails
+	lvds_email = Create dc_uo_ds_base
+	If lvds_email.of_ChangeDataObject("ds_ge202_email_mensagem", pb_exibe_mensagem) Then 
+		
+		//Localiza par$$HEX1$$e200$$ENDHEX$$metros do email
+		Select coalesce(cd_sistema,''), coalesce(de_assunto,''), coalesce(de_mensagem,''), coalesce(de_observacao,'')
+		Into :lvs_sistema, :lvs_Assunto, :lvs_Msg, :lvs_Obs
+		From mensagem_email_sistema
+		Where cd_mensagem = :pl_mensagem
+		Using SqlCa;
+		
+		If SQLCa.SQLCode <>0 Then
+			If pb_exibe_mensagem Then MessageBox('Aten$$HEX2$$e700e300$$ENDHEX$$o!','N$$HEX1$$e300$$ENDHEX$$o foi poss$$HEX1$$ed00$$ENDHEX$$vel localizar os par$$HEX1$$e200$$ENDHEX$$metros para envio do email, c$$HEX1$$f300$$ENDHEX$$digo '+String(pl_mensagem)+'~r~n'+SQLCa.SQLErrText)
+			gvo_Aplicacao.Of_Grava_log('N$$HEX1$$e300$$ENDHEX$$o foi poss$$HEX1$$ed00$$ENDHEX$$vel localizar os par$$HEX1$$e200$$ENDHEX$$metros para envio do email, c$$HEX1$$f300$$ENDHEX$$digo '+String(pl_mensagem)+'~r~n'+SQLCa.SQLErrText)
+			Return False
+		End If
+		
+		//Insere c$$HEX1$$f300$$ENDHEX$$digo do sistema no assunto do Email
+		If pl_mensagem <> 23 Then
+			lvs_Assunto = '['+lvs_sistema+'] - '+Trim(lvs_Assunto+' '+pst_email.ps_assunto)
+		Else
+			lvs_Assunto = 'ATEN$$HEX2$$c700c300$$ENDHEX$$O - '+Trim(lvs_Assunto+' '+pst_email.ps_assunto)
+		End If
+		
+		lvds_email.Retrieve(pl_mensagem)
+		
+		lvb_Envia = ((lvds_email.RowCount() + ( UpperBound(pst_email.ps_To) + UpperBound(pst_email.ps_CC) + UpperBound(pst_email.ps_Co))) > 0)
+		
+		If lvb_Envia Then
+			//Alimenta Array de endere$$HEX1$$e700$$ENDHEX$$os de email
+			lvs_Para = {''}
+			lvds_email.SetFilter("id_tipo_envio='TO'")
+			lvds_email.Filter()
+			For lvl_Linha = 1 To lvds_email.RowCount()
+				if gvo_aplicacao.ivs_datasource = 'homologa' then
+					ls_nr_matricula	= lvds_email.Object.nr_matricula[lvl_Linha]
+					
+					select Coalesce(id_usuario_informatica, 'N')
+					  into :ls_id_usuario_informatica
+					  from usuario
+					 where nr_matricula = :ls_nr_matricula;
+					 
+					Choose Case SQLCA.SQLCode
+						Case -1
+							gvo_aplicacao.Of_Grava_Log("gf_fe202_envia_email_log(): Erro ao buscar o usuario." + SQLCA.SQLErrText)
+							Return False
+						Case 100
+							gvo_aplicacao.Of_Grava_Log("gf_fe202_envia_email_log(): N$$HEX1$$e300$$ENDHEX$$o foi encontrado o usu$$HEX1$$e100$$ENDHEX$$rio.")
+							Return False
+						Case 0
+							if ls_id_usuario_informatica = 'N' then
+								continue
+							end if
+					End Choose
+				end if
+				
+				lvs_Para [lvl_Linha] = Trim(lvds_email.Object.de_email [lvl_Linha])
+			Next
+			
+			if gvo_aplicacao.ivs_datasource = 'homologa' and UpperBound(lvs_Para) = 1 then
+				if lvs_Para[1] = '' then
+					return true
+				end if
+			end if
+
+			For lvl_Linha = 1 to UpperBound(pst_email.ps_To)
+				If pst_email.ps_To[lvl_Linha]<>'' Then lvs_Para [UpperBound(lvs_Para)+1] = Trim(pst_email.ps_To[lvl_Linha])
+			Next
+		
+			//Alimenta Array de endere$$HEX1$$e700$$ENDHEX$$os de email
+			lvs_Copia = {''}
+			lvds_email.SetFilter("id_tipo_envio='CC'")
+			lvds_email.Filter()
+			For lvl_Linha = 1 To lvds_email.RowCount()
+				if gvo_aplicacao.ivs_datasource = 'homologa' then
+					ls_nr_matricula	= lvds_email.Object.nr_matricula[lvl_Linha]
+					
+					select Coalesce(id_usuario_informatica, 'N')
+					  into :ls_id_usuario_informatica
+					  from usuario
+					 where nr_matricula = :ls_nr_matricula;
+					 
+					Choose Case SQLCA.SQLCode
+						Case -1
+							gvo_aplicacao.Of_Grava_Log("gf_fe202_envia_email_log(): Erro ao buscar o usuario." + SQLCA.SQLErrText)
+							Return False
+						Case 100
+							gvo_aplicacao.Of_Grava_Log("gf_fe202_envia_email_log(): N$$HEX1$$e300$$ENDHEX$$o foi encontrado o usu$$HEX1$$e100$$ENDHEX$$rio.")
+							Return False
+						Case 0
+							if ls_id_usuario_informatica = 'N' then
+								continue
+							end if
+					End Choose
+				end if
+
+				lvs_Copia [lvl_Linha] = Trim(lvds_email.Object.de_email [lvl_Linha])
+			Next
+			
+			For lvl_Linha = 1 to UpperBound(pst_email.ps_CC)
+				If pst_email.ps_CC[lvl_Linha] <> '' Then	lvs_Copia [UpperBound(lvs_Copia)+1] = Trim(pst_email.ps_CC[lvl_Linha])
+			Next
+			
+			//Alimenta Array de endere$$HEX1$$e700$$ENDHEX$$os de email
+			lvs_CCO = {''}
+			lvds_email.SetFilter("id_tipo_envio='CO'")
+			lvds_email.Filter()
+			For lvl_Linha = 1 To lvds_email.RowCount()
+				if gvo_aplicacao.ivs_datasource = 'homologa' then
+					ls_nr_matricula	= lvds_email.Object.nr_matricula[lvl_Linha]
+					
+					select Coalesce(id_usuario_informatica, 'N')
+					  into :ls_id_usuario_informatica
+					  from usuario
+					 where nr_matricula = :ls_nr_matricula;
+					 
+					Choose Case SQLCA.SQLCode
+						Case -1
+							gvo_aplicacao.Of_Grava_Log("gf_fe202_envia_email_log(): Erro ao buscar o usuario." + SQLCA.SQLErrText)
+							Return False
+						Case 100
+							gvo_aplicacao.Of_Grava_Log("gf_fe202_envia_email_log(): N$$HEX1$$e300$$ENDHEX$$o foi encontrado o usu$$HEX1$$e100$$ENDHEX$$rio.")
+							Return False
+						Case 0
+							if ls_id_usuario_informatica = 'N' then
+								continue
+							end if
+					End Choose
+				end if
+
+				lvs_CCO [lvl_Linha] = Trim(lvds_email.Object.de_email [lvl_Linha])
+			Next
+			
+			For lvl_Linha = 1 to UpperBound(pst_email.ps_CO)
+				If pst_email.ps_CO[lvl_Linha]<>'' Then lvs_CCO [UpperBound(lvs_CCO)+1] = Trim(pst_email.ps_CO[lvl_Linha])
+			Next
+			
+			//Montagem Email
+			lvs_Msg =	Trim(lvs_Msg+' '+pst_email.ps_mensagem)
+			
+			//Confirma se h$$HEX1$$e100$$ENDHEX$$ anexo v$$HEX1$$e100$$ENDHEX$$lido
+			For lvl_Linha = 1 To Upperbound(pst_email.ps_anexo)
+				lvb_Anexo = (Trim(pst_email.ps_anexo[lvl_Linha]) <> '')
+				If lvb_Anexo Then Exit
+			Next
+			
+			//Telefone na Assinatura do Email
+			lvs_Telefone = pst_email.ps_telefone
+			If IsNull(lvs_Telefone) or (Trim(lvs_Telefone)='') Then lvs_Telefone = '(47) 3461-9999'
+			
+			If Not pst_Email.pb_Rel_Psico Then
+				ls_Nm_Remetente = "CLAMED Sistemas"
+				ls_End_Remetente = "sistemas@clamed.com.br"
+			Else
+				ls_Nm_Remetente = "Balan$$HEX1$$e700$$ENDHEX$$os CLAMED"
+				ls_End_Remetente = "balancos@clamed.com.br"
+			End If
+			
+			//Envia Email
+			If Not IsNull(lvs_Msg) and Trim(lvs_Msg)<>"" Then
+				If lvb_Anexo Then
+					If Not pst_email.pb_nao_formata Then
+						lvs_Msg_Ass = gf_ge202_formata_email_normal(lvs_Msg,pl_mensagem,pst_email.pb_assinatura,lvs_Telefone, True)
+					Else
+						lvs_Msg_Ass = lvs_Msg
+					End If
+					
+					lvo_smtp.of_envia_email_anexo(ls_Nm_Remetente	, &
+													ls_End_Remetente, &
+													lvs_Assunto	, &
+													lvs_Msg_Ass, &
+													lvs_Para		, & 
+													lvs_Copia	, &
+													lvs_CCO		, &
+													pst_email.ps_anexo)  	
+													
+				Else
+					If Not pst_email.pb_nao_formata Then
+						lvs_Msg_Ass = gf_ge202_formata_email_html(lvs_Msg,pl_mensagem,pst_email.pb_assinatura, lvs_Telefone, True)
+					Else
+						lvs_Msg_Ass = lvs_Msg
+					End If
+					
+					lvo_smtp.of_envia_email(ls_Nm_Remetente	, &
+													ls_End_Remetente, &
+													lvs_Assunto	, &
+													lvs_Msg_Ass		, &
+													lvs_Para		, &
+													lvs_Copia	, &
+													lvs_CCO)  							
+				
+				End If
+			Else
+				lvo_smtp.is_LastError = "Corpo do email sem mensagem ou mensagem nula."
+			End If
+			
+			lvs_Erro = lvo_smtp.is_LastError
+			
+			If (lvo_smtp.is_LastError <> "")and(pl_mensagem <> 23) Then 
+				lvs_Msg_Erro = gf_Replace(lvs_Erro,'<','&lt;',0)
+				lvs_Msg_Erro = gf_Replace(lvs_Msg_Erro,'>','&gt;',0)
+				lvs_Msg_Erro = 'ERRO: <i>'+lvs_Msg_Erro
+				lvs_Msg_Erro += '<br />~n'
+		
+				//TO
+				For lvl_Linha = 1 to UpperBound(lvs_Para)
+					If Trim(lvs_Para[lvl_Linha])<>'' Then
+						If Not (Pos('</i><br />~nPARA: ',lvs_Msg_Erro) > 0) Then 
+							lvs_Msg_Erro += '</i><br />~nPARA: '
+						Else
+							lvs_Msg_Erro += ', '
+						End If
+						lvs_Msg_Erro += lvs_Para[lvl_Linha]
+					End If
+				Next			
+		
+				//CC
+				For lvl_Linha = 1 to UpperBound(lvs_Copia)
+					If Trim(lvs_Copia[lvl_Linha])<>'' Then
+						If Not (Pos('</i><br />~nC$$HEX1$$d300$$ENDHEX$$PIA: ',lvs_Msg_Erro) > 0) Then
+							lvs_Msg_Erro += '</i><br />~nC$$HEX1$$d300$$ENDHEX$$PIA: '
+						Else
+							lvs_Msg_Erro += ', '
+						End If
+						lvs_Msg_Erro += lvs_Copia[lvl_Linha]
+					End If
+				Next	
+		
+				//CCO
+				For lvl_Linha = 1 to UpperBound(lvs_CCO)
+					If Trim(lvs_CCO[lvl_Linha])<>'' Then
+						If Not (Pos('</i><br />~nC$$HEX1$$d300$$ENDHEX$$PIA OCULTA: ',lvs_Msg_Erro) > 0) Then 
+							lvs_Msg_Erro += '</i><br />~nC$$HEX1$$d300$$ENDHEX$$PIA OCULTA: '
+						Else
+							lvs_Msg_Erro += ', '
+						End If
+						lvs_Msg_Erro += lvs_CCO[lvl_Linha]
+					End If
+				Next	
+				
+				//MSG
+				If (Not IsNull(lvs_Msg)) and Trim(lvs_Msg)<>'' Then lvs_Msg_Erro += '</i>~n<br /><br />MENSAGEM ORIGINAL: <i>'+lvs_Msg
+				lvs_Msg_Erro += '</i>'
+				
+				gf_ge202_envia_email_automatico(23,'','<html><body>Caro(a) Administrador(a), <br /><br />~n'+ &
+																	'Ocorreu um erro na tentativa do sistema '+lvs_sistema+' enviar o email "'+lvs_Assunto+'" (cod. '+String(pl_mensagem)+').<br />~n'+ &
+																	'Verifique o problema e corrija assim que poss$$HEX1$$ed00$$ENDHEX$$vel.<br /><br />~n'+ &
+																	lvs_Msg_Erro+'</body></html>',{''},pb_exibe_mensagem)
+			End If
+		End If
+	Else //Of_ChangeDataObject
+		Return False
+	End If	
+	
+Catch (RuntimeError lvo_Erro)
+	If pb_exibe_mensagem Then
+		MessageBox("Erro", "Falha na tentativa de envio de email. ~rErro: "+lvo_Erro.GetMessage(), StopSign!)
+	Else
+		gvo_Aplicacao.Of_Grava_Log("Falha na tentativa de envio de email. ~rErro: "+lvo_Erro.GetMessage())
+	End If
+	Return False
+Finally
+	If IsValid(lvo_Smtp) Then Destroy(lvo_Smtp)
+	If IsValid(lvds_email) Then Destroy(lvds_email)
+End Try
+
+Return ((lvb_Envia) and (Trim(lvs_Erro)=''))
+end function
+

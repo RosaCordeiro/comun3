@@ -1,0 +1,20 @@
+HA$PBExportHeader$lf_move_arquivo_xml_validacao.srf
+global type lf_Move_Arquivo_XML_Validacao from function_object
+end type
+
+forward prototypes
+global subroutine lf_move_arquivo_xml_validacao (string as_diretorio_xml, string as_chave_acesso, ref string as_mensagem_log)
+end prototypes
+
+global subroutine lf_move_arquivo_xml_validacao (string as_diretorio_xml, string as_chave_acesso, ref string as_mensagem_log);Integer li_FileOpen
+
+If Not FileExists (gvs_Dir_AnaliseXML + as_Chave_Acesso+"-nfe.xml") Then
+	li_FileOpen = FileMove(as_diretorio_xml, gvs_Dir_AnaliseXML + as_Chave_Acesso+"-nfe.xml" )	
+						
+	If li_FileOpen < 0 Then 
+		as_mensagem_log = "Erro ao mover o XML para o local: " + gvs_Dir_AnaliseXML + ". Verifique a conex$$HEX1$$e300$$ENDHEX$$o de rede."
+		FileMove( as_diretorio_xml, gvs_Dir_AnaliseXML_Erro + "\" + as_Chave_Acesso+"-nfe.xml" )
+	End If
+End If
+end subroutine
+

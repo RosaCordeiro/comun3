@@ -1,0 +1,68 @@
+HA$PBExportHeader$gf_fechamento_diario_executando.srf
+global type gf_fechamento_diario_executando from function_object
+end type
+
+forward prototypes
+global function integer gf_fechamento_diario_executando ()
+end prototypes
+
+global function integer gf_fechamento_diario_executando ();// Retorno:
+// -1 Erro
+// 0 N$$HEX1$$e300$$ENDHEX$$o est$$HEX1$$e100$$ENDHEX$$ em execu$$HEX2$$e700e300$$ENDHEX$$o
+// 1 Em execu$$HEX2$$e700e300$$ENDHEX$$o
+
+String ls_Executando
+
+ Select vl_parametro
+    Into :ls_Executando
+  From parametro_loja
+Where cd_parametro = 'ID_EXECUTANDO_FECHAMENTO_DIARIO'
+  Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+	Case -1
+		SqlCa.of_MsgDbError()
+		ls_Executando = 'S'
+		Return -1
+		
+	Case 100
+		ls_Executando = 'N'
+		
+	Case 0
+		// ls_Executando = ?
+End Choose
+
+
+If ls_Executando = 'S' Then
+	Open( w_Aguarde )
+	w_Aguarde.Title = "O fechamento di$$HEX1$$e100$$ENDHEX$$rio est$$HEX1$$e100$$ENDHEX$$ em execu$$HEX2$$e700e300$$ENDHEX$$o, aguarde..."
+	
+	Do While ls_Executando = 'S'
+		Sleep( 5 )
+		Yield()
+		
+		 Select vl_parametro
+			 Into :ls_Executando
+		  From parametro_loja
+		Where cd_parametro = 'ID_EXECUTANDO_FECHAMENTO_DIARIO'
+		  Using SqlCa;
+	
+		Choose Case SqlCa.SqlCode
+			Case -1
+				Close( w_Aguarde )
+				SqlCa.of_MsgDbError()				
+				Return -1
+				
+			Case 100
+				ls_Executando = 'N'
+				
+			Case 0
+				// ls_Executando = ?
+		End Choose
+		
+	Loop
+	
+	Close( w_Aguarde )
+End If
+end function
+

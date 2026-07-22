@@ -1,0 +1,20 @@
+HA$PBExportHeader$dw_detalhe_filial_8.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=72 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=84 color="536870912" )
+table(column=(type=char(7) updatewhereclause=yes name=dh_resumo dbname="dh_resumo" )
+ column=(type=decimal(13) updatewhereclause=yes name=vl_venda dbname="vl_venda" )
+ retrieve="select substring(convert(char(10), dh_resumo, 103), 4, 7) dh_resumo,
+       round(sum(vl_venda_avista + vl_venda_crediario + vl_venda_convenio + vl_venda_conta_corrente - vl_devolucao_venda) / 1000, 2) vl_venda
+  from resumo_movimento_estoque
+ where dh_resumo between :inicio and :fim and
+       cd_filial in (:filial)
+group by substring(convert( char(10), dh_resumo, 103), 4, 7)" arguments=(("inicio", datetime),("fim", datetime),("filial", numberlist)) )
+text(band=header alignment="2" text="Dh Resumo"border="0" color="0" x="5" y="4" height="64" width="311"  name=dh_resumo_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Venda"border="0" color="0" x="320" y="4" height="64" width="329"  name=vl_venda_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="5" y="4" height="76" width="219" format="[general]"  name=dh_resumo edit.limit=7 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="0" color="0" x="320" y="4" height="76" width="329" format="[general]"  name=vl_venda editmask.mask="###,###.00" editmask.focusrectangle=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

@@ -1,0 +1,56 @@
+HA$PBExportHeader$gf_corrige_ean.srf
+global type gf_corrige_ean from function_object
+end type
+
+forward prototypes
+global subroutine gf_corrige_ean (long as_produto, ref string as_ean, ref string as_msg)
+end prototypes
+
+global subroutine gf_corrige_ean (long as_produto, ref string as_ean, ref string as_msg);Long			lvl_Total,&
+				lvl_Contador
+				
+Integer		lvi_tamanho
+				
+String		as_ean1
+
+Boolean 		lb_Ean_Principal = True
+
+Try
+
+	dc_uo_ds_Base lvds
+	lvds = Create dc_uo_ds_Base
+
+	If Not lvds.of_ChangeDataObject("ds_ge040_lista_ean") Then
+		as_msg = "Erro ao atualizar a 'ds_ge040_lista_ean'."
+	End If
+
+	lvl_Total = lvds.Retrieve(as_produto)
+
+	If lvl_Total > 0 Then
+		For	lvl_Contador	= 1 To lvl_Total
+				as_ean1			= lvds.Object.de_codigo_barras          [lvl_Contador]
+
+			If LenA(as_ean1) 	< 14 Then
+				as_ean				= as_ean1
+				lb_Ean_Principal	= False
+			End If		
+		Next		 	
+	End if	
+	
+	If	lb_Ean_Principal = TRUE Then
+		as_msg ="C$$HEX1$$f300$$ENDHEX$$digo de barras '" + as_ean + "' sofreu altera$$HEX2$$e700e300$$ENDHEX$$o pois possui mais de 13 digitos '"
+		lvi_tamanho = LenA(as_ean)
+       
+	If	lvi_tamanho > 13 Then
+			as_ean = Right(as_ean, 13)
+		Else 
+			lvi_tamanho		= 13 - LenA(as_ean)
+			as_ean			= MidA("0000000000000",1,lvi_tamanho) + as_ean	
+		End if	
+	End if	
+	
+Finally
+	Destroy(lvds)	
+End try
+end subroutine
+

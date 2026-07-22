@@ -1,0 +1,5 @@
+HA$PBExportHeader$st_fornecedor.srs
+global type st_fornecedor from structure
+	string		cd_fornecedor
+end type
+

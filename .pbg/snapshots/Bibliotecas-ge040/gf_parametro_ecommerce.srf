@@ -1,0 +1,82 @@
+HA$PBExportHeader$gf_parametro_ecommerce.srf
+global type gf_parametro_ecommerce from function_object
+end type
+
+forward prototypes
+global function boolean gf_parametro_ecommerce (string as_rede, ref long al_filial_ecommerce, ref long al_filial_preco, ref string as_log, boolean ab_mostra_mensagem)
+end prototypes
+
+global function boolean gf_parametro_ecommerce (string as_rede, ref long al_filial_ecommerce, ref long al_filial_preco, ref string as_log, boolean ab_mostra_mensagem);String ls_Rede
+
+SetNull(as_log)
+
+Select top 1 cd_filial_ecommerce, cd_filial_preco 
+Into :al_filial_ecommerce,  :al_filial_preco
+from ecommerce_rede
+where id_rede_filial = :as_rede
+	 and id_situacao = 'A'
+Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+Case 0
+	
+	If Not IsNull(al_filial_ecommerce) and al_filial_ecommerce > 0 Then
+		Select Coalesce(id_rede_filial, 'XX')
+		Into :ls_Rede
+		From filial
+		Where cd_filial = :al_filial_ecommerce
+		Using SqlCa;
+		
+		Choose Case SqlCa.SqlCode
+			Case 0
+				If ls_Rede <> as_rede Then
+					as_log = "Par$$HEX1$$e200$$ENDHEX$$metro da rede da filial est$$HEX1$$e300$$ENDHEX$$o diferentes - Fun$$HEX2$$e700e300$$ENDHEX$$o: gf_parametro_ecommerce."
+				End If
+			Case 100
+				as_log = "Par$$HEX1$$e200$$ENDHEX$$metro filial e-Commerce n$$HEX1$$e300$$ENDHEX$$o foi localizado - Fun$$HEX2$$e700e300$$ENDHEX$$o: gf_parametro_ecommerce."
+			Case -1
+				as_log = "Localiza$$HEX2$$e700e300$$ENDHEX$$o da filial e-Commerce - Fun$$HEX2$$e700e300$$ENDHEX$$o: gf_parametro_ecommerce. Erro: " +  SqlCa.SqlErrText
+		End Choose
+	Else
+		as_log = "C$$HEX1$$f300$$ENDHEX$$digo da filial e-commerce n$$HEX1$$e300$$ENDHEX$$o foi localizada - Fun$$HEX2$$e700e300$$ENDHEX$$o: gf_parametro_ecommerce."
+	End If	
+	
+	If ls_Rede <> 'MP' Then
+		If Not IsNull(al_filial_preco) and al_filial_preco > 0 Then
+			Select Coalesce(id_rede_filial, 'XX')
+			Into :ls_Rede
+			From filial
+			Where cd_filial = :al_filial_preco
+			Using SqlCa;
+			
+			Choose Case SqlCa.SqlCode
+				Case 0
+					If ls_Rede <> as_rede Then
+						as_log = "Par$$HEX1$$e200$$ENDHEX$$metro da rede da filial PRE$$HEX1$$c700$$ENDHEX$$O est$$HEX1$$e300$$ENDHEX$$o diferentes - Fun$$HEX2$$e700e300$$ENDHEX$$o: gf_parametro_ecommerce."
+					End If
+				Case 100
+					as_log = "Par$$HEX1$$e200$$ENDHEX$$metro filial e-Commerce PRE$$HEX1$$c700$$ENDHEX$$O n$$HEX1$$e300$$ENDHEX$$o foi localizado - Fun$$HEX2$$e700e300$$ENDHEX$$o: gf_parametro_ecommerce."
+				Case -1
+					as_log = "Localiza$$HEX2$$e700e300$$ENDHEX$$o da filial e-Commerce PRE$$HEX1$$c700$$ENDHEX$$O - Fun$$HEX2$$e700e300$$ENDHEX$$o: gf_parametro_ecommerce. Erro: " +  SqlCa.SqlErrText
+			End Choose
+		Else
+			as_log = "C$$HEX1$$f300$$ENDHEX$$digo da filial e-commerce n$$HEX1$$e300$$ENDHEX$$o foi localizada - Fun$$HEX2$$e700e300$$ENDHEX$$o: gf_parametro_ecommerce."
+		End If	
+	End If
+				
+Case 100
+	as_log = "Par$$HEX1$$e200$$ENDHEX$$metros do e-Commerce n$$HEX1$$e300$$ENDHEX$$o foram localizados - Fun$$HEX2$$e700e300$$ENDHEX$$o: gf_parametro_ecommerce."
+Case -1
+	as_log = "Localiza$$HEX2$$e700e300$$ENDHEX$$o dos par$$HEX1$$e200$$ENDHEX$$metros do e-Commerce - Fun$$HEX2$$e700e300$$ENDHEX$$o: gf_parametro_ecommerce. Erro: " +  SqlCa.SqlErrText
+End Choose
+
+If Not IsNull(as_Log) Then
+	If ab_mostra_mensagem Then
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", as_log)
+	End If
+	Return False
+End If
+
+Return True
+end function
+

@@ -1,0 +1,30 @@
+HA$PBExportHeader$gf_wms_verifica_protocolo_fabrica.srf
+global type gf_wms_verifica_protocolo_fabrica from function_object
+end type
+
+forward prototypes
+global function boolean gf_wms_verifica_protocolo_fabrica (ref string as_retorno)
+end prototypes
+
+global function boolean gf_wms_verifica_protocolo_fabrica (ref string as_retorno);/*
+HelpDesk: 924829
+Autor: Jo$$HEX1$$e300$$ENDHEX$$o Batista Lopes da Silva
+Data: 25/05/2022
+Motivo: Configura$$HEX2$$e700e300$$ENDHEX$$o a verifica$$HEX2$$e700e300$$ENDHEX$$o se a melhoria WMS_PROTOCOLO_DEF_FABRICA esta LIGADA ou DESLIGADA.
+*/
+SELECT COALESCE(vl_parametro, 'N') 
+  INTO :as_retorno
+  FROM wms_parametro  
+ WHERE cd_parametro = 'WMS_PROTOCOLO_DEF_FABRICA'
+ USING SQLCA;
+ 
+if SqlCa.SqlCode = -1 Then
+	SqlCa.of_MsgDbError("LOCALIZA$$HEX2$$c700c300$$ENDHEX$$O DO PAR$$HEX1$$c200$$ENDHEX$$METRO 'VL_PARAMETRO'")
+	Return False
+else
+	If SqlCa.SqlCode = 100 Then as_retorno = "N"
+end if
+  
+Return True
+end function
+

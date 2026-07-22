@@ -1,0 +1,107 @@
+HA$PBExportHeader$f_ge558_proxima_etiqueta_produto.srf
+global type f_ge558_proxima_etiqueta_produto from function_object
+end type
+
+forward prototypes
+global function boolean f_ge558_proxima_etiqueta_produto (ref long al_proxima_etiqueta)
+end prototypes
+
+global function boolean f_ge558_proxima_etiqueta_produto (ref long al_proxima_etiqueta);Boolean 	lb_Sucesso = False,&
+ 			lb_Etiqueta_Sendo_Usada = False
+
+Long 	ll_Ultima,&
+		ll_Produto
+
+String 	ls_Ultima,&
+			ls_Proxima
+
+Select vl_parametro Into :ls_Ultima
+From wms_parametro
+Where cd_parametro = 'NR_ETIQUETA_PRODUTO'
+Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+	Case 0
+	Case 100
+		//MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Par$$HEX1$$e200$$ENDHEX$$metro 'NR_ETIQUETA_PRODUTO' n$$HEX1$$e300$$ENDHEX$$o localizado."	 , StopSign!)
+		Return False
+	Case -1
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Localiza$$HEX2$$e700e300$$ENDHEX$$o do Par$$HEX1$$e200$$ENDHEX$$metro  'NR_ETIQUETA_PRODUTO': " + SqlCa.SqlerrText , StopSign!)
+		Return False		
+End Choose
+
+
+al_Proxima_Etiqueta = Long(ls_Ultima) + 1
+
+
+//Verifica se a etiqueta ainda est$$HEX1$$e100$$ENDHEX$$ sendo usada
+Do
+	If lb_Etiqueta_Sendo_Usada Then
+		al_Proxima_Etiqueta += 1
+	End If
+	
+	select top 1 cd_produto
+	Into :ll_Produto
+	From (	select top 1 a.cd_produto	
+				from wms_localizacao a 
+				inner join wms_etiqueta_produto b 	on  b.cd_produto = a.cd_produto
+																and b.qt_caixa_padrao = a.qt_caixa_padrao
+																and b.nr_lote = a.nr_lote
+																and b.dh_validade = a.dh_validade
+				where b.nr_etiqueta = :al_Proxima_Etiqueta
+				
+				union
+				
+				select top 1 a.cd_produto
+				from wms_movimentacao a 
+				inner join wms_etiqueta_produto b 	on  b.cd_produto = a.cd_produto
+																and b.qt_caixa_padrao = a.qt_caixa_padrao
+																and b.nr_lote = a.nr_lote
+																and b.dh_validade = a.dh_validade
+				where b.nr_etiqueta = :al_Proxima_Etiqueta
+	) as tudo
+	
+	Using SqlCa;
+	
+	Choose Case SqlCa.SqlCode
+		Case 0
+			lb_Etiqueta_Sendo_Usada = True
+		Case 100
+			lb_Etiqueta_Sendo_Usada = False
+		Case -1
+			MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao verificar se a numera$$HEX2$$e700e300$$ENDHEX$$o da etiqueta j$$HEX1$$e100$$ENDHEX$$ est$$HEX1$$e100$$ENDHEX$$ sendo usada: " + SqlCa.SqlerrText , StopSign!)
+			Return False		
+	End Choose
+LOOP WHILE lb_Etiqueta_Sendo_Usada	
+
+
+ls_Proxima = String(al_Proxima_Etiqueta)
+
+Update wms_parametro
+Set vl_parametro = :ls_Proxima
+Where cd_parametro = 'NR_ETIQUETA_PRODUTO'
+  and vl_parametro = :ls_Ultima
+Using SqlCa;
+
+If SqlCa.SqlCode = -1 Then
+	SqlCa.of_MsgdbError("Atualiza$$HEX2$$e700e300$$ENDHEX$$o do par$$HEX1$$e200$$ENDHEX$$metro 'NR_ETIQUETA_PRODUTO'.")
+	Return False
+Else	
+	If SqlCa.SqlnRows = 0 Then
+		lb_Sucesso = f_ge558_proxima_etiqueta_produto(ref al_Proxima_Etiqueta)
+	Else
+		Delete from wms_etiqueta_produto
+		where nr_etiqueta = :al_Proxima_Etiqueta
+		Using SqlCa;
+		If SqlCa.SqlCode = -1 Then
+			SqlCa.of_MsgdbError("Exclus$$HEX1$$e300$$ENDHEX$$o da etiqueta n$$HEX1$$e300$$ENDHEX$$o utilizada da tabela 'wms_etiqueta_produto'. Etiqueta n$$HEX1$$fa00$$ENDHEX$$mero "+ls_Proxima+".")
+			Return False
+		End If
+		
+		lb_Sucesso = True
+	End If
+End If
+
+Return lb_Sucesso
+end function
+

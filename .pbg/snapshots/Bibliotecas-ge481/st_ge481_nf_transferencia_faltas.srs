@@ -1,0 +1,36 @@
+HA$PBExportHeader$st_ge481_nf_transferencia_faltas.srs
+global type st_ge481_nf_transferencia_faltas from structure
+	string		cd_endereco_falta
+	long		cd_produto
+	string		nr_lote
+	date		dt_validade
+	long		qt_falta
+	decimal		vl_custo
+	decimal		vl_custo_gerencial
+	decimal		pc_icms
+	string		cd_situacao_tributaria
+	long		cd_natureza_operacao
+	decimal		vl_bc_icms_st
+	decimal		vl_icms_st
+	decimal		vl_bc_icms
+	decimal		vl_icms
+	decimal		pc_icms_st
+	decimal		pc_reducao_base_st
+	string		cd_cst_origem
+	string		cd_cst_tributacao
+	decimal		pc_mva
+	decimal		pc_fcp
+	decimal		vl_fcp
+	string		cd_cst_pis
+	string		cd_cst_cofins
+	decimal		pc_reducao_base_icms
+	decimal		vl_bc_icms_antecipacao
+	decimal		pc_mva_icms_antecipacao
+	decimal		pc_icms_antecipacao
+	decimal		vl_icms_antecipacao
+	decimal		vl_preco_venda_maximo
+	string		cd_situacao_trib_faturamento
+	string		id_medicamento
+	string		id_controlado
+end type
+

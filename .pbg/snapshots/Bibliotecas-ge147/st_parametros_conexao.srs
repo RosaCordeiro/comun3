@@ -1,0 +1,16 @@
+HA$PBExportHeader$st_parametros_conexao.srs
+global type st_parametros_conexao from structure
+	string		de_endereco
+	string		de_usuario
+	string		de_senha
+	string		de_diretorio_local
+	string		de_diretorio_ftp
+	string		de_diretorio_local_backup
+	string		de_usuario_proxy
+	string		de_senha_proxy
+	string		de_van
+	string		usa_sftp
+	string		de_porta
+	string		de_edi
+end type
+

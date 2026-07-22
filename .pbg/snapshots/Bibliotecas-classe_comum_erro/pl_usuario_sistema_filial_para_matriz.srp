@@ -1,0 +1,11 @@
+HA$PBExportHeader$pl_usuario_sistema_filial_para_matriz.srp
+PIPELINE(source_connect=AAA,destination_connect=SybaseCentral,type=append,commit=100,errors=0,keyname="usuario_sistema_filial")
+SOURCE(name="usuario_sistema/parametro",COLUMN(type=long,name="parametro.cd_filial",dbtype="integer",nulls_allowed=no)
+ COLUMN(type=varchar,name="usuario_sistema.cd_sistema",dbtype="char(2)",key=yes,nulls_allowed=no)
+ COLUMN(type=varchar,name="usuario_sistema.nr_matricula",dbtype="char(6)",key=yes,nulls_allowed=no)
+ COLUMN(type=int,name="usuario_sistema.cd_perfil_usuario",dbtype="smallint",nulls_allowed=no))
+RETRIEVE(statement="SELECT parametro.cd_filial,  			usuario_sistema.cd_sistema,              usuario_sistema.nr_matricula,              usuario_sistema.cd_perfil_usuario        FROM usuario_sistema,  			parametro  			")
+DESTINATION(name="usuario_sistema_filial",COLUMN(type=long,name="cd_filial",dbtype="int",key=yes,nulls_allowed=no,initial_value="0")
+ COLUMN(type=char,name="cd_sistema",dbtype="char(2)",key=yes,nulls_allowed=no,initial_value="spaces")
+ COLUMN(type=char,name="nr_matricula",dbtype="char(6)",key=yes,nulls_allowed=no,initial_value="spaces")
+ COLUMN(type=int,name="cd_perfil_usuario",dbtype="smallint",nulls_allowed=no,initial_value="0"))

@@ -1,0 +1,13 @@
+HA$PBExportHeader$dw_ge112_restricao_tef_filial.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=84 color="536870912" )
+table(column=(type=long updatewhereclause=yes key=yes name=cd_modalidade dbname="modalidade_tef.cd_modalidade" )
+ retrieve="Select b.cd_modalidade
+from modalidade_tef b 
+Where ( b.id_ativo = 'A' and Upper(b.id_tipo) <> :ps_tipo ) or ( b.id_ativo = 'I' and Upper(b.id_tipo) = :ps_tipo )
+" update="modalidade_tef" updatewhere=0 updatekeyinplace=no arguments=(("ps_tipo", string))  sort="cd_modalidade A " )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="9" y="4" height="76" width="1376" format="[general]"  name=cd_modalidade edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes") 

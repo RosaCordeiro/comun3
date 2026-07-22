@@ -1,0 +1,24 @@
+HA$PBExportHeader$ds_ge063_telefones.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=80269524 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=72 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=84 color="536870912" )
+table(column=(type=char(2) update=yes updatewhereclause=yes key=yes name=nr_ddd dbname="telefone_drogaria.nr_ddd" )
+ column=(type=char(10) update=yes updatewhereclause=yes key=yes name=nr_telefone dbname="telefone_drogaria.nr_telefone" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=id_tipo dbname="telefone_drogaria.id_tipo" )
+ retrieve="  SELECT t.nr_ddd,   
+         t.nr_telefone,   
+         t.id_tipo  
+    FROM telefone_drogaria t  
+   WHERE t.cd_centro_custo = :centro_custo
+     AND t.id_situacao = '4'
+" update="telefone_drogaria" updatewhere=1 updatekeyinplace=no arguments=(("centro_custo", number)) )
+text(band=header alignment="2" text="Nr Ddd"border="0" color="8388608" x="5" y="4" height="64" width="183"  name=nr_ddd_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Telefone"border="0" color="8388608" x="224" y="4" height="64" width="302"  name=nr_telefone_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Id Tipo"border="0" color="8388608" x="567" y="4" height="64" width="174"  name=id_tipo_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=10 border="2" color="0" x="5" y="8" height="64" width="82" format="[general]"  name=nr_ddd edit.limit=2 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=20 border="2" color="0" x="192" y="8" height="64" width="302" format="[general]"  name=nr_telefone edit.limit=10 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="0" tabsequence=30 border="2" color="0" x="530" y="8" height="64" width="279" format="[general]"  name=id_tipo edit.limit=1 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

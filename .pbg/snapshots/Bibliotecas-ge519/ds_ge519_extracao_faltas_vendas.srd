@@ -1,0 +1,84 @@
+HA$PBExportHeader$ds_ge519_extracao_faltas_vendas.srd
+release 12;
+datawindow(units=0 timer_interval=0 color=1073741824 brushmode=0 transparency=0 gradient.angle=0 gradient.color=8421504 gradient.focus=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.repetition.mode=0 gradient.scale=100 gradient.spread=100 gradient.transparency=0 picture.blur=0 picture.clip.bottom=0 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.transparency=0 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes hidegrayline=no showbackcoloronxp=no picture.file="" )
+header(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+detail(height=80 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+table(column=(type=long updatewhereclause=yes name=cd_filial dbname="cd_filial" )
+ column=(type=long updatewhereclause=yes name=cd_produto dbname="cd_produto" )
+ column=(type=char(1) updatewhereclause=yes name=cd_curva_abc_filiais dbname="cd_curva_abc_filiais" )
+ column=(type=long updatewhereclause=yes name=qt_consulta dbname="qt_consulta" )
+ column=(type=long updatewhereclause=yes name=qt_venda dbname="qt_venda" )
+ column=(type=date updatewhereclause=yes name=dt_venda dbname="dt_venda" )
+ retrieve="Select cd_filial,
+       cd_produto,
+       cd_curva_abc_filiais,
+       sum(qt_consulta) as qt_consulta,
+       sum(qt_venda) as qt_venda,
+       dt_venda
+From (
+			Select a.cd_filial                                        as cd_filial,
+             b.cd_produto                                       as cd_produto,
+             isnull(pc.cd_curva_abc_filiais, 'X')               as cd_curva_abc_filiais,
+             0                                                  as qt_consulta,
+             sum((b.qt_vendida - coalesce(c1.qt_devolvida, 0))) as qt_venda,
+             cast(a.dh_movimentacao_caixa as date)              as dt_venda
+      From nf_venda a
+      Inner join item_nf_venda b on a.nr_nf = b.nr_nf and a.de_especie = b.de_especie and a.cd_filial = b.cd_filial
+      Left join nf_devolucao_venda c
+      on a.cd_filial = c.cd_filial_venda and a.nr_nf = c.nr_nf_venda and a.de_especie = c.de_especie_venda and a.de_serie = c.de_serie_venda
+      Left join item_nf_devolucao_venda c1
+      on c.cd_filial = c1.cd_filial and c.nr_nf = c1.nr_nf and c.de_especie = c1.de_especie and c.de_serie = c1.de_serie and
+         b.cd_produto = c1.cd_produto
+      Inner join produto_geral pg on pg.cd_produto = b.cd_produto
+      Inner join produto_central pc on pc.cd_produto = b.cd_produto
+      Where a.nr_nf_anexa is null
+        And a.dh_movimentacao_caixa between :inicio and :termino
+        And a.dh_cancelamento is null     
+      Group by
+          a.cd_filial,
+          b.cd_produto,
+          isnull(pc.cd_curva_abc_filiais, 'X'),
+          cast(a.dh_movimentacao_caixa as date)
+      
+	 UNION ALL 
+    
+	 Select ppc.cd_filial                        as cd_filial,
+             ppc.cd_produto                       as cd_produto,
+             isnull(pc.cd_curva_abc_filiais, 'X') as cd_curva_abc_filiais,
+             sum(coalesce(ppc.qt_consulta,0))                 as qt_consulta,
+             0                                    as qt_venda,
+             cast(ppc.dh_movimentacao as date)    as dh_movimentacao
+      From produto_procurado_zerado ppc (index idx_dt_fil_produto)
+      Inner join produto_geral pg on pg.cd_produto = ppc.cd_produto
+      Inner join produto_central pc on pc.cd_produto = pg.cd_produto
+      Where ppc.id_tipo = 'F'
+      And ppc.dh_movimentacao  between :inicio and :termino
+      Group by
+          ppc.cd_filial,
+          ppc.cd_produto,
+          isnull(pc.cd_curva_abc_filiais, 'X'),
+          cast(ppc.dh_movimentacao as date)
+) as tudo
+Group By cd_filial,
+       cd_produto,
+       cd_curva_abc_filiais,
+       dt_venda" arguments=(("inicio", date),("termino", date))  sort="cd_filial A cd_produto A " )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="55" y="16" height="52" width="370" format="[general]" html.valueishtml="0"  name=cd_produto visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="1266" y="8" height="52" width="613" format="[general]" html.valueishtml="0"  name=cd_curva_abc_filiais visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="1915" y="8" height="52" width="297" format="[general]" html.valueishtml="0"  name=qt_consulta visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="2290" y="8" height="52" width="535" format="[general]" html.valueishtml="0"  name=qt_venda visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="3003" y="12" height="52" width="279" format="[general]" html.valueishtml="0"  name=cd_filial visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="0" x="3282" y="0" height="52" width="2135" format="[shortdate]" html.valueishtml="0"  name=dt_venda visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

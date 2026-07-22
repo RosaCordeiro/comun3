@@ -1,0 +1,186 @@
+HA$PBExportHeader$lf_ge470_log.srf
+global type lf_ge470_log from function_object
+end type
+
+forward prototypes
+global function boolean lf_ge470_log (string ps_log, long pl_tipo, string ps_tipo_documento, string ps_cabecalho, integer pi_arquivo_log)
+end prototypes
+
+global function boolean lf_ge470_log (string ps_log, long pl_tipo, string ps_tipo_documento, string ps_cabecalho, integer pi_arquivo_log);/* Tipos */
+// 1 - Erro Geral
+// 2 - Erro p/ Inform$$HEX1$$e100$$ENDHEX$$tica
+// 3 - Erro Fiscal
+// 4 - Erro Financeiro
+// 5 - Alerta
+
+String ls_Tipo_Documento
+
+If (Not(gvb_auto))or((gvb_auto)and(pl_tipo=5)) Then
+	If Not IsNull(pi_arquivo_log) and pi_arquivo_log  > 0 Then
+		If FileWrite (pi_arquivo_log, String(Today(), "dd/mm/yyyy") + " " + String(Now(), "hh:mm:ss") + " - " + ps_cabecalho + ' - ' + ps_log) = -1 Then
+			MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao gravar o arquivo de log 'lf_el100_log'.")
+		End If
+	Else
+		SqlCa.of_LogDbError(gvo_Aplicacao.ivi_Log, ps_cabecalho + '  ' + ps_log)
+	End If
+End If
+
+//os tipos de documetnos ser$$HEX1$$e300$$ENDHEX$$o sempre localizados no sqlca
+Select de_tipo_nf 
+Into :ls_Tipo_Documento
+from tipo_log_exportacao_sap_nf
+where id_tipo_nf = :ps_tipo_documento
+Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+	Case 0
+	Case 100
+		ls_Tipo_Documento = 'TIPO DOC N$$HEX1$$c300$$ENDHEX$$O LOCALIZADO'
+	Case -1
+		//SqlCa.of_MsgDbError("Localiza$$HEX2$$e700e300$$ENDHEX$$o do tipo de documento na fun$$HEX2$$e700e300$$ENDHEX$$o 'lf_el100_log'")
+		Return False
+End Choose 
+
+//ps_tipo_documento -> CLIENTE , VENDA_AVISTA 
+//lf_el100_log(ps_log, pl_tipo, ps_tipo_documento, ps_cabecalho)
+
+//gvb_Auto = true
+
+If (gvb_Auto) Then
+	//Inform$$HEX1$$e100$$ENDHEX$$tica
+	If ((pl_tipo=1)or(pl_tipo=2)) Then
+		//$$HEX1$$c900$$ENDHEX$$ o mesmo tipo de documento?
+		If gvs_tpDoc <> ps_tipo_documento Then
+			gvs_tpDoc = ps_tipo_documento
+			If gvs_Log_Geral <> '' Then gvs_Log_Geral += '</ul></ul>'
+			gvs_Log_Geral += '<br><b>'+ls_Tipo_Documento+'</b><br>'
+		ElseIf Not(Pos(gvs_Log_Geral,ps_cabecalho)>0) and (ps_cabecalho <> '') Then
+			gvs_Log_Geral += '</ul></ul>'
+		End If
+
+		//Ainda n$$HEX1$$e300$$ENDHEX$$o tem cabe$$HEX1$$e700$$ENDHEX$$alho?
+		If Not(Pos(gvs_Log_Geral,ps_cabecalho)>0) and (ps_cabecalho <> '') Then
+			gvs_Log_Geral += '<ul><li>'+ps_cabecalho + '</li><ul>'
+		End If
+		gvs_Log_Geral += '<li>'+ ps_log + '</li>'
+	End If
+	
+	//Fiscal
+	//If ((pl_tipo=1)or(pl_tipo=3)) Then
+	If (pl_tipo=3) Then
+		//$$HEX1$$c900$$ENDHEX$$ o mesmo tipo de documento?
+		If gvs_tpDoc2 <> ps_tipo_documento Then
+			gvs_tpDoc2 = ps_tipo_documento
+			If gvs_Log_Fis <> '' Then gvs_log_Fis += '</ul></ul>'
+			gvs_log_Fis += '<br><b>'+ls_Tipo_Documento+'</b><br>'
+		ElseIf Not(Pos(gvs_log_Fis,ps_cabecalho)>0) and (ps_cabecalho <> '') Then
+			gvs_log_Fis += '</ul></ul>'
+		End If
+
+		//Ainda n$$HEX1$$e300$$ENDHEX$$o tem cabe$$HEX1$$e700$$ENDHEX$$alho?
+		If Not(Pos(gvs_log_Fis,ps_cabecalho)>0) and (ps_cabecalho <> '') Then
+			gvs_log_Fis += '<ul><li>'+ps_cabecalho + '</li><ul>'
+		End If
+		gvs_log_Fis += '<li>'+ ps_log + '</li>'
+	End If
+
+	//Financeiro
+//	If ((pl_tipo=1)or(pl_tipo=4)) Then
+//		//$$HEX1$$c900$$ENDHEX$$ o mesmo tipo de documento?
+//		If gvs_tpDoc <> ps_tipo_documento Then
+//			gvs_tpDoc = ps_tipo_documento
+//			If gvs_log_Fin <> '' Then gvs_log_Fin += '</ul></ul>'
+//			gvs_log_Fin += '<br><b>'+ls_Tipo_Documento+'</b><br>'
+//		ElseIf Not(Pos(gvs_log_Fin,ps_cabecalho)>0) and (ps_cabecalho <> '') Then
+//			gvs_log_Fin += '</ul></ul>'
+//		End If
+//
+//		//Ainda n$$HEX1$$e300$$ENDHEX$$o tem cabe$$HEX1$$e700$$ENDHEX$$alho?
+//		If Not(Pos(gvs_log_Fin,ps_cabecalho)>0) and (ps_cabecalho <> '') Then
+//			gvs_log_Fin += '<ul><li>'+ps_cabecalho + '</li><ul>'
+//		End If
+//		gvs_log_Fin += '<li>'+ ps_log + '</li>'
+//	End If
+
+
+End If
+
+Return True
+
+///* Tipos */
+//// 1 - Erro Geral
+//// 2 - Erro p/ Inform$$HEX1$$e100$$ENDHEX$$tica
+//// 3 - Erro Fiscal
+//// 4 - Erro Financeiro
+//// 5 - Alerta
+//If (Not(gvb_auto))or((gvb_auto)and(pl_tipo=5)) Then
+//	Sqlca.of_LogDbError(gvo_Aplicacao.ivi_Log, 'Arq. '+String(gvl_nr_arquivo)+': ' + ps_cabecalho + '  ' + ps_log)
+//End If
+//
+//If (gvb_Auto) Then
+//	//Inform$$HEX1$$e100$$ENDHEX$$tica
+//	If ((pl_tipo=1)or(pl_tipo=2)) Then
+//		//$$HEX1$$c900$$ENDHEX$$ o mesmo tipo de documento?
+//		if gvl_UltimoLog <> gvl_nr_arquivo Then
+//			gvl_UltimoLog = gvl_nr_arquivo
+//			If gvs_log <> '' Then
+//				gvs_log += '</ul></ul>'
+//			End If
+//			gvs_log += '<br><b>'+wf_retorna_tipo_operacao(gvl_nr_arquivo)+'</b><br>'
+//		ElseIf (((Pos(gvs_log,'Filial [')>0)or(Pos(gvs_log,'Filial Origem [')>0)or(Pos(gvs_log,'Cliente: ')>0))and(Not(Pos(gvs_log,ps_cabecalho)>0) and (ps_cabecalho <> ''))) Then
+//			gvs_log += '</ul></ul>'
+//		End If
+//		//Ainda n$$HEX1$$e300$$ENDHEX$$o tem cabe$$HEX1$$e700$$ENDHEX$$alho?
+//		If Not(Pos(gvs_log,ps_cabecalho)>0) and (ps_cabecalho <> '') Then
+//			If ((Pos(gvs_log,'Filial [')>0)or(Pos(gvs_log,'Filial Origem [')>0)or(Pos(gvs_log,'Cliente: ')>0)) Then
+//				gvs_log += '</ul></ul>'
+//			End If
+//			gvs_log += '<ul><li>'+ps_cabecalho + '</li><ul>'
+//		End If
+//		gvs_log += '<li>'+ ps_log + '</li>'
+//	End If
+//	//Fiscal
+//	If ((pl_tipo=1)or(pl_tipo=3)) Then
+//		//$$HEX1$$c900$$ENDHEX$$ o mesmo tipo de documento?
+//		if gvl_UltimoLogFis <> gvl_nr_arquivo Then
+//			gvl_UltimoLogFis = gvl_nr_arquivo
+//			If gvs_Log_Fis <> '' Then
+//				gvs_Log_Fis += '</ul></ul>'
+//			End If
+//			gvs_Log_Fis += '<br><b>'+wf_retorna_tipo_operacao(gvl_nr_arquivo)+'</b><br>'
+//		ElseIf (((Pos(gvs_Log_Fis,'Filial [')>0)or(Pos(gvs_log,'Filial Origem [')>0)or(Pos(gvs_Log_Fis,'Cliente: ')>0))and(Not(Pos(gvs_Log_Fis,ps_cabecalho)>0) and (ps_cabecalho <> ''))) Then
+//			gvs_Log_Fis += '</ul></ul>'
+//		End If
+//		//Ainda n$$HEX1$$e300$$ENDHEX$$o tem cabe$$HEX1$$e700$$ENDHEX$$alho?
+//		If Not(Pos(gvs_Log_Fis,ps_cabecalho)>0) and (ps_cabecalho <> '') Then
+//			If ((Pos(gvs_Log_Fis,'Filial [')>0)or(Pos(gvs_log,'Filial Origem [')>0)or(Pos(gvs_Log_Fis,'Cliente: ')>0)) Then
+//				gvs_Log_Fis += '</ul></ul>'
+//			End If
+//			gvs_Log_Fis += '<ul><li>'+ps_cabecalho + '</li><ul>'
+//		End If
+//		gvs_Log_Fis += '<li>'+ ps_log + '</li>'
+//	End If
+//	//Financeiro
+//	If ((pl_tipo=1)or(pl_tipo=4)) Then
+//		//$$HEX1$$c900$$ENDHEX$$ o mesmo tipo de documento?
+//		if gvl_UltimoLogFin <> gvl_nr_arquivo Then
+//			gvl_UltimoLogFin = gvl_nr_arquivo
+//			If gvs_Log_Fin <> '' Then
+//				gvs_Log_Fin += '</ul></ul>'
+//			End If
+//			gvs_Log_Fin += '<br><b>'+wf_retorna_tipo_operacao(gvl_nr_arquivo)+'</b><br>'
+//		ElseIf (((Pos(gvs_Log_Fin,'Filial [')>0)or(Pos(gvs_log,'Filial Origem [')>0)or(Pos(gvs_Log_Fin,'Cliente: ')>0))and(Not(Pos(gvs_Log_Fin,ps_cabecalho)>0) and (ps_cabecalho <> ''))) Then
+//			gvs_Log_Fin += '</ul></ul>'
+//		End If
+//		//Ainda n$$HEX1$$e300$$ENDHEX$$o tem cabe$$HEX1$$e700$$ENDHEX$$alho?
+//		If Not(Pos(gvs_Log_Fin,ps_cabecalho)>0) and (ps_cabecalho <> '') Then
+//			If ( (Pos(gvs_Log_Fin,'Filial [')>0) or (Pos(gvs_log,'Filial Origem [')>0) or (Pos(gvs_Log_Fin,'Cliente: ')>0) ) Then
+//				gvs_Log_Fin += '</ul></ul>'
+//			End If
+//			gvs_Log_Fin += '<ul><li>'+ps_cabecalho + '</li><ul>'
+//		End If
+//		gvs_Log_Fin += '<li>'+ ps_log + '</li>'
+//	End If
+//End If
+end function
+

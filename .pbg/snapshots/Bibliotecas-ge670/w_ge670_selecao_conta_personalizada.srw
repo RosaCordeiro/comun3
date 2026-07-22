@@ -1,0 +1,45 @@
+HA$PBExportHeader$w_ge670_selecao_conta_personalizada.srw
+forward
+global type w_ge670_selecao_conta_personalizada from dc_w_selecao_generica
+end type
+end forward
+
+global type w_ge670_selecao_conta_personalizada from dc_w_selecao_generica
+end type
+global w_ge670_selecao_conta_personalizada w_ge670_selecao_conta_personalizada
+
+on w_ge670_selecao_conta_personalizada.create
+call super::create
+end on
+
+on w_ge670_selecao_conta_personalizada.destroy
+call super::destroy
+end on
+
+type pb_help from dc_w_selecao_generica`pb_help within w_ge670_selecao_conta_personalizada
+end type
+
+type gb_2 from dc_w_selecao_generica`gb_2 within w_ge670_selecao_conta_personalizada
+end type
+
+type gb_1 from dc_w_selecao_generica`gb_1 within w_ge670_selecao_conta_personalizada
+end type
+
+type dw_1 from dc_w_selecao_generica`dw_1 within w_ge670_selecao_conta_personalizada
+end type
+
+type dw_2 from dc_w_selecao_generica`dw_2 within w_ge670_selecao_conta_personalizada
+end type
+
+type cb_selecionar from dc_w_selecao_generica`cb_selecionar within w_ge670_selecao_conta_personalizada
+end type
+
+type cb_cancelar from dc_w_selecao_generica`cb_cancelar within w_ge670_selecao_conta_personalizada
+end type
+
+type cb_pesquisar from dc_w_selecao_generica`cb_pesquisar within w_ge670_selecao_conta_personalizada
+end type
+
+type st_mensagem from dc_w_selecao_generica`st_mensagem within w_ge670_selecao_conta_personalizada
+end type
+

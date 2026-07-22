@@ -1,0 +1,278 @@
+HA$PBExportHeader$dw_ge320_livro_perini.srd
+release 12;
+datawindow(units=0 timer_interval=0 color=16777215 brushmode=0 transparency=0 gradient.angle=0 gradient.color=8421504 gradient.focus=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.repetition.mode=0 gradient.scale=100 gradient.spread=100 gradient.transparency=0 picture.blur=0 picture.clip.bottom=0 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.transparency=0 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes hidegrayline=no showbackcoloronxp=no picture.file="" )
+header(height=300 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+footer(height=72 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+detail(height=56 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+table(column=(type=long updatewhereclause=yes name=produto_geral_cd_produto dbname="produto_geral.cd_produto" )
+ column=(type=char(40) updatewhereclause=yes name=fabricante_de_fabricante dbname="fabricante.de_fabricante" )
+ column=(type=char(161) updatewhereclause=yes name=de_produto dbname="de_produto" )
+ column=(type=date updatewhereclause=yes name=dh_movimento dbname="dh_movimento" )
+ column=(type=long updatewhereclause=yes name=nr_ordem dbname="nr_ordem" )
+ column=(type=char(75) updatewhereclause=yes name=de_historico dbname="de_historico" )
+ column=(type=long updatewhereclause=yes name=qt_entrada dbname="qt_entrada" )
+ column=(type=long updatewhereclause=yes name=qt_saida dbname="qt_saida" )
+ column=(type=long updatewhereclause=yes name=qt_perda dbname="qt_perda" )
+ column=(type=long updatewhereclause=yes name=saldo_produto_qt_estoque dbname="qt_estoque" )
+ column=(type=char(60) updatewhereclause=yes name=de_prescritor dbname="de_prescritor" )
+ column=(type=char(75) updatewhereclause=yes name=de_obs dbname="de_obs" )
+ retrieve="
+  SELECT p.cd_produto ~"cd_produto~",
+         fa.nm_razao_social ~"de_fabricante~",
+         p.de_produto + ' : ' + p.de_apresentacao_venda + '(' + 'DCB: ' + d.cd_dcb + ' ' + d.de_dcb + ')' 'de_produto',
+         Convert(date,:inicio) ~"dh_movimento~",
+         0 ~"nr_ordem~",
+         'TRANSFERIDO DO LIVRO ' + Convert(varchar,DatePart(year,DateAdd(Month,-1,:inicio))) ~"de_historico~",
+         0 ~"qt_entrada~",
+         0 ~"qt_saida~",
+         0 ~"qt_perda~",
+         (s.qt_saldo_final + x.qt_saldo_final) ~"qt_estoque~",
+         space(60) ~"de_prescritor~",
+         space(60) ~"de_obs~"
+    FROM produto_geral p,
+         saldo_produto s,
+         dcb_produto d,
+         fabricante fa,
+		saldo_produto x
+   WHERE p.cd_grupo_psico is not null
+     and s.cd_filial      =  :filial
+     and s.cd_produto     =  p.cd_produto
+     and s.dh_saldo       =  DateAdd(Month,-1,:inicio)
+     and d.cd_dcb         =* p.cd_dcb
+     and fa.cd_fabricante =* p.cd_fabricante
+     and x.cd_filial      =  1
+     and x.cd_produto     =  p.cd_produto
+     and x.dh_saldo       =  DateAdd(Month,-1,:inicio)
+     and ( Exists ( select *
+                    from movimento_estoque m
+	  			       where m.cd_filial_movimento = s.cd_filial
+                     and m.cd_produto          = s.cd_produto
+				         and m.dh_movimento       >= :inicio
+				         and m.dh_movimento       <= :termino ) OR
+			EXISTS ( select *
+                    from movimento_estoque m
+	  			       where m.cd_filial_movimento = x.cd_filial
+                     and m.cd_produto          = x.cd_produto
+				         and m.dh_movimento       >= :inicio
+				         and m.dh_movimento       <= :termino ) )
+
+Union 
+
+  SELECT p.cd_produto			as cd_produto,
+         fa.nm_razao_social	as de_fabricante,
+         p.de_produto + ' : ' + p.de_apresentacao_venda + '(' + 'DCB: ' + d.cd_dcb + ' ' + d.de_dcb + ')' as de_produto,
+         m.dh_movimento			as dh_movimento,
+         1							as nr_ordem,
+         fa.nm_razao_social	as de_fabricante,
+         Case
+				When ( t.id_entrada_saida = ~"E~" and t.id_cancelamento = ~"N~" ) Then m.qt_movimento
+				When ( t.id_entrada_saida = ~"S~" and t.id_cancelamento = ~"S~" ) Then m.qt_movimento
+				Else 0
+			End as qt_entrada,
+			Case
+				When ( t.id_entrada_saida = ~"S~" and t.id_cancelamento = ~"N~" ) Then m.qt_movimento
+				When ( t.id_entrada_saida = ~"E~" and t.id_cancelamento = ~"S~" ) Then m.qt_movimento
+				Else 0
+			End as qt_saida,
+			0	as qt_perda,
+			0	as qt_estoque,
+			'' as  de_prescritor,
+			cl.nm_cliente + ~" NF. ~" + Convert(varchar,m.nr_nf) as de_obs
+ from movimento_estoque	as m
+		inner join tipo_movimento_estoque as t
+			on t.cd_tipo_movimento = m.cd_tipo_movimento
+		  and t.id_tipo_movimento = 'V'
+		inner join produto_geral as p
+			on p.cd_produto = m.cd_produto
+		  and p.cd_grupo_psico is not null
+		inner join filial	as f
+			on f.cd_filial = m.cd_filial_movimento
+		left outer join dcb_produto as d
+			on d.cd_dcb = p.cd_dcb
+      left outer join fabricante as fa
+			on fa.cd_fabricante = p.cd_fabricante
+		left outer join cliente as cl
+			on cl.cd_cliente = m.cd_cliente
+where m.cd_filial_movimento	= :filial
+  and m.dh_movimento			>= :inicio 
+  and m.dh_movimento			<= :termino
+	and not exists(   select *
+							from nf_transferencia_sinistrada as sin
+						 where m.cd_filial		= sin.cd_filial_origem
+							  and m.nr_nf		= sin.nr_nf
+							and m.de_especie	= sin.de_especie
+							and m.de_serie		= sin.de_serie )
+  
+Union
+
+SELECT p.cd_produto ~"cd_produto~",
+       fa.nm_razao_social ~"de_fabricante~",
+       p.de_produto + ' : ' + p.de_apresentacao_venda + '(' + 'DCB: ' + d.cd_dcb + ' ' + d.de_dcb + ')' 'de_produto',
+       m.dh_movimento ~"dh_movimento~",
+       1 ~"nr_ordem~",
+       'TRANSFERENCIA' ~"de_historico~",
+       Case
+	   	  When ( t.id_entrada_saida = ~"E~" and t.id_cancelamento = ~"N~" ) Then m.qt_movimento
+          When ( t.id_entrada_saida = ~"S~" and t.id_cancelamento = ~"S~" ) Then m.qt_movimento
+          Else 0
+  	    End ~"qt_entrada~",
+       Case
+          When ( t.id_entrada_saida = ~"S~" and t.id_cancelamento = ~"N~" ) Then m.qt_movimento
+          When ( t.id_entrada_saida = ~"E~" and t.id_cancelamento = ~"S~" ) Then m.qt_movimento
+          Else 0
+  	    End ~"qt_saida~",
+       0 ~"qt_perda~",
+       0 ~"qt_estoque~",
+       f.nr_cgc ~"de_prescritor~",
+       Case 
+          When m.cd_filial = 1 Then ~"ESTOQUE CENTRAL NF. ~" + Convert(varchar,m.nr_nf)
+          Else f.nm_fantasia + ~" NF. ~" + Convert(varchar,m.nr_nf) End ~"de_obs~"
+ from movimento_estoque m,
+	   tipo_movimento_estoque t,
+      produto_geral p,
+      filial f,
+      dcb_produto d,
+      fabricante fa
+where m.cd_filial_movimento = :filial
+  and m.dh_movimento       >= :inicio 
+  and m.dh_movimento       <= :termino
+  and t.cd_tipo_movimento   = m.cd_tipo_movimento
+  and t.id_tipo_movimento   = ~"T~"
+  and p.cd_produto          = m.cd_produto
+  and p.cd_grupo_psico is not null
+  and d.cd_dcb              =* p.cd_dcb
+  and fa.cd_fabricante      =* p.cd_fabricante
+  and f.cd_filial           = m.cd_filial
+	and not exists(   select *
+							from nf_transferencia_sinistrada as sin
+						 where m.cd_filial		= sin.cd_filial_origem
+							  and m.nr_nf		= sin.nr_nf
+							and m.de_especie	= sin.de_especie
+							and m.de_serie		= sin.de_serie )
+
+Union
+
+SELECT  p.cd_produto ~"cd_produto~",
+        fa.nm_razao_social ~"de_fabricante~",
+        p.de_produto + ' : ' + p.de_apresentacao_venda + '(' + 'DCB: ' + d.cd_dcb + ' ' + d.de_dcb + ')' 'de_produto',
+		m.dh_movimento ~"dh_movimento~",
+		1 ~"nr_ordem~",
+		f.nm_fantasia + ' NF. ' + Convert(varchar,m.nr_nf) ~"de_historico~",
+		Case
+			When ( t.id_entrada_saida = ~"E~" and t.id_cancelamento = ~"N~" ) Then m.qt_movimento
+			When ( t.id_entrada_saida = ~"S~" and t.id_cancelamento = ~"S~" ) Then m.qt_movimento
+			Else 0
+		End ~"qt_entrada~",
+		Case
+			When ( t.id_entrada_saida = ~"S~" and t.id_cancelamento = ~"N~" ) Then m.qt_movimento
+			When ( t.id_entrada_saida = ~"E~" and t.id_cancelamento = ~"S~" ) Then m.qt_movimento
+			Else 0
+		End ~"qt_saida~",
+		0 ~"qt_perda~",
+		0 ~"qt_estoque~",
+		fa.nr_cgc ~"de_prescritor~",
+		t.de_tipo_movimento ~"de_obs~"
+ from movimento_estoque m,
+	   tipo_movimento_estoque t,
+      produto_geral p,
+      fornecedor f,
+      dcb_produto d,
+      fabricante fa
+where m.cd_filial_movimento = :filial
+  and m.dh_movimento       >= :inicio 
+  and m.dh_movimento       <= :termino
+  and t.cd_tipo_movimento   = m.cd_tipo_movimento
+  and t.id_tipo_movimento   = ~"C~"
+  and p.cd_produto          = m.cd_produto
+  and p.cd_grupo_psico is not null
+  and d.cd_dcb              =* p.cd_dcb
+  and fa.cd_fabricante      =* p.cd_fabricante
+  and f.cd_fornecedor       = m.cd_fornecedor
+	and not exists(   select *
+							from nf_transferencia_sinistrada as sin
+						 where m.cd_filial		= sin.cd_filial_origem
+							  and m.nr_nf		= sin.nr_nf
+							and m.de_especie	= sin.de_especie
+							and m.de_serie		= sin.de_serie )
+
+Union
+
+SELECT  p.cd_produto ~"cd_produto~",
+        fa.nm_razao_social ~"de_fabricante~",
+        p.de_produto + ' : ' + p.de_apresentacao_venda + '(' + 'DCB: ' + d.cd_dcb + ' ' + d.de_dcb + ')' 'de_produto',
+		  m.dh_movimento ~"dh_movimento~",
+	     1 ~"nr_ordem~",
+		  'PERDA ' ~"de_historico~",
+	 	  0 ~"qt_entrada~",
+		  0 ~"qt_saida~",
+		  Case
+		     When ( t.id_entrada_saida = ~"S~" ) Then m.qt_movimento
+			  Else 0
+		  End ~"qt_perda~",
+		  0 ~"qt_estoque~",
+	     space(40) ~"de_prescritor~",
+		  'ENTREGA VIG.SANITARIA' ~"de_obs~"
+from  movimento_estoque m,
+	   tipo_movimento_estoque t,
+      produto_geral p,
+      dcb_produto d,
+      fabricante fa
+where m.cd_filial_movimento = :filial
+  and m.dh_movimento       >= :inicio
+  and m.dh_movimento       <= :termino
+  and t.cd_tipo_movimento   = m.cd_tipo_movimento
+  and t.id_tipo_movimento   = ~"A~"
+  and p.cd_produto          = m.cd_produto
+  and p.cd_grupo_psico is not null
+  and d.cd_dcb              =* p.cd_dcb
+  and fa.cd_fabricante      =* p.cd_fabricante
+	and not exists(   select *
+							from nf_transferencia_sinistrada as sin
+						 where m.cd_filial		= sin.cd_filial_origem
+							  and m.nr_nf		= sin.nr_nf
+							and m.de_especie	= sin.de_especie
+							and m.de_serie		= sin.de_serie )" arguments=(("filial", number),("inicio", date),("termino", date),("tipo", string),("portaria", string))  sort="produto_geral_cd_produto A dh_movimento A nr_ordem A qt_entrada D " )
+group(level=1 header.height=160 trailer.height=0 by=("produto_geral_cd_produto" ) newpage=yes header.color="536870912" header.transparency="0" header.gradient.color="8421504" header.gradient.transparency="0" header.gradient.angle="0" header.brushmode="0" header.gradient.repetition.mode="0" header.gradient.repetition.count="0" header.gradient.repetition.length="100" header.gradient.focus="0" header.gradient.scale="100" header.gradient.spread="100" trailer.color="536870912" trailer.transparency="0" trailer.gradient.color="8421504" trailer.gradient.transparency="0" trailer.gradient.angle="0" trailer.brushmode="0" trailer.gradient.repetition.mode="0" trailer.gradient.repetition.count="0" trailer.gradient.repetition.length="100" trailer.gradient.focus="0" trailer.gradient.scale="100" trailer.gradient.spread="100" )
+text(band=header alignment="1" text="Medicamento :" border="0" color="0" x="18" y="136" height="56" width="434" html.valueishtml="0"  name=t_1 visible="1"  font.face="Courier New" font.height="-8" font.weight="400"  font.family="1" font.pitch="1" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="1" text="Fabricante :" border="0" color="0" x="18" y="208" height="56" width="434" html.valueishtml="0"  name=t_2 visible="1"  font.face="Courier New" font.height="-8" font.weight="400"  font.family="1" font.pitch="1" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=header id=3 alignment="0" tabsequence=32766 border="0" color="0" x="727" y="136" height="56" width="2551" format="[general]" html.valueishtml="0"  name=de_produto visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Courier New" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=header id=2 alignment="0" tabsequence=32766 border="0" color="0" x="471" y="208" height="56" width="2807" format="[general]" html.valueishtml="0"  name=fabricante_de_fabricante visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Courier New" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+compute(band=header alignment="0" expression="string( produto_geral_cd_produto  , '000000')"border="0" color="0" x="471" y="136" height="56" width="238" format="[general]" html.valueishtml="0"  name=compute_1 visible="1"  font.face="Courier New" font.height="-8" font.weight="400"  font.family="1" font.pitch="1" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+compute(band=header alignment="2" expression="'RELAT$$HEX1$$d300$$ENDHEX$$RIO MENSAL DE VENDAS ' + STRING(YEAR(DH_MOVIMENTO),'0000')"border="0" color="0" x="14" y="16" height="72" width="2775" format="[general]" html.valueishtml="0"  name=compute_2 visible="1"  font.face="Courier New" font.height="-12" font.weight="700"  font.family="1" font.pitch="1" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+compute(band=header alignment="1" expression="'Pag: ' + String( page() + 1,'0000') + ' de ' + String( PageCount() +2 , '0000')"border="0" color="0" x="2811" y="24" height="56" width="585" format="[general]" html.valueishtml="0"  name=compute_3 visible="1"  font.face="Courier New" font.height="-8" font.weight="400"  font.family="1" font.pitch="1" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header.1 alignment="2" text="DATA" border="2" color="0" x="18" y="4" height="144" width="137" html.valueishtml="0"  name=produto_geral_cd_produto_t visible="1"  font.face="Courier New" font.height="-7" font.weight="400"  font.family="1" font.pitch="1" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header.1 alignment="0" text="ENDERE$$HEX1$$c700$$ENDHEX$$OOBSERVA$$HEX2$$c700d500$$ENDHEX$$ESASSINATURA RESPONS$$HEX1$$c100$$ENDHEX$$VEL" border="2" color="0" x="2446" y="4" height="144" width="951" html.valueishtml="0"  name=de_obs_t visible="1"  font.face="Courier New" font.height="-7" font.weight="400"  font.family="1" font.pitch="1" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header.1 alignment="2" text="ORDEM" border="2" color="0" x="169" y="92" height="56" width="133" html.valueishtml="0"  name=nr_ordem_t visible="0"  font.face="Courier New" font.height="-7" font.weight="400"  font.family="1" font.pitch="1" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+line(band=header.1 x1="14" y1="156" x2="3401" y2="156"  name=l_1 visible="1" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" )
+text(band=header.1 alignment="2" text="HIST$$HEX1$$d300$$ENDHEX$$RICO" border="2" color="0" x="169" y="4" height="76" width="992" html.valueishtml="0"  name=de_historico_t visible="1"  font.face="Courier New" font.height="-7" font.weight="400"  font.family="1" font.pitch="1" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header.1 alignment="0" text="FORNECEDOR-NF" border="2" color="0" x="169" y="92" height="56" width="992" html.valueishtml="0"  name=t_4 visible="1"  font.face="Courier New" font.height="-7" font.weight="400"  font.family="1" font.pitch="1" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header.1 alignment="2" text="MOVIMENTO" border="2" color="0" x="1175" y="4" height="76" width="773" html.valueishtml="0"  name=t_3 visible="1"  font.face="Courier New" font.height="-7" font.weight="400"  font.family="1" font.pitch="1" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header.1 alignment="1" text="ESTOQUE" border="2" color="0" x="1765" y="92" height="56" width="183" html.valueishtml="0"  name=saldo_produto_qt_estoque_t visible="1"  font.face="Courier New" font.height="-7" font.weight="400"  font.family="1" font.pitch="1" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header.1 alignment="1" text="PERDA" border="2" color="0" x="1568" y="92" height="56" width="183" html.valueishtml="0"  name=qt_perda_t visible="1"  font.face="Courier New" font.height="-7" font.weight="400"  font.family="1" font.pitch="1" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header.1 alignment="1" text="SA$$HEX1$$cd00$$ENDHEX$$DA" border="2" color="0" x="1371" y="92" height="56" width="183" html.valueishtml="0"  name=qt_saida_t visible="1"  font.face="Courier New" font.height="-7" font.weight="400"  font.family="1" font.pitch="1" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header.1 alignment="1" text="ENTRADA" border="2" color="0" x="1175" y="92" height="56" width="183" html.valueishtml="0"  name=qt_entrada_t visible="1"  font.face="Courier New" font.height="-7" font.weight="400"  font.family="1" font.pitch="1" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header.1 alignment="2" text="CNPJ" border="2" color="0" x="1961" y="4" height="144" width="471" html.valueishtml="0"  name=de_prescritor_t visible="1"  font.face="Courier New" font.height="-7" font.weight="400"  font.family="1" font.pitch="1" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+compute(band=detail alignment="1" expression=" saldo_produto_qt_estoque + ( qt_saida * -1 ) + ( qt_entrada ) + ( qt_perda * -1 )"border="0" color="0" x="2514" y="8" height="56" width="165" format="[general]" html.valueishtml="0"  name=qt_parcial visible="1~t0"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=10 alignment="1" tabsequence=32766 border="0" color="0" x="2693" y="8" height="56" width="142" format="[general]" html.valueishtml="0"  name=saldo_produto_qt_estoque visible="1~t0" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+compute(band=detail alignment="2" expression="String( Day( dh_movimento ) , '00') + '/' + String( Month( dh_movimento ) , '00' )"border="0" color="0" x="18" y="4" height="48" width="137" format="[general]" html.valueishtml="0"  name=compute_5 visible="1"  font.face="Courier New" font.height="-7" font.weight="400"  font.family="1" font.pitch="1" font.charset="0" background.mode="0" background.color="536870912~tIf ( Mod( getrow() , 2 ) =  0 , 12632256 , rgb(255,255,255) )" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=12 alignment="0" tabsequence=32766 border="0" color="0" x="2446" y="4" height="48" width="951" format="[general]" html.valueishtml="0"  name=de_obs visible="1" edit.limit=1 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Courier New" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="536870912~tIf ( Mod( getrow() , 2 ) =  0 , 12632256 , rgb(255,255,255) )" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="0" color="0" x="169" y="4" height="56" width="133" format="[general]" html.valueishtml="0"  name=nr_ordem visible="0" edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Courier New" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="65535~tIf ( Mod( getrow() , 2 ) =  0 , 12632256 , rgb(255,255,255) )" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="0" x="169" y="4" height="48" width="992" format="[general]" html.valueishtml="0"  name=de_historico visible="1" edit.limit=31 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Courier New" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="536870912~tIf ( Mod( getrow() , 2 ) =  0 , 12632256 , rgb(255,255,255) )" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=7 alignment="1" tabsequence=32766 border="0" color="0" x="1175" y="4" height="48" width="183" format="[general]" html.valueishtml="0"  name=qt_entrada visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Courier New" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="536870912~tIf ( Mod( getrow() , 2 ) =  0 , 12632256 , rgb(255,255,255) )" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=8 alignment="1" tabsequence=32766 border="0" color="0" x="1371" y="4" height="48" width="183" format="[general]" html.valueishtml="0"  name=qt_saida visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Courier New" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="536870912~tIf ( Mod( getrow() , 2 ) =  0 , 12632256 , rgb(255,255,255) )" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=9 alignment="1" tabsequence=32766 border="0" color="0" x="1568" y="4" height="48" width="183" format="[general]" html.valueishtml="0"  name=qt_perda visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Courier New" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="536870912~tIf ( Mod( getrow() , 2 ) =  0 , 12632256 , rgb(255,255,255) )" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+compute(band=detail alignment="1" expression="cumulativeSum( qt_parcial for group 1 )"border="0" color="0" x="1765" y="4" height="48" width="183" format="[general]" html.valueishtml="0"  name=compute_4 visible="1"  font.face="Courier New" font.height="-8" font.weight="400"  font.family="1" font.pitch="1" font.charset="0" background.mode="0" background.color="16777215~tIf ( Mod( getrow() , 2 ) =  0 , 12632256 , rgb(255,255,255) )" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=11 alignment="2" tabsequence=32766 border="0" color="0" x="1961" y="4" height="48" width="471" format="[general]" html.valueishtml="0"  name=de_prescritor visible="1" editmask.mask="!!.!!!.!!!/!!!!-!!" editmask.focusrectangle=no  font.face="Courier New" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="536870912~tIf ( Mod( getrow() , 2 ) =  0 , 12632256 , rgb(255,255,255) )" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+compute(band=footer alignment="2" expression="'Filial: ' + String(filial) + ' Portaria: ' + portaria"border="0" color="0" x="14" y="4" height="60" width="3392" format="[general]" html.valueishtml="0"  name=compute_6 visible="1"  font.face="Courier New" font.height="-8" font.weight="400"  font.family="1" font.pitch="1" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

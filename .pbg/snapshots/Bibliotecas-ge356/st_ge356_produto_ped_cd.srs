@@ -1,0 +1,6 @@
+HA$PBExportHeader$st_ge356_produto_ped_cd.srs
+global type st_ge356_produto_ped_cd from structure
+	long		cd_produto[]
+	long		qt_pedida_cd[]
+end type
+

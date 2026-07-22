@@ -1,0 +1,43 @@
+HA$PBExportHeader$lf_ge673_log_exec_tarefa.srf
+global type lf_ge673_log_exec_tarefa from function_object
+end type
+
+forward prototypes
+global function boolean lf_ge673_log_exec_tarefa (string as_id_execucao, string as_exec, long al_proxy, ref string as_erro)
+end prototypes
+
+global function boolean lf_ge673_log_exec_tarefa (string as_id_execucao, string as_exec, long al_proxy, ref string as_erro);Boolean	lb_sucesso
+String lvs_Mensagem, ls_exec
+
+uo_ge673_kafka 	luo_kafka
+
+
+Try
+	luo_kafka	= Create uo_ge673_kafka
+	
+	if not luo_kafka.of_inicia(al_proxy) then
+		as_erro = 'Problema ao iniciar comunica$$HEX2$$e700e300$$ENDHEX$$o com proxy KAFKA'
+		return False
+	end if
+	
+	lvs_Mensagem = &
+		"{" + &
+			'"idExecucao":' + gf_grava_log_json_form_str(as_id_execucao) + "," + &
+			'"status":' + gf_grava_log_json_form_str(as_exec) + &
+		 "}"
+	
+	//Ignorar o erro
+	if not luo_kafka.uf_send(luo_kafka.of_get_topico_controle_tarefas(), lvs_Mensagem, REF as_erro) then
+		lb_sucesso = False
+	else
+		lb_sucesso = True
+	end if
+catch (RunTimeError RTE)
+	lb_sucesso = False
+finally
+	destroy luo_kafka
+end try
+
+Return lb_sucesso
+end function
+

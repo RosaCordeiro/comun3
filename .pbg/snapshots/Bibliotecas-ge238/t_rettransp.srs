@@ -1,0 +1,10 @@
+HA$PBExportHeader$t_rettransp.srs
+global type t_rettransp from structure
+	double		vserv
+	double		vbcret
+	double		picmsret
+	double		vicmsret
+	Long		cfop
+	Long		cmunfg
+end type
+

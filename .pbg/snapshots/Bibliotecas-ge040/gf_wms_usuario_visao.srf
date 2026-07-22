@@ -1,0 +1,39 @@
+HA$PBExportHeader$gf_wms_usuario_visao.srf
+global type gf_wms_usuario_visao from function_object
+end type
+
+forward prototypes
+global function boolean gf_wms_usuario_visao (string as_matricula)
+end prototypes
+
+global function boolean gf_wms_usuario_visao (string as_matricula);Boolean lb_usuario_visao   =  False  
+String    lvs_id_usuario_visao
+
+SELECT COALESCE(id_usuario_visao, 'N') 
+INTO :lvs_id_usuario_visao
+FROM usuario
+WHERE nr_matricula =:as_matricula 
+USING SQLCA;
+
+ 
+If SqlCa.SqlCode = -1 Then
+	SqlCa.of_MsgDbError("LOCALIZA$$HEX2$$c700c300$$ENDHEX$$O DO PAR$$HEX1$$c200$$ENDHEX$$METRO 'VL_PARAMETRO'")
+	lb_usuario_visao  = False  
+	Return lb_usuario_visao
+End If   
+
+
+If lvs_id_usuario_visao = 'S' Then 
+	lb_usuario_visao = True 
+	Return lb_usuario_visao
+Else
+	lb_usuario_visao = False
+	Return lb_usuario_visao	
+End If 
+			
+
+
+  
+
+end function
+

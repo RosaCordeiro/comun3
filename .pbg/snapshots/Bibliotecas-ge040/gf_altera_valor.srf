@@ -1,0 +1,57 @@
+HA$PBExportHeader$gf_altera_valor.srf
+global type gf_altera_valor from function_object
+end type
+
+forward prototypes
+global function string gf_altera_valor (string as_registro, string as_separador, long al_posicao, boolean ab_inicio, string as_novo_valor)
+end prototypes
+
+global function string gf_altera_valor (string as_registro, string as_separador, long al_posicao, boolean ab_inicio, string as_novo_valor);//as_Registro	- Uma linha do registro
+//as_Separador - Identifica o caracter que divide os diferentes campos do registro
+//al_posicao	- Identifica a posi$$HEX2$$e700e300$$ENDHEX$$o do campos a ser localizado no registro
+//ab_inicio		- Identifica se a primeira posi$$HEX2$$e700e300$$ENDHEX$$o do registro inicia com o caracter separador
+
+Long lvl_Pos
+Long lvl_PosA
+Long lvl_Linha_Pos
+
+String lvs_Aux
+String lvs_Antigo
+String lvs_Retorno
+
+lvs_Aux = as_registro
+	
+lvl_Pos = 1
+
+If ab_Inicio Then
+	For lvl_Linha_Pos = 1 To al_posicao
+		lvl_Pos = Pos(lvs_Aux, as_separador, lvl_Pos)
+		lvl_Pos++
+	Next	
+Else
+	If al_posicao > 1 Then
+		al_posicao --
+		
+		For lvl_Linha_Pos = 1 To al_posicao
+			lvl_Pos = Pos(lvs_Aux, as_separador, lvl_Pos)
+			lvl_Pos++
+		Next	
+	End If
+End If
+
+lvl_PosA = Pos(lvs_Aux, as_separador, lvl_Pos)
+
+If lvl_PosA > 0 Then
+	lvl_PosA -= lvl_Pos
+Else
+	lvl_PosA = Len(lvs_Aux) - (lvl_Pos - 1)
+End If
+
+//Captura o valor no campo espec$$HEX1$$ed00$$ENDHEX$$fico
+lvs_Antigo = Mid(lvs_Aux, lvl_Pos, lvl_PosA)
+
+lvs_Retorno = Mid(lvs_Aux, 1, lvl_Pos - 1) + as_Novo_Valor + Mid(lvs_Aux, lvl_Pos + Len(lvs_Antigo))
+
+Return lvs_Retorno
+end function
+

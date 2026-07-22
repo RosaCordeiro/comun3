@@ -1,0 +1,51 @@
+HA$PBExportHeader$gf_data_parametro.srf
+global type gf_data_parametro from function_object
+end type
+
+forward prototypes
+global function boolean gf_data_parametro (ref datetime adh_data)
+global function boolean gf_data_parametro (ref date adt_data)
+end prototypes
+
+global function boolean gf_data_parametro (ref datetime adh_data);Boolean lvb_Sucesso = False
+
+Select dh_movimentacao Into :adh_Data
+From parametro 
+Where id_parametro = '1'
+Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+	Case 0
+		lvb_Sucesso = True
+	Case 100
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Data de movimenta$$HEX2$$e700e300$$ENDHEX$$o n$$HEX1$$e300$$ENDHEX$$o localizada nos par$$HEX1$$e200$$ENDHEX$$metros.", StopSign!)
+	Case -1
+		SqlCa.of_MsgdbError("Localiza$$HEX2$$e700e300$$ENDHEX$$o da Data de Movimenta$$HEX2$$e700e300$$ENDHEX$$o do Par$$HEX1$$e200$$ENDHEX$$metro")
+End Choose
+
+Return lvb_Sucesso
+end function
+
+global function boolean gf_data_parametro (ref date adt_data);/* 
+*	Fernando Lu$$HEX1$$ed00$$ENDHEX$$s Cambiaghi
+*	Este arquivo cont$$HEX1$$e900$$ENDHEX$$m v$$HEX1$$e100$$ENDHEX$$rias fun$$HEX2$$e700f500$$ENDHEX$$es. 
+*	Para poder editar/visualizar todas, $$HEX1$$e900$$ENDHEX$$ necess$$HEX1$$e100$$ENDHEX$$rio usar a op$$HEX2$$e700e300$$ENDHEX$$o Edit Source
+*
+*	Assinaturas:
+*		- gf_data_parametro( ref date adt_data )
+*		- gf_data_parametro( ref datetime adh_data )
+*/
+
+Boolean lvb_Sucesso = False
+
+DateTime ldh_Parametro
+
+lvb_Sucesso = gf_data_parametro ( Ref ldh_Parametro )
+
+If lvb_Sucesso Then
+	adt_data = Date( ldh_Parametro )
+End If
+
+Return lvb_Sucesso
+end function
+

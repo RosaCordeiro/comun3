@@ -1,0 +1,19 @@
+HA$PBExportHeader$gf_primeiro_dia_mes.srf
+global type gf_primeiro_dia_mes from function_object
+end type
+
+forward prototypes
+global function date gf_primeiro_dia_mes (date pdt_data)
+end prototypes
+
+global function date gf_primeiro_dia_mes (date pdt_data);String lvs_Data
+
+Date   lvdt_Dia
+
+lvs_Data = '01/'+String(Month(pdt_data),'00')+'/'+RightA(String(Year(pdt_data),'0000'),2)
+
+lvdt_Dia = Date(lvs_Data)
+
+Return lvdt_Dia
+end function
+

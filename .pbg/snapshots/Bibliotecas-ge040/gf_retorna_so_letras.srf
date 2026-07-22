@@ -1,0 +1,26 @@
+HA$PBExportHeader$gf_retorna_so_letras.srf
+$PBExportComments$Retorna apenas os n$$HEX1$$fa00$$ENDHEX$$meros de uma string
+global type gf_retorna_so_letras from function_object
+end type
+
+forward prototypes
+global function string gf_retorna_so_letras (string ps_valor)
+end prototypes
+
+global function string gf_retorna_so_letras (string ps_valor);/* Retorna apenas os n$$HEX1$$fa00$$ENDHEX$$meros da string passada como parametro */
+String lvs_Retorno = ''
+String lvs_Case = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz$$HEX40$$c100e100c000e000c300e300c200e200c900e900c800e800ca00ea00cd00ed00cc00ec00ce00ee00d300f300d200f200d500f500d400f400da00fa00d900f900db00fb00c700e700d100f100dd00fd00$$ENDHEX$$'
+
+Long lvl_Char
+
+If IsNull(ps_valor) Then ps_valor = ""
+
+For lvl_Char = 1 to Len(ps_Valor)
+	If Pos(lvs_Case,Mid(ps_Valor,lvl_Char,1))>0 Then
+		lvs_Retorno += Mid(ps_Valor,lvl_Char,1)
+	End If
+Next
+
+Return lvs_Retorno
+end function
+

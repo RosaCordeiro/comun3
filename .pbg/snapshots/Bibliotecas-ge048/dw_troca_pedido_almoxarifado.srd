@@ -1,0 +1,15 @@
+HA$PBExportHeader$dw_troca_pedido_almoxarifado.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=80269524 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=76 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=84 color="536870912" )
+table(column=(type=long updatewhereclause=yes key=yes name=nr_pedido dbname="pedido_almoxarifado.nr_pedido" )
+ column=(type=datetime updatewhereclause=yes name=dh_emissao dbname="pedido_almoxarifado.dh_emissao" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"pedido_almoxarifado~" ) COLUMN(NAME=~"pedido_almoxarifado.nr_pedido~") COLUMN(NAME=~"pedido_almoxarifado.dh_emissao~")WHERE(    EXP1 =~"pedido_almoxarifado.id_situacao~"   OP =~"=~"    EXP2 =~"'C'~" ) ) " update="pedido_almoxarifado" updatewhere=0 updatekeyinplace=no )
+text(band=header alignment="2" text="Nr Pedido"border="0" color="0" x="5" y="4" height="64" width="329"  name=nr_pedido_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Dh Emissao"border="0" color="0" x="338" y="4" height="64" width="603"  name=dh_emissao_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="942" y="0" height="76" width="1376" format="[general]"  name=nr_pedido edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="2318" y="0" height="76" width="928" format="[shortdate] [time]"  name=dh_emissao edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes") 

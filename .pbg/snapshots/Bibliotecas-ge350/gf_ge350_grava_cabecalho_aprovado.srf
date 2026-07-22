@@ -1,0 +1,26 @@
+HA$PBExportHeader$gf_ge350_grava_cabecalho_aprovado.srf
+global type gf_ge350_grava_cabecalho_aprovado from function_object
+end type
+
+forward prototypes
+global function boolean gf_ge350_grava_cabecalho_aprovado (long al_filial, long al_retirada)
+end prototypes
+
+global function boolean gf_ge350_grava_cabecalho_aprovado (long al_filial, long al_retirada);String 	ls_Erro
+
+Update retirada_estoque
+	Set id_aprovado = 'S'
+ Where cd_filial = :al_Filial
+	And nr_retirada_estoque = :al_Retirada
+ Using SqlCa;
+
+If SqlCa.SqlCode = -1 Then
+	ls_Erro = SqlCa.SqlErrText
+	SqlCa.of_Rollback();
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao gravar o registro aprovado na tabela RETIRADA_ESTOQUE. " + ls_Erro, StopSign!)
+	Return False
+End If
+
+Return True
+end function
+

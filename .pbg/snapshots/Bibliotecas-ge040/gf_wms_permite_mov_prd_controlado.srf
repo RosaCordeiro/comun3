@@ -1,0 +1,51 @@
+HA$PBExportHeader$gf_wms_permite_mov_prd_controlado.srf
+global type gf_wms_permite_mov_prd_controlado from function_object
+end type
+
+forward prototypes
+global function boolean gf_wms_permite_mov_prd_controlado (long al_produto, string as_endereco_destino, ref string as_erro)
+end prototypes
+
+global function boolean gf_wms_permite_mov_prd_controlado (long al_produto, string as_endereco_destino, ref string as_erro);Long ll_Qtde, ll_Esteira
+String lvs_Geladeira, lvs_Controlado, lvs_Vigiado, lvs_Erro, lvs_Flow_Rack, lvs_EndControlado, lvs_Esteira
+SetNull(lvs_Erro) 
+
+
+// Para ignorar FlowRack
+//Select id_flow_rack , 
+//		Case when Substring(a.cd_endereco,1,1 ) = '9' Then 'S' else 'N'  end as EndControlado
+//Into :lvs_Flow_Rack, :lvs_EndControlado
+//From  vw_wms_endereco a
+//Where  cd_endereco  =:as_endereco_destino
+//Using SqlCA;
+//
+//If SqlCa.Sqlcode = -1 Then
+//	as_erro  = "Consulta Endereco FlowRack!:" + SQLCA.SQLErrText
+//	Return False
+//End If
+//
+//If lvs_Flow_Rack = "S" Then Return True 
+
+// Localiza Dados do Produto
+//If Not gf_wms_esteira_produto (al_produto,&
+//										ref ll_Esteira,& 
+//										ref lvs_Geladeira,& 
+//										ref lvs_Controlado,& 
+//										ref lvs_Vigiado,& 										
+//										ref lvs_Esteira,&
+//										ref lvs_Erro ) Then 
+//	as_erro = "Erro: Localizar Dados de Esteira do Produto"	
+//	Return False
+//End If
+
+
+//If lvs_EndControlado = "S"  Then 
+//	If IsNull(lvs_Controlado)  And lvs_Vigiado = "N" Then   
+//		as_erro = "N$$HEX1$$e300$$ENDHEX$$o Permitido!Endere$$HEX1$$e700$$ENDHEX$$o de Controlado e Produto: "+String(lvs_Esteira)
+//		Return False
+//	End If	
+//End If 
+//
+Return True 					
+end function
+

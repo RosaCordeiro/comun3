@@ -1,0 +1,124 @@
+HA$PBExportHeader$ds_itens_nf_devolucao_venda.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=64 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=84 color="536870912" )
+table(column=(type=long updatewhereclause=yes name=cd_produto dbname="item_nf_devolucao_venda.cd_produto" )
+ column=(type=char(60) updatewhereclause=yes name=desc_produto dbname="produto_geral.de_produto" )
+ column=(type=char(40) updatewhereclause=yes name=de_apresentacao_venda dbname="produto_geral.de_apresentacao_venda" )
+ column=(type=char(3) updatewhereclause=yes name=cd_unidade_medida_venda dbname="produto_geral.cd_unidade_medida_venda" )
+ column=(type=char(2) updatewhereclause=yes name=cd_grupo_psico dbname="produto_geral.cd_grupo_psico" )
+ column=(type=char(2) updatewhereclause=yes name=cd_situacao_tributaria dbname="item_nf_devolucao_venda.cd_situacao_tributaria" )
+ column=(type=long updatewhereclause=yes name=cd_natureza_operacao dbname="item_nf_devolucao_venda.cd_natureza_operacao" )
+ column=(type=long updatewhereclause=yes name=qt_devolvida dbname="item_nf_devolucao_venda.qt_devolvida" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_preco_unitario dbname="item_nf_devolucao_venda.vl_preco_unitario" )
+ column=(type=decimal(2) updatewhereclause=yes name=pc_icms dbname="item_nf_devolucao_venda.pc_icms" )
+ column=(type=decimal(2) updatewhereclause=yes name=pc_desconto dbname="item_nf_devolucao_venda.pc_desconto" )
+ column=(type=datetime updatewhereclause=yes name=dh_movimentacao_caixa dbname="nf_devolucao_venda.dh_movimentacao_caixa" )
+ column=(type=datetime updatewhereclause=yes name=dh_recebimento dbname="nf_devolucao_venda.dh_recebimento" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_bc_icms dbname="nf_devolucao_venda.vl_bc_icms" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_icms dbname="nf_devolucao_venda.vl_icms" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_bc_icms_st dbname="nf_devolucao_venda.vl_bc_icms_st" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_icms_st dbname="nf_devolucao_venda.vl_icms_st" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_total_produtos dbname="nf_devolucao_venda.vl_total_produtos" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_frete dbname="nf_devolucao_venda.vl_frete" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_outras_despesas dbname="nf_devolucao_venda.vl_outras_despesas" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_total_nf dbname="nf_devolucao_venda.vl_total_nf" )
+ column=(type=long updatewhereclause=yes name=cd_convenio dbname="nf_devolucao_venda.cd_convenio" )
+ column=(type=char(11) updatewhereclause=yes name=cd_cliente dbname="nf_devolucao_venda.cd_cliente" )
+ column=(type=decimal(2) updatewhereclause=yes name=pc_desconto_nf dbname="nf_devolucao_venda.pc_desconto" )
+ column=(type=char(6) updatewhereclause=yes name=nr_matricula_operador dbname="nf_devolucao_venda.nr_matricula_operador" )
+ column=(type=long updatewhereclause=yes name=nr_nsu dbname="nf_devolucao_venda.nr_nsu" )
+ retrieve="  SELECT item_nf_devolucao_venda.cd_produto,   
+         produto_geral.de_produto,   
+         produto_geral.de_apresentacao_venda,   
+         produto_geral.cd_unidade_medida_venda,   
+         produto_geral.cd_grupo_psico,
+         item_nf_devolucao_venda.cd_situacao_tributaria,   
+         item_nf_devolucao_venda.cd_natureza_operacao,   
+         item_nf_devolucao_venda.qt_devolvida,   
+         item_nf_devolucao_venda.vl_preco_unitario,   
+         item_nf_devolucao_venda.pc_icms,   
+         item_nf_devolucao_venda.pc_desconto,   
+         nf_devolucao_venda.dh_movimentacao_caixa,   
+         nf_devolucao_venda.dh_recebimento,
+         nf_devolucao_venda.vl_bc_icms,   
+         nf_devolucao_venda.vl_icms,   
+         nf_devolucao_venda.vl_bc_icms_st,   
+         nf_devolucao_venda.vl_icms_st,   
+         nf_devolucao_venda.vl_total_produtos,   
+         nf_devolucao_venda.vl_frete,   
+         nf_devolucao_venda.vl_outras_despesas,   
+         nf_devolucao_venda.vl_total_nf,   
+         nf_devolucao_venda.cd_convenio,   
+         nf_devolucao_venda.cd_cliente,   
+         nf_devolucao_venda.pc_desconto,   
+         nf_devolucao_venda.nr_matricula_operador,
+			nf_devolucao_venda.nr_nsu
+    FROM nf_devolucao_venda,   
+         item_nf_devolucao_venda,   
+         produto_geral
+   WHERE ( item_nf_devolucao_venda.cd_filial 	= nf_devolucao_venda.cd_filial 		) and  
+         ( item_nf_devolucao_venda.nr_nf 			= nf_devolucao_venda.nr_nf 			) and  
+         ( item_nf_devolucao_venda.de_especie 	= nf_devolucao_venda.de_especie 		) and  
+         ( item_nf_devolucao_venda.de_serie 		= nf_devolucao_venda.de_serie 		) and  
+         ( item_nf_devolucao_venda.id_origem_nf = nf_devolucao_venda.id_origem_nf 	) and  
+         ( produto_geral.cd_produto 				= item_nf_devolucao_venda.cd_produto ) and  
+         ( ( nf_devolucao_venda.cd_filial 		= :a_filial 	) AND  
+         ( nf_devolucao_venda.nr_nf 				= :a_nf 			) AND  
+         ( nf_devolucao_venda.de_especie 			= :a_especie 	) AND  
+         ( nf_devolucao_venda.de_serie 			= :a_serie 		) )    
+" arguments=(("a_filial", number),("a_nf", number),("a_especie", string),("a_serie", string)) )
+text(band=header alignment="2" text="Cd Produto"border="0" color="0" x="9" y="8" height="56" width="311"  name=cd_produto_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cd Unidade Medida Venda"border="0" color="0" x="329" y="8" height="56" width="581"  name=cd_unidade_medida_venda_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cd Situacao Tributaria"border="0" color="0" x="919" y="8" height="56" width="407"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cd Natureza Operacao"border="0" color="0" x="1335" y="8" height="56" width="549"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Qt Devolvida"border="0" color="0" x="1893" y="8" height="56" width="553"  name=qt_devolvida_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Preco Unitario"border="0" color="0" x="2455" y="8" height="56" width="553"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Pc Icms"border="0" color="0" x="3017" y="8" height="56" width="549"  name=pc_icms_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Pc Desconto"border="0" color="0" x="3575" y="8" height="56" width="448"  name=pc_desconto_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Bc Icms"border="0" color="0" x="4032" y="8" height="56" width="453"  name=vl_bc_icms_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Icms"border="0" color="0" x="4494" y="8" height="56" width="453"  name=vl_icms_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Bc Icms St"border="0" color="0" x="4955" y="8" height="56" width="453"  name=vl_bc_icms_st_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Icms St"border="0" color="0" x="5417" y="8" height="56" width="453"  name=vl_icms_st_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Total Produtos"border="0" color="0" x="5879" y="8" height="56" width="453"  name=vl_total_produtos_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Frete"border="0" color="0" x="6341" y="8" height="56" width="453"  name=vl_frete_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Outras Despesas"border="0" color="0" x="6802" y="8" height="56" width="453"  name=vl_outras_despesas_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Total Nf"border="0" color="0" x="7264" y="8" height="56" width="453"  name=vl_total_nf_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cd Convenio"border="0" color="0" x="7726" y="8" height="56" width="453"  name=cd_convenio_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cd Cliente"border="0" color="0" x="8187" y="8" height="56" width="453"  name=cd_cliente_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Pc Desconto"border="0" color="0" x="9595" y="4" height="56" width="421"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Nf Devolucao Venda Nr Matricula Operador"border="0" color="0" x="10025" y="4" height="56" width="590"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Produto Geral Cd Grupo Psico"border="0" color="0" x="10624" y="4" height="56" width="37"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Nf Devolucao Venda Dh Movimentacao Caixa"border="0" color="0" x="10670" y="4" height="56" width="658"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Nf Devolucao Venda Dh Recebimento"border="0" color="0" x="11337" y="4" height="56" width="654"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Nf Devolucao Venda Nr Nsu"border="0" color="0" x="12000" y="4" height="76" width="978"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="1" tabsequence=32766 border="0" color="0" x="9" y="8" height="68" width="311" format="[general]"  name=cd_produto edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="329" y="8" height="68" width="581" format="[general]"  name=cd_unidade_medida_venda edit.limit=3 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="0" x="919" y="8" height="68" width="407" format="[general]"  name=cd_situacao_tributaria edit.limit=2 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="1" tabsequence=32766 border="0" color="0" x="1335" y="8" height="68" width="549" format="[general]"  name=cd_natureza_operacao edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="1" tabsequence=32766 border="0" color="0" x="1893" y="8" height="68" width="553" format="[general]"  name=qt_devolvida edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="1" tabsequence=32766 border="0" color="0" x="2455" y="8" height="68" width="553" format="[general]"  name=vl_preco_unitario edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="1" tabsequence=32766 border="0" color="0" x="3017" y="8" height="68" width="549" format="[general]"  name=pc_icms edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=11 alignment="1" tabsequence=32766 border="0" color="0" x="3575" y="8" height="68" width="448" format="[general]"  name=pc_desconto edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=14 alignment="1" tabsequence=32766 border="0" color="0" x="4032" y="8" height="68" width="453" format="[general]"  name=vl_bc_icms edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=15 alignment="1" tabsequence=32766 border="0" color="0" x="4494" y="8" height="68" width="453" format="[general]"  name=vl_icms edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=16 alignment="1" tabsequence=32766 border="0" color="0" x="4955" y="8" height="68" width="453" format="[general]"  name=vl_bc_icms_st edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=17 alignment="1" tabsequence=32766 border="0" color="0" x="5417" y="8" height="68" width="453" format="[general]"  name=vl_icms_st edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=18 alignment="1" tabsequence=32766 border="0" color="0" x="5879" y="8" height="68" width="453" format="[general]"  name=vl_total_produtos edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=19 alignment="1" tabsequence=32766 border="0" color="0" x="6341" y="8" height="68" width="453" format="[general]"  name=vl_frete edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=20 alignment="1" tabsequence=32766 border="0" color="0" x="6802" y="8" height="68" width="453" format="[general]"  name=vl_outras_despesas edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=21 alignment="1" tabsequence=32766 border="0" color="0" x="7264" y="8" height="68" width="453" format="[general]"  name=vl_total_nf edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=22 alignment="1" tabsequence=32766 border="0" color="0" x="7726" y="8" height="68" width="453" format="[general]"  name=cd_convenio edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=23 alignment="0" tabsequence=32766 border="0" color="0" x="8187" y="8" height="68" width="453" format="[general]"  name=cd_cliente edit.limit=11 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="TRIM( desc_produto ) + ~":~" + TRIM( de_apresentacao_venda ) +                                 IF ( IsNull(cd_grupo_psico) , '' , '(' + cd_grupo_psico + ')' )"border="0" color="0" x="8649" y="12" height="68" width="535" format="[general]"  name=de_produto  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="ROUND(( vl_preco_unitario - ( (  vl_preco_unitario *  pc_desconto ) / 100 ) ) *  qt_devolvida , 2)"border="0" color="0" x="9193" y="12" height="68" width="393" format="[general]"  name=c_valor_total  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=24 alignment="0" tabsequence=32766 border="0" color="0" x="9595" y="12" height="68" width="421" format="[general]"  name=pc_desconto_nf edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=25 alignment="0" tabsequence=32766 border="0" color="0" x="10025" y="12" height="68" width="590" format="[general]"  name=nr_matricula_operador edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="10624" y="12" height="68" width="37" format="[general]"  name=cd_grupo_psico edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=12 alignment="0" tabsequence=32766 border="0" color="0" x="10670" y="12" height="64" width="658" format="[shortdate] [time]"  name=dh_movimentacao_caixa edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=13 alignment="0" tabsequence=32766 border="0" color="0" x="11337" y="12" height="64" width="654" format="[shortdate] [time]"  name=dh_recebimento edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=26 alignment="0" tabsequence=32766 border="0" color="0" x="12005" y="0" height="56" width="974" format="[general]"  name=nr_nsu edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

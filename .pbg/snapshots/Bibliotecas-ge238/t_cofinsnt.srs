@@ -1,0 +1,5 @@
+HA$PBExportHeader$t_cofinsnt.srs
+global type t_cofinsnt from structure
+	string		cst
+end type
+

@@ -1,0 +1,12 @@
+HA$PBExportHeader$p_wsproxy_epharma.srj
+$PBExportComments$Generated Web Service Proxy Project
+GeneratorID:{1B1DCEE2-E514-11D1-B30A-006008925BD4}GENBC00000000
+
+WSDLLOCATION:..\..\..\Util\EPharma\WebService\WsConcentrador.wsdl	
+COMPONENT:0
+PACKAGE:2	WsConcentrador	tns__Autenticacao
+COMMENT:Web Service Proxy Generator
+DEPLOYMENT:..\..\Comuns\Bibliotecas\ge064.pbl	0	0
+PROJECT:p_wsproxy_epharma
+PREFIX:ge064_
+ASSEMBLY:0	0	

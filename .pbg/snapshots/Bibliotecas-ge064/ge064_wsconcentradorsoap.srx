@@ -1,0 +1,30 @@
+HA$PBExportHeader$ge064_wsconcentradorsoap.srx
+$PBExportComments$Proxy imported from Web service using Web Service Proxy Generator.
+global type ge064_WsConcentradorSoap from NonVisualObject
+end type
+
+type variables
+Protected:
+   string xmlns = ""
+   string tm = "http://microsoft.com/wsdl/mime/textMatching/"
+   string soapenc = "http://schemas.xmlsoap.org/soap/encoding/"
+   string wsdl = "http://schemas.xmlsoap.org/wsdl/"
+   string http = "http://schemas.xmlsoap.org/wsdl/http/"
+   string mime = "http://schemas.xmlsoap.org/wsdl/mime/"
+   string soap = "http://schemas.xmlsoap.org/wsdl/soap/"
+   string soap12 = "http://schemas.xmlsoap.org/wsdl/soap12/"
+   string tns = "http://webservice.epharma.com.br/"
+   string s = "http://www.w3.org/2001/XMLSchema"
+   string pb__TargetNamespace = "http://webservice.epharma.com.br/"
+   string BindingStyle = ""
+
+   string endpoint = "http://wshomolo.pbms.com.br:8010/WsConcentrador.asmx"
+   string __tns__Autenticacao = "Autenticacao(s:string nmLogin,s:string senha,s:string nmServico,s:string versao)@tns#YES_QUALIFIED"
+   tns__Autenticacao i__tns__Autenticacao
+end variables
+
+forward prototypes
+public:
+function string ws_Execute (string xml) alias for "Execute([in] s:string xml) return s:string ExecuteResult@http://webservice.epharma.com.br/@http://webservice.epharma.com.br/Execute*Execute*http://webservice.epharma.com.br/"
+end prototypes
+

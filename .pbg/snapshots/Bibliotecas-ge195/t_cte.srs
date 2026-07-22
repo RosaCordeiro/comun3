@@ -1,0 +1,15 @@
+HA$PBExportHeader$t_cte.srs
+global type t_cte from structure
+	string		id
+	t_ide_cte		ide
+	t_toma03_cte		toma03
+	t_compl_cte		compl
+	t_emit_cte		emit
+	t_rem_cte		rem
+	t_dest_cte		dest
+	t_vprest_cte		vprest
+	t_icms_cte		icms
+	t_infcarga_cte		infcarga
+	t_infdoc_cte		infdoc
+end type
+

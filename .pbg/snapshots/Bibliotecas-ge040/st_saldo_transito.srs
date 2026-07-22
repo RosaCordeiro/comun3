@@ -1,0 +1,6 @@
+HA$PBExportHeader$st_saldo_transito.srs
+global type st_saldo_transito from structure
+	long		cd_produto[]
+	long		qt_saldo[]
+end type
+

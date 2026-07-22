@@ -1,0 +1,26 @@
+HA$PBExportHeader$lf_ge096_transferencia_online.srf
+global type lf_ge096_transferencia_online from function_object
+end type
+
+forward prototypes
+global subroutine lf_ge096_transferencia_online ()
+end prototypes
+
+global subroutine lf_ge096_transferencia_online ();String ls_DataSourceParametro = ""
+
+uo_Transacao_Online lo_Transacao //GE096
+
+lo_Transacao = Create uo_Transacao_Online
+
+//Variavel para evitar que o setMicroHelp fique marcado como sendo a filial destino selecionada na transferencia online
+ls_DataSourceParametro = gvo_Aplicacao.ivs_DataSource
+
+//Realiza a Transferencia
+lo_Transacao.of_Nf_Transferencia_Online()
+
+gvo_Aplicacao.ivs_DataSource = ls_DataSourceParametro
+gvo_Aplicacao.of_setmicrohelp( )
+
+If IsValid( lo_Transacao ) Then Destroy lo_Transacao
+end subroutine
+

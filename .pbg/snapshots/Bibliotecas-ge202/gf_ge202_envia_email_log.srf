@@ -1,0 +1,310 @@
+HA$PBExportHeader$gf_ge202_envia_email_log.srf
+global type gf_ge202_envia_email_log from function_object
+end type
+
+forward prototypes
+global function boolean gf_ge202_envia_email_log (integer pl_mensagem, string ps_assunto, string ps_mensagem, boolean pb_assina_host, boolean pb_assina_email, string ps_anexo[] )
+global function boolean gf_ge202_envia_email_log (integer pl_mensagem, string ps_assunto, string ps_mensagem)
+global function boolean gf_ge202_envia_email_log (integer pl_mensagem, string ps_assunto, string ps_mensagem, boolean pb_assina_host)
+global function boolean gf_ge202_envia_email_log (integer pl_mensagem, string ps_assunto, string ps_mensagem, boolean pb_assina_host, boolean pb_assina_email)
+end prototypes
+
+global function boolean gf_ge202_envia_email_log (integer pl_mensagem, string ps_assunto, string ps_mensagem, boolean pb_assina_host, boolean pb_assina_email, string ps_anexo[] );
+/****Fun$$HEX2$$e700e300$$ENDHEX$$o para enviar e-mail de log atrav$$HEX1$$e900$$ENDHEX$$s dos sistemas de loja com anexo.****
+ Deve ser passado o codigo da mensagem de e-mail, titulo e o texto da mensagem.*/
+
+Boolean lb_Sucesso
+Boolean lb_Exibe_Msg = True
+String lvs_sql
+String ls_Retorno
+String ls_To[]
+String ls_Cc[]
+String ls_Co[]
+String ls_ComputerName
+String ls_nr_matricula
+String ls_id_usuario_informatica
+
+Long	ll_Ind_To, ll_Ind_Cc, ll_Ind_Co
+Long ll_Row
+Long ll_Retorno
+//Return gf_ge202_envia_email_automatico_filial(pl_mensagem,ps_assunto,ps_mensagem,ps_anexo,lvl_Null)
+
+Try 
+	If gvb_Auto Then lb_Exibe_Msg = False
+	
+	dc_uo_ds_Base lvds_1
+	lvds_1 = Create dc_uo_ds_Base
+	
+	If lvds_1.of_ChangeDataObject("ds_ge202_email_mensagem", lb_Exibe_Msg) Then
+		uo_Transacao_Remota lvo_Conexao
+		lvo_Conexao = Create uo_Transacao_Remota
+		
+		lvo_Conexao.of_BancoProducao()
+	
+		lvs_SQL = lvds_1.GetSQLSelect()
+		lvs_SQL = gf_Replace( lvs_SQL, ':cd_msg', String(pl_mensagem), 1 )	
+		
+		lvo_Conexao.of_Retrieve( lvs_SQL , Ref ls_Retorno)	
+	
+		If lvo_Conexao.of_Erro_Execucao() Or lvo_Conexao.of_Erro_Conexao() Then
+			If lb_Exibe_Msg Then
+				MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro na conex$$HEX1$$e300$$ENDHEX$$o com o servidor distribu$$HEX1$$ed00$$ENDHEX$$do.", Exclamation!)
+			Else
+				gvo_aplicacao.Of_Grava_Log("gf_ge202_envia_email(): Erro na conex$$HEX1$$e300$$ENDHEX$$o com o servidor distribu$$HEX1$$ed00$$ENDHEX$$do.")
+			End If
+			Return False
+		Else
+			If IsNull(ls_Retorno) Or Trim(ls_Retorno) = '' Then
+				Return False
+			Else
+				ll_Retorno = lvds_1.ImportString(ls_Retorno)
+				
+				If ll_Retorno >= 0 Then
+					ll_Row = 0
+					For ll_Row = 1 To lvds_1.RowCount()
+						if gvo_aplicacao.ivs_datasource = 'homologa' then
+							ls_nr_matricula	= lvds_1.Object.nr_matricula[ll_Row]
+							
+							select Coalesce(id_usuario_informatica, 'N')
+							  into :ls_id_usuario_informatica
+							  from usuario
+							 where nr_matricula = :ls_nr_matricula;
+							 
+							Choose Case SQLCA.SQLCode
+								Case -1
+									gvo_aplicacao.Of_Grava_Log("gf_fe202_envia_email_log(): Erro ao buscar o usuario." + SQLCA.SQLErrText)
+									Return False
+								Case 100
+									gvo_aplicacao.Of_Grava_Log("gf_fe202_envia_email_log(): N$$HEX1$$e300$$ENDHEX$$o foi encontrado o usu$$HEX1$$e100$$ENDHEX$$rio.")
+									Return False
+								Case 0
+									if ls_id_usuario_informatica = 'N' then
+										continue
+									end if
+							End Choose
+						end if
+						
+						Choose Case lvds_1.Object.id_tipo_envio[ll_Row]
+							Case 'TO'
+								ll_Ind_To ++
+								ls_To[ll_Ind_To] = lvds_1.Object.de_email[ll_Row]							
+							Case 'CC'
+								ll_Ind_Cc ++
+								ls_Cc[ll_Ind_Cc] = lvds_1.Object.de_email[ll_Row]							
+							Case 'CO'
+								ll_Ind_Co ++
+								ls_Co[ll_Ind_Co] = lvds_1.Object.de_email[ll_Row]														
+						End Choose						
+					Next
+					
+					uo_smtp lvo_smtp
+					lvo_smtp = Create uo_smtp
+										
+					lvo_Smtp.ib_grava_log_db = False
+					
+					If pb_assina_host Then
+						ps_mensagem += '<br /><br />Computador: ' + gvo_Aplicacao.is_ComputerName
+						ps_mensagem += '<br />Sistema: ' + gvo_Aplicacao.ivo_Seguranca.Cd_Sistema + ' | Vers$$HEX1$$e300$$ENDHEX$$o: ' + gvo_Aplicacao.ivs_Versao 
+					End If
+					
+					If pb_assina_email Then
+						ps_mensagem = gf_ge202_formata_email_html(ps_mensagem,pl_mensagem)
+					End If
+					
+					If Not SQLCa.Banco_Producao Then
+						//Banco de Dados de Produ$$HEX2$$e700e300$$ENDHEX$$o
+						ps_mensagem =	"-------------------------------------------------------------------------------------------------------------~r~n"+ &
+												"EMAIL ENVIADO BASE DE HOMOLOGA$$HEX2$$c700c300$$ENDHEX$$O ("+Upper(IIF(IsNull(SQlca.ivs_database), "", SQlca.ivs_Database)+IIF(IsNull(SQLCa.Database),""," - "+SQLCa.Database))+") ~r~n"+&
+												"-------------------------------------------------------------------------------------------------------------~r~n" + &
+												"~r~n" + ps_mensagem
+					End If		
+	
+					lvo_smtp.of_envia_email("CLAMED Sistemas", &
+												  "sistemas@clamed.com.br", + &
+												  ps_assunto, + &
+												  ps_mensagem, + &
+												  ls_To,ls_Cc,ls_Co, ps_anexo, true)			
+					
+				Else
+	//				MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao carregar os dados do servidor distribu$$HEX1$$ed00$$ENDHEX$$do.")
+					Return False
+				End If
+			End If
+		End If		
+	End If
+	
+Catch (RuntimeError lvo_Erro)
+	If lb_Exibe_Msg Then
+		MessageBox("Erro", "Falha na tentativa de envio de email. ~rErro: "+lvo_Erro.GetMessage(), StopSign!)
+	Else
+		gvo_Aplicacao.Of_Grava_Log("Falha na tentativa de envio de email. ~rErro: "+lvo_Erro.GetMessage())
+	End If
+	Return False
+	
+Finally
+	If IsValid(lvds_1) Then Destroy(lvds_1)	
+	If IsValid(lvo_smtp) Then Destroy(lvo_smtp)	
+	If IsValid(lvo_Conexao) Then Destroy(lvo_Conexao)
+End Try
+
+Return True
+end function
+
+global function boolean gf_ge202_envia_email_log (integer pl_mensagem, string ps_assunto, string ps_mensagem);
+Return gf_ge202_envia_email_log(pl_mensagem,ps_assunto,ps_mensagem, True)
+end function
+
+global function boolean gf_ge202_envia_email_log (integer pl_mensagem, string ps_assunto, string ps_mensagem, boolean pb_assina_host);
+Return gf_ge202_envia_email_log(pl_mensagem,ps_assunto,ps_mensagem, pb_assina_host, False)
+end function
+
+global function boolean gf_ge202_envia_email_log (integer pl_mensagem, string ps_assunto, string ps_mensagem, boolean pb_assina_host, boolean pb_assina_email);/*************************************************
+UTILIZAR A OP$$HEX2$$c700c300$$ENDHEX$$O EDIT SOURCE PARA ALTERAR AS DEMAIS FUN$$HEX2$$c700d500$$ENDHEX$$ES EXISTENTES COM MESMO NOME
+***************/
+
+/****Fun$$HEX2$$e700e300$$ENDHEX$$o para enviar e-mail de log atrav$$HEX1$$e900$$ENDHEX$$s dos sistemas de loja.****
+ Deve ser passado o codigo da mensagem de e-mail, titulo e o texto da mensagem.*/
+
+Boolean lb_Sucesso
+Boolean lb_Exibe_Msg = True
+String lvs_sql
+String ls_Retorno
+String ls_To[]
+String ls_Cc[]
+String ls_Co[]
+String ls_ComputerName
+String ls_nr_matricula
+String ls_id_usuario_informatica
+
+Long	ll_Ind_To, ll_Ind_Cc, ll_Ind_Co
+Long ll_Row
+Long ll_Retorno
+//Return gf_ge202_envia_email_automatico_filial(pl_mensagem,ps_assunto,ps_mensagem,ps_anexo,lvl_Null)
+
+Try 
+	If gvb_Auto Then lb_Exibe_Msg = False
+	
+	dc_uo_ds_Base lvds_1
+	lvds_1 = Create dc_uo_ds_Base
+	
+	If lvds_1.of_ChangeDataObject("ds_ge202_email_mensagem", lb_Exibe_Msg) Then
+		uo_Transacao_Remota lvo_Conexao
+		lvo_Conexao = Create uo_Transacao_Remota
+		
+		lvo_Conexao.of_BancoProducao()
+	
+		lvs_SQL = lvds_1.GetSQLSelect()
+		lvs_SQL = gf_Replace( lvs_SQL, ':cd_msg', String(pl_mensagem), 1 )	
+		
+		lvo_Conexao.of_Retrieve( lvs_SQL , Ref ls_Retorno)	
+	
+		If lvo_Conexao.of_Erro_Execucao() Or lvo_Conexao.of_Erro_Conexao() Then
+			If lb_Exibe_Msg Then
+				MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro na conex$$HEX1$$e300$$ENDHEX$$o com o servidor distribu$$HEX1$$ed00$$ENDHEX$$do.", Exclamation!)
+			Else
+				gvo_aplicacao.Of_Grava_Log("gf_ge202_envia_email(): Erro na conex$$HEX1$$e300$$ENDHEX$$o com o servidor distribu$$HEX1$$ed00$$ENDHEX$$do.")
+			End If
+			Return False
+			
+		Else
+			If IsNull(ls_Retorno) Or Trim(ls_Retorno) = '' Then
+				Return False
+			Else
+				ll_Retorno = lvds_1.ImportString(ls_Retorno)
+				
+				If ll_Retorno >= 0 Then
+					ll_Row = 0
+					
+					For ll_Row = 1 To lvds_1.RowCount()
+						if gvo_aplicacao.ivs_datasource = 'homologa' then
+							ls_nr_matricula	= lvds_1.Object.nr_matricula[ll_Row]
+							
+							select Coalesce(id_usuario_informatica, 'N')
+							  into :ls_id_usuario_informatica
+							  from usuario
+							 where nr_matricula = :ls_nr_matricula;
+							 
+							Choose Case SQLCA.SQLCode
+								Case -1
+									gvo_aplicacao.Of_Grava_Log("gf_fe202_envia_email_log(): Erro ao buscar o usuario." + SQLCA.SQLErrText)
+									Return False
+								Case 100
+									gvo_aplicacao.Of_Grava_Log("gf_fe202_envia_email_log(): N$$HEX1$$e300$$ENDHEX$$o foi encontrado o usu$$HEX1$$e100$$ENDHEX$$rio.")
+									Return False
+								Case 0
+									if ls_id_usuario_informatica = 'N' then
+										continue
+									end if
+							End Choose
+						end if
+						
+						Choose Case lvds_1.Object.id_tipo_envio[ll_Row]
+							Case 'TO'
+								ll_Ind_To ++
+								ls_To[ll_Ind_To] = lvds_1.Object.de_email[ll_Row]							
+							Case 'CC'
+								ll_Ind_Cc ++
+								ls_Cc[ll_Ind_Cc] = lvds_1.Object.de_email[ll_Row]							
+							Case 'CO'
+								ll_Ind_Co ++
+								ls_Co[ll_Ind_Co] = lvds_1.Object.de_email[ll_Row]														
+						End Choose						
+					Next
+					
+					uo_smtp lvo_smtp
+					lvo_smtp = Create uo_smtp
+										
+					lvo_Smtp.ib_grava_log_db = False
+					
+					If pb_assina_host Then
+						ps_mensagem += '<br /><br /><strong>Computador:</strong> ' + gvo_Aplicacao.is_ComputerName
+						ps_mensagem += '<br /><strong>Cod. Mensagem:</strong> ' + String(pl_mensagem)
+						ps_mensagem += '<br /><strong>Sistema:</strong> ' + gvo_Aplicacao.ivo_Seguranca.Cd_Sistema + ' | Vers$$HEX1$$e300$$ENDHEX$$o: ' + gvo_Aplicacao.ivs_Versao 
+						ps_mensagem += '<br /><strong>Data/Hora local:</strong> ' + String( Today( ), "dd/mm/yyyy" ) + " " + String( Now( ), "hh:mm:ss" )
+					End If
+					
+					If pb_assina_email Then
+						ps_mensagem = gf_ge202_formata_email_html(ps_mensagem,pl_mensagem)	
+					End If
+					
+					If Not SQLCa.Banco_Producao Then
+						//Banco de Dados de Produ$$HEX2$$e700e300$$ENDHEX$$o
+						ps_mensagem =	"<FONT color=#ff0000 size=1 face=Arial>"+ &
+													"<b>EMAIL ENVIADO BASE DE HOMOLOGA$$HEX2$$c700c300$$ENDHEX$$O ("+Upper(IIF(IsNull(SQlca.ivs_database), "", SQlca.ivs_Database)+IIF(IsNull(SQLCa.Database),""," - "+SQLCa.Database))+")</b>"+&
+												"</FONT>" + &
+												"<hr><br />" + ps_mensagem
+					End If
+					
+					ps_mensagem =	'<FONT size=2 face=Verdana style="FONT-SIZE: 9pt;">' + ps_mensagem + '</FONT>'
+					
+					lvo_smtp.of_envia_email("CLAMED Sistemas", &
+												  "sistemas@clamed.com.br", + &
+												  ps_assunto, + &
+												  ps_mensagem, + &
+												  ls_To,ls_Cc,ls_Co)			
+					
+				Else
+					gvo_aplicacao.Of_Grava_Log("gf_fe202_envia_email_log(): Erro ao carregar os dados do servidor distribu$$HEX1$$ed00$$ENDHEX$$do.")
+					Return False
+				End If
+			End If
+		End If		
+	End If
+	
+Catch (RuntimeError lvo_Erro)
+	If lb_Exibe_Msg Then
+		MessageBox("Erro", "Falha na tentativa de envio de email. ~rErro: "+lvo_Erro.GetMessage(), StopSign!)
+	Else
+		gvo_Aplicacao.Of_Grava_Log("Falha na tentativa de envio de email. ~rErro: "+lvo_Erro.GetMessage())
+	End If
+	Return False
+	
+Finally
+	If IsValid(lvds_1) Then Destroy(lvds_1)	
+	If IsValid(lvo_smtp) Then Destroy(lvo_smtp)	
+	If IsValid(lvo_Conexao) Then Destroy(lvo_Conexao)
+End Try
+
+Return True
+end function
+

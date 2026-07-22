@@ -1,0 +1,20 @@
+HA$PBExportHeader$pl_identificacao_biometrica_senior_central.srp
+PIPELINE(source_connect=Senior,destination_connect=SybaseCentral,type=update,commit=100,errors=100,keyname="identificacao_biometrica")
+SOURCE(name="BIONITGEN/vdc_lista_confere_ficha",COLUMN(type=varchar,name="nr_cpf",dbtype="varchar(11)",nulls_allowed=yes)
+ COLUMN(type=decimal,name="BIONITGEN.DEDO",dbtype="numeric(2,0)",nulls_allowed=no)
+ COLUMN(type=string,name="BIONITGEN.DIGITAL",dbtype="text",nulls_allowed=yes)
+ COLUMN(type=long,name="vdc_lista_confere_ficha.fil_sybase",dbtype="int",nulls_allowed=yes))
+RETRIEVE(statement="SELECT RIGHT( '00000000000' + dbo.vdc_lista_confere_ficha.numcpf, 11 ) as nr_cpf,
+         dbo.BIONITGEN.DEDO,   
+         dbo.BIONITGEN.DIGITAL,   
+         dbo.vdc_lista_confere_ficha.fil_sybase  
+    FROM dbo.BIONITGEN,   
+         dbo.vdc_lista_confere_ficha  
+   WHERE ( dbo.BIONITGEN.NUMEMP = dbo.vdc_lista_confere_ficha.empresa ) AND  
+         ( dbo.BIONITGEN.TIPCOL = dbo.vdc_lista_confere_ficha.tipo ) AND  
+         ( dbo.BIONITGEN.NUMCAD = dbo.vdc_lista_confere_ficha.matricula )
+AND dbo.vdc_lista_confere_ficha.matricula = 108128")
+DESTINATION(name="identificacao_biometrica",COLUMN(type=char,name="nr_cpf",dbtype="char(11)",key=yes,nulls_allowed=no,initial_value="spaces")
+ COLUMN(type=char,name="id_dedo",dbtype="char(1)",key=yes,nulls_allowed=no,initial_value="spaces")
+ COLUMN(type=string,name="de_impressao_digital",dbtype="text",nulls_allowed=no,initial_value="spaces")
+ COLUMN(type=long,name="cd_filial_atualizacao",dbtype="int",nulls_allowed=yes))

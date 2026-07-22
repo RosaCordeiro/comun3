@@ -1,0 +1,244 @@
+HA$PBExportHeader$gf_saldo_em_transito.srf
+global type gf_saldo_em_transito from function_object
+end type
+
+forward prototypes
+global subroutine gf_saldo_em_transito (ref st_saldo_transito st, datetime adh_inicio)
+global subroutine gf_saldo_em_transito (ref st_saldo_transito st)
+end prototypes
+
+global subroutine gf_saldo_em_transito (ref st_saldo_transito st, datetime adh_inicio);//str_saldo_transito st
+
+/*Utiliza$$HEX2$$e700e300$$ENDHEX$$o do cursor com SQL fixo*/
+DECLARE lcu CURSOR FOR
+	Select tudo.cd_produto,
+			tudo.qt_faturada
+	From 
+	(	
+
+			 Select i.cd_produto, coalesce(sum(i.qt_faturada), 0) qt_faturada
+			  From nf_compra_pendente n
+				Inner Join nf_compra_pendente_produto i
+					On i.cd_filial = n.cd_filial
+					And i.cd_fornecedor	= n.cd_fornecedor
+					And i.nr_nf				= n.nr_nf
+					And i.de_especie		= n.de_especie
+					And i.de_serie			= n.de_serie
+			Where n.cd_filial = 534
+			  And n.dh_registro >= :adh_Inicio
+		group by i.cd_produto
+
+	Union
+	
+		Select i.cd_produto, coalesce(sum(i.qt_faturada), 0) qt_faturada
+			From nf_agendamento_ent n
+			Inner Join nf_agendamento_ent_item i
+				On i.de_chave_acesso = n.de_chave_acesso
+		Where n.dh_emissao>= :adh_Inicio
+	//	  And i.cd_produto = :al_produto
+		  And i.id_multiplic_dividir_cx_padrao Is Null
+		  and n.dh_envio_site is not null
+		  And Not Exists (Select *
+							  From nf_compra nc
+							  Where nc.de_chave_acesso = n.de_chave_acesso)
+		  And Not Exists (Select *
+							  From nf_compra_pendente np
+							  Where np.de_chave_acesso = n.de_chave_acesso)
+		  And Not Exists (Select * 
+							  From nfe_destinadas d
+							  Where d.de_chave_acesso = n.de_chave_acesso
+								 And d.id_situacao_nf = '3')
+		  And n.nr_matricula_canc_agendamento Is Null
+		group by i.cd_produto
+	
+	Union
+	
+		Select i.cd_produto, coalesce(sum(i.qt_faturada * i.qt_caixa_padrao), 0) qt_faturada
+		From nf_agendamento_ent n
+			Inner Join nf_agendamento_ent_item i
+				On i.de_chave_acesso = n.de_chave_acesso
+		Where n.dh_emissao >= :adh_Inicio
+	//	  And i.cd_produto = :al_produto
+		  And i.id_multiplic_dividir_cx_padrao Is Not Null
+		  And i.id_multiplic_dividir_cx_padrao = 'M'
+		  and n.dh_envio_site is not null
+		  And Not Exists (Select *
+							  From nf_compra nc
+							  Where nc.de_chave_acesso = n.de_chave_acesso)
+		  And Not Exists (Select *
+							  From nf_compra_pendente np
+							  Where np.de_chave_acesso = n.de_chave_acesso)
+		  And Not Exists (Select * 
+							  From nfe_destinadas d
+							  Where d.de_chave_acesso = n.de_chave_acesso
+								 And d.id_situacao_nf = '3')
+		  And n.nr_matricula_canc_agendamento Is Null
+			group by i.cd_produto
+	
+	Union
+		
+		Select i.cd_produto, coalesce(sum(i.qt_faturada / i.qt_caixa_padrao), 0) qt_faturada
+		From nf_agendamento_ent n
+			Inner Join nf_agendamento_ent_item i
+				On i.de_chave_acesso = n.de_chave_acesso
+		Where n.dh_emissao >= :adh_Inicio
+	//	  And i.cd_produto = :al_produto
+		  And i.id_multiplic_dividir_cx_padrao Is Not Null
+		  And i.id_multiplic_dividir_cx_padrao = 'D'
+		  and n.dh_envio_site is not null
+		  And Not Exists (Select *
+							  From nf_compra nc
+							  Where nc.de_chave_acesso = n.de_chave_acesso)
+		  And Not Exists (Select *
+							  From nf_compra_pendente np
+							  Where np.de_chave_acesso = n.de_chave_acesso)
+		  And Not Exists (Select * 
+							  From nfe_destinadas d
+							  Where d.de_chave_acesso = n.de_chave_acesso
+								 And d.id_situacao_nf = '3')
+		  And n.nr_matricula_canc_agendamento Is Null
+			group by i.cd_produto
+	) As tudo;
+
+// Declara$$HEX2$$e700e300$$ENDHEX$$o vari$$HEX1$$e100$$ENDHEX$$veis de destino
+Long lvl_Produto, ll_Qtde_Faturada
+
+// Abrindo o cursor
+OPEN lcu;
+
+// Buscar a primeira linha do resultado
+FETCH lcu INTO :lvl_Produto, :ll_Qtde_Faturada;
+
+// Repetir Enquanto Houver Linhas
+DO WHILE SQLCA.sqlcode = 0
+	
+	st.cd_produto	[1]	= lvl_Produto
+	st.qt_saldo		[1]	= ll_Qtde_Faturada
+
+	FETCH lcu INTO :lvl_Produto, :ll_Qtde_Faturada;
+LOOP
+
+// No fim fechar o cursor
+CLOSE lcu;
+end subroutine
+
+global subroutine gf_saldo_em_transito (ref st_saldo_transito st);DateTime ldh_Inicio
+
+Long ll_Linha
+
+ldh_Inicio = gvo_Parametro.of_Dh_Movimentacao()
+
+ldh_Inicio = DateTime(RelativeDate(Date(ldh_Inicio), -30))
+
+/*Utiliza$$HEX2$$e700e300$$ENDHEX$$o do cursor com SQL fixo*/
+DECLARE lcu CURSOR FOR
+	Select tudo.cd_produto,
+			tudo.qt_faturada
+	From
+	(	
+
+			 Select i.cd_produto, coalesce(sum(i.qt_faturada), 0) qt_faturada
+			  From nf_compra_pendente n
+				Inner Join nf_compra_pendente_produto i
+					On i.cd_filial = n.cd_filial
+					And i.cd_fornecedor	= n.cd_fornecedor
+					And i.nr_nf				= n.nr_nf
+					And i.de_especie		= n.de_especie
+					And i.de_serie			= n.de_serie
+			Where n.cd_filial = 534
+			  And n.dh_registro >= :ldh_Inicio
+		group by i.cd_produto
+
+	Union
+	
+		Select i.cd_produto, coalesce(sum(i.qt_faturada), 0) qt_faturada
+			From nf_agendamento_ent n
+			Inner Join nf_agendamento_ent_item i
+				On i.de_chave_acesso = n.de_chave_acesso
+		Where n.dh_emissao>= :ldh_Inicio
+		  And i.id_multiplic_dividir_cx_padrao Is Null
+		  and n.dh_envio_site is not null
+		  And Not Exists (Select *
+							  From nf_compra nc
+							  Where nc.de_chave_acesso = n.de_chave_acesso)
+		  And Not Exists (Select *
+							  From nf_compra_pendente np
+							  Where np.de_chave_acesso = n.de_chave_acesso)
+		  And Not Exists (Select * 
+							  From nfe_destinadas d
+							  Where d.de_chave_acesso = n.de_chave_acesso
+								 And d.id_situacao_nf = '3')
+		  And n.nr_matricula_canc_agendamento Is Null
+		group by i.cd_produto
+	
+	Union
+	
+		Select i.cd_produto, coalesce(sum(i.qt_faturada * i.qt_caixa_padrao), 0) qt_faturada
+		From nf_agendamento_ent n
+			Inner Join nf_agendamento_ent_item i
+				On i.de_chave_acesso = n.de_chave_acesso
+		Where n.dh_emissao >= :ldh_Inicio
+		  And i.id_multiplic_dividir_cx_padrao Is Not Null
+		  And i.id_multiplic_dividir_cx_padrao = 'M'
+		  and n.dh_envio_site is not null
+		  And Not Exists (Select *
+							  From nf_compra nc
+							  Where nc.de_chave_acesso = n.de_chave_acesso)
+		  And Not Exists (Select *
+							  From nf_compra_pendente np
+							  Where np.de_chave_acesso = n.de_chave_acesso)
+		  And Not Exists (Select * 
+							  From nfe_destinadas d
+							  Where d.de_chave_acesso = n.de_chave_acesso
+								 And d.id_situacao_nf = '3')
+		  And n.nr_matricula_canc_agendamento Is Null
+			group by i.cd_produto
+	
+	Union
+		
+		Select i.cd_produto, coalesce(sum(i.qt_faturada / i.qt_caixa_padrao), 0) qt_faturada
+		From nf_agendamento_ent n
+			Inner Join nf_agendamento_ent_item i
+				On i.de_chave_acesso = n.de_chave_acesso
+		Where n.dh_emissao >= :ldh_Inicio
+		  And i.id_multiplic_dividir_cx_padrao Is Not Null
+		  And i.id_multiplic_dividir_cx_padrao = 'D'
+		  and n.dh_envio_site is not null
+		  And Not Exists (Select *
+							  From nf_compra nc
+							  Where nc.de_chave_acesso = n.de_chave_acesso)
+		  And Not Exists (Select *
+							  From nf_compra_pendente np
+							  Where np.de_chave_acesso = n.de_chave_acesso)
+		  And Not Exists (Select * 
+							  From nfe_destinadas d
+							  Where d.de_chave_acesso = n.de_chave_acesso
+								 And d.id_situacao_nf = '3')
+		  And n.nr_matricula_canc_agendamento Is Null
+			group by i.cd_produto
+	) As tudo;
+
+// Declara$$HEX2$$e700e300$$ENDHEX$$o vari$$HEX1$$e100$$ENDHEX$$veis de destino
+Long lvl_Produto, ll_Qtde_Faturada
+
+// Abrindo o cursor
+OPEN lcu;
+
+// Buscar a primeira linha do resultado
+FETCH lcu INTO :lvl_Produto, :ll_Qtde_Faturada;
+
+// Repetir Enquanto Houver Linhas
+DO WHILE SQLCA.sqlcode = 0
+	
+	ll_Linha++
+	
+	st.cd_produto	[ll_Linha]	= lvl_Produto
+	st.qt_saldo		[ll_Linha]	= ll_Qtde_Faturada
+
+	FETCH lcu INTO :lvl_Produto, :ll_Qtde_Faturada;
+LOOP
+
+// No fim fechar o cursor
+CLOSE lcu;
+end subroutine
+

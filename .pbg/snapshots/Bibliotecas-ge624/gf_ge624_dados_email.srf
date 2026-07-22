@@ -1,0 +1,92 @@
+HA$PBExportHeader$gf_ge624_dados_email.srf
+global type gf_ge624_dados_email from function_object
+end type
+
+forward prototypes
+global function boolean gf_ge350_dados_email (structure st_email, long al_filial, long al_retirada, datetime adh_inicio, datetime adh_termino)
+global subroutine gf_ge624_dados_email (ref str_ge624_lista_email st_email, long al_filial, long al_retirada, datetime adh_inicio, datetime adh_termino, string as_tipo_retirada, datetime adh_vencimento_minimo)
+end prototypes
+
+global function boolean gf_ge350_dados_email (structure st_email, long al_filial, long al_retirada, datetime adh_inicio, datetime adh_termino);String ls_Email
+String ls_Mensagem
+
+// Desenvolvimento
+If gvo_Aplicacao.ivs_DataSource = 'central' Then
+	ls_Email = String(al_Filial, "0000") + '@drogarialocal.com.br'
+Else
+	ls_Email = "anderson.lima@clamed.com.br"
+End If
+
+ls_Mensagem = "Retirada de Estoque N$$HEX1$$ba00$$ENDHEX$$ " + String(al_Retirada) + '<br><br>' + &
++ "Para realizar a retirada de estoque siga atentamente os passos abaixo: " + '<br><br>' + &
++ "1$$HEX1$$ba00$$ENDHEX$$) No sistema de Retaguarda de Loja acesse o menu [Relat$$HEX1$$f300$$ENDHEX$$rio $$HEX1$$1320$$ENDHEX$$> Estoque $$HEX1$$1320$$ENDHEX$$> Retirada para o Perini]. " + '<br>' + &
++ "2$$HEX1$$ba00$$ENDHEX$$) No campo [Tipo Retirada] selecione a op$$HEX2$$e700e300$$ENDHEX$$o [Excesso] e no campo [Situa$$HEX2$$e700e300$$ENDHEX$$o] selecione a op$$HEX2$$e700e300$$ENDHEX$$o [Aprovada]." + '<br>' &
++ "3$$HEX1$$ba00$$ENDHEX$$) Recupere os dados. O per$$HEX1$$ed00$$ENDHEX$$odo da retirada ser$$HEX1$$e100$$ENDHEX$$ " + String(Date(adh_Inicio)) + " $$HEX1$$e000$$ENDHEX$$ " + String(Date(adh_Termino)) + "." + '<br>' &
++ "4$$HEX1$$ba00$$ENDHEX$$) Na aba [Detalhes] clique no bot$$HEX1$$e300$$ENDHEX$$o [Imprimir Lista de Produtos]. " + '<br>' + &
++ "5$$HEX1$$ba00$$ENDHEX$$) Separe os produtos. " + '<br>' + &
++ "6$$HEX1$$ba00$$ENDHEX$$) Acesse o menu [Manuten$$HEX2$$e700e300$$ENDHEX$$o $$HEX1$$1320$$ENDHEX$$> Notas Fiscais $$HEX1$$1320$$ENDHEX$$> Retirada de Estoque para o Perini]. " + '<br>' + &
++ "7$$HEX1$$ba00$$ENDHEX$$) Localize a retirada atrav$$HEX1$$e900$$ENDHEX$$s do campo [N$$HEX1$$ba00$$ENDHEX$$ Retirada]. O campo [Situa$$HEX2$$e700e300$$ENDHEX$$o] estar$$HEX1$$e100$$ENDHEX$$ como [Aprovada]. " + '<br>' + &
++ "8$$HEX1$$ba00$$ENDHEX$$) Adicionar os produtos conforme a lista impressa e salve a retirada." + '<br><br>' + String(al_Filial)
+
+//st_email.De_Assunto[UpperBound(st_Email.De_Assunto[]) + 1] = "Retirada de Estoque de " + String(Date(adh_Inicio)) + " $$HEX1$$e000$$ENDHEX$$ " + String(Date(adh_Termino))
+//st_email.De_Endereco[UpperBound(st_Email.De_Endereco[]) + 1] = ls_Email
+//st_email.De_Mensagem[UpperBound(st_Email.De_Mensagem[]) + 1] = ls_Mensagem
+
+Return True
+end function
+
+global subroutine gf_ge624_dados_email (ref str_ge624_lista_email st_email, long al_filial, long al_retirada, datetime adh_inicio, datetime adh_termino, string as_tipo_retirada, datetime adh_vencimento_minimo);String ls_Email
+String ls_Mensagem
+String ls_Descricao
+
+If gvo_Aplicacao.ivs_DataSource <> 'central' Then Return
+
+If gvo_Aplicacao.ivs_DataSource = 'central' Then
+	ls_Email = String(al_Filial, "0000") + '@clamedlocal.com.br'
+End If
+
+Choose Case as_Tipo_Retirada
+	Case "E"
+		ls_Descricao = "Excesso"
+	Case "R"
+		ls_Descricao = "Recall"
+	Case "V"
+		ls_Descricao = "Vencido"
+	Case "P"
+		ls_Descricao = "Produtos Especiais"
+	Case "A"
+		ls_Descricao = "Avaria"
+	Case "D"
+		ls_Descricao = "Defeito de Fabrica$$HEX2$$e700e300$$ENDHEX$$o"
+	Case "F"
+		ls_Descricao = "Transfer$$HEX1$$ea00$$ENDHEX$$ncia SAF"
+	Case "S"
+		ls_Descricao = "Autorizado SAF"
+End Choose
+
+ls_Mensagem = "Retirada de Estoque N$$HEX1$$ba00$$ENDHEX$$ " + String(al_Retirada) + '<br><br>' + &
++ "OBS: A APROVA$$HEX2$$c700c300$$ENDHEX$$O ESTAR$$HEX1$$c100$$ENDHEX$$ DISPON$$HEX1$$cd00$$ENDHEX$$VEL EM ALGUMAS HORAS" + '<br><br>'
+
+If Not IsNull(adh_Vencimento_Minimo) Then
+	ls_Mensagem += "Apenas produtos com vencimento IGUAL ou SUPERIOR a " + String(Date(adh_Vencimento_Minimo)) + " PODEM SER TRANSFERIDOS, desde que estejam em perfeitas condi$$HEX2$$e700f500$$ENDHEX$$es de venda e sem etiquetas." + '<br><br>'
+End If
+
+ls_Mensagem += "Para realizar a retirada de estoque siga atentamente os passos abaixo: " + '<br><br>' + &
++ "1$$HEX1$$ba00$$ENDHEX$$) No sistema de Retaguarda de Loja acesse o menu [Relat$$HEX1$$f300$$ENDHEX$$rio $$HEX1$$1320$$ENDHEX$$> Estoque $$HEX1$$1320$$ENDHEX$$> Retirada para o Perini]. " + '<br>' + &
++ "2$$HEX1$$ba00$$ENDHEX$$) No campo [Tipo Retirada] selecione a op$$HEX2$$e700e300$$ENDHEX$$o [" + String(ls_Descricao) + "] e no campo [Situa$$HEX2$$e700e300$$ENDHEX$$o] selecione a op$$HEX2$$e700e300$$ENDHEX$$o [Aprovada]." + '<br>' &
++ "3$$HEX1$$ba00$$ENDHEX$$) Recupere os dados. O per$$HEX1$$ed00$$ENDHEX$$odo da retirada ser$$HEX1$$e100$$ENDHEX$$ " + String(Date(adh_Inicio)) + " $$HEX1$$e000$$ENDHEX$$ " + String(Date(adh_Termino)) + "." + '<br>' &
++ "4$$HEX1$$ba00$$ENDHEX$$) Na aba [Detalhes] clique no bot$$HEX1$$e300$$ENDHEX$$o [Imprimir Lista de Produtos]. " + '<br>' + &
++ "5$$HEX1$$ba00$$ENDHEX$$) Separe os produtos. " + '<br>' + &
++ "6$$HEX1$$ba00$$ENDHEX$$) Acesse o menu [Manuten$$HEX2$$e700e300$$ENDHEX$$o $$HEX1$$1320$$ENDHEX$$> Notas Fiscais $$HEX1$$1320$$ENDHEX$$> Retirada de Estoque para o Perini]. " + '<br>' + &
++ "7$$HEX1$$ba00$$ENDHEX$$) Localize a retirada atrav$$HEX1$$e900$$ENDHEX$$s do campo [N$$HEX1$$ba00$$ENDHEX$$ Retirada]. O campo [Situa$$HEX2$$e700e300$$ENDHEX$$o] estar$$HEX1$$e100$$ENDHEX$$ como [Aprovada]. " + '<br>' + &
++ "8$$HEX1$$ba00$$ENDHEX$$) Adicione os produtos conforme a lista impressa e salve a retirada." 
+
+If as_Tipo_Retirada="A" Then 
+	ls_Mensagem += '<br><b>' + "9$$HEX1$$ba00$$ENDHEX$$) Em caso de avaria simples deve ser feita a transfer$$HEX1$$ea00$$ENDHEX$$ncia para a Log$$HEX1$$ed00$$ENDHEX$$stica. Se for GRANDE AVARIA deve aguardar o retorno da Log$$HEX1$$ed00$$ENDHEX$$stica." + '</b>'
+End If 
+
+st_email.De_Assunto[UpperBound(st_Email.De_Assunto[]) + 1] = "Retirada de Estoque de " + String(Date(adh_Inicio)) + " $$HEX1$$e000$$ENDHEX$$ " + String(Date(adh_Termino))
+st_email.De_Endereco[UpperBound(st_Email.De_Endereco[]) + 1] = ls_Email
+st_email.De_Mensagem[UpperBound(st_Email.De_Mensagem[]) + 1] = ls_Mensagem
+end subroutine
+

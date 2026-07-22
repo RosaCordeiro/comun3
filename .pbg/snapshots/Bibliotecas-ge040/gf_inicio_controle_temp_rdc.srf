@@ -1,0 +1,33 @@
+HA$PBExportHeader$gf_inicio_controle_temp_rdc.srf
+global type gf_inicio_controle_temp_rdc from function_object
+end type
+
+forward prototypes
+global function boolean gf_inicio_controle_temp_rdc ()
+end prototypes
+
+global function boolean gf_inicio_controle_temp_rdc ();String ls_Parametro
+
+Select vl_parametro
+Into :ls_Parametro
+From parametro_geral
+Where cd_parametro ='ID_INICIO_CONTROLE_TEMP_RDC'
+Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+	Case 0
+		If ls_Parametro = 'S' Then
+			Return True
+		Else
+			Return False
+		End If
+	Case 100
+		Return False
+	Case -1
+		SqlCa.of_MsgDbError("Erro na localiza$$HEX2$$e700e300$$ENDHEX$$o parametro_geral: ID_INICIO_CONTROLE_TEMP_RDC.")
+		Return False
+End Choose
+
+Return False
+end function
+

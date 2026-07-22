@@ -1,0 +1,21 @@
+HA$PBExportHeader$pl_ge651_identificacao_biometrica_central_senior.srp
+PIPELINE(source_connect=SybaseCentral,destination_connect=RH_ORACLE,type=append,commit=100,errors=0,keyname="bionitgen")
+SOURCE(name="identificacao_biometrica/usuario",COLUMN(type=long,name="numemp",dbtype="int",nulls_allowed=no)
+ COLUMN(type=long,name="tipcol",dbtype="int",nulls_allowed=no)
+ COLUMN(type=long,name="numcad",dbtype="int",nulls_allowed=no)
+ COLUMN(type=long,name="dedo",dbtype="int",nulls_allowed=no)
+ COLUMN(type=string,name="identificacao_biometrica.de_impressao_digital",dbtype="text",nulls_allowed=no))
+RETRIEVE(statement="select 1 as numemp, 1 as tipcol, 
+		cast( u.nr_matricula as integer ) as numcad, 
+		cast( i.id_dedo as integer ) as dedo,
+		i.de_impressao_digital
+  from identificacao_biometrica as i
+		 inner join usuario as u
+ 			 on u.nr_cpf = i.nr_cpf
+ where ( u.id_situacao = 'A' or u.id_situacao is null )
+   and left( u.nr_matricula, 1 ) <> 'E'")
+DESTINATION(name="bionitgen",COLUMN(type=decimal,name="numemp",dbtype="NUMBER(5,0)",key=yes,nulls_allowed=no,initial_value="0")
+ COLUMN(type=decimal,name="tipcol",dbtype="NUMBER(5,0)",key=yes,nulls_allowed=no,initial_value="0")
+ COLUMN(type=decimal,name="numcad",dbtype="NUMBER(10,0)",key=yes,nulls_allowed=no,initial_value="0")
+ COLUMN(type=decimal,name="dedo",dbtype="NUMBER(2,0)",key=yes,nulls_allowed=no,initial_value="0")
+ COLUMN(type=blob,name="digital",dbtype="CLOB",nulls_allowed=yes))

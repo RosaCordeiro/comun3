@@ -1,0 +1,14 @@
+HA$PBExportHeader$t_imposto.srs
+global type t_imposto from structure
+	t_icms		icms
+	t_ipi		ipi
+	t_pis		pis
+	t_cofins		cofins
+	t_cofinsst		cofinsst
+	t_issqn		issqn
+	t_ii		ii
+	t_pisst		pisst
+	t_is		isel
+	t_ibscbs		ibscbs
+end type
+

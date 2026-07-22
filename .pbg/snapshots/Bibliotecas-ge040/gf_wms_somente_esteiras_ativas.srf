@@ -1,0 +1,31 @@
+HA$PBExportHeader$gf_wms_somente_esteiras_ativas.srf
+global type gf_wms_somente_esteiras_ativas from function_object
+end type
+
+forward prototypes
+global function boolean gf_wms_somente_esteiras_ativas (ref boolean ab_somente_ativas)
+end prototypes
+
+global function boolean gf_wms_somente_esteiras_ativas (ref boolean ab_somente_ativas);Long ll_Esteiras_Inativas
+
+Select count(*)
+Into :ll_Esteiras_Inativas
+From wms_esteira e
+Where e.id_situacao = 'I'
+Using SqlCa;
+
+If SqlCa.SqlCode = -1 Then
+	SqlCa.of_MsgDbError("Erro ao localizar as esteiras ativas.")
+	Return False
+End If
+
+If ll_Esteiras_Inativas > 0 Then
+	ab_somente_ativas = False
+Else
+	ab_somente_ativas = True
+End If
+
+Return True
+
+end function
+

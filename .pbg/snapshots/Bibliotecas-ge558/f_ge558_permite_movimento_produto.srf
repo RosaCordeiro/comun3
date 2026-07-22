@@ -1,0 +1,103 @@
+HA$PBExportHeader$f_ge558_permite_movimento_produto.srf
+global type f_ge558_permite_movimento_produto from function_object
+end type
+
+forward prototypes
+global function boolean f_ge558_permite_movimento_produto (string as_endereco, long al_produto)
+end prototypes
+
+global function boolean f_ge558_permite_movimento_produto (string as_endereco, long al_produto); Long ll_Qtde
+
+If IsNull(al_Produto) Then
+	//Verifica se tem abastecimento do flow rack gerado para o endere$$HEX1$$e700$$ENDHEX$$o
+	Select count(*)
+	Into :ll_Qtde
+	From wms_abastecimento_flow_rack
+	Where cd_endereco_retirada = :as_Endereco
+	Using SqlCa;
+	
+	If SqlCa.Sqlcode = -1 Then
+		MessageBox("Erro", "Verifica$$HEX2$$e700e300$$ENDHEX$$o se tem abastecimento para o endere$$HEX1$$e700$$ENDHEX$$o. " + SQLCA.SQLErrText, StopSign!)
+		Return False
+	End If
+	
+	If ll_Qtde > 0 Then
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Tem abastecimento do Flow Rack gerado para esse endere$$HEX1$$e700$$ENDHEX$$o.")
+		Return False
+	End If
+	
+	//Verifica se tem reserva gerada para o endere$$HEX1$$e700$$ENDHEX$$o
+	Select count(*)
+	Into :ll_Qtde
+	From wms_reserva_pulmao
+	Where cd_endereco = :as_Endereco
+	Using SqlCa;
+	
+	If SqlCa.Sqlcode = -1 Then
+		MessageBox("Erro", "Verifica$$HEX2$$e700e300$$ENDHEX$$o se tem reserva para o endere$$HEX1$$e700$$ENDHEX$$o. " + SQLCA.SQLErrText, StopSign!)
+		Return False
+	End If
+	
+	If ll_Qtde > 0 Then
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Tem RESERVA para esse endere$$HEX1$$e700$$ENDHEX$$o.")
+		Return False
+	End If
+	
+Else
+	
+	//Verifica se tem abastecimento do flow rack gerado para o produto e endere$$HEX1$$e700$$ENDHEX$$o e produto
+//	Select count(*)
+//	Into :ll_Qtde
+//	From wms_abastecimento_flow_rack
+//	Where cd_endereco_retirada = :as_Endereco
+//		And cd_produto = :al_Produto
+	select count(*)
+	Into :ll_Qtde
+	from(
+		 select      a.qt_abastecer - (	select isnull(sum(qt_movimento), 0) 
+												from wms_movimentacao d 
+												where d.cd_endereco_saida	= a.cd_endereco_retirada 
+												and d.cd_produto				= a.cd_produto 
+												and d.nr_lote					= a.nr_lote 
+												and d.qt_caixa_padrao		= a.qt_caixa_padrao) as qt_retirar
+		  from wms_abastecimento_flow_rack a
+		  where a.cd_endereco_retirada	= :as_Endereco
+		 and a.cd_produto						= :al_Produto
+	) as tudo
+	where qt_retirar > 0
+	Using SqlCa;
+	
+	If SqlCa.Sqlcode = -1 Then
+		MessageBox("Erro", "Verifica$$HEX2$$e700e300$$ENDHEX$$o se tem abastecimento para o endere$$HEX1$$e700$$ENDHEX$$o e produto. " + SQLCA.SQLErrText, StopSign!)
+		Return False
+	End If
+	
+	If ll_Qtde > 0 Then
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Tem abastecimento do Flow Rack gerado para esse endere$$HEX1$$e700$$ENDHEX$$o e produto.")
+		Return False
+	End If
+	
+	//Verifica se tem reserva gerada para o endere$$HEX1$$e700$$ENDHEX$$o e produto
+	Select count(*)
+	Into :ll_Qtde
+	From wms_reserva_pulmao
+	Where cd_endereco = :as_Endereco
+		And cd_produto = :al_Produto
+	Using SqlCa;
+	
+	If SqlCa.Sqlcode = -1 Then
+		MessageBox("Erro", "Verifica$$HEX2$$e700e300$$ENDHEX$$o se tem reserva para o endere$$HEX1$$e700$$ENDHEX$$o e produto. " + SQLCA.SQLErrText, StopSign!)
+		Return False
+	End If
+	
+	If ll_Qtde > 0 Then
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Tem RESERVA para esse endere$$HEX1$$e700$$ENDHEX$$o e produto.")
+		Return False
+	End If
+	
+End If
+
+
+Return True
+end function
+

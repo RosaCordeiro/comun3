@@ -1,0 +1,26 @@
+HA$PBExportHeader$gf_uf_diferente.srf
+global type gf_uf_diferente from function_object
+end type
+
+forward prototypes
+global function boolean gf_uf_diferente (long pl_cd_filial_origem, long pl_cd_filial_destino)
+end prototypes
+
+global function boolean gf_uf_diferente (long pl_cd_filial_origem, long pl_cd_filial_destino);String lvs_uf_filial_origem , &
+		 lvs_uf_filial_destino
+		 
+lvs_uf_filial_origem  = gf_uf_filial(pl_cd_filial_origem)
+lvs_uf_filial_destino =	gf_uf_filial(pl_cd_filial_destino)	 
+
+If IsNull(lvs_uf_filial_origem)  Then Return False
+If IsNull(lvs_uf_filial_destino) Then Return False
+
+If lvs_uf_filial_origem <> lvs_uf_filial_destino Then
+	Return True
+Else
+	Return False
+End If
+	 
+
+end function
+

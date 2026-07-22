@@ -1,0 +1,45 @@
+HA$PBExportHeader$gf_horario_filial.srf
+global type gf_horario_filial from function_object
+end type
+
+forward prototypes
+global function string gf_horario_filial (string ps_horario)
+end prototypes
+
+global function string gf_horario_filial (string ps_horario);String ls_Hora
+String ls_Retorno
+
+ls_Hora = Mid(ps_horario, 3, 2) +  "h"
+	 
+If mid(ps_horario, 5, 2) <> "00" Then
+	ls_Hora += Mid(ps_horario, 5, 2)  + "min"
+End If
+
+ls_Hora += " $$HEX1$$e000$$ENDHEX$$s " +  Mid(ps_horario, 7, 2) +  "h"
+	 
+If Mid(ps_horario, 9, 2) <> "00" Then
+	  ls_Hora += Mid(ps_horario, 9, 2) + "min"
+End If
+
+Choose Case Mid(ps_horario, 1, 2)
+	Case '10'; ls_Retorno = "24 Horas";
+	Case '00'; ls_Retorno = "Seg. $$HEX1$$e000$$ENDHEX$$ Sexta: " + ls_Hora
+	Case '01'; ls_Retorno = "Seg. $$HEX1$$e000$$ENDHEX$$ S$$HEX1$$e100$$ENDHEX$$bado: " + ls_Hora
+	Case '02'; ls_Retorno =  "Seg. $$HEX1$$e000$$ENDHEX$$ Domingo: " + ls_Hora
+	Case '03'; ls_Retorno =  "Seg. $$HEX1$$e000$$ENDHEX$$ Dom. e Fer.: " + ls_Hora
+	Case '04'; ls_Retorno =  "S$$HEX1$$e100$$ENDHEX$$bado: " + ls_Hora
+	Case '05'; ls_Retorno =  "Domingo: " + ls_Hora
+	Case '06'; ls_Retorno =  "S$$HEX1$$e100$$ENDHEX$$b./Domingo: " + ls_Hora
+	Case '07'; ls_Retorno =  "S$$HEX1$$e100$$ENDHEX$$b./Dom./Fer.: " + ls_Hora
+	Case '08'; ls_Retorno =  "Dom./Feriado: " + ls_Hora
+	Case '09'; ls_Retorno =  "Feriado: " + ls_Hora
+	Case '11'; ls_Retorno =  "Seg. $$HEX1$$e000$$ENDHEX$$ Quinta: " + ls_Hora
+	Case '12'; ls_Retorno =  "Sexta: " + ls_Hora
+	Case '13'; ls_Retorno =  "Segunda: " + ls_Hora
+	Case '14'; ls_Retorno =  "Ter$$HEX1$$e700$$ENDHEX$$a $$HEX1$$e000$$ENDHEX$$ S$$HEX1$$e100$$ENDHEX$$bado: " + ls_Hora
+	Case Else; ls_Retorno = ''		
+End Choose
+
+Return ls_Retorno
+end function
+

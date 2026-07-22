@@ -1,0 +1,41 @@
+HA$PBExportHeader$gf_pedido_almoxarifado_novo.srf
+global type gf_pedido_almoxarifado_novo from function_object
+end type
+
+forward prototypes
+global function boolean gf_pedido_almoxarifado_novo (long al_filial, ref boolean ab_novo_pedido_almoxarifado, ref string as_erro)
+end prototypes
+
+global function boolean gf_pedido_almoxarifado_novo (long al_filial, ref boolean ab_novo_pedido_almoxarifado, ref string as_erro);DateTime	ldh_Ped_Almox_Novo,&
+				ldh_Atual
+				
+SetNull(as_Erro)	
+
+ab_Novo_Pedido_Almoxarifado = False
+
+select convert(datetime,vl_parametro ,103)
+Into :ldh_Ped_Almox_Novo
+from parametro_loja 
+where cd_filial = :al_filial 
+and cd_parametro = 'DH_INICIA_PEDIDO_ALMOXARIFADO_NOVO'
+Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+	Case 0
+		ldh_Atual = DateTime(Date(gf_GetServerDate()))
+		
+		If ldh_Ped_Almox_Novo <= ldh_Atual Then
+			ab_Novo_Pedido_Almoxarifado = True
+		End If
+		
+	Case 100
+		//Se n$$HEX1$$e300$$ENDHEX$$o tiver o par$$HEX1$$e300$$ENDHEX$$metro, significa que $$HEX1$$e900$$ENDHEX$$ o novo processo de pedido do almoxarifado
+		ab_Novo_Pedido_Almoxarifado = True
+	Case -1
+		as_Erro = "Localiza$$HEX2$$e700e300$$ENDHEX$$o do Par$$HEX1$$e200$$ENDHEX$$metro  'DH_INICIA_PEDIDO_ALMOXARIFADO_NOVO': " + SqlCa.SqlerrText
+		Return False		
+End Choose
+
+Return True
+end function
+

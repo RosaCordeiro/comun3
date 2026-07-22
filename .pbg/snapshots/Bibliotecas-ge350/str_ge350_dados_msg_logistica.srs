@@ -1,0 +1,7 @@
+HA$PBExportHeader$str_ge350_dados_msg_logistica.srs
+global type str_ge350_dados_msg_logistica from structure
+	long		cd_filial
+	long		nr_retirada_estoque
+	string		de_mensagem_logistica
+end type
+

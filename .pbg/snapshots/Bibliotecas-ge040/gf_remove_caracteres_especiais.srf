@@ -1,0 +1,37 @@
+HA$PBExportHeader$gf_remove_caracteres_especiais.srf
+global type gf_remove_caracteres_especiais from function_object
+end type
+
+forward prototypes
+global function string gf_remove_caracteres_especiais (string ps_texto)
+end prototypes
+
+global function string gf_remove_caracteres_especiais (string ps_texto);String ls_Caracteres
+String ls_Aux
+String ls_retorno
+
+long ll_Row
+Long ll_Total
+
+If ps_texto = "" Then Return ps_texto
+
+ls_Caracteres = "$$HEX1$$1420$$ENDHEX$$'$$HEX2$$e700c700$$ENDHEX$$~^$$HEX1$$b400$$ENDHEX$$`$$HEX55$$a800e200c200e000c000e300c300e900c900ea00ca00e800c800ed00cd00ee00ce00ec00cc00e600c600f400f200fb00f900f800a300d8009201e100c100f300fa00f100d100aa00ba00bf00ae00bd00a700bc00d300df00d400d200f500d500b500fe00da00db00d900fd00dd00$$ENDHEX$$!@#$%$$HEX1$$a800$$ENDHEX$$&*()_=+{}[]?/;><,\-"
+
+ll_Total = LenA( ps_texto )
+
+ls_retorno = ps_texto
+
+for ll_row = 1 to ll_total 
+	
+	ls_Aux = mid(ps_texto, ll_Row, 1)
+	
+	If Pos( ls_Caracteres, ls_Aux ) > 0 Then
+		ls_retorno = gf_Replace( ls_retorno, ls_Aux, "", 0 )
+	End If		   
+	
+Next
+
+Return ls_retorno
+
+end function
+

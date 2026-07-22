@@ -1,0 +1,11 @@
+HA$PBExportHeader$st_parametros_promocao.srs
+global type st_parametros_promocao from structure
+	long		cd_promocao_sos
+	string		nm_promocao_sos
+	string		cd_grupo
+	string		de_grupo
+	string		id_lei_generico
+	decimal		pc_desconto
+	string		id_tipo
+end type
+

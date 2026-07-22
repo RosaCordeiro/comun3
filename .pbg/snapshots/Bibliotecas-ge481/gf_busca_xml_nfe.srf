@@ -1,0 +1,180 @@
+HA$PBExportHeader$gf_busca_xml_nfe.srf
+global type gf_busca_xml_nfe from function_object
+end type
+
+forward prototypes
+global function boolean gf_busca_xml_nfe (long al_filial, string as_chave_acesso, datetime adt_dh_emissao, ref t_infnfe at_infnfe, ref string as_log)
+end prototypes
+
+global function boolean gf_busca_xml_nfe (long al_filial, string as_chave_acesso, datetime adt_dh_emissao, ref t_infnfe at_infnfe, ref string as_log);Boolean	lb_xml_localizado = True
+Int		li_FileOpen
+Long		ll_Ano, ll_Mes, ll_Dia, ll_for
+String	ls_diretorio_xml, ls_diretorio_ftp_clamed, ls_conteudo_xml, ls_ano, ls_mes, ls_dia, ls_cnpj_fornecedor, ls_nome_arquivo_xml, ls_caminho_xml, &
+			ls_usuario_ftp, ls_senha_ftp, ls_endereco_ftp_xml, ls_parametro
+
+dc_uo_nfe	lo_NFE
+dc_uo_ftp lo_Ftp
+
+//
+lo_Ftp = Create dc_uo_ftp 
+
+ls_parametro = 'DE_FTP_XML_ENDERECO'
+
+select vl_parametro
+Into :ls_endereco_ftp_xml
+From parametro_geral
+Where cd_parametro = :ls_Parametro
+Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+	Case 0
+	Case 100
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Par$$HEX1$$e200$$ENDHEX$$metro geral de comunica$$HEX2$$e700e300$$ENDHEX$$o n$$HEX1$$e300$$ENDHEX$$o foi localizado '" + ls_Parametro + "'.")
+		Return False
+	Case -1
+		SqlCa.of_MsgDbError("Localiza$$HEX2$$e700e300$$ENDHEX$$o do par$$HEX1$$e200$$ENDHEX$$metro geral de comunica$$HEX2$$e700e300$$ENDHEX$$o '" + ls_Parametro + "'.")
+		Return False
+End Choose
+
+If IsNull(ls_endereco_ftp_xml) or Trim(ls_endereco_ftp_xml) = '' Then
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Par$$HEX1$$e200$$ENDHEX$$metro geral de comunica$$HEX2$$e700e300$$ENDHEX$$o inv$$HEX1$$e100$$ENDHEX$$lido '" + ls_Parametro + "'.")
+	Return False
+End If
+
+ls_endereco_ftp_xml = Lower(ls_endereco_ftp_xml)
+
+ls_Parametro = 'DE_FTP_XML_USUARIO'
+select vl_parametro
+Into :ls_usuario_ftp
+From parametro_geral
+Where cd_parametro = :ls_Parametro
+Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+	Case 0
+	Case 100
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Par$$HEX1$$e200$$ENDHEX$$metro geral de comunica$$HEX2$$e700e300$$ENDHEX$$o n$$HEX1$$e300$$ENDHEX$$o foi localizado '" + ls_Parametro + "'.")
+		Return False
+	Case -1
+		SqlCa.of_MsgDbError("Localiza$$HEX2$$e700e300$$ENDHEX$$o do par$$HEX1$$e200$$ENDHEX$$metro geral de comunica$$HEX2$$e700e300$$ENDHEX$$o '" + ls_Parametro + "'.")
+		Return False
+End Choose
+
+If IsNull(ls_usuario_ftp) or Trim(ls_usuario_ftp) = '' Then
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Par$$HEX1$$e200$$ENDHEX$$metro geral de comunica$$HEX2$$e700e300$$ENDHEX$$o inv$$HEX1$$e100$$ENDHEX$$lido '" + ls_Parametro  + "'.")
+	Return False
+End If
+
+ls_usuario_ftp = Lower(ls_usuario_ftp)
+
+ls_Parametro = 'DE_FTP_XML_SENHA'
+
+select vl_parametro
+Into :ls_senha_ftp
+From parametro_geral
+Where cd_parametro = :ls_Parametro
+Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+	Case 0
+	Case 100
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Par$$HEX1$$e200$$ENDHEX$$metro geral de comunica$$HEX2$$e700e300$$ENDHEX$$o n$$HEX1$$e300$$ENDHEX$$o foi localizado '" + ls_Parametro + "'.")
+		Return False
+	Case -1
+		SqlCa.of_MsgDbError("Localiza$$HEX2$$e700e300$$ENDHEX$$o do par$$HEX1$$e200$$ENDHEX$$metro geral de comunica$$HEX2$$e700e300$$ENDHEX$$o '" + ls_Parametro + "'.")
+		Return False
+End Choose
+
+If IsNull(ls_senha_ftp) or trim(ls_senha_ftp) = '' Then
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Par$$HEX1$$e200$$ENDHEX$$metro geral de comunica$$HEX2$$e700e300$$ENDHEX$$o inv$$HEX1$$e100$$ENDHEX$$lido '" + ls_Parametro +  "'.")
+	Return False
+End If
+
+ls_senha_ftp = Lower(ls_senha_ftp)
+
+lo_Ftp.of_Desconecta_ftp()
+					
+If Not lo_Ftp.of_Conecta_ftp("RO", ls_endereco_ftp_xml, ls_usuario_ftp, ls_senha_ftp, Ref as_log) Then
+	Return False
+End If
+
+If  lo_Ftp.of_ftp_set_dir('/',Ref as_log)  = -1 Then
+	as_log = "Erro ao voltar ao diret$$HEX1$$f300$$ENDHEX$$rio raiz. ~r~rErro: " + as_log
+	Return False		
+End If
+
+ll_Ano = Year(Date(adt_dh_emissao))
+ll_Mes = Month(Date(adt_dh_emissao))
+ll_Dia = Day(Date(adt_dh_emissao))
+		
+ls_Ano = "Ano_"+String(ll_Ano)
+If ll_Mes < 10 Then ls_Mes = "Mes_0"+String(ll_Mes) Else ls_Mes = "Mes_"+String(ll_Mes)
+If ll_Dia < 10 Then ls_Dia = "Dia_0"+String(ll_Dia) Else ls_Dia = "Dia_"+String(ll_Dia)
+ls_cnpj_fornecedor = Mid(as_chave_acesso, 7, 14)
+
+ls_diretorio_ftp_clamed = ls_ano + "/" + ls_mes + "/" + ls_dia + "/" + ls_cnpj_fornecedor
+
+If lo_Ftp.of_Ftp_Set_Dir(ls_diretorio_ftp_clamed, Ref as_log) = -1 Then 
+	as_log = "FTP n$$HEX1$$e300$$ENDHEX$$o localizado. " + "~r~rErro: " + as_log
+	
+	lb_xml_localizado = False
+End If
+
+if lb_xml_localizado then
+	ls_caminho_xml = ProfileString(gvo_Aplicacao.ivs_Arquivo_INI, 'Diretorio', 'xmlimportacao_EC', "")
+	
+	ls_nome_arquivo_xml = as_chave_acesso+"-nfe.xml"
+	
+	If not lo_Ftp.of_Ftp_GetFile(ls_nome_arquivo_xml, ls_caminho_xml + ls_nome_arquivo_xml, Ref as_log) Then
+		as_log = "XML n$$HEX1$$e300$$ENDHEX$$o localizado na area FTP CLAMED. ~r~rErro: " + as_log
+		
+		lb_xml_localizado = False
+	End If
+end if
+
+If ls_caminho_xml <> "" Then
+	If Not DirectoryExists( ls_caminho_xml) Then
+		If CreateDirectory(ls_caminho_xml ) = -1 Then
+			as_log = "Erro ao criar o diret$$HEX1$$f300$$ENDHEX$$rio para a importa$$HEX2$$e700e300$$ENDHEX$$o do XML '" + ls_caminho_xml + "'."
+			Return False
+		End If
+	End If
+Else
+	as_log = "Par$$HEX1$$e200$$ENDHEX$$metro  'XMLImportacao' n$$HEX1$$e300$$ENDHEX$$o localizado no INI da aplica$$HEX2$$e700e300$$ENDHEX$$o."
+	Return False
+End If
+
+ls_Diretorio_Xml = ls_caminho_xml + as_Chave_Acesso+"-nfe.xml"
+
+If Not FileExists(ls_diretorio_xml) Then
+	as_log = "O XML n$$HEX1$$e300$$ENDHEX$$o foi localizado na $$HEX1$$e100$$ENDHEX$$rea FTP."
+	Return False	
+End If
+	
+If FileLength(ls_diretorio_xml) < 1 Then
+	as_log = "Tamanho do arquivo: "+ ls_diretorio_xml +" $$HEX1$$e900$$ENDHEX$$ 0 byte"
+	Return False	
+End If
+
+li_FileOpen = FileOpen (ls_diretorio_xml , TextMode! , Read!, LockRead! )
+FileReadEx (li_FileOpen, ls_conteudo_xml) 
+FileClose (li_FileOpen)
+
+If ls_conteudo_xml <> "" Then	
+	Try
+		lo_NFE = Create dc_uo_nfe
+		If not lo_NFE.of_read_xml(ls_conteudo_xml, True, Ref at_InfNFe) Then
+			as_log = "Erro ao ler o arquivo XML"
+			Return False		
+		End If		
+	Catch ( RuntimeError lre )	
+		as_log = "Erro ao importar XML " + lre.GetMessage( )
+		Return False
+	Finally
+		Destroy(lo_NFE)
+	End Try
+end if
+
+return true
+end function
+

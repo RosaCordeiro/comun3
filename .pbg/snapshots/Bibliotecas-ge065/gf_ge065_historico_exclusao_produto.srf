@@ -1,0 +1,93 @@
+HA$PBExportHeader$gf_ge065_historico_exclusao_produto.srf
+global type gf_ge065_historico_exclusao_produto from function_object
+end type
+
+forward prototypes
+global function boolean gf_ge065_historico_exclusao_produto (dc_uo_ds_base ads, dc_uo_dw_base adw, string as_id_desconto_clube)
+end prototypes
+
+global function boolean gf_ge065_historico_exclusao_produto (dc_uo_ds_base ads, dc_uo_dw_base adw, string as_id_desconto_clube);DateTime ldh_Alteracao
+
+Decimal ldc_De
+Decimal ldc_Para
+
+Long ll_Linha
+Long ll_Find
+Long ll_Produto
+Long ll_Promocao
+Long ll_cd_progressiva,&
+  	   ll_cd_progressiva_clube
+
+
+String ls_Chave
+String ls_Erro
+String ls_Tipo_Promocao
+
+ldh_Alteracao = gf_GetServerDate()
+SetNull(ldc_Para)
+
+For ll_Linha = 1 To ads.RowCount()
+
+	ll_Produto = ads.Object.Cd_Produto[ll_Linha]
+
+
+	ll_Find = adw.Find("cd_produto = " + String(ll_Produto), 1, adw.RowCount())
+	
+	If ll_Find < 0 Then
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro no Find.", StopSign!)
+		Return False
+	ElseIf ll_Find = 0 Then //Significa que o produto foi exclu$$HEX1$$ed00$$ENDHEX$$do.
+		
+		ll_Promocao					= ads.Object.Cd_Promocao_Sos	[ll_Linha]
+		ldc_De						= ads.Object.Pc_Desconto			[ll_Linha]
+		ls_Chave 					= String(ll_Promocao) + "@#!" + String(ll_Produto)
+		
+		
+		select id_tipo_promocao
+		Into :ls_Tipo_Promocao
+		from promocao_sos
+		where cd_promocao_sos=:ll_Promocao
+		Using SqlCA;
+				
+		If SqlCa.SqlCode = -1 Then
+			SqlCa.of_MsgDbError("Erro Localiza$$HEX2$$e700e300$$ENDHEX$$o do tipo de promocao.")
+			Return False
+		End If
+		
+		If ls_Tipo_Promocao = 'Q' Then 
+			
+			ll_cd_progressiva   		= ads.Object.cd_desc_progressivo[ll_Linha]
+	  	   	ll_cd_progressiva_clube  = ads.Object.cd_desc_progressivo_clube[ll_Linha]
+
+			If ll_cd_progressiva<>0 Then 
+				If Not gf_Grava_Historico_Alteracao_Tabela('PROMOCAO_SOS_PRODUTO', ls_Chave, 'CD_DESCONTO_PROGRESSIVO', String(ll_cd_progressiva), String(ldc_Para), gvo_Aplicacao.ivo_Seguranca.Nr_Matricula, 'E', Ref ls_Erro, True) Then
+					Return False
+				End If
+			End If 
+			
+			If ll_cd_progressiva_clube<>0 Then 
+				If Not gf_Grava_Historico_Alteracao_Tabela('PROMOCAO_SOS_PRODUTO', ls_Chave, 'CD_DESCONTO_PROGRESSIVO_CLUBE', String(ll_cd_progressiva_clube), String(ldc_Para), gvo_Aplicacao.ivo_Seguranca.Nr_Matricula, 'E', Ref ls_Erro, True) Then
+					Return False
+				End If
+			End If 	
+		Else
+			//A fun$$HEX2$$e700e300$$ENDHEX$$o gf_Grava_Historico_Alteracao_Tabela() j$$HEX1$$e100$$ENDHEX$$ faz o Rollback em caso de erro.
+			If Not gf_Grava_Historico_Alteracao_Tabela('PROMOCAO_SOS_PRODUTO', ls_Chave, 'PC_DESCONTO', String(ldc_De), String(ldc_Para), gvo_Aplicacao.ivo_Seguranca.Nr_Matricula, 'E', Ref ls_Erro, True) Then
+				Return False
+			End If
+			
+			If as_Id_Desconto_Clube = "S" Then
+				ldc_De = ads.Object.Pc_Desconto_Clube[ll_Linha]		
+			//	If ldc_De > 0.00 Then
+					If Not gf_Grava_Historico_Alteracao_Tabela('PROMOCAO_SOS_PRODUTO', ls_Chave, 'PC_DESCONTO_CLUBE', String(ldc_De), String(ldc_Para), gvo_Aplicacao.ivo_Seguranca.Nr_Matricula, 'E', Ref ls_Erro, True) Then
+						Return False
+					End If
+			//	End If
+			End If		
+		End If 		
+	End If
+Next
+
+Return True
+end function
+

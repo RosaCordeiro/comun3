@@ -1,0 +1,7 @@
+HA$PBExportHeader$t_dup.srs
+global type t_dup from structure
+	string		nDup
+	date		dVenc
+	double		vDup
+end type
+

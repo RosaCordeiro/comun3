@@ -1,0 +1,143 @@
+HA$PBExportHeader$gf_ge003_lista_divisao_fornecedor_comp.srf
+global type gf_ge003_lista_divisao_fornecedor_comp from function_object
+end type
+
+forward prototypes
+global function boolean gf_ge003_lista_divisao_fornecedor_comp (dc_uo_dw_base adw, string as_fornecedor, long al_linha)
+global function boolean gf_ge003_lista_divisao_fornecedor_comp (dc_uo_dw_base adw, string as_fornecedor, string as_nr_matricula_comprador, long al_linha)
+end prototypes
+
+global function boolean gf_ge003_lista_divisao_fornecedor_comp (dc_uo_dw_base adw, string as_fornecedor, long al_linha);DataWindowChild lvdwc
+
+Long ll_Achou, ll_Nulo
+
+String ls_SQL, ls_Situacao
+
+adw.AcceptText()
+
+SetNull(ll_Nulo)
+adw.Object.Nr_Divisao_Fornecedor[al_Linha] = ll_Nulo
+
+//ls_Fornecedor = adw.Object.cd_fornecedor[al_Linha]
+
+If IsNull(as_Fornecedor) Or Trim(as_Fornecedor) = "" Then
+	as_Fornecedor = "999999999"
+End If
+
+Select Count(*)
+	Into :ll_Achou
+From fornecedor_divisao
+Where cd_fornecedor = :as_Fornecedor
+Using SqlCa;
+
+If SqlCa.SqlCode = -1 Then
+	SqlCa.of_MsgdbError("Erro ao localizar a divis$$HEX1$$e300$$ENDHEX$$o do fornecedor. Fun$$HEX2$$e700e300$$ENDHEX$$o gf_ge003_lista_divisao_fornecedor")
+	Return False
+End If
+	
+If ll_Achou > 0 Then
+	ls_Situacao = "TODAS"
+	adw.Object.Nr_Divisao_Fornecedor.Protect = 0
+Else
+	ls_Situacao = "NENHUMA"
+	adw.Object.Nr_Divisao_Fornecedor.Protect = 1
+End If
+
+If adw.GetChild("nr_divisao_fornecedor", lvdwc) = 1 Then
+		
+	lvdwc.SetTransObject(SQLCA)
+		
+	ls_SQL = " SELECT 	cast(f.nr_divisao as char(5)) + ' - ' + f.nm_divisao + ' | ' +  u.nm_usuario de_divisao, f.nr_divisao FROM fornecedor_divisao f   " +&
+				 " inner join usuario u on u.nr_matricula = f.nr_matricula_comprador " +&
+				 " where f.cd_fornecedor = '" + string(as_Fornecedor) + "'" +&
+				 " union " +&
+				 " select '" + ls_Situacao + "', null"				 
+	
+	lvdwc.SetSQLSelect(ls_SQL)
+		
+	If lvdwc.Retrieve() < 0 Then
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao localizar as divis$$HEX1$$f500$$ENDHEX$$es do fornecedor.")
+		Return False
+	End If		
+Else
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro no getchild divis$$HEX1$$e300$$ENDHEX$$o fornecedor.")
+	Return False
+End If
+end function
+
+global function boolean gf_ge003_lista_divisao_fornecedor_comp (dc_uo_dw_base adw, string as_fornecedor, string as_nr_matricula_comprador, long al_linha);Long 		ll_Achou, ll_Nulo
+String 	ls_SQL, ls_Situacao
+
+DataWindowChild lvdwc
+
+
+adw.AcceptText()
+
+SetNull(ll_Nulo)
+
+adw.Object.Nr_Divisao_Fornecedor[al_Linha] = ll_Nulo
+
+SELECT
+	Count(*)
+INTO
+	:ll_Achou
+FROM
+	fornecedor_divisao fd
+WHERE
+	fd.cd_fornecedor = Coalesce(:as_Fornecedor, fd.cd_fornecedor)
+	AND fd.nr_matricula_comprador	= Coalesce(:as_nr_matricula_comprador, fd.nr_matricula_comprador)
+USING
+	SQLCA;
+
+If SQLCA.SQLCode = -1 Then
+	SqlCa.of_MsgdbError("Erro ao localizar a divis$$HEX1$$e300$$ENDHEX$$o do fornecedor/comprador. Fun$$HEX2$$e700e300$$ENDHEX$$o gf_ge003_lista_divisao_fornecedor_comp")
+	Return False
+End If
+	
+If ll_Achou > 0 Then
+	ls_Situacao = "TODAS"
+	adw.Object.Nr_Divisao_Fornecedor.Protect = 0
+Else
+	ls_Situacao = "NENHUMA"
+	adw.Object.Nr_Divisao_Fornecedor.Protect = 1
+End If
+
+If adw.GetChild("nr_divisao_fornecedor", lvdwc) = 1 Then
+		
+	lvdwc.SetTransObject(SQLCA)
+		
+	ls_SQL = " 	SELECT " + &
+				"		cast(f.nr_divisao as char(5)) + ' - ' + f.nm_divisao + ' | ' +  u.nm_usuario de_divisao, " + &
+				"		f.nr_divisao " + &
+				"	FROM " + &
+				"		fornecedor_divisao f   " +&
+				" 	INNER JOIN " + &
+				"		usuario u  " + &
+				"		ON u.nr_matricula = f.nr_matricula_comprador " +&
+				"	WHERE " + &
+				"		1 = 1 "
+				
+	if Not IsNull(as_fornecedor) Then
+		ls_sql	+= "		AND f.cd_fornecedor = '" + string(as_Fornecedor) + "'"
+	end if
+	
+	if Not IsNull(as_nr_matricula_comprador) Then
+		ls_sql	+= "		AND f.nr_matricula_comprador = '" + string(as_nr_matricula_comprador) + "'"
+	end if
+				
+	ls_sql	+=	" 	UNION " +&
+					" 	SELECT " + &
+					"		'" + ls_Situacao + "', null"				 
+	
+	lvdwc.SetSQLSelect(ls_SQL)
+		
+	If lvdwc.Retrieve() < 0 Then
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao localizar as divis$$HEX1$$f500$$ENDHEX$$es do fornecedor/comprador. Fun$$HEX2$$e700e300$$ENDHEX$$o gf_ge003_lista_divisao_fornecedor_comp")
+		Return False
+	End If		
+Else
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro no getchild da divis$$HEX1$$e300$$ENDHEX$$o do fornecedor/comprador. Fun$$HEX2$$e700e300$$ENDHEX$$o gf_ge003_lista_divisao_fornecedor_comp")
+	Return False
+End If
+end function
+

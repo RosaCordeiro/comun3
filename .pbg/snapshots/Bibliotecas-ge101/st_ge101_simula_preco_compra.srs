@@ -1,0 +1,10 @@
+HA$PBExportHeader$st_ge101_simula_preco_compra.srs
+global type st_ge101_simula_preco_compra from structure
+	string		cd_fornecedor
+	long		cd_produto
+	string		de_produto
+	string		nm_razao_social
+	decimal		pc_ipi
+	string		cd_uf_fornecedor
+end type
+

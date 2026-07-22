@@ -1,0 +1,75 @@
+HA$PBExportHeader$gf_grava_log_formatado.srf
+global type gf_grava_log_formatado from function_object
+end type
+
+forward prototypes
+global function boolean gf_grava_log_formatado (ref integer pi_log, string as_mensagem)
+global function boolean gf_grava_log_formatado (ref integer ai_arquivo, string as_level, string as_mensagem, boolean ab_email, integer ai_id_message_email)
+end prototypes
+
+global function boolean gf_grava_log_formatado (ref integer pi_log, string as_mensagem);Boolean lvb_Sucesso = True
+
+Integer lvi_Status
+		  
+String lvs_Mensagem
+
+lvs_Mensagem = String(Today(), "dd/mm/yyyy") + " " + String(Now(), "hh:mm:ss") + " " + as_Mensagem
+	
+lvi_Status = FileWrite(pi_log, lvs_Mensagem)
+
+If lvi_Status <> LenA(lvs_Mensagem) Then	
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro na grava$$HEX2$$e700e300$$ENDHEX$$o do registro '" + lvs_Mensagem + "' no arquivo de log.", StopSign!)
+	lvb_Sucesso = False
+End If
+
+Return lvb_Sucesso
+end function
+
+global function boolean gf_grava_log_formatado (ref integer ai_arquivo, string as_level, string as_mensagem, boolean ab_email, integer ai_id_message_email);Integer 	lvi_Status
+String 	lvs_Mensagem, ls_Anexo[], ls_ip, ls_sistema, ls_host, ls_matricula, ls_computer, ls_versao
+
+if gvo_aplicacao.ivs_tipo_log = 'TXT' then
+	lvs_Mensagem = String(Today(), "dd/mm/yyyy") + " " + &
+						String(Now(), "hh:mm:ss") + " " + as_Mensagem
+else
+	ls_ip = gvo_aplicacao.ivo_seguranca.of_get_is_ip()
+	ls_sistema = gvo_aplicacao.ivo_seguranca.cd_sistema
+	ls_host = gvo_aplicacao.ivo_seguranca.of_get_is_host()
+	ls_matricula = gvo_aplicacao.ivo_seguranca.of_get_nr_matricula_persiste()
+	ls_computer = gvo_aplicacao.is_computername
+	ls_versao = gvo_aplicacao.ivs_versao
+	
+	lvs_Mensagem = &
+		 "{" + &
+			  '"timestamp":' + gf_grava_log_json_form_dt(datetime(today(), now())) + "," + &
+			 '"nivel":' + gf_grava_log_json_form_str(as_level)    + "," + &
+			 '"ip":' + gf_grava_log_json_form_str(ls_ip)    + "," + &
+			 '"host":' + gf_grava_log_json_form_str(ls_host)              + "," + &
+			 '"sistema":' + gf_grava_log_json_form_str(ls_sistema)            + "," + &
+			'"versao":' + gf_grava_log_json_form_str(ls_versao)  + "," + &          
+			 '"user":' + gf_grava_log_json_form_str(ls_matricula)      + "," + &
+			 '"computer":' + gf_grava_log_json_form_str(ls_computer)                      + "," + &
+			 '"message":' + gf_grava_log_json_form_str(as_mensagem) + &
+		 "}"
+end if
+						
+lvi_Status = FileWrite(ai_Arquivo, lvs_Mensagem)
+
+If ab_email Then
+	If Not gf_ge202_envia_email_automatico(ai_id_message_email, "", as_mensagem, ls_Anexo) Then
+		Return False
+	End If
+End If
+
+If lvi_Status <> LenA(lvs_Mensagem) Then	
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro na grava$$HEX2$$e700e300$$ENDHEX$$o do registro no arquivo de log da aplica$$HEX2$$e700e300$$ENDHEX$$o.", StopSign!)
+	messagebox('', lvs_Mensagem)
+	messagebox('', string(lvi_Status))
+	gf_ge202_envia_email_automatico(35, "", "Erro na grava$$HEX2$$e700e300$$ENDHEX$$o do registro no arquivo de log da aplica$$HEX2$$e700e300$$ENDHEX$$o.", ls_Anexo)
+	
+	Return False
+Else
+	Return True
+End If
+end function
+

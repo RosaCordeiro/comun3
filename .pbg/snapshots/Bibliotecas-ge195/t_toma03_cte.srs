@@ -1,0 +1,5 @@
+HA$PBExportHeader$t_toma03_cte.srs
+global type t_toma03_cte from structure
+	long		toma
+end type
+

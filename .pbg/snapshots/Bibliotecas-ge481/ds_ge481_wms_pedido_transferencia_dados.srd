@@ -1,0 +1,387 @@
+HA$PBExportHeader$ds_ge481_wms_pedido_transferencia_dados.srd
+release 12;
+datawindow(units=0 timer_interval=0 color=67108864 brushmode=0 transparency=0 gradient.angle=0 gradient.color=8421504 gradient.focus=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.repetition.mode=0 gradient.scale=100 gradient.spread=100 gradient.transparency=0 picture.blur=0 picture.clip.bottom=0 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.transparency=0 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes hidegrayline=no showbackcoloronxp=no picture.file="" )
+header(height=112 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+detail(height=68 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+table(column=(type=long updatewhereclause=yes name=number_po dbname="number_po" )
+ column=(type=char(4) updatewhereclause=yes name=tp_po dbname="tp_po" )
+ column=(type=char(4) updatewhereclause=yes name=center_provider dbname="center_provider" )
+ column=(type=char(1) updatewhereclause=yes name=code_pgto dbname="code_pgto" )
+ column=(type=char(10) updatewhereclause=yes name=date dbname="date" )
+ column=(type=long updatewhereclause=yes name=item_po dbname="item_po" )
+ column=(type=char(20) updatewhereclause=yes name=material dbname="material" )
+ column=(type=char(3) updatewhereclause=yes name=unidade_medida dbname="unidade_medida" )
+ column=(type=long updatewhereclause=yes name=amount dbname="amount" )
+ column=(type=char(40) updatewhereclause=yes name=store dbname="store" )
+ column=(type=char(20) updatewhereclause=yes name=batch dbname="batch" )
+ column=(type=date updatewhereclause=yes name=fab_date dbname="fab_date" )
+ column=(type=datetime updatewhereclause=yes name=exp_date dbname="exp_date" )
+ column=(type=char(1) updatewhereclause=yes name=id_controlado dbname="id_controlado" )
+ column=(type=char(9) updatewhereclause=yes name=cd_distribuidora dbname="cd_distribuidora" )
+ column=(type=long updatewhereclause=yes name=cd_centro_custo_legado dbname="cd_centro_custo_legado" )
+ column=(type=char(1) updatewhereclause=yes name=id_pedido_almoxarifado dbname="id_pedido_almoxarifado" )
+ column=(type=char(1) updatewhereclause=yes name=cd_categoria dbname="cd_categoria" )
+ column=(type=long updatewhereclause=yes name=cd_produto dbname="cd_produto" )
+ column=(type=char(20) updatewhereclause=yes name=de_tipo_pedido dbname="de_tipo_pedido" )
+ column=(type=char(50) updatewhereclause=yes name=de_motivo_rejeicao dbname="de_motivo_rejeicao" )
+ column=(type=long updatewhereclause=yes name=qt_atendida dbname="qt_atendida" )
+ column=(type=char(4) updatewhereclause=yes name=cd_deposito_sap dbname="cd_deposito_sap" )
+ column=(type=char(1) updatewhereclause=yes name=id_sobra dbname="id_sobra" )
+ column=(type=long updatewhereclause=yes name=cd_filial_origem dbname="cd_filial_origem" )
+ retrieve="select pedido_distribuidora.nr_pedido_distribuidora as number_po,
+			 coalesce(tipo_pedido_distribuidora.id_tipo_pedido_sap, 'X') as tp_po,
+			 '1156' as center_provider,
+		 	 '' as code_pgto,
+			 convert ( char(10), pedido_distribuidora.dh_emissao, 104 ) date,
+			 pedido_distribuidora_prd_item.nr_sequencial as item_po,
+		 	 coalesce(produto_geral.cd_produto_sap, '') as material,
+			 dbo.retorna_um_compra_sap(pedido_distribuidora_prd_item.cd_produto) as unidade_medida,
+			 sum(pedido_distribuidora_prd_lote.qt_lote) as amount,
+			 coalesce(integracao_sap.cd_chave_sap, '') as store,
+			 '' as batch,
+			 '' as fab_date, 
+			 '' as exp_date,
+			 case when produto_geral.cd_grupo_psico is null then 'N' else 'S' end as id_controlado,
+			 pedido_distribuidora.cd_distribuidora,
+		    coalesce(pedido_distribuidora.cd_centro_custo, pedido_almoxarifado.cd_centro_custo) cd_centro_custo_legado,
+			 pedido_distribuidora.id_pedido_almoxarifado,
+			 substring(produto_geral.cd_subcategoria, 1,1) as cd_categoria,
+			 pedido_distribuidora_prd_item.cd_produto as cd_produto,
+			 coalesce(tipo_pedido_distribuidora.de_tipo, '') as de_tipo_pedido,
+			 coalesce(pedido_distribuidora_produto.de_motivo_rejeicao, '') as de_motivo_rejeicao,
+			 coalesce(pedido_distribuidora_produto.qt_lista_separacao, 0) as qt_atendida,
+			 tipo_pedido_distribuidora.cd_deposito_sap,
+			 tipo_pedido_distribuidora.id_sobra,
+			wte.cd_filial_origem
+	  from pedido_distribuidora inner join pedido_distribuidora_prd_item on pedido_distribuidora_prd_item.cd_filial 					= pedido_distribuidora.cd_filial and
+																									pedido_distribuidora_prd_item.nr_pedido_distribuidora = pedido_distribuidora.nr_pedido_distribuidora
+										 inner join pedido_distribuidora_prd_lote on pedido_distribuidora_prd_lote.cd_filial 					= pedido_distribuidora_prd_item.cd_filial and 
+																									pedido_distribuidora_prd_lote.nr_pedido_distribuidora = pedido_distribuidora_prd_item.nr_pedido_distribuidora and 
+																									pedido_distribuidora_prd_lote.cd_produto 					= pedido_distribuidora_prd_item.cd_produto
+										 left join produto_lote on produto_lote.nr_lote 		= pedido_distribuidora_prd_lote.nr_lote and 
+																			 produto_lote.cd_produto 	= pedido_distribuidora_prd_lote.cd_produto
+										 inner join pedido_distribuidora_produto on pedido_distribuidora_produto.nr_pedido_distribuidora = pedido_distribuidora.nr_pedido_distribuidora
+																							 and pedido_distribuidora_produto.cd_filial						= pedido_distribuidora.cd_filial
+																							 and pedido_distribuidora_produto.cd_produto						= pedido_distribuidora_prd_lote.cd_produto
+										 inner join tipo_pedido_distribuidora on tipo_pedido_distribuidora.id_tipo	= pedido_distribuidora.id_tipo_pedido
+										 left outer join produto_geral on produto_geral.cd_produto	= pedido_distribuidora_prd_item.cd_produto
+										 left outer join integracao_sap on integracao_sap.cd_chave_legado = cast(pedido_distribuidora.cd_filial as varchar) and 
+																					  integracao_sap.cd_tabela 		= 'FILIAL'
+										left outer join pedido_distribuidora_almox on (pedido_distribuidora_almox.cd_filial = pedido_distribuidora.cd_filial and pedido_distribuidora_almox.nr_pedido_distribuidora = pedido_distribuidora.nr_pedido_distribuidora)
+										left outer join pedido_almoxarifado  on  (pedido_almoxarifado.cd_filial = pedido_distribuidora_almox.cd_filial and pedido_almoxarifado.nr_pedido = pedido_distribuidora_almox.nr_pedido_almoxarifado)
+										left outer join wms_transferencia_estoque wte on wte.nr_pedido_distribuidora = pedido_distribuidora.nr_pedido_distribuidora and wte.cd_filial_destino = pedido_distribuidora.cd_filial
+  where pedido_distribuidora.cd_filial 					= :al_cd_filial and 
+		  pedido_distribuidora.nr_pedido_distribuidora 	= :al_nr_pedido_distribuidora and 
+		  pedido_distribuidora_prd_lote.dh_validade is null and
+		  produto_lote.dh_validade is null and
+		  substring(produto_geral.cd_subcategoria, 1,1) = '1' and
+		  COALESCE(pedido_distribuidora_produto.qt_separada, 0) > COALESCE(pedido_distribuidora_produto.qt_faturada, 0)
+group by pedido_distribuidora.nr_pedido_distribuidora,
+			coalesce(tipo_pedido_distribuidora.id_tipo_pedido_sap, 'X'),
+			convert ( char(10), pedido_distribuidora.dh_emissao, 104 ),
+			pedido_distribuidora_prd_item.nr_sequencial,
+			coalesce(produto_geral.cd_produto_sap, ''),
+			dbo.retorna_um_compra_sap(pedido_distribuidora_prd_item.cd_produto),
+			coalesce(integracao_sap.cd_chave_sap, ''),
+			case when produto_geral.cd_grupo_psico is null then 'N' else 'S' end,
+			pedido_distribuidora.cd_distribuidora,
+			coalesce(pedido_distribuidora.cd_centro_custo, pedido_almoxarifado.cd_centro_custo),
+			pedido_distribuidora.id_pedido_almoxarifado,
+			substring(produto_geral.cd_subcategoria, 1,1),
+			pedido_distribuidora_prd_item.cd_produto,
+			tipo_pedido_distribuidora.de_tipo,
+			coalesce(pedido_distribuidora_produto.de_motivo_rejeicao, ''),
+			coalesce(pedido_distribuidora_produto.qt_lista_separacao, 0) ,
+			 tipo_pedido_distribuidora.cd_deposito_sap,
+			 tipo_pedido_distribuidora.id_sobra,
+			wte.cd_filial_origem
+
+union
+
+	select pedido_distribuidora.nr_pedido_distribuidora as number_po,
+			 coalesce(tipo_pedido_distribuidora.id_tipo_pedido_sap, 'X') as tp_po,
+			 '1156' as center_provider,
+		 	 '' as code_pgto,
+			 convert ( char(10), pedido_distribuidora.dh_emissao, 104 ) date,
+			 pedido_distribuidora_prd_item.nr_sequencial as item_po,
+		 	 coalesce(produto_geral.cd_produto_sap, '') as material,
+			 dbo.retorna_um_compra_sap(pedido_distribuidora_prd_item.cd_produto) as unidade_medida,
+			 pedido_distribuidora_prd_lote.qt_lote as amount,
+			 coalesce(integracao_sap.cd_chave_sap, '') as store,
+			 pedido_distribuidora_prd_lote.nr_lote as batch,
+			 case when produto_lote.dh_fabricacao is not null then produto_lote.dh_fabricacao else DateAdd(DAY, -90, cast(produto_lote.dh_validade as date)) end as fab_date,
+			 case when produto_lote.dh_validade is not null then produto_lote.dh_validade else pedido_distribuidora_prd_lote.dh_validade end as exp_date,
+			 case when produto_geral.cd_grupo_psico is null then 'N' else 'S' end as id_controlado,
+			 pedido_distribuidora.cd_distribuidora,
+		    coalesce(pedido_distribuidora.cd_centro_custo, pedido_almoxarifado.cd_centro_custo) cd_centro_custo_legado,
+			 pedido_distribuidora.id_pedido_almoxarifado,
+			 substring(produto_geral.cd_subcategoria, 1,1) as cd_categoria,
+			 pedido_distribuidora_prd_item.cd_produto as cd_produto,
+			 coalesce(tipo_pedido_distribuidora.de_tipo, '') as de_tipo_pedido,
+			 coalesce(pedido_distribuidora_produto.de_motivo_rejeicao, '') as de_motivo_rejeicao,
+			 coalesce(pedido_distribuidora_produto.qt_lista_separacao, 0) as qt_atendida,
+			 tipo_pedido_distribuidora.cd_deposito_sap,
+			 tipo_pedido_distribuidora.id_sobra,
+			wte.cd_filial_origem
+	  from pedido_distribuidora inner join pedido_distribuidora_prd_item on pedido_distribuidora_prd_item.cd_filial 					= pedido_distribuidora.cd_filial and
+																									pedido_distribuidora_prd_item.nr_pedido_distribuidora = pedido_distribuidora.nr_pedido_distribuidora
+										 inner join pedido_distribuidora_prd_lote on pedido_distribuidora_prd_lote.cd_filial 					= pedido_distribuidora_prd_item.cd_filial and 
+																									pedido_distribuidora_prd_lote.nr_pedido_distribuidora = pedido_distribuidora_prd_item.nr_pedido_distribuidora and 
+																									pedido_distribuidora_prd_lote.cd_produto 					= pedido_distribuidora_prd_item.cd_produto
+										 left join produto_lote on produto_lote.nr_lote 		= pedido_distribuidora_prd_lote.nr_lote and 
+																			 produto_lote.cd_produto 	= pedido_distribuidora_prd_lote.cd_produto
+										 inner join tipo_pedido_distribuidora on tipo_pedido_distribuidora.id_tipo	= pedido_distribuidora.id_tipo_pedido
+										 left outer join produto_geral on produto_geral.cd_produto	= pedido_distribuidora_prd_lote.cd_produto
+										 left outer join integracao_sap on integracao_sap.cd_chave_legado = cast(pedido_distribuidora.cd_filial as varchar) and 
+																					  integracao_sap.cd_tabela 		= 'FILIAL'
+										left outer join pedido_distribuidora_almox on (pedido_distribuidora_almox.cd_filial = pedido_distribuidora.cd_filial and pedido_distribuidora_almox.nr_pedido_distribuidora = pedido_distribuidora.nr_pedido_distribuidora)
+										left outer join pedido_almoxarifado  on  (pedido_almoxarifado.cd_filial = pedido_distribuidora_almox.cd_filial and pedido_almoxarifado.nr_pedido = pedido_distribuidora_almox.nr_pedido_almoxarifado)
+										inner join pedido_distribuidora_produto on pedido_distribuidora_produto.nr_pedido_distribuidora = pedido_distribuidora.nr_pedido_distribuidora
+																							 and pedido_distribuidora_produto.cd_filial						= pedido_distribuidora.cd_filial
+																							 and pedido_distribuidora_produto.cd_produto						= pedido_distribuidora_prd_lote.cd_produto
+										left outer join wms_transferencia_estoque wte on wte.nr_pedido_distribuidora = pedido_distribuidora.nr_pedido_distribuidora and wte.cd_filial_destino = pedido_distribuidora.cd_filial
+  where pedido_distribuidora.cd_filial 					= :al_cd_filial and 
+		  pedido_distribuidora.nr_pedido_distribuidora 	= :al_nr_pedido_distribuidora and  
+		  (convert ( char(10), pedido_distribuidora_prd_lote.dh_validade, 104 ) <> '' or
+		  convert ( char(10), produto_lote.dh_validade, 104 ) <> '') and
+          substring(produto_geral.cd_subcategoria, 1,1) = '1' and
+          COALESCE(pedido_distribuidora_produto.qt_separada, 0) > COALESCE(pedido_distribuidora_produto.qt_faturada, 0)
+
+union
+
+select p.nr_pedido_distribuidora as number_po,
+		  	 coalesce(t.id_tipo_pedido_sap, 'X') as tp_po,
+		    '1156' as center_provider,
+		    '' as code_pgto,
+		    CONVERT( CHAR(10), p.dh_emissao, 104 ) date,
+		    0 as item_po,
+		    pg.cd_produto_sap as material,
+ 		    dbo.retorna_um_compra_sap(pp.cd_produto) as unidade_medida,
+		    pp.qt_separada as amount,
+		    int.cd_chave_sap as store,
+		    '' batch,
+		    '' fab_date, 
+		    '' exp_date,
+		    case when pg.cd_grupo_psico is null then 'N' else 'S' end as id_controlado,
+ 		    p.cd_distribuidora,
+		    coalesce(p.cd_centro_custo,  pa.cd_centro_custo) cd_centro_custo_legado,
+		    p.id_pedido_almoxarifado,
+			 substring(pg.cd_subcategoria, 1,1) as cd_categoria,
+			 pp.cd_produto as cd_produto,
+			 coalesce(t.de_tipo, '') as de_tipo_pedido,
+			 coalesce(pp.de_motivo_rejeicao, '') as de_motivo_rejeicao,
+			 coalesce(pp.qt_lista_separacao, 0) as qt_atendida,
+			 COALESCE (t.cd_deposito_sap, ''),
+			 COALESCE (t.id_sobra, 'N'),
+			wte.cd_filial_origem
+from pedido_distribuidora p
+left outer join tipo_pedido_distribuidora t on (t.id_tipo	= p.id_tipo_pedido)
+inner join pedido_distribuidora_produto pp on (pp.cd_filial = p.cd_filial and pp.nr_pedido_distribuidora = p.nr_pedido_distribuidora)
+inner join produto_geral pg on( pg.cd_produto = pp.cd_produto)
+inner join integracao_sap int on (int.cd_chave_legado 	= cast(p.cd_filial as varchar) and int.cd_tabela 			= 'FILIAL')
+inner join pedido_distribuidora_almox pda on (pda.cd_filial = p.cd_filial and pda.nr_pedido_distribuidora = p.nr_pedido_distribuidora)
+inner join pedido_almoxarifado  pa on  (pa.cd_filial = pda.cd_filial and pa.nr_pedido = pda.nr_pedido_almoxarifado)
+inner join dbo.pedido_almoxarifado_produto pap on pa.cd_filial = pap.cd_filial and pa.nr_pedido = pap.nr_pedido and pap.cd_produto = pp.cd_produto 
+left outer join wms_transferencia_estoque wte on wte.nr_pedido_distribuidora = p.nr_pedido_distribuidora and wte.cd_filial_destino = p.cd_filial
+where p.cd_filial 						= :al_cd_filial
+   and p.nr_pedido_distribuidora 	= :al_nr_pedido_distribuidora
+   and substring(pg.cd_subcategoria, 1,1) <> '1' 
+	and p.id_pedido_almoxarifado = 'S'
+	and p.id_tipo_pedido 			<> '6'
+   and pp.qt_separada 				> 0 
+	and COALESCE(pp.qt_separada, 0) > COALESCE(pp.qt_faturada, 0)
+	and pa.cd_centro_custo is not null
+
+	union
+
+select p.nr_pedido_distribuidora as number_po,
+		  	 coalesce(t.id_tipo_pedido_sap, 'X') as tp_po,
+		    '1156' as center_provider,
+		    '' as code_pgto,
+		    CONVERT( CHAR(10), p.dh_emissao, 104 ) date,
+		    0 as item_po,
+		    pg.cd_produto_sap as material,
+ 		    dbo.retorna_um_compra_sap(pp.cd_produto) as unidade_medida,
+		    pp.qt_separada as amount,
+		    int.cd_chave_sap as store,
+		    '' batch,
+		    '' fab_date, 
+		    '' exp_date,
+		    case when pg.cd_grupo_psico is null then 'N' else 'S' end as id_controlado,
+ 		    p.cd_distribuidora,
+		    coalesce(p.cd_centro_custo,  pa.cd_centro_custo) cd_centro_custo_legado,
+		    p.id_pedido_almoxarifado,
+			 substring(pg.cd_subcategoria, 1,1) as cd_categoria,
+			 pp.cd_produto as cd_produto,
+			 coalesce(t.de_tipo, '') as de_tipo_pedido,
+			 coalesce(pp.de_motivo_rejeicao, '') as de_motivo_rejeicao,
+			 coalesce(pp.qt_lista_separacao, 0) as qt_atendida,
+			 COALESCE (t.cd_deposito_sap, ''),
+			 COALESCE (t.id_sobra, 'N'),
+			wte.cd_filial_origem
+from pedido_distribuidora p
+left outer join tipo_pedido_distribuidora t on (t.id_tipo	= p.id_tipo_pedido)
+inner join pedido_distribuidora_produto pp on (pp.cd_filial = p.cd_filial and pp.nr_pedido_distribuidora = p.nr_pedido_distribuidora)
+inner join produto_geral pg on( pg.cd_produto = pp.cd_produto)
+inner join integracao_sap int on (int.cd_chave_legado 	= cast(p.cd_filial as varchar) and int.cd_tabela 			= 'FILIAL')
+inner join pedido_distribuidora_almox pda on (pda.cd_filial = p.cd_filial and pda.nr_pedido_distribuidora = p.nr_pedido_distribuidora)
+inner join pedido_almoxarifado  pa on  (pa.cd_filial = pda.cd_filial and pa.nr_pedido = pda.nr_pedido_almoxarifado)
+inner join dbo.pedido_almoxarifado_produto pap on pa.cd_filial = pap.cd_filial and pa.nr_pedido = pap.nr_pedido and pap.cd_produto = pp.cd_produto 
+left outer join wms_transferencia_estoque wte on wte.nr_pedido_distribuidora = p.nr_pedido_distribuidora and wte.cd_filial_destino = p.cd_filial
+where p.cd_filial 						= :al_cd_filial
+   and p.nr_pedido_distribuidora 	= :al_nr_pedido_distribuidora
+   and substring(pg.cd_subcategoria, 1,1) <> '1' 
+	and p.id_pedido_almoxarifado = 'S'
+	and p.id_tipo_pedido 			<> '6'
+   and pp.qt_separada 				> 0 
+	and COALESCE(pp.qt_separada, 0) > COALESCE(pp.qt_faturada, 0)
+	and pa.cd_centro_custo is null
+	and not exists (select 1 from 
+	pedido_distribuidora_almox pda2 
+	inner join pedido_almoxarifado  pa2 on  (pa2.cd_filial = pda2.cd_filial and pa2.nr_pedido = pda2.nr_pedido_almoxarifado)
+	inner join dbo.pedido_almoxarifado_produto pap2 on pa2.cd_filial = pap2.cd_filial and pa2.nr_pedido = pap2.nr_pedido and pap2.cd_produto = pp.cd_produto
+	where pa2.cd_centro_custo is not null
+	and (pda2.cd_filial = p.cd_filial and pda2.nr_pedido_distribuidora = p.nr_pedido_distribuidora)
+	)
+
+	union
+
+ 	select p.nr_pedido_distribuidora as number_po,
+		  	 coalesce(t.id_tipo_pedido_sap, 'X') as tp_po,
+		    '1156' as center_provider,
+		    '' as code_pgto,
+		    CONVERT( CHAR(10), p.dh_emissao, 104 ) date,
+		    0 as item_po,
+		    pg.cd_produto_sap as material,
+ 		    dbo.retorna_um_compra_sap(pp.cd_produto) as unidade_medida,
+		    pp.qt_separada as amount,
+		    int.cd_chave_sap as store,
+		    '' batch,
+		    '' fab_date, 
+		    '' exp_date,
+		    case when pg.cd_grupo_psico is null then 'N' else 'S' end as id_controlado,
+ 		    p.cd_distribuidora,
+		    p.cd_centro_custo cd_centro_custo_legado,
+		    p.id_pedido_almoxarifado,
+			 substring(pg.cd_subcategoria, 1,1) as cd_categoria,
+			 pp.cd_produto as cd_produto,
+			 coalesce(t.de_tipo, '') as de_tipo_pedido,
+			 coalesce(pp.de_motivo_rejeicao, '') as de_motivo_rejeicao,
+			 coalesce(pp.qt_lista_separacao, 0) as qt_atendida,
+			 COALESCE (t.cd_deposito_sap, ''),
+			 COALESCE (t.id_sobra, 'N'),
+			wte.cd_filial_origem
+from pedido_distribuidora p
+left outer join tipo_pedido_distribuidora t on (t.id_tipo	= p.id_tipo_pedido)
+inner join pedido_distribuidora_produto pp on (pp.cd_filial = p.cd_filial and pp.nr_pedido_distribuidora = p.nr_pedido_distribuidora)
+inner join produto_geral pg on( pg.cd_produto = pp.cd_produto)
+inner join integracao_sap int on (int.cd_chave_legado 	= cast(p.cd_filial as varchar) and int.cd_tabela 			= 'FILIAL')
+left outer join wms_transferencia_estoque wte on wte.nr_pedido_distribuidora = p.nr_pedido_distribuidora and wte.cd_filial_destino = p.cd_filial
+where  p.cd_filial 						= :al_cd_filial
+   and p.nr_pedido_distribuidora 	= :al_nr_pedido_distribuidora
+   and substring(pg.cd_subcategoria, 1,1) <> '1' 
+	and p.id_pedido_almoxarifado = 'S'
+	and p.id_tipo_pedido 			= '6'
+   and pp.qt_separada 				> 0 
+	and COALESCE(pp.qt_separada, 0) > COALESCE(pp.qt_faturada, 0)
+
+union
+
+select p.nr_pedido_distribuidora as number_po,
+		  	 coalesce(t.id_tipo_pedido_sap, 'X') as tp_po,
+		    '1156' as center_provider,
+		    '' as code_pgto,
+		    CONVERT( CHAR(10), p.dh_emissao, 104 ) date,
+		    0 as item_po,
+		    pg.cd_produto_sap as material,
+ 		    dbo.retorna_um_compra_sap(pp.cd_produto) as unidade_medida,
+		    pp.qt_separada as amount,
+		    int.cd_chave_sap as store,
+		    '' batch,
+		    '' fab_date, 
+		    '' exp_date,
+		    case when pg.cd_grupo_psico is null then 'N' else 'S' end as id_controlado,
+ 		    p.cd_distribuidora,
+		    p.cd_centro_custo cd_centro_custo_legado,
+		    p.id_pedido_almoxarifado,
+			 substring(pg.cd_subcategoria, 1,1) as cd_categoria,
+			 pp.cd_produto as cd_produto,
+			 coalesce(t.de_tipo, '') as de_tipo_pedido,
+			 coalesce(pp.de_motivo_rejeicao, '') as de_motivo_rejeicao,
+			 coalesce(pp.qt_lista_separacao, 0) as qt_atendida,
+			 COALESCE (t.cd_deposito_sap, ''),
+			 COALESCE (t.id_sobra, 'N'),
+			wte.cd_filial_origem
+from pedido_distribuidora p
+left outer join tipo_pedido_distribuidora t on (t.id_tipo	= p.id_tipo_pedido)
+inner join pedido_distribuidora_produto pp on (pp.cd_filial = p.cd_filial and pp.nr_pedido_distribuidora = p.nr_pedido_distribuidora)
+inner join produto_geral pg on( pg.cd_produto = pp.cd_produto)
+inner join integracao_sap int on (int.cd_chave_legado 	= cast(p.cd_filial as varchar) and int.cd_tabela 			= 'FILIAL')
+left outer join wms_transferencia_estoque wte on wte.nr_pedido_distribuidora = p.nr_pedido_distribuidora and wte.cd_filial_destino = p.cd_filial
+where p.cd_filial 						= :al_cd_filial
+   and p.nr_pedido_distribuidora 	= :al_nr_pedido_distribuidora
+   and substring(pg.cd_subcategoria, 1,1) <> '1' 
+	and p.id_pedido_almoxarifado = 'N'
+   and pp.qt_separada 				> 0 
+	and COALESCE(pp.qt_separada, 0) > COALESCE(pp.qt_faturada, 0)" arguments=(("al_cd_filial", number),("al_nr_pedido_distribuidora", number))  sort="item_po A " )
+text(band=header alignment="2" text="Pedido Distribuidora
+Number Po" border="0" color="33554432" x="5" y="4" height="104" width="526" html.valueishtml="0"  name=pedido_distribuidora_number_po_t visible="1"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Tp Po" border="0" color="33554432" x="535" y="4" height="52" width="146" html.valueishtml="0"  name=tp_po_t visible="1"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Center Provider" border="0" color="33554432" x="686" y="4" height="52" width="416" html.valueishtml="0"  name=center_provider_t visible="1"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Code Pgto" border="0" color="33554432" x="1106" y="4" height="52" width="270" html.valueishtml="0"  name=code_pgto_t visible="1"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Date" border="0" color="33554432" x="1385" y="4" height="52" width="247" html.valueishtml="0"  name=date_t visible="1"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Pedido Distribuidora Prd Item
+Item Po" border="0" color="33554432" x="1641" y="4" height="104" width="773" html.valueishtml="0"  name=pedido_distribuidora_prd_item_item_po_t visible="1"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Produto Geral
+Material" border="0" color="33554432" x="2418" y="4" height="104" width="480" html.valueishtml="0"  name=produto_geral_material_t visible="1"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Codigo Barras Produto
+Unidade Medida" border="0" color="33554432" x="2903" y="4" height="104" width="594" html.valueishtml="0"  name=codigo_barras_produto_unidade_medida_t visible="1"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Pedido Distribuidora Prd Lote
+Amout" border="0" color="33554432" x="3502" y="4" height="104" width="759" html.valueishtml="0"  name=pedido_distribuidora_prd_lote_amout_t visible="1"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Integracao Sap
+Store" border="0" color="33554432" x="4265" y="4" height="104" width="937" html.valueishtml="0"  name=integracao_sap_store_t visible="1"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Pedido Distribuidora Prd Lote
+Batch" border="0" color="33554432" x="5207" y="4" height="104" width="759" html.valueishtml="0"  name=pedido_distribuidora_prd_lote_batch_t visible="1"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Produto Lote
+Fab Date" border="0" color="33554432" x="5970" y="4" height="104" width="503" html.valueishtml="0"  name=produto_lote_fab_date_t visible="1"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Produto Lote
+Exp Date" border="0" color="33554432" x="6478" y="4" height="104" width="503" html.valueishtml="0"  name=produto_lote_exp_date_t visible="1"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=1 alignment="1" tabsequence=32766 border="0" color="33554432" x="5" y="4" height="60" width="274" format="[general]" html.valueishtml="0"  name=number_po visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="33554432" x="535" y="4" height="60" width="69" format="[general]" html.valueishtml="0"  name=tp_po visible="1" edit.limit=2 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="33554432" x="686" y="4" height="60" width="114" format="[general]" html.valueishtml="0"  name=center_provider visible="1" edit.limit=4 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="33554432" x="969" y="4" height="60" width="174" format="[general]" html.valueishtml="0"  name=code_pgto visible="1" edit.limit=1 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="33554432" x="1266" y="4" height="60" width="352" format="[general]" html.valueishtml="0"  name=date visible="1" edit.limit=10 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=6 alignment="1" tabsequence=32766 border="0" color="33554432" x="1641" y="4" height="60" width="270" format="[general]" html.valueishtml="0"  name=item_po visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="33554432" x="2418" y="4" height="60" width="480" format="[general]" html.valueishtml="0"  name=material visible="1" edit.limit=20 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="33554432" x="2903" y="4" height="60" width="91" format="[general]" html.valueishtml="0"  name=unidade_medida visible="1" edit.limit=3 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=10 alignment="0" tabsequence=32766 border="0" color="33554432" x="4265" y="0" height="60" width="937" format="[general]" html.valueishtml="0"  name=store visible="1" edit.limit=40 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=11 alignment="0" tabsequence=32766 border="0" color="16777215" x="5207" y="4" height="60" width="480" format="[general]" html.valueishtml="0"  name=batch visible="1" edit.limit=20 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="32768" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=14 alignment="0" tabsequence=32766 border="0" color="33554432" x="6990" y="8" height="48" width="78" format="[general]" html.valueishtml="0"  name=id_controlado visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="33554432" x="7081" y="4" height="48" width="370" format="[general]" html.valueishtml="0"  name=amount visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=15 alignment="0" tabsequence=32766 border="0" color="33554432" x="7474" y="8" height="48" width="270" format="[general]" html.valueishtml="0"  name=cd_distribuidora visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=16 alignment="0" tabsequence=32766 border="0" color="33554432" x="7762" y="12" height="48" width="590" format="[general]" html.valueishtml="0"  name=cd_centro_custo_legado visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=17 alignment="0" tabsequence=32766 border="0" color="33554432" x="8402" y="12" height="48" width="233" format="[general]" html.valueishtml="0"  name=id_pedido_almoxarifado visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=18 alignment="0" tabsequence=32766 border="0" color="33554432" x="8635" y="0" height="48" width="23" format="[general]" html.valueishtml="0"  name=cd_categoria visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=19 alignment="0" tabsequence=32766 border="0" color="33554432" x="8658" y="0" height="48" width="1819" format="[general]" html.valueishtml="0"  name=cd_produto visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=12 alignment="0" tabsequence=32766 border="0" color="16777215" x="5970" y="4" height="60" width="503" format="[shortdate] [time]" html.valueishtml="0"  name=fab_date visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16711680" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=13 alignment="0" tabsequence=32766 border="0" color="16777215" x="6478" y="4" height="60" width="503" format="[shortdate] [time]" html.valueishtml="0"  name=exp_date visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="255" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=20 alignment="0" tabsequence=32766 border="0" color="33554432" x="10478" y="0" height="48" width="462" format="[general]" html.valueishtml="0"  name=de_tipo_pedido visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="0" x="3739" y="20" height="52" width="110" format="[general]" html.valueishtml="0"  name=amount_1 visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=21 alignment="0" tabsequence=32766 border="0" color="33554432" x="11008" y="4" height="48" width="1152" format="[general]" html.valueishtml="0"  name=de_motivo_rejeicao visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=22 alignment="0" tabsequence=32766 border="0" color="33554432" x="12160" y="4" height="48" width="1819" format="[general]" html.valueishtml="0"  name=qt_atendida visible="0" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=23 alignment="0" tabsequence=32766 border="0" color="33554432" x="13979" y="0" height="48" width="91" format="[general]" html.valueishtml="0"  name=cd_deposito_sap visible="0" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=24 alignment="0" tabsequence=32766 border="0" color="33554432" x="14071" y="0" height="48" width="23" format="[general]" html.valueishtml="0"  name=id_sobra visible="0" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=25 alignment="0" tabsequence=32766 border="0" color="33554432" x="14094" y="0" height="48" width="1819" format="[general]" html.valueishtml="0"  name=cd_filial_origem visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

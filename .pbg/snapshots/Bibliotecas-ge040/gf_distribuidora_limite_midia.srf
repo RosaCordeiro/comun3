@@ -1,0 +1,31 @@
+HA$PBExportHeader$gf_distribuidora_limite_midia.srf
+global type gf_distribuidora_limite_midia from function_object
+end type
+
+forward prototypes
+global function boolean gf_distribuidora_limite_midia (string as_cd_distribuidora, ref decimal ad_limite, ref string as_mensagem)
+end prototypes
+
+global function boolean gf_distribuidora_limite_midia (string as_cd_distribuidora, ref decimal ad_limite, ref string as_mensagem);// chamado 902727 - funcao que retorna o limite de desconto de midia por distribuidor 
+ad_limite = 0
+as_mensagem = ''
+
+Select coalesce(pc_limite_vigencia_midia,0)
+Into :ad_limite
+From fornecedor
+where cd_fornecedor = :as_cd_distribuidora
+Using SQLCA;
+
+If	SqlCa.SqlCode = -1 Then
+	as_mensagem = "Erro na verifica$$HEX2$$e700e300$$ENDHEX$$o do Limite de Percentual de M$$HEX1$$ed00$$ENDHEX$$dia para o fornecedor de c$$HEX1$$f300$$ENDHEX$$digo '"+as_cd_distribuidora+"': " + SqlCa.SqlErrText 
+	ad_limite = 0
+	return false
+ElseIf SqlCa.SqlCode = 100 Then	
+	as_mensagem = "Distribuidora de c$$HEX1$$f300$$ENDHEX$$digo: '" + as_cd_distribuidora + "' n$$HEX1$$e300$$ENDHEX$$o encontrada."
+	ad_limite = 0
+	return false
+End If
+
+return true
+end function
+

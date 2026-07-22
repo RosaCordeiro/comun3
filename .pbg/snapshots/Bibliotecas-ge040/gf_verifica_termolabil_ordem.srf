@@ -1,0 +1,58 @@
+HA$PBExportHeader$gf_verifica_termolabil_ordem.srf
+global type gf_verifica_termolabil_ordem from function_object
+end type
+
+forward prototypes
+global function boolean gf_verifica_termolabil_ordem (long al_lote_recebimento, ref boolean ab_achou_termolabil, ref boolean ab_achou_nao_termolabil)
+end prototypes
+
+global function boolean gf_verifica_termolabil_ordem (long al_lote_recebimento, ref boolean ab_achou_termolabil, ref boolean ab_achou_nao_termolabil);Long ll_Achou_Termolabil, ll_Achou_Nao_Termo
+
+ab_achou_termolabil = False
+ab_achou_nao_termolabil = False
+
+SELECT 
+  COUNT(CASE WHEN pg_pend.cd_produto IS NOT NULL AND coalesce(pg_pend.id_geladeira, 'N') = 'S' 
+          THEN 1 
+        END)
+  + COUNT(CASE WHEN pg_wms.cd_produto IS NOT NULL AND coalesce(pg_wms.id_geladeira, 'N') = 'S' 
+          THEN 1 
+        END)
+  AS total_termolabil,
+  COUNT(CASE WHEN pg_pend.cd_produto IS NOT NULL AND coalesce(pg_pend.id_geladeira, 'N') <> 'S' 
+          THEN 1 
+        END)
+  + COUNT(CASE WHEN pg_wms.cd_produto IS NOT NULL AND coalesce(pg_wms.id_geladeira, 'N') <> 'S' 
+          THEN 1 
+        END)
+  AS total_nao_termolabil
+INTO :ll_Achou_Termolabil, :ll_Achou_Nao_Termo
+FROM lote_recebimento lr
+LEFT JOIN lote_recebimento_nf lrnf ON lrnf.nr_lote = lr.nr_lote
+LEFT JOIN nf_compra_pendente_produto nfp ON nfp.cd_filial = 534
+    AND nfp.nr_nf = lrnf.nr_nf 
+    AND nfp.de_especie = lrnf.de_especie 
+    AND nfp.de_serie = lrnf.de_serie 
+    AND nfp.cd_fornecedor = lr.cd_fornecedor
+LEFT JOIN produto_geral pg_pend ON pg_pend.cd_produto = nfp.cd_produto
+LEFT JOIN lote_recebimento_produto_wms lr_wms ON lr_wms.nr_lote_recebimento = lr.nr_lote
+LEFT JOIN produto_geral pg_wms ON pg_wms.cd_produto = lr_wms.cd_produto
+WHERE lr.nr_lote = :al_lote_recebimento
+Using Sqlca;
+
+If SqlCa.SqlCode = -1 Then
+	SqlCa.of_MsgDbError("Erro ao verificar se ordem contem produto termol$$HEX1$$e100$$ENDHEX$$bil/n$$HEX1$$e300$$ENDHEX$$o termol$$HEX1$$e100$$ENDHEX$$bil.")
+	Return False
+End If
+
+If ll_Achou_Termolabil > 0 Then
+	ab_achou_termolabil = True
+End If
+
+If ll_Achou_Nao_Termo > 0 Then
+	ab_achou_nao_termolabil = True
+End If
+
+Return True
+end function
+

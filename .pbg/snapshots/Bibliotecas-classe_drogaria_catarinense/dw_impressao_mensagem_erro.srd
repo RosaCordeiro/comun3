@@ -1,0 +1,17 @@
+HA$PBExportHeader$dw_impressao_mensagem_erro.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 107 print.margin.right = 107 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=4 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=376 color="553648127"  height.autosize=yes)
+table(column=(type=char(255) updatewhereclause=no name=titulo dbname="titulo" )
+ column=(type=char(5000) updatewhereclause=no name=mensagem dbname="mensagem" )
+ column=(type=char(5000) updatewhereclause=no name=comentario dbname="comentario" )
+ )
+column(band=detail id=1 alignment="0" tabsequence=10 border="0" color="0" x="466" y="4" height="72" width="2688" format="[general]"  name=titulo height.autosize=yes edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=2 alignment="0" tabsequence=20 border="0" color="0" x="466" y="128" height="72" width="2688" format="[general]"  name=mensagem height.autosize=yes edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=3 alignment="0" tabsequence=30 border="0" color="0" x="466" y="248" height="76" width="2688" format="[general]"  name=comentario  slideup=allabove height.autosize=yes edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Coment$$HEX1$$e100$$ENDHEX$$rios :"border="0" color="0" x="0" y="248" height="64" width="411"  name=comments_t  slideup=allabove  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Mensagem :"border="0" color="0" x="46" y="128" height="64" width="366"  name=message_t  slideup=allabove  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="T$$HEX1$$ed00$$ENDHEX$$tulo :"border="0" color="0" x="210" y="4" height="64" width="201"  name=title_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes") 

@@ -1,0 +1,33 @@
+HA$PBExportHeader$f_ge512_existe_usuario.srf
+$PBExportComments$valida usuario
+global type f_ge512_existe_usuario from function_object
+end type
+
+forward prototypes
+global function boolean f_ge512_existe_usuario (string as_matricula, ref string as_matricula_original, ref string as_log)
+end prototypes
+
+global function boolean f_ge512_existe_usuario (string as_matricula, ref string as_matricula_original, ref string as_log);Integer li_ret
+
+/// Consulta usuario
+Select nr_matricula
+   Into :as_matricula_original
+  from usuario 
+where nr_matricula = :as_matricula
+	or nr_matricula_padpicking = :as_matricula
+ Using SqlCa;
+
+Choose Case SqlCa.sqlcode 
+	Case -1
+		as_log	= 'Erro ao buscar matricula. Objeto: f_ge512_existe_usuario.~r~r' + SQLCA.SQLErrText 
+		SqlCa.of_Rollback()
+		Return False
+	Case 100
+		as_log	= 'N$$HEX1$$e300$$ENDHEX$$o foi encontrado usu$$HEX1$$e100$$ENDHEX$$rio para a matricula procurada. Objeto: f_ge512_existe_usuario.' 
+		SqlCa.of_Rollback()
+		Return False
+End Choose
+
+Return true
+end function
+

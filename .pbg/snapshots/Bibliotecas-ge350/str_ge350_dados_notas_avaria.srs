@@ -1,0 +1,8 @@
+HA$PBExportHeader$str_ge350_dados_notas_avaria.srs
+global type str_ge350_dados_notas_avaria from structure
+	long		cd_filial
+	long		nr_produto
+	string		nr_lote
+	datetime		dh_solicita
+end type
+

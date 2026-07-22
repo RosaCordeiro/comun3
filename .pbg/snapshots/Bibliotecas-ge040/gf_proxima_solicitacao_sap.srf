@@ -1,0 +1,32 @@
+HA$PBExportHeader$gf_proxima_solicitacao_sap.srf
+global type gf_proxima_solicitacao_sap from function_object
+end type
+
+forward prototypes
+global function boolean gf_proxima_solicitacao_sap (ref string ps_sequencial, ref string ps_log)
+end prototypes
+
+global function boolean gf_proxima_solicitacao_sap (ref string ps_sequencial, ref string ps_log);String ls_erro
+
+Declare sp_seq Procedure for sp_solicitacao_sap_prox_seq @proximo_sequencial_retorno  = :ps_sequencial output,  @mensagem_retorno = :ls_erro output
+USING SQLCA;
+	
+Execute sp_seq;
+		
+If sqlca.sqlcode = -1 then
+	 ps_log = 'Erro ao executar a procedure [sp_solicitacao_sap_prox_seq]: ' + sqlca.sqlerrtext
+	 return false
+end if
+		
+Fetch sp_seq Into :ps_sequencial, :ls_erro;
+
+Close sp_seq;
+
+if ps_sequencial = '' or IsNull(ps_sequencial) then
+	 ps_log = 'Erro ao executar a procedure [sp_solicitacao_sap_prox_seq]: ' + ls_erro
+	 return false
+end if
+			
+Return True	
+end function
+

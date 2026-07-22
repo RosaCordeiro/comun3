@@ -1,0 +1,63 @@
+HA$PBExportHeader$dw_lancamento_psico_produto_lote.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=80269524 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=136 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=84 color="536870912" )
+table(column=(type=long updatewhereclause=yes name=cd_filial dbname="lancamento_psico_produto_lote.cd_filial" )
+ column=(type=long updatewhereclause=yes name=nr_nf dbname="lancamento_psico_produto_lote.nr_nf" )
+ column=(type=char(3) updatewhereclause=yes name=de_especie dbname="lancamento_psico_produto_lote.de_especie" )
+ column=(type=char(3) updatewhereclause=yes name=de_serie dbname="lancamento_psico_produto_lote.de_serie" )
+ column=(type=long updatewhereclause=yes name=nr_nsr dbname="lancamento_psico_produto_lote.nr_nsr" )
+ column=(type=long updatewhereclause=yes name=cd_produto dbname="lancamento_psico_produto_lote.cd_produto" )
+ column=(type=char(10) updatewhereclause=yes name=nr_lote dbname="lancamento_psico_produto_lote.nr_lote" )
+ column=(type=long updatewhereclause=yes name=qt_lote dbname="lancamento_psico_produto_lote.qt_lote" )
+ retrieve="  SELECT p.cd_filial,   
+         p.nr_nf,   
+         p.de_especie,   
+         p.de_serie,   
+         p.nr_nsr,   
+         p.cd_produto,   
+         p.nr_lote,   
+         p.qt_lote  
+    FROM lancamento_psico l,
+			lancamento_psico_produto  lp,
+         lancamento_psico_produto_lote  p
+   WHERE l.dh_exportacao = :data
+     AND lp.cd_filial	 = l.cd_filial
+     AND lp.nr_nf			 = l.nr_nf
+     AND lp.de_especie	 = l.de_especie
+     AND lp.de_serie		 = l.de_serie
+     AND lp.nr_nsr		 = l.nr_nsr
+     AND p.cd_filial		 = lp.cd_filial
+     AND p.nr_nf			 = lp.nr_nf
+     AND p.de_especie	 = lp.de_especie
+     AND p.de_serie		 = lp.de_serie
+	  AND p.nr_nsr			 = lp.nr_nsr
+	  AND p.cd_produto	 = lp.cd_produto" arguments=(("data", date)) )
+text(band=header alignment="2" text="Lancamento Psico Produto Lote
+Cd Filial"border="0" color="8388608" x="0" y="4" height="104" width="937"  name=lancamento_psico_produto_lote_cd_filial_  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Lancamento Psico Produto Lote
+Nr Nf"border="0" color="8388608" x="818" y="4" height="104" width="937"  name=lancamento_psico_produto_lote_nr_nf_t  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Lancamento Psico Produto Lote
+De Especie"border="0" color="8388608" x="1673" y="4" height="104" width="937"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Lancamento Psico Produto Lote
+De Serie"border="0" color="8388608" x="2528" y="4" height="104" width="937"  name=lancamento_psico_produto_lote_de_serie_t  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Lancamento Psico Produto Lote
+Nr Nsr"border="0" color="8388608" x="3383" y="4" height="104" width="937"  name=lancamento_psico_produto_lote_nr_nsr_t  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Lancamento Psico Produto Lote
+Cd Produto"border="0" color="8388608" x="4238" y="4" height="104" width="937"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Lancamento Psico Produto Lote
+Nr Lote"border="0" color="8388608" x="5093" y="4" height="104" width="937"  name=lancamento_psico_produto_lote_nr_lote_t  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Lancamento Psico Produto Lote
+Qt Lote"border="0" color="8388608" x="5947" y="4" height="104" width="937"  name=lancamento_psico_produto_lote_qt_lote_t  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="1" tabsequence=32766 border="2" color="0" x="5" y="4" height="64" width="329" format="[general]"  name=cd_filial edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="2" color="0" x="352" y="4" height="64" width="329" format="[general]"  name=nr_nf edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="2" color="0" x="699" y="4" height="64" width="110" format="[general]"  name=de_especie edit.limit=3 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="2" color="0" x="827" y="4" height="64" width="110" format="[general]"  name=de_serie edit.limit=3 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="2" color="0" x="955" y="4" height="64" width="329" format="[general]"  name=nr_nsr edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=6 alignment="1" tabsequence=32766 border="2" color="0" x="1303" y="4" height="64" width="329" format="[general]"  name=cd_produto edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="2" color="0" x="1650" y="4" height="64" width="302" format="[general]"  name=nr_lote edit.limit=10 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=8 alignment="1" tabsequence=32766 border="2" color="0" x="1970" y="4" height="64" width="329" format="[general]"  name=qt_lote edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

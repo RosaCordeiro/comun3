@@ -1,0 +1,50 @@
+HA$PBExportHeader$gf_verifica_endereco_bloqueado.srf
+global type gf_verifica_endereco_bloqueado from function_object
+end type
+
+forward prototypes
+global function boolean gf_verifica_endereco_bloqueado (string as_endereco, ref string as_msg_ou_erro)
+end prototypes
+
+global function boolean gf_verifica_endereco_bloqueado (string as_endereco, ref string as_msg_ou_erro);String ls_Id_Bloqueado, ls_Endereco, ls_Rua
+
+SetNull(ls_Id_Bloqueado)
+
+Select dbo.wms_retorna_end_bloqueado(:as_endereco)
+Into :ls_Id_Bloqueado
+From DUMMY
+Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+	Case 100
+		as_msg_ou_erro = "Endere$$HEX1$$e700$$ENDHEX$$o n$$HEX1$$e300$$ENDHEX$$o localizado '" + as_Endereco + "'."
+		Return False
+	Case -1
+		as_msg_ou_erro = "Erro ao verificar endere$$HEX1$$e700$$ENDHEX$$o. "+ SqlCa.SQLErrText	
+		Return False
+	Case 0
+		If ls_Id_Bloqueado = 'S' Then
+			//Endere$$HEX1$$e700$$ENDHEX$$o est$$HEX1$$e100$$ENDHEX$$ bloqueado
+			Select de_endereco_reduzido, cd_rua 
+			Into :ls_Endereco, :ls_Rua
+			From vw_wms_endereco 	
+			Where cd_endereco = :as_endereco
+			Using SqlCa;
+			
+			If SqlCa.SqlCode = -1 Then 
+				as_msg_ou_erro = "Erro ao localizar endere$$HEX1$$e700$$ENDHEX$$o reduzido. "+ SqlCa.SQLErrText	
+				Return False
+			End If
+
+			as_msg_ou_erro = 'Endere$$HEX1$$e700$$ENDHEX$$o: '+ ls_Endereco +' est$$HEX1$$e100$$ENDHEX$$ Bloqueado na Rua: '+ ls_Rua +'. Opera$$HEX2$$e700e300$$ENDHEX$$o N$$HEX1$$e300$$ENDHEX$$o Permitida!'
+			Return False
+		ElseIf ls_Id_Bloqueado = 'N' Then
+			//Endere$$HEX1$$e700$$ENDHEX$$o N$$HEX1$$c300$$ENDHEX$$O esta bloqueado
+			Return True
+		End If
+End Choose
+
+
+
+end function
+

@@ -1,0 +1,341 @@
+HA$PBExportHeader$gf_ge548_imprime_consentimento_cliente.srf
+global type gf_ge548_imprime_consentimento_cliente from function_object
+end type
+
+forward prototypes
+global function boolean gf_ge548_imprime_consentimento_cliente (string as_cliente)
+end prototypes
+
+global function boolean gf_ge548_imprime_consentimento_cliente (string as_cliente);Boolean lb_Sucesso = False
+
+String ls_Nome_Cliente, ls_produto, ls_Nome_Rede_Filial
+String ls_Pc_Desconto 
+String  ls_Texto, ls_dados[]
+String ls_Prod_Sap_Generico
+
+String ls_Situacao, ls_Tipo
+String ls_CPF
+String ls_Ini, ls_Fabricante, ls_Nm_Impressora
+String ls_Impressora_Padrao
+String ls_Link_Portal_1, ls_Link_Portal_2
+Date ldt_termino, ldt_Inicio, ldt_Parametro
+
+Long ll_Linhas, ll_Row, ll_Produto
+
+LongLong ll_Job
+
+Integer li_retorno
+
+Decimal ldc_Pc_Desconto, ldc_Preco_Final, ldc_Preco_Filial, ldc_Desconto_Fixo
+
+Integer i, li_Pos
+
+Try
+	dc_uo_ds_base lds_Consentimentos
+	dc_uo_ds_base lds_impressao
+	
+	lds_Consentimentos	= Create dc_uo_ds_base
+	lds_impressao 			= Create dc_uo_ds_base
+	
+	If Not lds_consentimentos.of_ChangeDataObject("ds_ge040_consentimento_cliente") Then
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o","Erro na fun$$HEX2$$e700e300$$ENDHEX$$o of_ChangeDataObject. ")
+		Return False
+	End If
+	
+	If Not lds_impressao.of_ChangeDataObject("ds_ge548_impressao_consentimento") Then
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o","Erro na fun$$HEX2$$e700e300$$ENDHEX$$o of_ChangeDataObject. ")
+		Return False
+	End If
+	
+	ll_Linhas = lds_Consentimentos.Retrieve( as_Cliente, gvo_Parametro.id_rede_filial )
+	
+	Choose Case ll_Linhas
+		Case is < 0 
+			MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o","Erro no retrieve, DS ds_ge039_cupom_pre_venda.~rFun$$HEX2$$e700e300$$ENDHEX$$o: ge_ge039_cupom_pre_venda", StopSign!)
+			Return False
+		Case 0
+			//Nenhuma linha econtrada
+			Return False
+	End Choose
+	
+	If gvo_Aplicacao.ivo_Seguranca.Cd_Sistema = 'RL' Then	
+		ls_Impressora_Padrao = PrintGetPrinter()	
+		ls_Impressora_Padrao=left(ls_Impressora_Padrao, pos(ls_Impressora_Padrao, "~t") -1)
+	End If
+	
+	If lds_impressao.Retrieve( as_Cliente ) <= 0 Then
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro no retrieve da impress$$HEX1$$e300$$ENDHEX$$o.")
+		Return False
+	End If	
+	
+	//Primeiro Nome do Cliente
+	ls_Nome_Cliente = lds_impressao.Object.nm_cliente[1]
+	
+	li_Pos = Pos(ls_Nome_Cliente, ' ')
+	If li_Pos > 0 Then
+		ls_Nome_Cliente = leftA(ls_Nome_Cliente, li_pos - 1)
+	Else
+		ls_Nome_Cliente = ls_Nome_Cliente
+	End If
+	
+	//Nome Cliente: Astrogildo
+	ls_Nome_Cliente = Upper(Mid(ls_Nome_Cliente, 1,1) ) + Lower(Mid(ls_Nome_Cliente, 2) )
+	
+	//CPF
+	ls_CPF = lds_impressao.Object.nr_cpf_cgc[1]
+		
+	lds_impressao.Object.nm_cliente[1] = ls_Nome_Cliente
+		
+	lds_impressao.AcceptText()
+	
+	ls_Ini = gvo_Aplicacao.ivs_Arquivo_INI
+
+	If IsNull(ls_INI) Or Trim(ls_INI) = "" Then
+		Return True
+	End If
+		
+	// Verifica se o caminho dos arquivos de ajuda est$$HEX1$$e300$$ENDHEX$$o especificados no INI
+	ls_Fabricante			= ProfileString(ls_INI, "ECF" , "Modelo","")
+	ls_Nm_Impressora 	= ProfileString(ls_INI, "ECF" , "NomeImpressora" , "")
+	
+	If ls_Fabricante = 'NFCE' Or ls_Fabricante = "SAT" Then		
+		If IsNull(ls_Nm_Impressora) Or Trim(ls_Nm_Impressora) = '' Then
+			 Messagebox("NFC-e","Nome da Impressora NFC-e n$$HEX1$$e300$$ENDHEX$$o definida no INI do Retaguarda!"+&
+								" Avise o SAF.", StopSign!)
+			 Return False
+		End If
+		
+		//Linhas consentimentos
+		For ll_Row = 1 To ll_Linhas 			
+			ls_Tipo		= lds_Consentimentos.Object.de_tipo				[ ll_Row ]
+			ls_Situacao	= lds_Consentimentos.Object.id_situacao		[ ll_Row ]
+					
+			If PosA(ls_Tipo, 'SMS') > 0 Then 
+				lds_impressao.Object.id_sms[1]			 			= ls_Situacao
+				Continue
+			End If
+			If PosA(ls_Tipo, 'EMAIL') > 0 Then 
+				lds_impressao.Object.id_email[1] 						= ls_Situacao
+				Continue
+			End If
+			If PosA(ls_Tipo, 'LIGA$$HEX2$$c700c300$$ENDHEX$$O') > 0 Then 
+				lds_impressao.Object.id_ligacao[1] 					= ls_Situacao
+				Continue
+			End If
+			If PosA(ls_Tipo, 'WHATSAPP') > 0 Then 
+				lds_impressao.Object.id_whatsapp[1] 				= ls_Situacao
+				Continue
+			End If
+			If PosA(ls_Tipo, 'REDES') > 0 Then 
+				lds_impressao.Object.id_redes[1] 						= ls_Situacao
+				Continue
+			End If
+			If PosA(ls_Tipo, 'CORRESPOND$$HEX1$$ca00$$ENDHEX$$NCIA') > 0 Then 
+				lds_impressao.Object.id_correspondencia[1] 		= ls_Situacao
+				Continue
+			End If
+			If PosA(ls_Tipo, 'MEDICAMENTOS') > 0 Then 
+				lds_impressao.Object.id_medicamento[1] 			= ls_Situacao
+				Continue
+			End If
+			
+			lds_impressao.acceptText()
+		Next
+		
+		Choose Case gvo_Parametro.id_rede_filial
+			Case 'FA'
+				ls_Nome_Rede_Filial = 'Farmagora'
+				ls_Link_Portal_1 = "https://www.clamed.com.br/"
+				ls_Link_Portal_2 = "portal-da-privacidade"
+				lds_impressao.Object.logo_dw.Filename 	= "S:\Sistemas_PB12\Retaguarda_Loja\Figuras\logo_FA.jpg" 
+			Case 'DC'
+				ls_Nome_Rede_Filial = 'Drogaria Catarinense'
+				ls_Link_Portal_1 = "www.drogariacatarinense.com.br/ajuda/"
+				ls_Link_Portal_2 = "politica-de-privacidade"
+				lds_impressao.Object.logo_dw.Filename 	= "S:\Sistemas_PB12\Retaguarda_Loja\Figuras\logo_DC.jpg"
+			Case 'PP' 
+				ls_Nome_Rede_Filial = 'Farm$$HEX1$$e100$$ENDHEX$$cia Pre$$HEX1$$e700$$ENDHEX$$o Popular'	
+				ls_Link_Portal_1 = "www.precopopular.com.br/ajuda/"
+				ls_Link_Portal_2 = "politica-de-privacidade"
+				lds_impressao.Object.logo_dw.Filename 	= "S:\Sistemas_PB12\Retaguarda_Loja\Figuras\logo_PP.jpg"	
+			Case 'MP'
+				ls_Nome_Rede_Filial = 'Drogaria Catarinense Manipula$$HEX2$$e700e300$$ENDHEX$$o'
+				ls_Link_Portal_1 = "https://www.clamed.com.br/"
+				ls_Link_Portal_2 = "portal-da-privacidade"
+				lds_impressao.Object.logo_dw.Filename 	= "S:\Sistemas_PB12\Retaguarda_Loja\Figuras\logo_MP.jpg"
+			Case 'PF'	
+				ls_Nome_Rede_Filial = 'Prof$$HEX1$$f300$$ENDHEX$$rmula'
+				ls_Link_Portal_1 = "https://www.clamed.com.br/"
+				ls_Link_Portal_2 = "portal-da-privacidade"
+				lds_impressao.Object.logo_dw.Filename 	= "S:\Sistemas_PB12\Retaguarda_Loja\Figuras\logo_PF.jpg"
+		End Choose
+		
+		lds_impressao.Object.texto_inicial.Text = 'Eu, ' + ls_Nome_Cliente + ', CPF: ' + gf_mascara_cpf_cnpj(ls_CPF)  + '~rAutorizo que a ' +  ls_Nome_Rede_Filial + ' trate (colete, processe e compartilhe) os meus dados pessoais para:' 
+		
+		If gvo_Aplicacao.ivo_Seguranca.Cd_Sistema = 'RL' Then
+			li_retorno = PrintSetPrinter ( ls_Nm_Impressora )			
+			If li_retorno <> 1 Then
+				gvo_Aplicacao.of_grava_log( "Erro ao setar a impressora NFCE para imprimir os consentimentos do cliente.")
+				Return False
+			End If
+		End If
+		
+		ll_Job = PrintOPen()
+		PrintDataWindow (ll_Job, lds_impressao)
+		li_retorno = PrintClose(ll_Job)
+			
+		If li_Retorno <> 1 Then
+			gvo_Aplicacao.of_grava_log( "Erro no evento PrintClose(). Fun$$HEX2$$e700e300$$ENDHEX$$o: gf_ge548_imprime_consentimento_cliente()")
+			MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o","Erro no evento PrintClose(). Fun$$HEX2$$e700e300$$ENDHEX$$o: gf_ge548_imprime_consentimento_cliente()",StopSign!)
+			Return False
+		End If
+		
+		lb_Sucesso = (li_Retorno = 1)
+		
+		If gvo_Aplicacao.ivo_Seguranca.Cd_Sistema = 'RL' Then
+			//Volta a impressora default
+			li_retorno = PrintSetPrinter ( ls_Impressora_Padrao )			
+			If li_retorno <> 1 Then
+				gvo_Aplicacao.of_grava_log( "Erro ao setar a impressora padrao.")
+			End If
+		ENd If
+		
+		//Imprimi via DataWindow
+		//lb_Sucesso = (lds_impressao.Print() = 1)
+	Else
+		Choose Case gvo_Parametro.id_rede_filial
+			Case 'FA'
+				ls_Nome_Rede_Filial = 'Farmagora'
+				ls_Link_Portal_1 = "https://www.clamed.com.br/"
+				ls_Link_Portal_2 = "portal-da-privacidade"
+			Case 'DC'
+				ls_Nome_Rede_Filial = 'Drogaria Catarinense'
+				ls_Link_Portal_1 = "www.drogariacatarinense.com.br/ajuda/"
+				ls_Link_Portal_2 = "politica-de-privacidade"
+			Case 'PP'
+				ls_Nome_Rede_Filial = 'Farm$$HEX1$$e100$$ENDHEX$$cia Pre$$HEX1$$e700$$ENDHEX$$o Popular'		
+				ls_Link_Portal_1 = "www.precopopular.com.br/ajuda/"
+				ls_Link_Portal_2 = "politica-de-privacidade"
+			Case 'MP'
+				ls_Nome_Rede_Filial = 'Drogaria Catarinense Manipula$$HEX2$$e700e300$$ENDHEX$$o'
+				ls_Link_Portal_1 = "https://www.clamed.com.br/"
+				ls_Link_Portal_2 = "portal-da-privacidade"
+			Case 'PF'
+				ls_Nome_Rede_Filial = 'Prof$$HEX1$$f300$$ENDHEX$$rmula'
+				ls_Link_Portal_1 = "https://www.clamed.com.br/"
+				ls_Link_Portal_2 = "portal-da-privacidade"
+		End Choose		
+		
+		If gvo_Aplicacao.ivo_Seguranca.Cd_Sistema = 'RL' Then	
+			//Impressora fiscal
+			MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o","$$HEX1$$c900$$ENDHEX$$ necess$$HEX1$$e100$$ENDHEX$$rio que somente o sistema de Retaguarda esteja operando agora. Portanto feche todas as " + &
+											"janelas do Caixa que eventualmente estejam ativas.",Exclamation!)
+			
+			
+			If Not IsValid (PDV ) Then
+				PDV = Create uo_pdv
+			End If		
+			
+			If Not IsValid (SITEF ) Then
+				SITEF = Create uo_sitef //Usado nas impressoras Bematech
+			End If
+			
+		Else
+//			MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o","$$HEX1$$c900$$ENDHEX$$ necess$$HEX1$$e100$$ENDHEX$$rio que somente o sistema de Caixa esteja operando agora. Portanto feche todas as " + &
+//											"janelas do Retaguarda de Loja que eventualmente estejam ativas.",Exclamation!)
+		End If
+			
+		i++; ls_dados[ i ] = Space(48)
+		i++; ls_dados[ i ] = "CONSENTIMENTO DE USO DE"
+		i++; ls_dados[ i ] = "DADOS PESSOAIS"
+		i++; ls_dados[ i ] = Space(48)
+		i++; ls_dados[ i ] = "Eu, " + ls_Nome_Cliente + ", Cpf: " + gf_mascara_cpf_cnpj(ls_CPF)
+		i++; ls_dados[ i ] = "Autorizo que a " + ls_Nome_Rede_Filial 
+		i++; ls_dados[ i ] = "trate (colete, processe e compartilhe) os"
+		i++; ls_dados[ i ] = "meus dados pessoais para:"
+		i++; ls_Dados[ i ] = Space(48)
+		i++; ls_dados[ i ] = "1 - Que eu receba comunica$$HEX2$$e700f500$$ENDHEX$$es com"
+		i++; ls_dados[ i ] = "ofertas personalizadas com base na"
+		i++; ls_dados[ i ] = "associa$$HEX2$$e700e300$$ENDHEX$$o de meus dados cadastrais aos"
+		i++; ls_dados[ i ] = "meus perfis de compras e servi$$HEX1$$e700$$ENDHEX$$os:"
+		i++; ls_dados[ i ] = Space(48)
+		i++; ls_dados[ i ] = Space(4) + "( X ) Clube de Benef$$HEX1$$ed00$$ENDHEX$$cios"
+		
+		For ll_Row = 1 To ll_Linhas
+			//a DW ds_ge040_consentimento_cliente possui orden$$HEX2$$e700e300$$ENDHEX$$o para listar a sequencia correta conforme modelo criado pelo depto. jur$$HEX1$$ed00$$ENDHEX$$dico 
+			ls_Tipo		= lds_Consentimentos.Object.de_tipo				[ ll_Row ]
+			ls_Situacao	= lds_Consentimentos.Object.id_situacao		[ ll_Row ]
+					
+			If PosA(ls_Tipo, 'SMS') > 0 Then
+				i++; ls_dados[ i ] 	= Space(4) + IIF(ls_Situacao='A', '( X ) SMS', '(   ) SMS')
+				Continue
+			End If
+			If PosA(ls_Tipo, 'WHATSAPP') > 0 Then 
+				i++; ls_dados[ i ] 	= Space(4) + IIF(ls_Situacao='A', '( X ) Whatsapp', '(   ) Whatsapp')
+				Continue
+			End If
+			If PosA(ls_Tipo, 'LIGA$$HEX2$$c700c300$$ENDHEX$$O') > 0 Then 
+				i++; ls_dados[ i ] 	= Space(4) + IIF(ls_Situacao='A', '( X ) Liga$$HEX2$$e700e300$$ENDHEX$$o Telef$$HEX1$$f400$$ENDHEX$$nica', '(   ) Liga$$HEX2$$e700e300$$ENDHEX$$o Telef$$HEX1$$f400$$ENDHEX$$nica')
+				Continue
+			End If
+			If PosA(ls_Tipo, 'EMAIL') > 0 Then 
+				i++; ls_dados[ i ] 	= Space(4) + IIF(ls_Situacao='A', '( X ) E-mail', '(   ) E-mail')
+				Continue
+			End If		
+			If PosA(ls_Tipo, 'CORRESPOND$$HEX1$$ca00$$ENDHEX$$NCIA') > 0 Then 
+				i++; ls_dados[ i ] 	= Space(4) + IIF(ls_Situacao='A', '( X ) Correspond$$HEX1$$ea00$$ENDHEX$$ncia', '(   ) Correspond$$HEX1$$ea00$$ENDHEX$$ncia')
+				Continue
+			End If
+			If PosA(ls_Tipo, 'REDES') > 0 Then 
+				i++; ls_dados[ i ] 	= Space(4) + IIF(ls_Situacao='A', '( X ) Redes Sociais', '(   ) Redes Sociais')
+				Continue
+			End If			
+								
+		Next
+		
+		i++; ls_Dados[ i ] = Space(48)
+		i++; ls_Dados[ i ] = "Estou ciente que posso alterar as"
+		i++; ls_Dados[ i ] = "autoriza$$HEX2$$e700f500$$ENDHEX$$es acima a qualquer momento nas"
+		i++; ls_Dados[ i ] = "lojas f$$HEX1$$ed00$$ENDHEX$$sicas ou atrav$$HEX1$$e900$$ENDHEX$$s do Portal da"
+		i++; ls_Dados[ i ] = "Privacidade da CLAMED. Para obter mais"
+		i++; ls_Dados[ i ] = "o tratamento dos dados pessoais e/ou exercer"
+		i++; ls_Dados[ i ] = "informa$$HEX2$$e700f500$$ENDHEX$$es sobre o tratamento dos dados"
+		i++; ls_Dados[ i ] = "pessoais e/ou exercer os seus direitos,"
+		i++; ls_Dados[ i ] = "acesse a nossa Pol$$HEX1$$ed00$$ENDHEX$$tica de Privacidade por"
+		i++; ls_Dados[ i ] = "meio do Portal da Privacidade:"
+		i++; ls_Dados[ i ] = ls_link_Portal_1
+		i++; ls_Dados[ i ] = ls_link_Portal_2
+		i++; ls_Dados[ i ] = Space(48)
+		i++; ls_Dados[ i ] = Space(48)
+		
+		PDV.of_abreporta( )
+		
+		lb_Sucesso = PDV.of_emite_comprovante("", ls_Dados[] )
+				
+		PDV.of_fechaporta()		
+				
+	End If
+	
+	If Not lb_Sucesso Then
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Ocorreu um erro ao imprimir o comprovante das permiss$$HEX1$$f500$$ENDHEX$$es do cliente. Acesse o cadastro do cliente na aba permiss$$HEX1$$f500$$ENDHEX$$es e pressione o bot$$HEX1$$e300$$ENDHEX$$o [Confirmar Pinpad] para imprimir novamente.", Exclamation! )
+	End If
+				
+	Return lb_Sucesso
+	
+Catch( runtimeerror lo_rte )
+	gvo_Aplicacao.of_grava_log( "Erro ao imprimir os consentimentos. ERRO: "+lo_rte.GetMessage( ))
+	MessageBox (	"Erro", "Ocorreu um erro ao imprimir os consentimentos do cliente. ~r~r"+ & 						
+ 						"Erro: "+lo_rte.GetMessage( ), StopSign!)
+	
+
+Finally
+	If IsValid( lds_Consentimentos ) 	Then Destroy lds_Consentimentos
+	If IsValid( lds_impressao ) 			Then Destroy lds_impressao
+	If gvo_Aplicacao.ivo_Seguranca.Cd_Sistema = 'RL' Then	
+		If IsValid( PDV ) 						Then Destroy PDV
+		If IsValid( SITEF ) 						Then Destroy SITEF
+	End If
+End Try
+
+end function
+

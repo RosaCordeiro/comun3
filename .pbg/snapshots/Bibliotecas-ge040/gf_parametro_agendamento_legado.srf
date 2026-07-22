@@ -1,0 +1,34 @@
+HA$PBExportHeader$gf_parametro_agendamento_legado.srf
+global type gf_parametro_agendamento_legado from function_object
+end type
+
+forward prototypes
+global function boolean gf_parametro_agendamento_legado ()
+end prototypes
+
+global function boolean gf_parametro_agendamento_legado ();String lvs_Erro
+String lvs_Parametro
+
+Select coalesce(vl_parametro,'N')  
+Into :lvs_Parametro
+From parametro_geral 
+Where cd_parametro  = 'ID_ENVIO_ENTREGOU_LEGADO'
+Using SqlCA;
+
+If SqlCa.SqlCode = -1 Then
+	lvs_Erro = SqlCa.SqlErrText
+	SqlCa.of_RollBack();
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao localizar parametro : [ID_ENVIO_ENTREGOU_LEGADO]"+lvs_Erro, StopSign!)
+	Return false   
+End If
+
+If lvs_Parametro = 'S' Then 
+	Return True
+Else
+	Return False
+End If 	
+
+
+
+end function
+

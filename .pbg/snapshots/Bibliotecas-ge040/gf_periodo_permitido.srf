@@ -1,0 +1,30 @@
+HA$PBExportHeader$gf_periodo_permitido.srf
+global type gf_periodo_permitido from function_object
+end type
+
+forward prototypes
+global function boolean gf_periodo_permitido (date adt_inicio, date adt_termino, integer ai_dias_limite)
+end prototypes
+
+global function boolean gf_periodo_permitido (date adt_inicio, date adt_termino, integer ai_dias_limite);Date ldt_Limite
+
+If IsNull(adt_inicio) Then
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "A data de in$$HEX1$$ed00$$ENDHEX$$cio n$$HEX1$$e300$$ENDHEX$$o pode ser nula.", StopSign!)
+	Return False
+End If
+
+If IsNull(adt_termino) Then
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "A data de t$$HEX1$$e900$$ENDHEX$$rmino n$$HEX1$$e300$$ENDHEX$$o pode ser nula.", StopSign!)
+	Return False
+End If
+
+ldt_Limite = RelativeDate(Date(adt_inicio), ai_dias_limite)
+
+If adt_termino > ldt_Limite Then
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "O per$$HEX1$$ed00$$ENDHEX$$odo n$$HEX1$$e300$$ENDHEX$$o pode ser superior a '" + String(ai_dias_limite) + "' dias.", Exclamation!)
+	Return False
+End If
+
+Return True
+end function
+

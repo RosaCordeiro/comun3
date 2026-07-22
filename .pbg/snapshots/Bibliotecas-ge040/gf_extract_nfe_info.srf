@@ -1,0 +1,39 @@
+HA$PBExportHeader$gf_extract_nfe_info.srf
+global type gf_extract_nfe_info from function_object
+end type
+
+forward prototypes
+global function boolean gf_extract_nfe_info (string as_chave, ref st_nfe_chave_info ainfo, ref string as_log)
+end prototypes
+
+global function boolean gf_extract_nfe_info (string as_chave, ref st_nfe_chave_info ainfo, ref string as_log);// of_extract_nfe_info(as_key, ainfo)
+// Retorna: boolean (TRUE se sucesso, FALSE se chave inv$$HEX1$$e100$$ENDHEX$$lida)
+// Par$$HEX1$$e200$$ENDHEX$$metros:
+//   as_chave  : string - chave de acesso de 44 d$$HEX1$$ed00$$ENDHEX$$gitos
+//   ainfo   : s_nfe_key_info (REF) - estrutura preenchida
+//   string   : as_log (REF) - mensagem de retorno de erro	
+
+Integer li_len
+
+
+li_len = len(as_chave)
+
+if li_len <> 44 then
+	as_log = "Chave deve ter 44 d$$HEX1$$ed00$$ENDHEX$$gitos. Foram informados " + string(li_len)
+	return false
+end if
+
+ainfo.uf      = mid(as_chave, 1, 2)
+ainfo.ano     = mid(as_chave, 3, 2)
+ainfo.mes     = mid(as_chave, 5, 2)
+ainfo.cnpj    = mid(as_chave, 7, 14)
+ainfo.modelo  = mid(as_chave, 21, 2)
+ainfo.serie   = mid(as_chave, 23, 3)
+ainfo.numero  = mid(as_chave, 26, 9)
+ainfo.tp_emis = mid(as_chave, 35, 1)
+ainfo.cnf     = mid(as_chave, 36, 8)
+ainfo.cdv     = mid(as_chave, 44, 1)
+
+return true
+end function
+

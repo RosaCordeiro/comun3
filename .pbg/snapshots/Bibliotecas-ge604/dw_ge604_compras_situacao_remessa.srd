@@ -1,0 +1,71 @@
+HA$PBExportHeader$dw_ge604_compras_situacao_remessa.srd
+release 12;
+datawindow(units=0 timer_interval=0 color=67108864 brushmode=0 transparency=0 gradient.angle=0 gradient.color=8421504 gradient.focus=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.repetition.mode=0 gradient.scale=100 gradient.spread=100 gradient.transparency=0 picture.blur=0 picture.clip.bottom=0 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.transparency=0 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes hidegrayline=no showbackcoloronxp=no picture.file="" )
+header(height=108 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+detail(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+table(column=(type=decimal(0) updatewhereclause=yes name=nr_controle dbname="interface_sap.nr_controle" )
+ column=(type=char(1) updatewhereclause=yes name=id_situacao dbname="interface_sap.id_situacao" )
+ column=(type=char(21) updatewhereclause=yes name=de_situacao dbname="de_situacao" )
+ column=(type=char(50) updatewhereclause=yes name=de_chave_sap dbname="interface_sap.de_chave_sap" )
+ column=(type=char(255) updatewhereclause=yes name=de_erro dbname="interface_sap.de_erro" )
+ column=(type=datetime updatewhereclause=yes name=dh_inclusao dbname="interface_sap.dh_inclusao" )
+ column=(type=datetime updatewhereclause=yes name=dh_processamento dbname="interface_sap.dh_processamento" )
+ column=(type=char(10) updatewhereclause=yes name=nr_recebimento dbname="recebimento_sap.nr_recebimento" )
+ column=(type=datetime updatewhereclause=yes name=dh_recebimento dbname="recebimento_sap.dh_recebimento" )
+ column=(type=char(1) updatewhereclause=yes name=id_situacao_recebimento dbname="recebimento_sap.id_situacao_recebimento" )
+ column=(type=char(21) updatewhereclause=yes name=de_situacao_recebimento dbname="de_situacao_recebimento" )
+ column=(type=long updatewhereclause=yes name=nr_pedido dbname="recebimento_sap.nr_pedido" )
+ column=(type=char(10) updatewhereclause=yes name=nr_pedido_sap dbname="recebimento_sap.nr_pedido_sap" )
+ retrieve="SELECT
+	isap.nr_controle,
+	isap.id_situacao,
+	CASE
+		WHEN isap.id_situacao = 'C' THEN 'AGUARDANDO IMPORTA$$HEX2$$c700c300$$ENDHEX$$O'
+		WHEN isap.id_situacao = 'E' THEN 'ERRO AO IMPORTAR'
+		WHEN isap.id_situacao in ('D', 'X') THEN 'CANCELADA IMPORTA$$HEX2$$c700c300$$ENDHEX$$O'
+		WHEN isap.id_situacao = 'P' THEN 'IMPORTADO'
+		ELSE 'INV$$HEX1$$c100$$ENDHEX$$LIDO'
+	END as de_situacao,
+	isap.de_chave_sap,
+	isap.de_erro,
+	isap.dh_inclusao,
+	isap.dh_processamento,
+	rs.nr_recebimento,
+	rs.dh_recebimento,
+	rs.id_situacao as id_situacao_recebimento,
+	CASE
+		WHEN rs.id_situacao = 'C' THEN 'AGUARDANDO IMPORTA$$HEX2$$c700c300$$ENDHEX$$O'
+		WHEN rs.id_situacao = 'E' THEN 'ERRO AO IMPORTAR'
+		WHEN rs.id_situacao in ('D', 'X') THEN 'CANCELADA IMPORTA$$HEX2$$c700c300$$ENDHEX$$O'
+		WHEN rs.id_situacao = 'P' THEN 'IMPORTADO'
+		ELSE 'INV$$HEX1$$c100$$ENDHEX$$LIDO'
+	END AS de_situacao_recebimento,
+	rs.nr_pedido,
+	rs.nr_pedido_sap
+  FROM dbo.interface_sap isap
+		INNER JOIN recebimento_sap rs
+				ON rs.de_chave_acesso = isap.de_chave_sap
+ WHERE isap.nr_controle = (SELECT MAX (isap2.nr_controle)
+									  FROM interface_sap isap2
+									 WHERE isap2.de_chave_sap = isap.de_chave_sap)"  sort="cf_id_gravidade D de_situacao A " )
+group(level=1 header.height=64 trailer.height=0 by=("de_situacao" ) header.color="536870912" header.transparency="0" header.gradient.color="8421504" header.gradient.transparency="0" header.gradient.angle="0" header.brushmode="0" header.gradient.repetition.mode="0" header.gradient.repetition.count="0" header.gradient.repetition.length="100" header.gradient.focus="0" header.gradient.scale="100" header.gradient.spread="100" trailer.color="536870912" trailer.transparency="0" trailer.gradient.color="8421504" trailer.gradient.transparency="0" trailer.gradient.angle="0" trailer.brushmode="0" trailer.gradient.repetition.mode="0" trailer.gradient.repetition.count="0" trailer.gradient.repetition.length="100" trailer.gradient.focus="0" trailer.gradient.scale="100" trailer.gradient.spread="100" )
+ellipse(band=header x="50" y="16" height="84" width="96"  name=oval_max_gravidade visible="1" brush.hatch="6" brush.color="65280~tCase (max (cf_id_gravidade for all) when 5 then RGB (255,0,0) when 4 then RGB (255,0,0) when 3 then RGB (255,0,0) when 2 then RGB (255,255,0) when 1 then RGB (0,255,0) when 6 then RGB (0,0,0))" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="1" tooltip.hasclosebutton="0" tooltip.icon="3" tooltip.isbubble="1" tooltip.maxwidth="3" tooltip.textcolor="134217751" tooltip.tip="~t de_situacao" tooltip.title="Situa$$HEX2$$e700e300$$ENDHEX$$o mais grave na importa$$HEX2$$e700e300$$ENDHEX$$o" tooltip.transparency="3" )
+text(band=header alignment="0" text="NOTAS FISCAIS (REMESSAS)" border="0" color="8388608" x="192" y="16" height="72" width="1125" html.valueishtml="0"  name=t_1 visible="1"  font.face="Verdana" font.height="-11" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+ellipse(band=header.1 x="192" y="4" height="52" width="59"  name=oval_situacao visible="1" brush.hatch="6" brush.color="65280~tCase (cf_id_gravidade when 5 then RGB (255,0,0) when 4 then RGB (255,0,0) when 3 then RGB (255,0,0) when 2 then RGB (255,255,0) when 1 then RGB (0,255,0) when 6 then RGB (0,0,0))" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="0" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="1" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.tip="~t de_situacao " tooltip.title="Situa$$HEX2$$e700e300$$ENDHEX$$o da importa$$HEX2$$e700e300$$ENDHEX$$o" tooltip.transparency="0" )
+column(band=header.1 id=3 alignment="0" tabsequence=32766 border="0" color="8388608" x="293" y="4" height="52" width="800" format="[general]" html.valueishtml="0"  name=de_situacao visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+button(band=header.1 text="..." enabled=yes action="0" border="0" color="0" x="1298" y="4" height="60" width="137" vtextalign="2" htextalign="0"  name=b_detalhe_remessa visible="1"  font.face="Verdana" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="536870912~tCase (cf_id_gravidade when 5 then RGB (255,0,0) when 4 then RGB (255,165,0) when 2 then RGB (255,255,0) when 1 then RGB (0,0,255) else RGB (0,0,0))" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="1" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.tip="Clique para detalhes" tooltip.transparency="0" transparency="0" )
+compute(band=header.1 alignment="1" expression="count(de_situacao for group 1)"border="2" color="33554432" x="1129" y="4" height="52" width="137" format="[general]" html.valueishtml="0"  name=cf_qtd_por_situacao visible="1"  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1073741824" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+compute(band=header.1 alignment="0" expression="Case (de_situacao when 'ERRO AO IMPORTAR'then 5 when 'CANCELADA IMPORTA$$HEX2$$c700c300$$ENDHEX$$O' then 4 when 'INV$$HEX1$$c100$$ENDHEX$$LIDO' then 3 when 'AGUARDANDO IMPORTA$$HEX2$$c700c300$$ENDHEX$$O' then 2 when 'IMPORTADO' then 1 when 'SEM NOTAS FISCAIS' then 6)"border="0" color="0" x="1595" y="4" height="52" width="87" format="[GENERAL]" html.valueishtml="0"  name=cf_id_gravidade visible="0"  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

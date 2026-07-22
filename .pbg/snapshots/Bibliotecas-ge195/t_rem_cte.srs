@@ -1,0 +1,12 @@
+HA$PBExportHeader$t_rem_cte.srs
+global type t_rem_cte from structure
+	string		cnpj
+	string		cpf
+	string		ie
+	string		xnome
+	string		xfant
+	string		fone
+	string		email
+	t_enderreme_cte		enderreme
+end type
+

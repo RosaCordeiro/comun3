@@ -1,0 +1,31 @@
+HA$PBExportHeader$gf_ge132_verifica_permissao.srf
+global type gf_ge132_verifica_permissao from function_object
+end type
+
+forward prototypes
+global function boolean gf_ge132_verifica_permissao (string as_procedimento)
+end prototypes
+
+global function boolean gf_ge132_verifica_permissao (string as_procedimento);Long ll_Achou
+
+Select Count(*)
+	Into :ll_Achou
+From procedimento_perfil_usuario
+Where cd_sistema = :gvo_Aplicacao.ivo_Seguranca.Cd_Sistema
+	And cd_perfil_usuario = :gvo_Aplicacao.ivo_Seguranca.Cd_Perfil_Usuario
+	And cd_procedimento = :as_Procedimento
+Using SqlCa;
+
+If SqlCa.SqlCode = -1 Then
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao consultar a permiss$$HEX1$$e300$$ENDHEX$$o do usu$$HEX1$$e100$$ENDHEX$$rio para gerar o relat$$HEX1$$f300$$ENDHEX$$rio. " + SqlCa.SqlErrText, StopSign!)
+	Return False
+End If
+
+If ll_Achou = 0 Then
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Usu$$HEX1$$e100$$ENDHEX$$rio n$$HEX1$$e300$$ENDHEX$$o possui permiss$$HEX1$$e300$$ENDHEX$$o para gerar o relat$$HEX1$$f300$$ENDHEX$$rio.", Exclamation!)
+	Return False
+End If
+
+Return True
+end function
+

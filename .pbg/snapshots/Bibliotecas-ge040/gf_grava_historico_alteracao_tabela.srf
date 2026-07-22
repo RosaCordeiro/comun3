@@ -1,0 +1,38 @@
+HA$PBExportHeader$gf_grava_historico_alteracao_tabela.srf
+global type gf_grava_historico_alteracao_tabela from function_object
+end type
+
+forward prototypes
+global function boolean gf_grava_historico_alteracao_tabela (string as_tabela, string as_chave, string as_coluna, string as_de, string as_para, string as_operador, string as_tipo_alteracao, ref string as_mensagem, boolean ab_mostra_mensagem)
+end prototypes
+
+global function boolean gf_grava_historico_alteracao_tabela (string as_tabela, string as_chave, string as_coluna, string as_de, string as_para, string as_operador, string as_tipo_alteracao, ref string as_mensagem, boolean ab_mostra_mensagem);String lvs_IP
+
+If (as_de <> as_para) or (IsNull(as_de)<>IsNull(as_para)) Then
+	
+	If as_Coluna = 'DE_PRINCIPAL_INTERNET' Then 
+		as_de = Left (as_de,800)
+		as_Para = Left (as_Para,800)
+	End If 	
+	
+	//lvs_IP = gvo_aplicacao.ivo_seguranca.of_get_is_ip()
+	Insert Into historico_alteracao_tabela(nm_tabela, de_chave, nm_coluna, de_alteracao_de, de_alteracao_para, nr_matric_alteracao, id_alteracao, de_host_log, de_ip, de_programa)
+	Values (:as_Tabela, :as_chave, :as_Coluna, :as_De, :as_Para, :as_Operador, :as_tipo_alteracao, :gvo_aplicacao.is_ComputerName, :lvs_IP, :gvo_Aplicacao.ivo_Seguranca.Cd_Sistema)
+	Using SqlCa;
+	
+	If SqlCa.SqlCode = -1 Then
+		
+		If ab_mostra_mensagem Then
+			MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao gravar o hist$$HEX1$$f300$$ENDHEX$$rico de altera$$HEX2$$e700e300$$ENDHEX$$o na tabela 'HISTORICO_ALTERACAO_TABELA' - Fun$$HEX2$$e700e300$$ENDHEX$$o: gf_grava_historico_alteracao_tabela. " + SqlCa.SQLErrText, StopSign!)
+		Else
+			as_mensagem = "Erro ao gravar o hist$$HEX1$$f300$$ENDHEX$$rico de altera$$HEX2$$e700e300$$ENDHEX$$o na tabela 'HISTORICO_ALTERACAO_TABELA' - Fun$$HEX2$$e700e300$$ENDHEX$$o: gf_grava_historico_alteracao_tabela. " + SqlCa.SQLErrText
+		End If
+		
+		SqlCa.of_RollBack()
+		Return False
+	End If
+End If
+
+Return True
+end function
+

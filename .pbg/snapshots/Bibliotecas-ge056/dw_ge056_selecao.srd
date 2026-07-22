@@ -1,0 +1,17 @@
+HA$PBExportHeader$dw_ge056_selecao.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=79741120 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=204 color="536870912" )
+table(column=(type=char(40) updatewhereclause=no name=nm_prescritor dbname="nm_prescritor" )
+ column=(type=char(1) updatewhereclause=no name=id_registro dbname="id_registro" values="TODOS	OT/CRM	M/CRO	O/CRV	V/" )
+ column=(type=char(8) updatewhereclause=no name=nr_registro dbname="nr_registro" )
+ )
+text(band=detail alignment="1" text="Prescritor :"border="0" color="8388608" x="9" y="8" height="64" width="443"  name=nm_cliente_t  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Registro :"border="0" color="8388608" x="1038" y="88" height="64" width="261"  name=nr_cpf_t  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="CRM/CRO/CRV :"border="0" color="8388608" x="9" y="88" height="64" width="443"  name=nr_cgc_t  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=20 border="2" color="0" x="471" y="88" height="64" width="384" format="[general]"  name=nr_registro edit.limit=0 edit.case=upper edit.focusrectangle=no edit.autoselect=no edit.nilisnull=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="0" tabsequence=10 border="2" color="0" x="471" y="8" height="64" width="1275" format="[general]"  name=nm_prescritor edit.limit=0 edit.case=upper edit.focusrectangle=no edit.autoselect=no edit.nilisnull=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=30 border="2" color="0" x="1317" y="88" height="64" width="430" format="[general]"  name=id_registro ddlb.limit=0 ddlb.allowedit=no ddlb.case=upper ddlb.useasborder=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

@@ -1,0 +1,37 @@
+HA$PBExportHeader$if_fornecedor_transporte.srf
+global type if_fornecedor_transporte from function_object
+end type
+
+forward prototypes
+global function boolean if_fornecedor_transporte (string al_fornecedor)
+end prototypes
+
+global function boolean if_fornecedor_transporte (string al_fornecedor);Long		ll_Qtd
+String		lvs_parametro
+Boolean	lb_existe = False
+
+
+// Valida se tem algum fornecedor associado
+select Count(*)    
+Into 	:ll_Qtd
+From  fornecedor_transportadora
+where cd_fornecedor=:al_fornecedor
+Using SqlCa;
+
+Choose Case SqlCA.SqlCode 
+	Case 0
+		If ll_Qtd > 0 Then 
+			lb_existe = True
+		Else
+			lb_existe = False
+		End If 
+	Case 100
+		lb_existe = False
+	Case -1
+		SqlCA.of_MsgDBError("Erro ao localizar algum transportador para o fornecedor.")
+		lb_existe = False
+End Choose
+
+Return lb_existe
+end function
+

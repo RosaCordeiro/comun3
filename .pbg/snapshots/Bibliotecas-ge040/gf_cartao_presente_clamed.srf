@@ -1,0 +1,31 @@
+HA$PBExportHeader$gf_cartao_presente_clamed.srf
+global type gf_cartao_presente_clamed from function_object
+end type
+
+forward prototypes
+global function boolean gf_cartao_presente_clamed (string as_bin_cartao, string as_cd_produto_cartao)
+end prototypes
+
+global function boolean gf_cartao_presente_clamed (string as_bin_cartao, string as_cd_produto_cartao);String ls_marca_propria
+Integer li_Cd_Cartao_prd
+
+li_Cd_Cartao_prd = Integer(as_cd_produto_cartao)
+
+Select Coalesce(id_marca_propria, 'N')
+	into :ls_marca_propria
+	from cartao_gift
+where nr_bin 					= :as_bin_cartao
+   and  cd_produto_cartao 	= :li_Cd_Cartao_prd
+Limit 1
+Using SqlCa;
+
+If SqlCa.SqlCode = -1 Then
+	SqlCa.of_msgdberror( "Erro ao localizar o bin do cart$$HEX1$$e300$$ENDHEX$$o Gift Card.")
+	Return False
+End If
+
+Return (ls_marca_propria = 'S')
+
+
+end function
+

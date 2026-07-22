@@ -1,0 +1,28 @@
+HA$PBExportHeader$gf_somente_numero.srf
+global type gf_somente_numero from function_object
+end type
+
+forward prototypes
+global function string gf_somente_numero (string lvs_expressao)
+end prototypes
+
+global function string gf_somente_numero (string lvs_expressao);INTEGER lvl_Contador, &
+        lvl_Tamanho 
+
+STRING  lvs_Retorno 
+
+lvl_Tamanho = LenA( TRIM( lvs_Expressao ) )
+
+FOR lvl_Contador = 1 TO lvl_Tamanho
+	
+	   IF ( IsNumber( MidA( lvs_Expressao , lvl_Contador , 01 ) ) ) Then 
+	
+	        lvs_Retorno += MidA( lvs_Expressao , lvl_Contador , 01 )	
+			  
+		End If 
+	
+NEXT 
+
+RETURN ( lvs_Retorno )
+end function
+

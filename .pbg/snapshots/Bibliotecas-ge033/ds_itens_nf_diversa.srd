@@ -1,0 +1,58 @@
+HA$PBExportHeader$ds_itens_nf_diversa.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=64 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=76 color="536870912" )
+table(column=(type=long update=yes updatewhereclause=yes key=yes name=cd_filial_origem dbname="item_nf_diversa.cd_filial_origem" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=nr_nf dbname="item_nf_diversa.nr_nf" )
+ column=(type=char(3) update=yes updatewhereclause=yes key=yes name=de_especie dbname="item_nf_diversa.de_especie" )
+ column=(type=char(3) update=yes updatewhereclause=yes key=yes name=de_serie dbname="item_nf_diversa.de_serie" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=cd_item dbname="item_nf_diversa.cd_item" )
+ column=(type=char(60) update=yes updatewhereclause=yes name=de_item dbname="item_nf_diversa.de_item" )
+ column=(type=char(3) update=yes updatewhereclause=yes name=de_unidade_medida dbname="item_nf_diversa.de_unidade_medida" )
+ column=(type=long update=yes updatewhereclause=yes name=qt_item dbname="item_nf_diversa.qt_item" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_preco_unitario dbname="item_nf_diversa.vl_preco_unitario" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=pc_desconto dbname="item_nf_diversa.pc_desconto" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=pc_icms dbname="item_nf_diversa.pc_icms" )
+ retrieve="  SELECT item_nf_diversa.cd_filial_origem,   
+         item_nf_diversa.nr_nf,   
+         item_nf_diversa.de_especie,   
+         item_nf_diversa.de_serie,   
+         item_nf_diversa.cd_item,   
+         item_nf_diversa.de_item,   
+         item_nf_diversa.de_unidade_medida,   
+         item_nf_diversa.qt_item,   
+         item_nf_diversa.vl_preco_unitario,   
+         item_nf_diversa.pc_desconto,   
+         item_nf_diversa.pc_icms
+    FROM item_nf_diversa  
+   WHERE item_nf_diversa.cd_filial_origem = :a_filial
+     AND item_nf_diversa.nr_nf            = :a_nr_nf
+     AND item_nf_diversa.de_especie       = :a_especie
+     AND item_nf_diversa.de_serie         = :a_serie" update="item_nf_diversa" updatewhere=1 updatekeyinplace=no arguments=(("a_filial", number),("a_nr_nf", number),("a_especie", string),("a_serie", string)) )
+text(band=header alignment="2" text="Cd Filial Origem"border="0" color="0" x="5" y="4" height="56" width="334"  name=cd_filial_origem_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Nf"border="0" color="0" x="343" y="4" height="56" width="274"  name=nr_nf_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="De Especie"border="0" color="0" x="622" y="4" height="56" width="247"  name=de_especie_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="De Serie"border="0" color="0" x="873" y="4" height="56" width="187"  name=de_serie_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cd Item"border="0" color="0" x="1065" y="4" height="56" width="274"  name=cd_item_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="De Item"border="0" color="0" x="1344" y="4" height="56" width="937"  name=de_item_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="De Unidade Medida"border="0" color="0" x="2290" y="4" height="56" width="421"  name=de_unidade_medida_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Qt Item"border="0" color="0" x="2715" y="4" height="56" width="274"  name=qt_item_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Preco Unitario"border="0" color="0" x="2994" y="4" height="56" width="366"  name=vl_preco_unitario_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Pc Desconto"border="0" color="0" x="3365" y="4" height="56" width="279"  name=pc_desconto_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Pc Icms"border="0" color="0" x="3648" y="4" height="56" width="274"  name=pc_icms_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="1" tabsequence=10 border="0" color="0" x="5" y="4" height="68" width="274" format="[general]"  name=cd_filial_origem edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=20 border="0" color="0" x="343" y="4" height="68" width="274" format="[general]"  name=nr_nf edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=30 border="0" color="0" x="622" y="4" height="68" width="91" format="[general]"  name=de_especie edit.limit=3 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=40 border="0" color="0" x="873" y="4" height="68" width="91" format="[general]"  name=de_serie edit.limit=3 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="1" tabsequence=50 border="0" color="0" x="1065" y="4" height="68" width="274" format="[general]"  name=cd_item edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=60 border="0" color="0" x="1344" y="4" height="68" width="937" format="[general]"  name=de_item edit.limit=40 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=70 border="0" color="0" x="2290" y="4" height="68" width="87" format="[general]"  name=de_unidade_medida edit.limit=3 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="1" tabsequence=80 border="0" color="0" x="2715" y="4" height="68" width="274" format="[general]"  name=qt_item edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="1" tabsequence=90 border="0" color="0" x="2994" y="4" height="68" width="274" format="[general]"  name=vl_preco_unitario edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="1" tabsequence=100 border="0" color="0" x="3365" y="4" height="68" width="274" format="[general]"  name=pc_desconto edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=11 alignment="1" tabsequence=110 border="0" color="0" x="3648" y="4" height="68" width="274" format="[general]"  name=pc_icms edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="( vl_preco_unitario *  qt_item  ) - ( ( vl_preco_unitario *  qt_item ) * pc_desconto / 100 )"border="0" color="0" x="3963" y="4" height="68" width="256" format="###,###,###,##0.00"  name=c_valor_total  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

@@ -1,0 +1,12 @@
+HA$PBExportHeader$str_memorystatus.srs
+global type str_memorystatus from structure
+	ulong		ul_Length
+	ulong		ul_MemoryLoad
+	ulong		ul_TotalPhys
+	ulong		ul_AvailPhys
+	ulong		ul_TotalPageFile
+	ulong		ul_AvailPageFile
+	ulong		ul_TotalVirtual
+	ulong		ul_AvailVirtual
+end type
+

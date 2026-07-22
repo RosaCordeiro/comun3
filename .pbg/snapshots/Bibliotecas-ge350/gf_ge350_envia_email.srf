@@ -1,0 +1,63 @@
+HA$PBExportHeader$gf_ge350_envia_email.srf
+global type gf_ge350_envia_email from function_object
+end type
+
+forward prototypes
+global subroutine gf_ge350_envia_email (str_ge350_lista_email st_email, string as_tipo_retirada, boolean ab_envia_responsavel)
+end prototypes
+
+global subroutine gf_ge350_envia_email (str_ge350_lista_email st_email, string as_tipo_retirada, boolean ab_envia_responsavel);Long ll_Linha
+Long ll_Linhas
+Long ll_Cod_Msg
+
+s_email str //ge202
+s_email str_nulo //ge202
+
+If gvo_Aplicacao.ivs_DataSource <> 'central' Then Return
+
+ll_Linhas = UpperBound(st_email.De_Endereco[])
+
+If ll_Linhas = 0 Then Return
+
+If gvo_Aplicacao.ivs_DataSource = 'central' Then
+	Choose Case as_Tipo_Retirada
+		Case "E" //Excesso
+			If ab_Envia_Responsavel Then
+				//Com c$$HEX1$$f300$$ENDHEX$$pia para o Gest$$HEX1$$e300$$ENDHEX$$o de Estoques
+				ll_Cod_Msg = 122
+			Else
+				//Email enviado somente para as filiais
+				ll_Cod_Msg = 121
+			End If
+			
+		Case "P" //Produtos Especiais
+			//Com c$$HEX1$$f300$$ENDHEX$$pia para o Gest$$HEX1$$e300$$ENDHEX$$o de Estoques
+			ll_Cod_Msg = 122
+			
+		Case "R", "V", "D" //Recall, Vencidos e Defeito de Fabrica$$HEX2$$e700e300$$ENDHEX$$o
+			//Com c$$HEX1$$f300$$ENDHEX$$pia para o Compras
+			ll_Cod_Msg = 123
+
+		Case "A" //Avaria
+			//Com c$$HEX1$$f300$$ENDHEX$$pia para o setor de segregados do CD
+			ll_Cod_Msg = 147
+			
+		Case "F", "S"
+			//Envio de e-mail para o SAF
+			ll_Cod_Msg = 234
+	End Choose
+End If
+
+For ll_Linha = 1 To ll_Linhas
+	str.ps_Assunto		= st_Email.De_Assunto		[ll_Linha]
+	str.ps_to[1] 			= st_Email.De_Endereco		[ll_Linha]
+	str.ps_Mensagem	= st_Email.De_Mensagem	[ll_Linha]
+	str.pb_Assinatura	= True
+	
+	gf_ge202_envia_email_padrao(ll_Cod_Msg, str)
+	
+	//Limpa a estrutura do e-mail
+	str = str_nulo
+Next
+end subroutine
+

@@ -1,0 +1,7 @@
+HA$PBExportHeader$str_ge624_lista_email.srs
+global type str_ge624_lista_email from structure
+	string		de_assunto[]
+	string		de_endereco[]
+	string		de_mensagem[]
+end type
+

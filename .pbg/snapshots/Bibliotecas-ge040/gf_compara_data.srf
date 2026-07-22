@@ -1,0 +1,17 @@
+HA$PBExportHeader$gf_compara_data.srf
+global type gf_compara_data from function_object
+end type
+
+forward prototypes
+global function string gf_compara_data (string ps_coluna, string ps_comparacao, date pdt_data)
+end prototypes
+
+global function string gf_compara_data (string ps_coluna, string ps_comparacao, date pdt_data);String lvs_Retorno
+
+lvs_Retorno =   " dbo.tochar( " + ps_Coluna + ", 'YYYYMMDD')"
+lvs_Retorno += " " + ps_Comparacao + " "
+lvs_Retorno += "'" + String(pdt_Data, "yyyymmdd") + "'"
+
+Return lvs_Retorno
+end function
+

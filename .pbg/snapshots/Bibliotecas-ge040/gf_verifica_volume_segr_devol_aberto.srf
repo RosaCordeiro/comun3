@@ -1,0 +1,32 @@
+HA$PBExportHeader$gf_verifica_volume_segr_devol_aberto.srf
+global type gf_verifica_volume_segr_devol_aberto from function_object
+end type
+
+forward prototypes
+global function boolean gf_verifica_volume_segr_devol_aberto (ref long al_qtd_vol_aberto, ref string as_erro)
+end prototypes
+
+global function boolean gf_verifica_volume_segr_devol_aberto (ref long al_qtd_vol_aberto, ref string as_erro);SELECT COUNT (*)
+  INTO :al_qtd_vol_aberto
+  FROM wms_segregado_receb_dev srd
+  INNER JOIN nf_transferencia nt
+  				ON  nt.cd_filial_origem = srd.cd_filial_origem
+				AND nt.nr_nf            = srd.nr_nf
+				AND nt.de_especie       = srd.de_especie
+				AND nt.de_serie         = srd.de_serie
+ WHERE (srd.qt_capacidade_utilizada > 0 OR
+		  srd.qt_peso_kg              > 0)
+	AND srd.dh_termino_registro      IS NULL
+	AND srd.dh_cancelamento          IS NULL
+	AND nt.dh_cancelamento           IS NULL
+ USING SQLCA;
+
+If SQLCA.SQLCode < 0 then
+	as_erro = 'Erro ao verificar se h$$HEX1$$e100$$ENDHEX$$ volumes abertos no Segregado de Devolu$$HEX2$$e700e300$$ENDHEX$$o: ' + SQLCA.SQLErrText
+	Return False
+End if
+
+Return True
+	
+end function
+

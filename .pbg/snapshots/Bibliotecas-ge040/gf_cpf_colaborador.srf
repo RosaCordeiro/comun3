@@ -1,0 +1,33 @@
+HA$PBExportHeader$gf_cpf_colaborador.srf
+global type gf_cpf_colaborador from function_object
+end type
+
+forward prototypes
+global function boolean gf_cpf_colaborador (string al_cpf)
+end prototypes
+
+global function boolean gf_cpf_colaborador (string al_cpf);String ls_cpf_usuario
+
+Select u.nr_cpf
+   Into :ls_cpf_usuario
+ From usuario				  u
+Where  u.nr_cpf = :al_cpf
+	And  u.id_situacao = 'A'
+Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+	Case -1
+		SqlCa.of_MsgDbError()
+		Return True
+		
+	Case 0
+		Return True
+		
+	Case 100
+		Return False
+		
+End Choose
+
+
+end function
+

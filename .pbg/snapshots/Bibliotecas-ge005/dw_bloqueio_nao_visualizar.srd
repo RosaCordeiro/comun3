@@ -1,0 +1,48 @@
+HA$PBExportHeader$dw_bloqueio_nao_visualizar.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=144 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=92 color="536870912" )
+table(column=(type=long updatewhereclause=yes name=cd_convenio dbname="bloqueio.cd_convenio" )
+ column=(type=char(40) updatewhereclause=yes name=nm_fantasia dbname="convenio.nm_fantasia" )
+ column=(type=char(15) updatewhereclause=yes name=cd_conveniado dbname="bloqueio.cd_conveniado" )
+ column=(type=char(40) updatewhereclause=yes name=nm_conveniado dbname="conveniado.nm_conveniado" )
+ column=(type=char(3) updatewhereclause=yes name=cd_motivo_bloqueio dbname="bloqueio.cd_motivo_bloqueio" )
+ column=(type=char(40) updatewhereclause=yes name=de_motivo_bloqueio dbname="motivo_bloqueio.de_motivo_bloqueio" )
+ retrieve="  SELECT b.cd_convenio,   
+         convenio.nm_fantasia,   
+         b.cd_conveniado,   
+         conveniado.nm_conveniado,   
+         b.cd_motivo_bloqueio, 
+         m.de_motivo_bloqueio  
+    FROM bloqueio b,   
+         motivo_bloqueio m,   
+         conveniado,   
+         convenio  
+   WHERE ( b.cd_motivo_bloqueio = m.cd_motivo_bloqueio ) and  
+         ( conveniado.cd_convenio = b.cd_convenio ) and  
+         ( conveniado.cd_conveniado = b.cd_conveniado ) and  
+         ( convenio.cd_convenio = conveniado.cd_convenio ) and  
+         ( convenio.cd_convenio = b.cd_convenio ) and  
+         ( ( b.cd_convenio = :Convenio ) AND  
+         ( b.cd_conveniado = :Conveniado ) AND  
+         ( b.id_tipo_bloqueio <> 'DCO' ) and
+         ( b.dh_liberacao is null ) AND  
+         ( m.id_permite_visualizacao = 'N' ) )    
+" arguments=(("convenio", number),("conveniado", string)) )
+text(band=header alignment="2" text="Motivo Bloqueio
+De Motivo Bloqueio"border="0" color="0" x="9" y="8" height="128" width="1125"  name=motivo_bloqueio_de_motivo_bloqueio_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Bloqueio Cd Convenio"border="0" color="0" x="1143" y="4" height="76" width="1152"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Convenio Nm Fantasia"border="0" color="0" x="2304" y="4" height="76" width="1070"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Bloqueio Cd Conveniado"border="0" color="0" x="3383" y="4" height="76" width="398"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Conveniado Nm Conveniado"border="0" color="0" x="3790" y="4" height="76" width="1070"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Bloqueio Cd Motivo Bloqueio"border="0" color="0" x="4869" y="4" height="76" width="73"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="0" x="9" y="8" height="76" width="1125" format="[general]"  name=de_motivo_bloqueio edit.limit=40 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="1143" y="0" height="64" width="1152" format="[general]"  name=cd_convenio edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="2304" y="0" height="64" width="1070" format="[general]"  name=nm_fantasia edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="3383" y="0" height="64" width="398" format="[general]"  name=cd_conveniado edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="3790" y="0" height="64" width="1070" format="[general]"  name=nm_conveniado edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="4869" y="0" height="64" width="73" format="[general]"  name=cd_motivo_bloqueio edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

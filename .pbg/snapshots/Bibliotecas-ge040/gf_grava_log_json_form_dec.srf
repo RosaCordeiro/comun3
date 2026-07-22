@@ -1,0 +1,16 @@
+HA$PBExportHeader$gf_grava_log_json_form_dec.srf
+global type gf_grava_log_json_form_dec from function_object
+end type
+
+forward prototypes
+global function string gf_grava_log_json_form_dec (decimal an_value)
+end prototypes
+
+global function string gf_grava_log_json_form_dec (decimal an_value);IF IsNull(an_value) THEN
+    RETURN "null"
+END IF
+
+RETURN String(an_value)
+
+end function
+

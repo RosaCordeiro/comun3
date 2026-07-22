@@ -1,0 +1,52 @@
+HA$PBExportHeader$gf_ge161_verifica_filial_ativa_conveniencia.srf
+global type gf_ge161_verifica_filial_ativa_conveniencia from function_object
+end type
+
+forward prototypes
+global function boolean gf_ge161_verifica_filial_ativa_conveniencia (long al_filial, string as_distribuidora)
+end prototypes
+
+global function boolean gf_ge161_verifica_filial_ativa_conveniencia (long al_filial, string as_distribuidora);Long ll_Achou
+
+String ls_Distribuidora
+String ls_Erro
+
+//Verifica se a filial j$$HEX1$$e100$$ENDHEX$$ est$$HEX1$$e100$$ENDHEX$$ ativa em outra distribuidora de conveni$$HEX1$$ea00$$ENDHEX$$ncia
+
+Select f.cd_distribuidora
+	Into :ls_Distribuidora
+From distribuidora_forn_conexao d
+	Inner Join fornecedor f1
+		On f1.cd_fornecedor = d.cd_distribuidora
+	Inner Join fornecedor f2
+		On f2.cd_fornecedor = d.cd_fornecedor
+	Inner Join filial_distribuidora f
+		On f.cd_distribuidora = d.cd_distribuidora
+Where (f1.id_situacao = 'A' Or f1.id_situacao Is Null)
+ 	And (f2.id_situacao = 'A' Or f2.id_situacao Is Null)
+ 	And f1.id_distribuidora = 'S'
+ 	And f2.id_projeto_conexao = '6'
+ 	And f.cd_filial = :al_filial
+ 	And f.id_situacao = 'A'
+ 	And d.cd_distribuidora <> :as_Distribuidora
+Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+	Case 0
+		If Not IsNull(ls_Distribuidora) Then
+			MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Filial " + String(al_Filial) + " j$$HEX1$$e100$$ENDHEX$$ est$$HEX1$$e100$$ENDHEX$$ ativa para a distribuidora de conveni$$HEX1$$ea00$$ENDHEX$$ncia '" + ls_Distribuidora + "'.", Exclamation!)
+			Return False
+		End If
+		
+	Case 100
+		
+	Case -1
+		ls_Erro = SqlCa.SqlErrText
+		SqlCa.of_Rollback();
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao verificar se a filial " + String(al_Filial) + " j$$HEX1$$e100$$ENDHEX$$ est$$HEX1$$e100$$ENDHEX$$ cadastrada para outras distribuidora de conveni$$HEX1$$ea00$$ENDHEX$$ncia. " + ls_Erro, StopSign!)
+		Return False
+End Choose
+
+Return True
+end function
+

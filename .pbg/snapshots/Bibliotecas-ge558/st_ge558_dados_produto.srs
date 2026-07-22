@@ -1,0 +1,16 @@
+HA$PBExportHeader$st_ge558_dados_produto.srs
+global type st_ge558_dados_produto from structure
+	long		cd_produto
+	string		de_produto
+	long		qt_caixa_padrao
+	long		qt_movimento
+	string		cd_endereco_origem
+	string		nr_lote
+	datetime		dh_validade
+	long		nr_sequencial
+	string		cd_endereco_pulmao
+	string		id_retorno
+	string		id_tipo_segregado
+	string		cd_endereco_flow_rack
+end type
+

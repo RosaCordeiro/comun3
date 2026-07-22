@@ -1,0 +1,6 @@
+HA$PBExportHeader$s_ge039_aliquota.srs
+global type s_ge039_aliquota from structure
+	long		aliquota
+	decimal{2}		valor
+end type
+

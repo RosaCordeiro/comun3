@@ -1,0 +1,9 @@
+HA$PBExportHeader$t_cofinsst.srs
+global type t_cofinsst from structure
+	double		vbc
+	double		pcofins
+	double		qbcprod
+	double		valiqprod
+	double		vcofins
+end type
+

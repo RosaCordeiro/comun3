@@ -1,0 +1,58 @@
+HA$PBExportHeader$lf_ge425_limite_agendamentos.srf
+global type lf_ge425_limite_agendamentos from function_object
+end type
+
+forward prototypes
+global function boolean lf_ge425_limite_agendamentos (long al_qtde_lojas, date adt_proximo_calculo)
+end prototypes
+
+global function boolean lf_ge425_limite_agendamentos (long al_qtde_lojas, date adt_proximo_calculo);Long ll_Qtde_Lojas, ll_Qtde_Lojas_Programadas
+
+String ls_Paramero
+
+Select vl_parametro
+Into :ls_Paramero
+From parametro_geral
+Where cd_parametro = 'QT_LOJAS_DIA_RECALCULO'
+Using SqlCa;
+
+Choose Case Sqlca.SqlCode
+	Case 0
+		If Not IsNumber(ls_Paramero) Then
+			MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "O par$$HEX1$$e200$$ENDHEX$$metro para controlar o limite de lojas por dia para o rec$$HEX1$$e100$$ENDHEX$$lculo $$HEX1$$e900$$ENDHEX$$ inv$$HEX1$$e100$$ENDHEX$$lido.", StopSign!)
+			Return False
+		End If
+		ll_Qtde_Lojas = Long(ls_Paramero)
+	Case 100
+		ll_Qtde_Lojas = 80	
+	Case -1
+		SqlCa.of_MsgDbError("Localizal$$HEX1$$e700$$ENDHEX$$ao do par$$HEX1$$e200$$ENDHEX$$metro 'QT_LOJAS_DIA_RECALCULO'.")
+		Return False
+End Choose
+
+Select count(*) 
+Into :ll_Qtde_Lojas_Programadas
+From parametro_reposicao_estoque
+Where id_tipo_reposicao = 'E'
+  and dh_proximo_calculo = :adt_proximo_calculo
+Using SqlCa;
+
+If SqlCa.SqlCode = -1 Then
+	SqlCa.of_MsgDbError("Localiza$$HEX2$$e700e300$$ENDHEX$$o das lojas programadas.")
+	Return False
+End If
+
+al_qtde_lojas = al_qtde_lojas + ll_Qtde_Lojas_Programadas
+
+If al_qtde_lojas > ll_Qtde_Lojas Then
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "A quantidade de lojas programadas (selecionadas + j$$HEX1$$e100$$ENDHEX$$ programadas) para o dia '" + String(adt_proximo_calculo, 'dd/mm/yyyy') +&
+				     "' [" + String(al_qtde_lojas) + "] $$HEX1$$e900$$ENDHEX$$ superior a permitida [" + String(ll_Qtde_Lojas)  +&
+					  "].~r~rSolu$$HEX2$$e700e300$$ENDHEX$$o: Diminuir a quantidade de lojas ou alterar a data do pr$$HEX1$$f300$$ENDHEX$$ximo rec$$HEX1$$e100$$ENDHEX$$lculo.", Exclamation!)
+	Return False				  
+End If
+
+Return True
+
+
+end function
+

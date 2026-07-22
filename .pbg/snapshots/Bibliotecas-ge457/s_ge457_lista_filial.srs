@@ -1,0 +1,7 @@
+HA$PBExportHeader$s_ge457_lista_filial.srs
+global type s_ge457_lista_filial from structure
+	long		cd_filial[]
+	string		nm_fantasia[]
+	string		cd_uf[]
+end type
+

@@ -1,0 +1,117 @@
+HA$PBExportHeader$gf_servidor_intranet.srf
+global type gf_servidor_intranet from function_object
+end type
+
+forward prototypes
+global function boolean gf_servidor_intranet (ref string as_vl_parametro)
+global function boolean gf_servidor_intranet (boolean pb_exibe_mensagem, ref string ps_endereco, ref string ps_log)
+end prototypes
+
+global function boolean gf_servidor_intranet (ref string as_vl_parametro);Select coalesce(vl_parametro,'N')
+Into :as_Vl_Parametro
+From parametro_loja  
+where	cd_parametro = 'ID_FILIAL_RETAGUARDA_SAP'
+Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+	Case 0
+		
+	Case 100
+		as_Vl_Parametro = "N"
+	Case -1
+		MessageBox("Erro", "Erro ao localizar o par$$HEX1$$e200$$ENDHEX$$metro 'ID_FILIAL_RETAGUARDA_SAP': "+SqlCa.SqlErrText)
+		Return False
+End Choose
+
+Return True
+
+end function
+
+global function boolean gf_servidor_intranet (boolean pb_exibe_mensagem, ref string ps_endereco, ref string ps_log);Long ll_Filial
+Long ll_Filial_Matriz
+
+String ls_Parametro
+String ls_Producao
+
+
+Try
+	SetNull(ps_log)
+	
+	If Not gf_filiais_parametro(Ref ll_Filial, Ref ll_Filial_Matriz ) Then
+		Return False
+	End If
+	
+	ls_Producao = 'S'
+		
+	If ll_Filial <> ll_Filial_Matriz Then
+		Select vl_parametro
+		 Into :ls_Producao
+		from parametro_loja
+		Where cd_parametro = 'ID_BASE_PRODUCAO'
+		Using SQLCa;
+
+		Choose Case SqlCa.SqlCode
+			 Case 0
+				If ls_Producao <> 'S' and ls_Producao <> 'N' Then
+					ps_log = "O par$$HEX1$$e200$$ENDHEX$$metro 'ID_BASE_PRODUCAO' est$$HEX1$$e100$$ENDHEX$$ diferente do esperado S/N."
+					Return False
+				End If
+				  
+			Case 100
+				ls_Producao = 'S'
+				 
+			 Case -1
+				  ps_log = "Erro ao localizar o par$$HEX1$$e200$$ENDHEX$$metro 'ID_BASE_PRODUCAO', " +  Sqlca.Sqlerrtext
+				  Return False
+		End Choose		
+	End If //If ll_Filial <> ll_Filial_Matriz Then
+	
+	//Base Central ou base Postgresql produ$$HEX2$$e700e300$$ENDHEX$$o
+	If Upper(gvo_Aplicacao.ivs_DataSource) = 'CENTRAL' Or ( Mid(Upper(gvo_Aplicacao.ivs_database), 1,10) = 'POSTGRESQL' AND ls_Producao = 'S') Then
+		ls_Parametro = 'DE_SERVIDOR_INTRANET_PRODUCAO'
+	Else
+		ls_Parametro = 'DE_SERVIDOR_INTRANET_HOMOLOGACAO'
+	End If
+	
+	If ll_Filial = ll_Filial_Matriz Then		
+		Select vl_parametro
+		Into :ps_endereco
+		From parametro_geral
+		Where cd_parametro = :ls_Parametro
+		Using SqlCa;
+	Else	
+		Select vl_parametro
+		Into :ps_endereco
+		From parametro_loja
+		Where cd_parametro = :ls_Parametro
+		Using SqlCa;	
+	End If
+	
+	Choose Case SqlCa. SqlCode 
+		Case 0
+			If IsNull(ps_endereco) or Trim(ps_endereco) = '' Then
+				ps_log = "Endere$$HEX1$$e700$$ENDHEX$$o da intranet n$$HEX1$$e300$$ENDHEX$$o est$$HEX1$$e100$$ENDHEX$$ cadastrado."
+				Return False
+			End If
+			
+		Case 100
+			ps_log = "O par$$HEX1$$e200$$ENDHEX$$metro [" + ls_Parametro + "] n$$HEX1$$e300$$ENDHEX$$o foi localizado."
+			Return False
+
+		Case -1
+			ps_log = "Erro ao localizar o par$$HEX1$$e200$$ENDHEX$$metro [" + ls_Parametro + "]. " + SqlCa.SqlErrText
+			Return False
+	End Choose
+	
+finally
+	
+	If Not IsNull(ps_log) and pb_exibe_mensagem Then
+		Messagebox("Aten$$HEX2$$e700e300$$ENDHEX$$o", ps_log, StopSign!)
+	End If
+	
+end try
+
+Return True
+
+end function
+

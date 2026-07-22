@@ -1,0 +1,57 @@
+HA$PBExportHeader$gf_verifica_filial_fechada.srf
+global type gf_verifica_filial_fechada from function_object
+end type
+
+forward prototypes
+global function boolean gf_verifica_filial_fechada (long al_filial, ref boolean ab_filial_fechada)
+end prototypes
+
+global function boolean gf_verifica_filial_fechada (long al_filial, ref boolean ab_filial_fechada);Date ldt_Limite
+
+Integer li_Achou
+
+String ls_Situacao, ls_Aberta, ls_Ped_Centra, ls_Recebe_Transf
+
+ab_Filial_Fechada = False
+
+Select id_situacao, id_aberta, id_pedido_centralizado, id_recebe_nf_transferencia
+	Into :ls_Situacao, :ls_Aberta, :ls_Ped_Centra, :ls_Recebe_Transf
+From filial
+Where cd_filial = :al_Filial
+Using SqlCa;
+
+If SqlCa.SqlCode = -1 Then
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao consultar a filial '" + String(al_Filial) + "'. " + SqlCa.SqlErrText, StopSign!)
+	Return False
+End If
+
+If ls_Situacao = "I" Then
+	ab_Filial_Fechada = True
+Else
+	If (ls_Aberta = 'N') Or (ls_Aberta = 'S' And ls_Ped_Centra = 'N') Or (ls_Aberta = 'S' And ls_Recebe_Transf = 'N') Then
+		
+		ldt_Limite = RelativeDate(Today(), -7)
+		
+		Select Count(*)
+			Into :li_Achou
+		From resumo_movto_estq_prd
+		Where cd_filial = :al_Filial
+			And dh_resumo >= :ldt_Limite
+			And qt_venda > 0
+		Using SqlCa;
+		
+		If SqlCa.SqlCode = -1 Then
+			MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao consultar a data da $$HEX1$$fa00$$ENDHEX$$ltima venda da filial '" + String(al_Filial) + "'. " + SqlCa.SqlErrText, StopSign!)
+			Return False
+		End If
+		
+		If li_Achou = 0 Then
+			//Filial fechada temporariamente ou em definitivo
+			ab_Filial_Fechada = True
+		End If
+	End If
+End If
+
+Return True
+end function
+

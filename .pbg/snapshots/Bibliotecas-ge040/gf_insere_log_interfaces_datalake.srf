@@ -1,0 +1,121 @@
+HA$PBExportHeader$gf_insere_log_interfaces_datalake.srf
+global type gf_insere_log_interfaces_datalake from function_object
+end type
+
+forward prototypes
+global function boolean gf_insere_log_interfaces_datalake (string as_msg_principal, string as_observacao, ref string as_erro)
+global function boolean gf_insere_log_interfaces_datalake (string as_titulo, string as_tipo_log, string as_log, string as_observacao, ref string as_erro)
+end prototypes
+
+global function boolean gf_insere_log_interfaces_datalake (string as_msg_principal, string as_observacao, ref string as_erro);String	ls_usuario, ls_senha, ls_data_source
+		
+dc_uo_transacao SQLCA_DATALAKE
+
+		
+ls_data_source	= 'datalake'
+ls_usuario 		= 'interfaces_sybase'
+ls_senha			= 'ukREzTwHFqIoo2B'
+
+
+SQLCA_DATALAKE = Create dc_uo_transacao
+		
+SQLCA_DATALAKE.DBMS       	= "ODBC"
+SQLCA_DATALAKE.AutoCommit 	= False
+SQLCA_DATALAKE.DataBase    = 'postgres'
+SQLCA_DATALAKE.dbParm    	= "ConnectString='UID=" + ls_usuario + &
+									  ";PWD=" + ls_senha + &
+									  ";DSN=" + ls_data_source + &
+									  "', SqlCache=0, " + &
+									  "DisableBind=1" + "', " + &
+						 			  "CommitOnDisconnect='No'"
+
+Try
+	Connect Using SQLCA_DATALAKE;
+	
+	If SQLCA_DATALAKE.SqlCode = -1 Then
+		as_erro	= "Falha na conex$$HEX1$$e300$$ENDHEX$$o com o Banco de Dados do DataLake"
+		
+		Return False
+	End If
+	
+	insert into log_interfaces_sybase (tipo_log, xml_log, dh_log) values ('TESTE', '<top>', CURRENT_TIMESTAMP)
+	using SQLCA_DATALAKE;
+	
+	If SQLCA_DATALAKE.SqlCode <> 0 Then
+		SQLCA_DATALAKE.of_rollback();
+	Else
+		SQLCA_DATALAKE.of_commit();
+	End If
+CATCH (RunTimeError lrte)
+	as_erro		= lrte.getmessage()
+	Return False
+Finally
+	Disconnect using SQLCA_DATALAKE;
+END TRY
+
+
+end function
+
+global function boolean gf_insere_log_interfaces_datalake (string as_titulo, string as_tipo_log, string as_log, string as_observacao, ref string as_erro);String	ls_usuario, ls_senha, ls_data_source, ls_xml_log, ls_datasource_sistema
+		
+dc_uo_transacao SQLCA_DATALAKE
+
+		
+ls_data_source	= 'datalake'
+ls_usuario 		= 'interfaces_sybase'
+ls_senha			= 'ukREzTwHFqIoo2B'
+
+
+SQLCA_DATALAKE = Create dc_uo_transacao
+		
+SQLCA_DATALAKE.DBMS       	= "ODBC"
+SQLCA_DATALAKE.AutoCommit 	= False
+SQLCA_DATALAKE.DataBase    = 'postgres'
+SQLCA_DATALAKE.dbParm    	= "ConnectString='UID=" + ls_usuario + &
+									  ";PWD=" + ls_senha + &
+									  ";DSN=" + ls_data_source + &
+									  "', SqlCache=0, " + &
+									  "DisableBind=1" + "', " + &
+						 			  "CommitOnDisconnect='No'"
+
+Try
+	Connect Using SQLCA_DATALAKE;
+	
+	If SQLCA_DATALAKE.SqlCode = -1 Then
+		as_erro	= "Falha na conex$$HEX1$$e300$$ENDHEX$$o com o Banco de Dados do DataLake."
+		
+		Return False
+	End If
+	
+	If IsNull(as_tipo_log) then as_tipo_log = 'NAOENVIADO'
+	If IsNull(as_log) then as_log = 'NAOENVIADO'
+	If IsNull(as_observacao) then as_observacao = 'NAOENVIADO'
+	
+	ls_datasource_sistema	= gvo_Aplicacao.ivs_DataSource
+	
+	ls_xml_log	= '<XML>'
+	ls_xml_log	+= '<LOG>' + as_log + '</LOG>'
+	ls_xml_log	+= '<TP>' + as_tipo_log + '</TP>'
+	ls_xml_log	+= '<DS>' + ls_datasource_sistema + '</DS>'
+	ls_xml_log	+= '<OBS>' + as_observacao + '</OBS>'
+	ls_xml_log	+= '</XML>'
+	
+	insert into log_interfaces_sybase (tipo_log, xml_log, dh_log) values (:as_titulo, :ls_xml_log, CURRENT_TIMESTAMP)
+	using SQLCA_DATALAKE;
+	
+	If SQLCA_DATALAKE.SqlCode <> 0 Then
+		SQLCA_DATALAKE.of_rollback();
+	Else
+		SQLCA_DATALAKE.of_commit();
+	End If
+CATCH (RunTimeError lrte)
+	as_erro		= lrte.getmessage()
+	
+	Return False
+Finally
+	Disconnect using SQLCA_DATALAKE;
+END TRY
+
+
+end function
+

@@ -1,0 +1,121 @@
+HA$PBExportHeader$ds_itens_nf_transferencia.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=60 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=80 color="536870912" )
+table(column=(type=long update=yes updatewhereclause=yes name=cd_filial_origem dbname="item_nf_transferencia.cd_filial_origem" )
+ column=(type=long update=yes updatewhereclause=yes name=nr_nf dbname="item_nf_transferencia.nr_nf" )
+ column=(type=char(3) update=yes updatewhereclause=yes name=de_especie dbname="item_nf_transferencia.de_especie" )
+ column=(type=char(3) update=yes updatewhereclause=yes name=de_serie dbname="item_nf_transferencia.de_serie" )
+ column=(type=long update=yes updatewhereclause=yes name=cd_natureza_operacao dbname="item_nf_transferencia.cd_natureza_operacao" )
+ column=(type=long update=yes updatewhereclause=yes name=cd_produto dbname="item_nf_transferencia.cd_produto" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=cd_situacao_tributaria dbname="item_nf_transferencia.cd_situacao_tributaria" )
+ column=(type=long update=yes updatewhereclause=yes name=qt_transferida dbname="item_nf_transferencia.qt_transferida" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_custo_unitario dbname="item_nf_transferencia.vl_custo_unitario" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=pc_icms dbname="item_nf_transferencia.pc_icms" )
+ column=(type=char(60) updatewhereclause=yes name=desc_produto dbname="produto_geral.de_produto" )
+ column=(type=char(40) updatewhereclause=yes name=de_apresentacao_venda dbname="produto_geral.de_apresentacao_venda" )
+ column=(type=char(2) updatewhereclause=yes name=cd_grupo_psico dbname="produto_geral.cd_grupo_psico" )
+ column=(type=char(3) updatewhereclause=yes name=cd_unidade_medida_venda dbname="produto_geral.cd_unidade_medida_venda" )
+ column=(type=long updatewhereclause=yes name=cd_filial_destino dbname="nf_transferencia.cd_filial_destino" )
+ column=(type=datetime updatewhereclause=yes name=dh_movimentacao_caixa dbname="nf_transferencia.dh_movimentacao_caixa" )
+ column=(type=datetime updatewhereclause=yes name=dh_emissao dbname="nf_transferencia.dh_emissao" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_bc_icms dbname="nf_transferencia.vl_bc_icms" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_icms dbname="nf_transferencia.vl_icms" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_bc_icms_st dbname="nf_transferencia.vl_bc_icms_st" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_icms_st dbname="nf_transferencia.vl_icms_st" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_total_produtos dbname="nf_transferencia.vl_total_produtos" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_total_nf dbname="nf_transferencia.vl_total_nf" )
+ column=(type=char(6) updatewhereclause=yes name=nr_matricula_operador dbname="nf_transferencia.nr_matricula_operador" )
+ column=(type=char(1) updatewhereclause=yes name=id_produto_vencido dbname="nf_transferencia.id_produto_vencido" )
+ column=(type=long updatewhereclause=yes name=nr_nsu dbname="nf_transferencia.nr_nsu" )
+ retrieve="  SELECT item_nf_transferencia.cd_filial_origem,   
+         item_nf_transferencia.nr_nf,   
+         item_nf_transferencia.de_especie,   
+         item_nf_transferencia.de_serie,   
+         item_nf_transferencia.cd_natureza_operacao,   
+         item_nf_transferencia.cd_produto,   
+         item_nf_transferencia.cd_situacao_tributaria,   
+         item_nf_transferencia.qt_transferida,   
+         item_nf_transferencia.vl_custo_unitario,   
+         item_nf_transferencia.pc_icms,   
+         produto_geral.de_produto,   
+         produto_geral.de_apresentacao_venda,   
+         produto_geral.cd_grupo_psico,   
+         produto_geral.cd_unidade_medida_venda,   
+         nf_transferencia.cd_filial_destino,   
+         nf_transferencia.dh_movimentacao_caixa,   
+         nf_transferencia.dh_emissao,
+         nf_transferencia.vl_bc_icms,   
+         nf_transferencia.vl_icms,   
+         nf_transferencia.vl_bc_icms_st,   
+         nf_transferencia.vl_icms_st,   
+         nf_transferencia.vl_total_produtos,   
+         nf_transferencia.vl_total_nf,   
+         nf_transferencia.nr_matricula_operador,   
+         nf_transferencia.id_produto_vencido,
+			nf_transferencia.nr_nsu
+    FROM item_nf_transferencia,   
+         produto_geral,   
+         nf_transferencia  
+   WHERE ( produto_geral.cd_produto = item_nf_transferencia.cd_produto ) and  
+         ( nf_transferencia.cd_filial_origem = item_nf_transferencia.cd_filial_origem ) and  
+         ( nf_transferencia.nr_nf = item_nf_transferencia.nr_nf ) and  
+         ( nf_transferencia.de_especie = item_nf_transferencia.de_especie ) and  
+         ( nf_transferencia.de_serie = item_nf_transferencia.de_serie ) and  
+         ( ( item_nf_transferencia.cd_filial_origem = :a_filial ) AND  
+         ( item_nf_transferencia.nr_nf = :a_nf ) AND  
+         ( item_nf_transferencia.de_especie = :a_especie ) AND  
+         ( item_nf_transferencia.de_serie = :a_serie ) )    
+" arguments=(("a_filial", number),("a_nf", number),("a_especie", string),("a_serie", string))  sort="cd_filial_origem A nr_nf A de_especie A de_serie A de_produto A " )
+text(band=header alignment="2" text="Cd Filial Origem"border="0" color="0" x="9" y="8" height="56" width="334"  name=cd_filial_origem_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Nf"border="0" color="0" x="352" y="8" height="56" width="274"  name=nr_nf_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="De Especie"border="0" color="0" x="635" y="8" height="56" width="247"  name=de_especie_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="De Serie"border="0" color="0" x="891" y="8" height="56" width="187"  name=de_serie_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cd Natureza Operacao"border="0" color="0" x="1088" y="8" height="56" width="507"  name=cd_natureza_operacao_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cd Produto"border="0" color="0" x="1605" y="8" height="56" width="274"  name=cd_produto_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cd Situacao Tributaria"border="0" color="0" x="1888" y="8" height="56" width="485"  name=cd_situacao_tributaria_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Qt Transferida"border="0" color="0" x="2382" y="8" height="56" width="320"  name=qt_transferida_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Custo Unitario"border="0" color="0" x="2711" y="8" height="56" width="366"  name=vl_custo_unitario_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Pc Icms"border="0" color="0" x="3086" y="8" height="56" width="274"  name=pc_icms_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Cd Filial Destino"border="0" color="0" x="4882" y="4" height="56" width="384"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Vl Bc Icms"border="0" color="0" x="5275" y="4" height="56" width="288"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text=" Vl Icms"border="0" color="0" x="5573" y="4" height="56" width="251"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Vl Bc Icms St"border="0" color="0" x="5833" y="4" height="56" width="370"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text=" Vl Icms St"border="0" color="0" x="6213" y="4" height="56" width="274"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text=" Vl Total Produtos"border="0" color="0" x="6496" y="4" height="56" width="421"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text=" Vl Total Nf"border="0" color="0" x="6926" y="4" height="56" width="311"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Nf Transferencia Id Produto Vencido"border="0" color="0" x="7246" y="4" height="56" width="430"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Cd Grupo Psico"border="0" color="0" x="7685" y="4" height="56" width="443"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Cd Unidade Medida Venda"border="0" color="0" x="8137" y="4" height="56" width="165"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Nf Transferencia Dh Movimentacao Caixa"border="0" color="0" x="8311" y="4" height="56" width="430"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Nf Transferencia Dh Emissao"border="0" color="0" x="8750" y="4" height="56" width="658"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Nf Transferencia Nr Nsu"border="0" color="0" x="9417" y="4" height="76" width="978"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="1" tabsequence=10 border="0" color="0" x="9" y="8" height="68" width="334" format="[general]"  name=cd_filial_origem edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=20 border="0" color="0" x="352" y="8" height="68" width="274" format="[general]"  name=nr_nf edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=30 border="0" color="0" x="635" y="8" height="68" width="247" format="[general]"  name=de_especie edit.limit=3 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=40 border="0" color="0" x="891" y="8" height="68" width="187" format="[general]"  name=de_serie edit.limit=3 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="1" tabsequence=50 border="0" color="0" x="1088" y="8" height="68" width="507" format="[general]"  name=cd_natureza_operacao edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="1" tabsequence=60 border="0" color="0" x="1605" y="8" height="68" width="274" format="[general]"  name=cd_produto edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=70 border="0" color="0" x="1888" y="8" height="68" width="485" format="[general]"  name=cd_situacao_tributaria edit.limit=2 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="1" tabsequence=80 border="0" color="0" x="2382" y="8" height="68" width="320" format="[general]"  name=qt_transferida edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="1" tabsequence=90 border="0" color="0" x="2711" y="8" height="68" width="366" format="[general]"  name=vl_custo_unitario edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="1" tabsequence=100 border="0" color="0" x="3086" y="8" height="68" width="274" format="[general]"  name=pc_icms edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="TRIM( desc_produto ) + ~":~" + TRIM( de_apresentacao_venda ) +                                  IF ( IsNull(cd_grupo_psico) , '' , '(' + cd_grupo_psico + ')' )"border="0" color="0" x="3369" y="8" height="68" width="777" format="[general]"  name=de_produto  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression=" qt_transferida *  vl_custo_unitario "border="0" color="0" x="4155" y="8" height="68" width="718" format="[general]"  name=c_valor_total  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=15 alignment="0" tabsequence=32766 border="0" color="0" x="4882" y="8" height="68" width="384" format="[general]"  name=cd_filial_destino edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=18 alignment="0" tabsequence=32766 border="0" color="0" x="5275" y="8" height="68" width="288" format="[general]"  name=vl_bc_icms edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=19 alignment="0" tabsequence=32766 border="0" color="0" x="5573" y="8" height="68" width="251" format="[general]"  name=vl_icms edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=20 alignment="0" tabsequence=32766 border="0" color="0" x="5833" y="8" height="68" width="370" format="[general]"  name=vl_bc_icms_st edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=21 alignment="0" tabsequence=32766 border="0" color="0" x="6213" y="8" height="68" width="274" format="[general]"  name=vl_icms_st edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=22 alignment="0" tabsequence=32766 border="0" color="0" x="6496" y="8" height="68" width="421" format="[general]"  name=vl_total_produtos edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=23 alignment="0" tabsequence=32766 border="0" color="0" x="6926" y="8" height="68" width="311" format="[general]"  name=vl_total_nf edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=25 alignment="0" tabsequence=32766 border="0" color="0" x="7246" y="8" height="68" width="430" format="[general]"  name=id_produto_vencido edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=13 alignment="0" tabsequence=32766 border="0" color="0" x="7685" y="8" height="68" width="443" format="[general]"  name=cd_grupo_psico edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=14 alignment="0" tabsequence=32766 border="0" color="0" x="8137" y="8" height="68" width="165" format="[general]"  name=cd_unidade_medida_venda edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=16 alignment="0" tabsequence=32766 border="0" color="0" x="8311" y="8" height="64" width="430" format="[shortdate] [time]"  name=dh_movimentacao_caixa edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=17 alignment="0" tabsequence=32766 border="0" color="0" x="8750" y="8" height="64" width="658" format="[shortdate] [time]"  name=dh_emissao edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=26 alignment="0" tabsequence=32766 border="0" color="0" x="9422" y="0" height="56" width="974" format="[general]"  name=nr_nsu edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

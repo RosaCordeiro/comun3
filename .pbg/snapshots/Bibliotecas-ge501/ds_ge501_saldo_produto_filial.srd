@@ -1,0 +1,66 @@
+HA$PBExportHeader$ds_ge501_saldo_produto_filial.srd
+release 12;
+datawindow(units=0 timer_interval=0 color=1073741824 brushmode=0 transparency=0 gradient.angle=0 gradient.color=8421504 gradient.focus=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.repetition.mode=0 gradient.scale=100 gradient.spread=100 gradient.transparency=0 picture.blur=0 picture.clip.bottom=0 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.transparency=0 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes hidegrayline=no showbackcoloronxp=no picture.file="" )
+header(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+detail(height=176 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+table(column=(type=date updatewhereclause=yes name=dh_saldo dbname="dh_saldo" )
+ column=(type=long updatewhereclause=yes name=cd_produto dbname="cd_produto" )
+ column=(type=decimal(0) updatewhereclause=yes name=qt_saldo_final dbname="qt_saldo_final" )
+ column=(type=char(255) updatewhereclause=yes name=id_enviado_site dbname="id_enviado_site" )
+ retrieve="Select Aux1.dh_saldo, Aux1.cd_produto, 
+		( Aux1.qt_saldo_final - coalesce(Aux2.qt_saldo_reserva,0) ) as qt_saldo_final,
+		Aux1.id_enviado_site
+from
+(
+	select s.dh_saldo, s.cd_produto, 
+			s.qt_saldo_final,
+			'N' as id_enviado_site
+	from saldo_produto s
+		inner join produto_geral pg on (pg.cd_produto = s.cd_produto)
+	where s.dh_saldo = :pdt_saldo
+		and ((s.id_atualizado_site = 'N' or (s.id_atualizado_site is null and s.qt_saldo_final > 0) ) or pg.cd_produto in (select cd_produto from vw_saldo_produto_pendente v where v.tipo_movimento = 'TRANSF. FILIAL' OR v.tipo_movimento = 'RESERVA CLIENTE'))
+		and pg.cd_grupo_psico is null
+		and left(pg.de_produto,2) <> 'ZZ'
+		and left(pg.cd_subcategoria,1) <> '5'
+		and (  
+			(:ps_id_rede = 'DC' and pg.id_liberado_ecommerce_dc = 'S' ) 
+		or (:ps_id_rede = 'PP' and pg.id_liberado_ecommerce_pp = 'S' ) 
+		 or (:ps_id_rede = 'FA' and pg.id_liberado_ecommerce = 'S' )
+		or (:ps_id_rede = 'MP' and pg.id_liberado_ecommerce_mp = 'S' )
+			)
+	) Aux1 
+		left join (
+						SELECT v.cd_produto, COALESCE( SUM( v.qt_saldo ), 0 ) qt_saldo_reserva
+						FROM vw_saldo_produto_pendente v
+						inner join produto_geral pg
+							on pg.cd_produto = v.cd_produto
+						WHERE ( v.tipo_movimento = 'TRANSF. FILIAL' OR v.tipo_movimento = 'RESERVA CLIENTE' )
+							and pg.cd_grupo_psico is null
+							and left(pg.de_produto,2) <> 'ZZ'
+							and left(pg.cd_subcategoria,1) <> '5'
+							and (  
+								(:ps_id_rede = 'DC' and pg.id_liberado_ecommerce_dc = 'S' ) 
+							or (:ps_id_rede = 'PP' and pg.id_liberado_ecommerce_pp = 'S' ) 
+							 or (:ps_id_rede = 'FA' and pg.id_liberado_ecommerce = 'S' )
+							or (:ps_id_rede = 'MP' and pg.id_liberado_ecommerce_mp = 'S' )
+								)
+						group by v.cd_produto
+
+				) Aux2 on (Aux2.cd_produto = Aux1.cd_produto)" arguments=(("pdt_saldo", date),("ps_id_rede", string))  sort="cd_produto A " )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="33554432" x="64" y="80" height="60" width="507" format="[general]" html.valueishtml="0"  name=qt_saldo_final visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="0" color="33554432" x="59" y="8" height="60" width="507" format="[general]" html.valueishtml="0"  name=cd_produto visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="33554432" x="681" y="64" height="48" width="987" format="[general]" html.valueishtml="0"  name=id_enviado_site visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="33554432" x="727" y="8" height="48" width="1819" format="[general]" html.valueishtml="0"  name=dh_saldo visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

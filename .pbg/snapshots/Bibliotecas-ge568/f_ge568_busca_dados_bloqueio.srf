@@ -1,0 +1,48 @@
+HA$PBExportHeader$f_ge568_busca_dados_bloqueio.srf
+global type f_ge568_busca_dados_bloqueio from function_object
+end type
+
+forward prototypes
+global function boolean f_ge568_busca_dados_bloqueio (long al_cd_produto, string as_cd_grupo, string as_cd_uf, string as_id_rede_filial, string as_id_lei_generico, ref long al_cd_bloqueio, ref decimal adc_limite, ref string as_mensagem)
+end prototypes
+
+global function boolean f_ge568_busca_dados_bloqueio (long al_cd_produto, string as_cd_grupo, string as_cd_uf, string as_id_rede_filial, string as_id_lei_generico, ref long al_cd_bloqueio, ref decimal adc_limite, ref string as_mensagem);// chamado 902727-6 - funcao que busca os dados de bloqueio do produto, pegando o top 1 com base no order by
+// - uma configuracao de bloqueio com mais criterios definidos tem prioridade em relacao a configuracoes com menos criterios definidos
+// - uma configuracao de bloqueio com por produto tem prioridade sobre configuracao por grupo, que por sua vez tem prioridade sobre configuracao por lei generico, que por sua vez tem prioridade sobre configuracao por UF
+
+as_mensagem = ''
+
+select top 1 pb.cd_bloqueio, pb.pc_limite_preco
+  into :al_cd_bloqueio, :adc_limite
+  from produto_compra_bloqueio pb, parametro a
+ where pb.cd_produto              in (:al_cd_produto, null)
+	and pb.cd_unidade_federacao    in (:as_cd_uf, null)
+	and pb.id_rede_filial	       in (:as_id_rede_filial, null)
+	and pb.id_lei_generico         in (:as_id_lei_generico, null)
+	and pb.cd_grupo                in (:as_cd_grupo, null)
+	and a.dh_movimentacao          between pb.dh_inicio and pb.dh_termino
+	and a.id_parametro             = '1'
+order by case when pb.cd_produto           is not null then '0' else '1' end + 
+			case when pb.cd_grupo             is not null then '0' else '1' end + 
+			case when pb.id_rede_filial       is not null then '0' else '1' end +
+			case when pb.cd_unidade_federacao is not null then '0' else '1' end + 
+			case when pb.id_lei_generico      is not null then '0' else '1' end
+using sqlca;
+				
+if sqlca.sqlcode = -1 then
+	as_mensagem = "Erro na localiza$$HEX2$$e700e300$$ENDHEX$$o dos dados de bloqueio do produto '" + String(al_cd_Produto) + "'. " + SqlCa.SqlErrText
+	Return False
+end if
+
+if sqlca.sqlcode = 100 then
+	setnull(al_cd_bloqueio)
+	setnull(adc_limite)
+else
+	// codigo para colocar breakpoint para encontrar casos onde esta pegando configuracao de bloqueio
+	adc_limite = adc_limite
+end if
+
+return true
+
+end function
+

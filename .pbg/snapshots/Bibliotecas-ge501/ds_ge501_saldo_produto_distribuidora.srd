@@ -1,0 +1,69 @@
+HA$PBExportHeader$ds_ge501_saldo_produto_distribuidora.srd
+release 12;
+datawindow(units=0 timer_interval=0 color=67108864 brushmode=0 transparency=0 gradient.angle=0 gradient.color=8421504 gradient.focus=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.repetition.mode=0 gradient.scale=100 gradient.spread=100 gradient.transparency=0 picture.blur=0 picture.clip.bottom=0 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.transparency=0 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes hidegrayline=no showbackcoloronxp=no picture.file="" )
+header(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+detail(height=76 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+table(column=(type=long updatewhereclause=yes name=cd_produto dbname="cd_produto" )
+ column=(type=decimal(4) updatewhereclause=yes name=qt_saldo dbname="qt_saldo" )
+ retrieve="Select Aux.cd_produto, Sum(Aux.qt_saldo) as qt_saldo
+From
+(
+ Select d.cd_produto, 
+    COALESCE( d.qt_estoque_disponivel , 0 ) * COALESCE( g.vl_fator_conversao, 1 ) as qt_saldo
+ From distribuidora_produto d
+ 	Inner join fornecedor f
+ 		on f.cd_fornecedor = d.cd_distribuidora
+ 	Inner join filial_distribuidora fd
+ 		on fd.cd_distribuidora = d.cd_distribuidora
+ 	Inner join produto_geral g
+ 		on g.cd_produto = d.cd_produto
+	inner join ecommerce_distrib ec
+		on ec.id_ecommerce = '2'
+		and ec.cd_distribuidora = d.cd_distribuidora
+		and ec.cd_filial = fd.cd_filial
+ Where  fd.cd_filial = :pl_cd_filial
+ 	and d.cd_unidade_federacao = :ps_cd_uf
+	and d.cd_distribuidora <> '053404705'
+	and ( 
+			( coalesce(ec.id_estoque_maior_10dias, 'N') = 'S' and coalesce(d.id_estoque_maior_10dias, 'N') = 'S' )
+		or ( coalesce(ec.id_estoque_maior_10dias, 'N') = 'N' )
+		)
+	and coalesce(f.id_atende_pedido_ecommerce, 'N') = 'S'
+ 	and coalesce(f.id_situacao, 'A') = 'A'
+ 	and fd.id_situacao = 'A'
+ 	and d.id_situacao	 = 'A'
+	and d.qt_estoque_disponivel >= ec.qt_minima_estoque
+	and ec.dh_inicio_saldo <= cast(getdate() as date)
+	and ec.dh_termino_saldo >= cast(getdate() as date)
+	And ( ( :ps_id_rede = 'DC' and g.id_liberado_ecommerce_dc = 'S' ) 
+	or ( :ps_id_rede = 'PP' and g.id_liberado_ecommerce_pp = 'S' ) 
+	or ( :ps_id_rede = 'FA' and g.id_liberado_ecommerce = 'S' )
+	or ( :ps_id_rede = 'MP' and g.id_liberado_ecommerce_mp = 'S' ) )
+	and left(g.de_produto,2) <> 'ZZ'
+	and not exists (select 1
+					from pedido_filial_bloqueio x			
+					where x.id_tipo_bloqueio = 'D'
+						and x.cd_filial is null
+						and x.cd_distribuidora = d.cd_distribuidora 
+						and x.dh_pedido is null
+						and x.nr_dia_semana is null
+						and x.cd_uf = d.cd_unidade_federacao
+						and x.dh_inicio_bloqueio <= (select dh_movimentacao from parametro where id_parametro = '1')
+						and x.dh_termino_bloqueio >= (select dh_movimentacao from parametro where id_parametro = '1') )
+) Aux
+group by Aux.cd_produto" arguments=(("pl_cd_filial", number),("ps_cd_uf", string),("ps_id_rede", string)) )
+column(band=detail id=1 alignment="1" tabsequence=32766 border="0" color="33554432" x="14" y="4" height="60" width="421" format="[general]" html.valueishtml="0"  name=cd_produto visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="33554432" x="453" y="4" height="60" width="302" format="[general]" html.valueishtml="0"  name=qt_saldo visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

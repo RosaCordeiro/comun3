@@ -1,0 +1,7 @@
+HA$PBExportHeader$t_ibscbstot.srs
+global type t_ibscbstot from structure
+	decimal { 2 }		vbcibscbs
+	t_gibs_tot		gibs_tot
+	t_gcbs_tot		gcbs_tot
+end type
+

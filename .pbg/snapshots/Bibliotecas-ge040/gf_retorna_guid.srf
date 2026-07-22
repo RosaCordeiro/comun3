@@ -1,0 +1,43 @@
+HA$PBExportHeader$gf_retorna_guid.srf
+global type gf_retorna_guid from function_object
+end type
+
+forward prototypes
+global function boolean gf_retorna_guid (ref string ps_identificador, ref string ps_log, boolean pb_mostra_msg)
+end prototypes
+
+global function boolean gf_retorna_guid (ref string ps_identificador, ref string ps_log, boolean pb_mostra_msg);//O Identificador $$HEX1$$da00$$ENDHEX$$nico Global $$HEX1$$e900$$ENDHEX$$ gerado de forma que nenhum outro ser$$HEX1$$e100$$ENDHEX$$ gerado igual, ou quase nunca ter$$HEX1$$e100$$ENDHEX$$ o mesmo n$$HEX1$$fa00$$ENDHEX$$mero.
+
+try
+	SetNull(ps_log)
+	SetNull(ps_identificador)
+	
+	select newid()
+	into :ps_identificador
+	from parametro
+	where id_parametro = '1'
+	using sqlca;
+	
+	If SqlCa.Sqlcode = -1 Then
+		ps_log = "Fun$$HEX2$$e700e300$$ENDHEX$$o: gf_gera_identificador. Erro: " + sqlca.SQLErrText
+		Return False
+	End If
+	
+	If IsNull(ps_identificador) or Trim(ps_identificador) = '' Then
+		ps_log = "Fun$$HEX2$$e700e300$$ENDHEX$$o: gf_gera_identificador. Identificador n$$HEX1$$e300$$ENDHEX$$o localizado."
+		Return False
+	End If
+	
+finally
+	
+	If Not IsNull(ps_log)  and Trim(ps_log) <> '' Then
+		If pb_mostra_msg Then
+			MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", ps_Log, StopSign!)
+		End If
+	End If
+	
+end try
+
+Return True
+end function
+

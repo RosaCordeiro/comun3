@@ -1,0 +1,22 @@
+HA$PBExportHeader$gf_grava_log_json_form_str.srf
+global type gf_grava_log_json_form_str from function_object
+end type
+
+forward prototypes
+global function string gf_grava_log_json_form_str (string as_value)
+end prototypes
+
+global function string gf_grava_log_json_form_str (string as_value);// Retorna "null" se estiver vazio ou NULL, sen$$HEX1$$e300$$ENDHEX$$o retorna valor entre aspas, escapado
+IF IsNull(as_value) OR Trim(as_value) = "" THEN
+    RETURN "null"
+END IF
+
+// Escapar aspas e barras
+string ls_aux
+ls_aux = gf_Replace(as_value, "\", "\\", 0)      // barra invertida
+ls_aux = gf_Replace(ls_aux, '"', '\"', 0)        // aspas dupla
+
+RETURN '"' + ls_aux + '"'
+
+end function
+

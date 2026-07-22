@@ -1,0 +1,43 @@
+HA$PBExportHeader$gf_inclui_log_exportacao_nf_importacao.srf
+global type gf_inclui_log_exportacao_nf_importacao from function_object
+end type
+
+forward prototypes
+global function boolean gf_inclui_log_exportacao_nf_importacao (long al_filial, string as_distribuidora, long al_pedido, string as_chave_acesso, string as_mensagem)
+end prototypes
+
+global function boolean gf_inclui_log_exportacao_nf_importacao (long al_filial, string as_distribuidora, long al_pedido, string as_chave_acesso, string as_mensagem);Long ll_Nulo
+
+String ls_Nulo
+
+SetNull(ll_Nulo)
+SetNull(ls_Nulo)
+
+If al_pedido 				= 0 Then al_Pedido 			= ll_Nulo
+If as_chave_acesso	= '' Then as_chave_acesso	= ls_Nulo
+
+dc_uo_transacao lds
+
+lds = Create dc_uo_transacao
+
+lds.ivs_DataBase = "SYBASE"
+
+lds.of_Connect("CENTRAL", 'RO')
+
+INSERT INTO log_importacao_nf_ped_elet  ( cd_filial, cd_distribuidora, nr_pedido, de_chave_acesso, de_mensagem )  
+VALUES (:al_Filial, :as_Distribuidora, :al_Pedido, :as_Chave_acesso, :as_Mensagem )
+Using lds;
+
+If lds.SqlCode = -1 Then
+	lds.of_MsgDbError("Inclus$$HEX1$$e300$$ENDHEX$$o do log importa$$HEX2$$e700e300$$ENDHEX$$o de nota.")
+	Destroy(lds)
+	Return False
+End If
+
+lds.of_Commit();
+
+Destroy(lds)
+
+Return True
+end function
+

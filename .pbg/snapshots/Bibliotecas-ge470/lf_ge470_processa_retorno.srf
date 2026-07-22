@@ -1,0 +1,345 @@
+HA$PBExportHeader$lf_ge470_processa_retorno.srf
+global type lf_ge470_processa_retorno from function_object
+end type
+
+forward prototypes
+global function boolean lf_ge470_processa_retorno (string as_xml, integer ai_tipo, string as_cnpj_cpf, dc_uo_transacao uo_transacao, string as_banco_dados, ref string as_log, longlong all_doc_externo)
+end prototypes
+
+global function boolean lf_ge470_processa_retorno (string as_xml, integer ai_tipo, string as_cnpj_cpf, dc_uo_transacao uo_transacao, string as_banco_dados, ref string as_log, longlong all_doc_externo);Boolean lb_Retorno = True
+
+//Double ldb_Retorno_SAP
+
+LongLong lll_Retorno_SAP, lll_Retorno_SAP_Log, lll_Nr_Doc_Externo
+
+Date ldh_Movimento
+
+String l_XmlAux2, l_XmlAux3
+String ls_Empresa, ls_Codigo_Externo, ls_DH_Docto, ls_status, ls_Ret_Sap, ls_Mensagem, ls_Item
+String ls_Retorno_SAP, ls_Doc_Comp, ls_Doc_Estorno
+String ls_Item_Lanc, ls_Codigo_Externo_XML, ls_Item_Cabecalho
+String ls_status_integracao
+
+Long ll_Empresa, ll_Pos, ll_Item, ll_Qtde_Lanc
+
+l_XmlAux2 = as_XML
+
+DO WHILE Pos(l_XmlAux2, '<E_RETORNO>') > 0	
+	l_XmlAux3 = Mid(l_XmlAux2, Pos(l_XmlAux2, '<E_RETORNO>'), Pos(l_XmlAux2, '</E_RETORNO>') - Pos(l_XmlAux2, '<E_RETORNO>') + LenA('</E_RETORNO>') )
+	
+	If LenA(l_XmlAux3) > 0 Then
+		
+		ls_Empresa 			= gf_get_value(l_XmlAux3, '<BUKRS>', 1) //EMPRESA
+		ls_Codigo_Externo = gf_get_value(l_XmlAux3,'<BELNR_EXT>', 1) //CODIGO EXTERNO
+		ls_DH_Docto 		= gf_get_value(l_XmlAux3,'<BLDAT>', 1) //DATA DOCUMENTO
+		ls_Item 				= gf_get_value(l_XmlAux3, '<BUZEI>', 1) //ITEM
+		ls_status 			= gf_get_value(l_XmlAux3, '<ZSTATUS_INT>', 1) //STATUS
+		ls_Mensagem 		= gf_get_value(l_XmlAux3, '<MESSAGE>', 1) //MENSAGEM
+		ls_Doc_Comp 		= gf_get_value(l_XmlAux3, '<BUZEI_SAP_COMP>', 1) // DOCUMENTO COMPENSADO
+		
+		ls_Mensagem = Mid(ls_Mensagem, 1, 100)
+
+		ls_Codigo_Externo_XML = ls_Codigo_Externo
+		
+		//Para retirar o caracter que indica o BD
+		ls_Codigo_Externo = Mid(ls_Codigo_Externo, 2) 
+		
+		ldh_Movimento  	= Date(Mid(ls_DH_Docto, 7, 2) + "/" + Mid(ls_DH_Docto, 5, 2) + "/" + Mid(ls_DH_Docto, 1, 4) )
+		lll_Nr_Doc_Externo = LongLong(ls_Codigo_Externo)
+		ll_Empresa 			= Long(ls_Empresa)
+		
+		If lll_Nr_Doc_Externo = 2847883 Then
+			lll_Nr_Doc_Externo = 2847883
+		End If
+		
+		//Quando estiver enviando os documentos
+//		If ai_tipo = 1 Then
+//			If ls_status = 'I' Then
+//				
+//			Else
+//				If (Pos(ls_Mensagem, "Fornecedor n$$HEX1$$e300$$ENDHEX$$o existe") > 0  or Pos(ls_Mensagem, "Cliente n$$HEX1$$e300$$ENDHEX$$o existe p/ CPF/CNPJ Informado!") > 0) and Not IsNull(as_cnpj_cpf) and Trim(as_cnpj_cpf) <> "" Then
+//					as_log = ls_Mensagem + ' - ' + as_cnpj_cpf
+//				Else
+//					//Retorna como falso e executa o rollback
+//					as_log  = ls_Mensagem
+//				End If
+//				
+//				//lb_Retorno = False
+//			End If
+
+		If (ai_tipo = 2)  or (ai_tipo = 1) Then
+			//Quando for buscar os retornos dos documentos enviados
+			lll_Retorno_SAP = LongLong(gf_get_value(l_XmlAux3,'<BELNR_SAP>', 1))
+
+			If IsNull(lll_Retorno_SAP) or lll_Retorno_SAP = 0 Then
+				// Verifica retorno dos documentos estornados
+				ls_Doc_Estorno	 = gf_get_value(l_XmlAux3, '<BELNR_SAP_EST>', 1) // DOCUMENTO ESTORNO
+				lll_Retorno_SAP = LongLong(ls_Doc_Estorno)
+			End If
+			
+			If ls_Status = 'S' Then
+				// Sybase
+				If as_banco_dados = "SYB" Then
+					If Not IsNull(lll_Retorno_SAP) and lll_Retorno_SAP >0 Then
+						ls_Retorno_SAP = String(lll_Retorno_SAP)
+							
+						Update log_exportacao_sap
+						 Set	nr_documento_sap = :ls_Retorno_SAP, id_status_integracao	= 'P', id_situacao_docto = 'P', dh_importacao = getdate()
+						Where nr_atualizacao 	= :lll_Nr_Doc_Externo
+						Using uo_transacao;
+						
+						If uo_transacao.SqlCode = -1 Then
+							as_log = "Erro na atualiza$$HEX2$$e700e300$$ENDHEX$$o do registro na tabela de log_exportacao_sap " + uo_transacao.SqlerrText
+							Return False
+						End If
+						
+						If uo_transacao.SQLNRows <> 1 Then
+							as_log = 'Nenhum ou mais de um documento foi atualizado - RETORNO DOC ENVIADO.'
+							Return False
+						End If
+						
+						Update log_exportacao_sap_historico
+							 Set 	nr_documento_sap = :ls_Retorno_SAP
+						Where nr_atualizacao 	= :lll_Nr_Doc_Externo
+							and nr_documento 	= :ls_Codigo_Externo
+							and dh_documento	= :ldh_Movimento
+						Using uo_transacao;
+						
+						If uo_transacao.SqlCode = -1 Then
+							as_Log = "Erro na atualiza$$HEX2$$e700e300$$ENDHEX$$o do registro na tabela de log_exportacao_sap_historico: " + uo_transacao.SqlerrText
+							Return False
+						End If
+					End If
+					
+					If Not IsNull(ls_Doc_Comp) and Trim(ls_Doc_Comp) <> '$' and Trim(ls_Doc_Comp) <> ''  Then
+						Update log_exportacao_sap_historico
+							 Set 	nr_documento_sap_compensacao = :ls_Doc_Comp
+						Where nr_atualizacao 	= :lll_Nr_Doc_Externo
+							and nr_documento 	= :ls_Codigo_Externo
+							and dh_documento	= :ldh_Movimento
+						Using uo_transacao;
+						
+						If uo_transacao.SqlCode = -1 Then
+							as_Log = "Erro na atualiza$$HEX2$$e700e300$$ENDHEX$$o do registro na tabela de log_exportacao_sap_historico DOC COMPESADO: " + uo_transacao.SqlerrText
+							Return False
+						End If
+					End If
+					
+					If Not IsNull(ls_Doc_Estorno) and Trim(ls_Doc_Estorno) <> '$' and Trim(ls_Doc_Estorno) <> '' Then
+						Update log_exportacao_sap_historico
+							 Set 	nr_documento_sap_estorno = :ls_Doc_Estorno
+						Where nr_atualizacao 	= :lll_Nr_Doc_Externo
+							and nr_documento 	= :ls_Codigo_Externo
+							and dh_documento	= :ldh_Movimento
+						Using uo_transacao;
+						
+						If uo_transacao.SqlCode = -1 Then
+							as_Log = "Erro na atualiza$$HEX2$$e700e300$$ENDHEX$$o do registro na tabela de log_exportacao_sap_historico DOC ESTORNO: " + uo_transacao.SqlerrText
+							Return False
+						End If
+					End If
+					
+				Else
+					
+					If Not IsNull(lll_Retorno_SAP) and lll_Retorno_SAP >0 Then
+						
+						Select qt_lancamento
+						Into :ll_Qtde_Lanc
+						From log_exportacao_sap
+						Where nr_atualizacao 	= :lll_Nr_Doc_Externo
+						Using uo_transacao;
+						
+						Choose Case uo_transacao.SqlCode
+							Case 0
+							Case 100
+								as_log = "N$$HEX1$$fa00$$ENDHEX$$mero '"+ String(lll_Nr_Doc_Externo) + "' da localiza$$HEX2$$e700e300$$ENDHEX$$o do log n$$HEX1$$e300$$ENDHEX$$o foi localizado."
+								Return False
+							Case -1
+								as_log =  "Erro localiza$$HEX2$$e700e300$$ENDHEX$$o do registro na tabela de log_exportacao_sap " + uo_transacao.SqlerrText
+								Return False
+						End Choose	
+						
+						If ll_Qtde_Lanc > 998 Then
+							INSERT INTO LOG_EXPORTACAO_SAP_RET (NR_ATUALIZACAO, NR_DOCUMENTO_SAP)  
+							VALUES ( :lll_Nr_Doc_Externo, :lll_Retorno_SAP)  
+							Using uo_transacao;
+							
+							If uo_transacao.SqlCode = -1 Then
+								as_log = "Erro ao inserir o registro na tabela de log_exportacao_sap " + uo_transacao.SqlerrText
+								Return False
+							End If
+						End If
+						
+						Update log_exportacao_sap
+							 Set	nr_documento_sap = :lll_Retorno_SAP, id_status_integracao	= 'P', id_situacao_docto = 'P'
+						Where nr_atualizacao 	= :lll_Nr_Doc_Externo
+							and nr_documento_sap is null
+						Using uo_transacao;
+						
+						If uo_transacao.SqlCode = -1 Then
+							as_log = "Erro na atualiza$$HEX2$$e700e300$$ENDHEX$$o do registro na tabela de log_exportacao_sap " + uo_transacao.SqlerrText
+							Return False
+						End If
+						
+					End If
+					
+				End If				
+				
+			ElseIf (ls_Status = 'E') or (ls_Status = 'X') Then
+				
+				ls_status_integracao = 'E'
+				
+				// MULT - // Verifica se $$HEX1$$e900$$ENDHEX$$ substitui$$HEX2$$e700e300$$ENDHEX$$o - modelo da mensagem recebida -> Documento M12459950 SUBSTITUIDO pelo M12990648
+				If  as_banco_dados <> "SYB" Then
+					if Pos(ls_mensagem,'Documento') > 0 and Pos(ls_mensagem,'SUBSTITUIDO pelo') > 0 Then
+						ls_status_integracao = 'I'
+					end if
+				end if
+				
+				Update log_exportacao_sap
+					 Set	id_status_integracao	= :ls_status_integracao, id_situacao_docto = 'E'
+				Where nr_atualizacao 	= :lll_Nr_Doc_Externo
+				Using uo_transacao;
+				
+				If uo_transacao.SqlCode = -1 Then
+					as_log = "Erro na atualiza$$HEX2$$e700e300$$ENDHEX$$o do registro na tabela de log_exportacao_sap [ERRO] " + uo_transacao.SqlerrText
+					Return False
+				End If				
+				
+				//H$$HEX1$$e100$$ENDHEX$$ erro no documento: BKPFF $ S4QCLNT300 - Item 000
+				ll_Pos = Pos(ls_Mensagem, "Item")
+				
+				ll_Item  = 0
+				
+				If  ll_Pos > 0 Then
+					ll_Item = Long(Mid(ls_Mensagem, ll_Pos + 5, 3 ))
+					
+					If ll_Item = 0 Then
+						Update log_exportacao_sap
+							 Set	de_erro = :ls_Mensagem
+						Where nr_atualizacao 	= :lll_Nr_Doc_Externo
+						Using uo_transacao;
+						
+						If uo_transacao.SqlCode = -1 Then
+							as_log = "Erro na atualiza$$HEX2$$e700e300$$ENDHEX$$o do registro na tabela de log_exportacao_sap " + uo_transacao.SqlerrText
+							Return False
+						End If
+					Else
+						If as_banco_dados = "SYB" Then
+							Update log_exportacao_sap_historico
+							 Set	de_erro = :ls_Mensagem
+							Where nr_atualizacao 	= :lll_Nr_Doc_Externo
+								and nr_item 			= :ll_Item
+							Using uo_transacao;
+						Else
+							Update log_exportacao_sap_item
+								 Set	de_erro = :ls_Mensagem
+							Where nr_atualizacao 	= :lll_Nr_Doc_Externo
+								and nr_item 			= :ll_Item
+							Using uo_transacao;
+						End If
+						
+						If uo_transacao.SqlCode = -1 Then
+							as_log = "Erro na atualiza$$HEX2$$e700e300$$ENDHEX$$o do registro na tabela de log_exportacao_sap " + uo_transacao.SqlerrText
+							Return False
+						End If
+					End If
+				Else
+					//<MESSAGE>M000129544-000003-Campo Forma de pagamento (ZLSCH) obrigat$$HEX1$$f300$$ENDHEX$$rio!</MESSAGE>
+					//<MESSAGE>M000129544-003-Campo Forma de pagamento (ZLSCH) obrigat$$HEX1$$f300$$ENDHEX$$rio!</MESSAGE>
+					ll_Pos = Pos(ls_Mensagem, ls_Codigo_Externo_XML)
+					
+					If ll_Pos > 0 Then
+						ls_Item_Lanc = Mid(ls_Mensagem, ll_Pos + len(ls_Codigo_Externo_XML) + 1, 6)
+						If IsNumber (ls_Item_Lanc) Then 
+							ll_Item = Long(ls_Item_Lanc)
+						Else
+							ls_Item_Lanc = Mid(ls_Mensagem, ll_Pos + len(ls_Codigo_Externo_XML) + 1, 3)
+							If IsNumber (ls_Item_Lanc) Then 
+								ll_Item = Long(ls_Item_Lanc)
+							End If
+						End If					
+					Else
+						ll_Item = 0
+					End If
+					
+					If ll_Item = 0 Then
+						Update log_exportacao_sap
+							 Set	de_erro = :ls_Mensagem
+						Where nr_atualizacao 	= :lll_Nr_Doc_Externo
+						Using uo_transacao;
+						
+						If uo_transacao.SqlCode = -1 Then
+							as_log = "Erro na atualiza$$HEX2$$e700e300$$ENDHEX$$o do registro na tabela de log_exportacao_sap " + uo_transacao.SqlerrText
+							Return False
+						End If
+					Else
+						If as_banco_dados = "SYB" Then
+							Update log_exportacao_sap_historico
+							 Set	de_erro = :ls_Mensagem
+							Where nr_atualizacao 	= :lll_Nr_Doc_Externo
+								and nr_item 			= :ll_Item
+							Using uo_transacao;
+						Else
+							Update log_exportacao_sap_item
+								 Set	de_erro = :ls_Mensagem
+							Where nr_atualizacao 	= :lll_Nr_Doc_Externo
+								and nr_item 			= :ll_Item
+							Using uo_transacao;
+						End If
+						
+						If uo_transacao.SqlCode = -1 Then
+							as_log = "Erro na atualiza$$HEX2$$e700e300$$ENDHEX$$o do registro na tabela de log_exportacao_sap " + uo_transacao.SqlerrText
+							Return False
+						End If
+					End If
+				End If
+				
+			ElseIf ls_Status = '' Then 
+				If ls_Mensagem = 'Nenhum registro encontrado!' Then
+					If all_doc_externo > 0 Then
+						Update log_exportacao_sap
+							 Set	de_erro = :ls_Mensagem, nr_documento_sap = '999'
+						Where nr_atualizacao 	= :all_doc_externo
+						Using uo_transacao;
+						
+						If uo_transacao.SqlCode = -1 Then
+							as_log = "Erro na atualiza$$HEX2$$e700e300$$ENDHEX$$o do registro na tabela de log_exportacao_sap " + uo_transacao.SqlerrText
+							Return False
+						End If
+					End If
+				End If	
+				
+			ElseIf (ls_Status = 'I') and (ai_tipo = 1) Then
+				
+				Update log_exportacao_sap
+					 Set	id_status_integracao	= 'I', id_situacao_docto = 'I'
+				Where nr_atualizacao 	= :lll_Nr_Doc_Externo
+					and id_status_integracao <> 'E'
+				Using uo_transacao;
+				
+				If uo_transacao.SqlCode = -1 Then
+					as_log = "Erro na atualiza$$HEX2$$e700e300$$ENDHEX$$o do registro na tabela de log_exportacao_sap " + uo_transacao.SqlerrText
+					Return False
+				End If
+				
+//				If uo_transacao.SQLNRows <> 1 Then
+//					as_log = 'Nenhum ou mais de um documento foi atualizado.'
+//					Return False
+//				End If				
+				
+			End If
+		Else
+//			AQUI VAI O RETORNO ESTORNO
+		End If		
+		
+		 l_XmlAux2 = gf_Replace(l_XmlAux2, l_XmlAux3 , '', 0)	
+	End If
+	
+LOOP
+
+If lb_Retorno Then uo_transacao.Of_Commit()
+
+Return lb_Retorno
+end function
+

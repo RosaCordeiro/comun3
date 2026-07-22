@@ -1,0 +1,55 @@
+HA$PBExportHeader$gf_retorna_venda_convenio_pbm.srf
+global type gf_retorna_venda_convenio_pbm from function_object
+end type
+
+forward prototypes
+global function double gf_retorna_venda_convenio_pbm (long pl_filial, date pdt_movimento_de, date pdt_movimento_ate, long pl_convenio, string ps_programa, long pl_nr_nf, ref decimal pdc_vl_total_nf, ref decimal pdc_vl_total_pago_avista, ref decimal pdc_vl_total_nfc, ref decimal pdc_vl_total_pago_avista_nfc)
+end prototypes
+
+global function double gf_retorna_venda_convenio_pbm (long pl_filial, date pdt_movimento_de, date pdt_movimento_ate, long pl_convenio, string ps_programa, long pl_nr_nf, ref decimal pdc_vl_total_nf, ref decimal pdc_vl_total_pago_avista, ref decimal pdc_vl_total_nfc, ref decimal pdc_vl_total_pago_avista_nfc);//Se houver altera$$HEX2$$e700f500$$ENDHEX$$es aplicar tamb$$HEX1$$e900$$ENDHEX$$m na fun$$HEX2$$e700e300$$ENDHEX$$o gf_el014_retorna_venda_convenio_pbm (EL014)
+//Que trata da sepera$$HEX2$$e700e300$$ENDHEX$$o destas contas para devolu$$HEX2$$e700e300$$ENDHEX$$o
+
+Decimal{2} lvdc_Pago_Avista_NF
+Decimal{2} lvdc_Pago_Avista_NFC
+
+//  TOTAL RECEBER A PRAZO CONVENIO
+Select coalesce(sum(case when n.de_especie	= 'CF' then n.vl_total_nf else 0 end),0), 			//Valor Total Cupons
+		 coalesce(sum(case when n.de_especie	= 'CF' then n.vl_pago_avista else 0 end),0), 	//Valor Pago a Vista Cupons
+		 coalesce(sum(case when n.de_especie	in ('NFC','SAT') then n.vl_total_nf else 0 end),0), 		//Valor Total NFCe/SAT
+		 coalesce(sum(case when n.de_especie	in ('NFC','SAT') then n.vl_pago_avista else 0 end),0)	//Valor Pago a Vista NFCe/ SAT
+  Into :pdc_Vl_Total_Nf, :pdc_vl_total_pago_avista, :pdc_vl_total_nfc, :pdc_vl_total_pago_avista_nfc
+From	 venda_pbm vp (index idx_fil_dt_conv)
+inner join nf_venda n (index pk_nf_venda)
+	on n.cd_filial 		= vp.cd_filial
+  and n.nr_nf 			= vp.nr_nf
+  and n.de_especie	= vp.de_especie
+  and n.de_serie 		= vp.de_serie
+Where vp.dh_venda between :pdt_movimento_de and :pdt_movimento_ate
+  and 	vp.cd_convenio		= :pl_convenio
+  and	n.cd_filial		= case :pl_Filial when 0 then n.cd_filial else :pl_Filial end
+  and 	n.nr_nf			= case :pl_Nr_Nf when 0 then n.nr_nf else :pl_Nr_Nf end
+  and  n.de_especie	in ('CF','NFC','SAT')
+  and  n.id_tipo_venda		= 'CV'
+  and  n.dh_cancelamento	is null
+  and  n.nr_nf_anexa			is null  
+  and n.cd_convenio in (:pl_Convenio, 51014, 53847)															// 2015.01.08 - Marlon
+  and (((n.cd_convenio in (51014, 53847)) and (exists (	select nfa1.cd_convenio_de 					// Retorna apenas devolu$$HEX2$$e700f500$$ENDHEX$$es cujo no hist$$HEX1$$f300$$ENDHEX$$rico de altera$$HEX2$$e700e300$$ENDHEX$$o
+																		from nf_venda_alteracao nfa1 				// haja um registro indicando que o convenio anterior era 
+																		where nfa1.cd_filial = n.cd_filial 			// o conv$$HEX1$$ea00$$ENDHEX$$nio da busca
+																			and nfa1.nr_nf = n.nr_nf 
+																			and nfa1.de_especie = n.de_especie 
+																			and nfa1.de_serie = n.de_serie 
+																			and nfa1.cd_convenio_de=:pl_Convenio)))
+		or(n.cd_convenio=:pl_Convenio))
+	and n.cd_conveniado = case n.cd_convenio when 51014 then cast(:pl_Convenio as varchar) when 53847 then cast(:pl_Convenio as varchar) else n.cd_conveniado end	
+  and coalesce(vp.nr_comprovante_venda,'') = case when vp.cd_convenio in (52575,53724,53725) then case when coalesce(:ps_programa,'')='' then coalesce(vp.nr_comprovante_venda,'') else :ps_programa end else coalesce(vp.nr_comprovante_venda,'') end
+Using Sqlca; 
+
+If IsNull(pdc_vl_total_pago_avista) Then pdc_vl_total_pago_avista = 0.00
+If IsNull(pdc_vl_total_pago_avista_nfc) Then pdc_vl_total_pago_avista_nfc = 0.00
+If IsNull(pdc_Vl_Total_Nf) Then pdc_Vl_Total_Nf = 0.00
+If IsNull(pdc_vl_total_nfc) Then pdc_vl_total_nfc = 0.00
+
+Return pdc_Vl_Total_Nf + pdc_vl_total_nfc //- pdc_vl_total_pago_avista - pdc_vl_total_pago_avista_nfc
+end function
+

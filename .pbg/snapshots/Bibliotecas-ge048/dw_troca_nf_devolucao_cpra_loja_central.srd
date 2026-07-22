@@ -1,0 +1,118 @@
+HA$PBExportHeader$dw_troca_nf_devolucao_cpra_loja_central.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=72 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=84 color="536870912" )
+table(column=(type=long update=yes updatewhereclause=yes key=yes name=cd_filial dbname="nf_devolucao_compra.cd_filial" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=nr_nf dbname="nf_devolucao_compra.nr_nf" )
+ column=(type=char(3) update=yes updatewhereclause=yes key=yes name=de_especie dbname="nf_devolucao_compra.de_especie" )
+ column=(type=char(3) update=yes updatewhereclause=yes key=yes name=de_serie dbname="nf_devolucao_compra.de_serie" )
+ column=(type=datetime update=yes updatewhereclause=yes name=dh_movimentacao_caixa dbname="nf_devolucao_compra.dh_movimentacao_caixa" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_bc_icms dbname="nf_devolucao_compra.vl_bc_icms" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_icms dbname="nf_devolucao_compra.vl_icms" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_bc_icms_st dbname="nf_devolucao_compra.vl_bc_icms_st" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_icms_st dbname="nf_devolucao_compra.vl_icms_st" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_icms_repassado dbname="nf_devolucao_compra.vl_icms_repassado" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_total_produtos dbname="nf_devolucao_compra.vl_total_produtos" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_ipi dbname="nf_devolucao_compra.vl_ipi" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_frete dbname="nf_devolucao_compra.vl_frete" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_seguro dbname="nf_devolucao_compra.vl_seguro" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_outras_despesas dbname="nf_devolucao_compra.vl_outras_despesas" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_desconto dbname="nf_devolucao_compra.vl_desconto" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_indenizacao dbname="nf_devolucao_compra.vl_indenizacao" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_total_nf dbname="nf_devolucao_compra.vl_total_nf" )
+ column=(type=char(9) update=yes updatewhereclause=yes name=cd_fornecedor dbname="nf_devolucao_compra.cd_fornecedor" )
+ column=(type=long update=yes updatewhereclause=yes name=nr_nf_compra dbname="nf_devolucao_compra.nr_nf_compra" )
+ column=(type=char(3) update=yes updatewhereclause=yes name=de_especie_compra dbname="nf_devolucao_compra.de_especie_compra" )
+ column=(type=char(3) update=yes updatewhereclause=yes name=de_serie_compra dbname="nf_devolucao_compra.de_serie_compra" )
+ column=(type=char(6) update=yes updatewhereclause=yes name=nr_matricula_operador dbname="nf_devolucao_compra.nr_matricula_operador" )
+ column=(type=datetime update=yes updatewhereclause=yes name=dh_cancelamento dbname="nf_devolucao_compra.dh_cancelamento" )
+ column=(type=char(6) update=yes updatewhereclause=yes name=nr_matricula_cancelamento dbname="nf_devolucao_compra.nr_matricula_cancelamento" )
+ column=(type=long updatewhereclause=yes name=nr_nsu dbname="nf_devolucao_compra.nr_nsu" )
+ column=(type=datetime updatewhereclause=yes name=dh_emissao dbname="nf_devolucao_compra.dh_emissao" )
+ retrieve="  SELECT nf_devolucao_compra.cd_filial,   
+         nf_devolucao_compra.nr_nf,   
+         nf_devolucao_compra.de_especie,   
+         nf_devolucao_compra.de_serie,   
+         nf_devolucao_compra.dh_movimentacao_caixa,   
+         nf_devolucao_compra.vl_bc_icms,   
+         nf_devolucao_compra.vl_icms,   
+         nf_devolucao_compra.vl_bc_icms_st,   
+         nf_devolucao_compra.vl_icms_st,   
+         nf_devolucao_compra.vl_icms_repassado,   
+         nf_devolucao_compra.vl_total_produtos,   
+         nf_devolucao_compra.vl_ipi,   
+         nf_devolucao_compra.vl_frete,   
+         nf_devolucao_compra.vl_seguro,   
+         nf_devolucao_compra.vl_outras_despesas,   
+         nf_devolucao_compra.vl_desconto,   
+         nf_devolucao_compra.vl_indenizacao,   
+         nf_devolucao_compra.vl_total_nf,   
+         nf_devolucao_compra.cd_fornecedor,   
+         nf_devolucao_compra.nr_nf_compra,   
+         nf_devolucao_compra.de_especie_compra,   
+         nf_devolucao_compra.de_serie_compra,   
+         nf_devolucao_compra.nr_matricula_operador,   
+         nf_devolucao_compra.dh_cancelamento,   
+         nf_devolucao_compra.nr_matricula_cancelamento,
+			nf_devolucao_compra.nr_nsu,
+			nf_devolucao_compra.dh_emissao
+    FROM nf_devolucao_compra  
+   WHERE ( nf_devolucao_compra.cd_filial = :filial ) AND  
+         ( nf_devolucao_compra.dh_movimentacao_caixa = :data_base )    
+" update="nf_devolucao_compra" updatewhere=1 updatekeyinplace=no arguments=(("filial", number),("data_base", date)) )
+text(band=header alignment="2" text="Cd Filial"border="0" color="0" x="5" y="4" height="64" width="329"  name=cd_filial_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Nf"border="0" color="0" x="338" y="4" height="64" width="329"  name=nr_nf_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="De Especie"border="0" color="0" x="672" y="4" height="64" width="306"  name=de_especie_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="De Serie"border="0" color="0" x="983" y="4" height="64" width="229"  name=de_serie_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Dh Movimentacao Caixa"border="0" color="0" x="1216" y="4" height="64" width="640"  name=dh_movimentacao_caixa_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Bc Icms"border="0" color="0" x="1865" y="4" height="64" width="329"  name=vl_bc_icms_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Icms"border="0" color="0" x="2199" y="4" height="64" width="329"  name=vl_icms_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Bc Icms St"border="0" color="0" x="2533" y="4" height="64" width="370"  name=vl_bc_icms_st_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Icms St"border="0" color="0" x="2907" y="4" height="64" width="329"  name=vl_icms_st_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Icms Repassado"border="0" color="0" x="3241" y="4" height="64" width="517"  name=vl_icms_repassado_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Total Produtos"border="0" color="0" x="3762" y="4" height="64" width="457"  name=vl_total_produtos_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Ipi"border="0" color="0" x="4224" y="4" height="64" width="329"  name=vl_ipi_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Frete"border="0" color="0" x="4558" y="4" height="64" width="329"  name=vl_frete_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Seguro"border="0" color="0" x="4891" y="4" height="64" width="329"  name=vl_seguro_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Outras Despesas"border="0" color="0" x="5225" y="4" height="64" width="535"  name=vl_outras_despesas_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Desconto"border="0" color="0" x="5765" y="4" height="64" width="329"  name=vl_desconto_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Indenizacao"border="0" color="0" x="6098" y="4" height="64" width="389"  name=vl_indenizacao_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Total Nf"border="0" color="0" x="6496" y="4" height="64" width="329"  name=vl_total_nf_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cd Fornecedor"border="0" color="0" x="6830" y="4" height="64" width="389"  name=cd_fornecedor_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Nf Compra"border="0" color="0" x="7223" y="4" height="64" width="357"  name=nr_nf_compra_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="De Especie Compra"border="0" color="0" x="7584" y="4" height="64" width="530"  name=de_especie_compra_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="De Serie Compra"border="0" color="0" x="8119" y="4" height="64" width="453"  name=de_serie_compra_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Matricula Operador"border="0" color="0" x="8576" y="4" height="64" width="581"  name=nr_matricula_operador_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Dh Cancelamento"border="0" color="0" x="9161" y="4" height="64" width="603"  name=dh_cancelamento_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Matricula Cancelamento"border="0" color="0" x="9769" y="4" height="64" width="718"  name=nr_matricula_cancelamento_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="1" tabsequence=10 border="0" color="0" x="5" y="4" height="76" width="329" format="[general]"  name=cd_filial edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=20 border="0" color="0" x="338" y="4" height="76" width="329" format="[general]"  name=nr_nf edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=30 border="0" color="0" x="672" y="4" height="76" width="110" format="[general]"  name=de_especie edit.limit=3 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=40 border="0" color="0" x="983" y="4" height="76" width="110" format="[general]"  name=de_serie edit.limit=3 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=50 border="0" color="0" x="1216" y="4" height="76" width="603" format="[shortdate] [time]"  name=dh_movimentacao_caixa edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="1" tabsequence=60 border="0" color="0" x="1865" y="4" height="76" width="329" format="[general]"  name=vl_bc_icms edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="1" tabsequence=70 border="0" color="0" x="2199" y="4" height="76" width="329" format="[general]"  name=vl_icms edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="1" tabsequence=80 border="0" color="0" x="2533" y="4" height="76" width="329" format="[general]"  name=vl_bc_icms_st edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="1" tabsequence=90 border="0" color="0" x="2907" y="4" height="76" width="329" format="[general]"  name=vl_icms_st edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="1" tabsequence=100 border="0" color="0" x="3241" y="4" height="76" width="329" format="[general]"  name=vl_icms_repassado edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=11 alignment="1" tabsequence=110 border="0" color="0" x="3762" y="4" height="76" width="329" format="[general]"  name=vl_total_produtos edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=12 alignment="1" tabsequence=120 border="0" color="0" x="4224" y="4" height="76" width="329" format="[general]"  name=vl_ipi edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=13 alignment="1" tabsequence=130 border="0" color="0" x="4558" y="4" height="76" width="329" format="[general]"  name=vl_frete edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=14 alignment="1" tabsequence=140 border="0" color="0" x="4891" y="4" height="76" width="329" format="[general]"  name=vl_seguro edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=15 alignment="1" tabsequence=150 border="0" color="0" x="5225" y="4" height="76" width="329" format="[general]"  name=vl_outras_despesas edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=16 alignment="1" tabsequence=160 border="0" color="0" x="5765" y="4" height="76" width="329" format="[general]"  name=vl_desconto edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=17 alignment="1" tabsequence=170 border="0" color="0" x="6098" y="4" height="76" width="329" format="[general]"  name=vl_indenizacao edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=18 alignment="1" tabsequence=180 border="0" color="0" x="6496" y="4" height="76" width="329" format="[general]"  name=vl_total_nf edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=19 alignment="0" tabsequence=190 border="0" color="0" x="6830" y="4" height="76" width="274" format="[general]"  name=cd_fornecedor edit.limit=9 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=20 alignment="1" tabsequence=200 border="0" color="0" x="7223" y="4" height="76" width="329" format="[general]"  name=nr_nf_compra edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=21 alignment="0" tabsequence=210 border="0" color="0" x="7584" y="4" height="76" width="110" format="[general]"  name=de_especie_compra edit.limit=3 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=22 alignment="0" tabsequence=220 border="0" color="0" x="8119" y="4" height="76" width="110" format="[general]"  name=de_serie_compra edit.limit=3 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=23 alignment="0" tabsequence=230 border="0" color="0" x="8576" y="4" height="76" width="192" format="[general]"  name=nr_matricula_operador edit.limit=6 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=24 alignment="0" tabsequence=240 border="0" color="0" x="9161" y="4" height="76" width="603" format="[shortdate] [time]"  name=dh_cancelamento edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=25 alignment="0" tabsequence=250 border="0" color="0" x="9769" y="4" height="76" width="192" format="[general]"  name=nr_matricula_cancelamento edit.limit=6 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=26 alignment="0" tabsequence=0 border="0" color="0" x="10487" y="0" height="64" width="1161"  name=nr_nsu  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=27 alignment="0" tabsequence=0 border="0" color="0" x="11648" y="0" height="64" width="786"  name=dh_emissao  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

@@ -1,0 +1,15 @@
+HA$PBExportHeader$t_infnfe.srs
+global type t_infnfe from structure
+	string		versao
+	string		id
+	t_ide		ide
+	t_emit		emit
+	t_dest		dest
+	t_det		det[]
+	t_total		total
+	t_transp		transp
+	t_cobr		cobr
+	t_infadic		infAdic
+	t_compra		compra
+end type
+

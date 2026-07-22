@@ -1,0 +1,52 @@
+HA$PBExportHeader$gf_run.srf
+global type gf_run from function_object
+end type
+
+forward prototypes
+global subroutine gf_run (string ps_exe)
+global subroutine gf_run (string ps_exe, integer pi_Modo)
+global subroutine gf_run (string ps_exe, integer pi_modo, boolean pb_wait)
+end prototypes
+
+global subroutine gf_run (string ps_exe)
+	gf_run( ps_EXE, 1 )
+end subroutine
+
+global subroutine gf_run (string ps_exe, integer pi_Modo)
+	gf_run( ps_EXE, pi_Modo, True )
+end subroutine
+
+global subroutine gf_run (string ps_exe, integer pi_modo, boolean pb_wait);	/* 
+	*	Autor: Fernando Lu$$HEX1$$ed00$$ENDHEX$$s Cambiaghi
+	*	Data: 28/12/2012
+	*	Este arquivo cont$$HEX1$$e900$$ENDHEX$$m v$$HEX1$$e100$$ENDHEX$$rias fun$$HEX2$$e700f500$$ENDHEX$$es. 
+	*	Para poder editar/visualizar todas, $$HEX1$$e900$$ENDHEX$$ necess$$HEX1$$e100$$ENDHEX$$rio usar a op$$HEX2$$e700e300$$ENDHEX$$o Edit Source
+	*
+	*	Assinaturas:
+	*		- gf_run( string ps_Exe )
+	*		- gf_run( string ps_Exe, integer pi_Modo )
+	*		- gf_run( string ps_Exe, integer pi_Modo, boolean pb_Wait )
+	*/
+	
+	OleObject wsh
+	integer li_rc
+	
+	/* Modo */
+	CONSTANT integer MAXIMIZED	=	3
+	CONSTANT integer MINIMIZED	=	2
+	CONSTANT integer NORMAL	=	1
+	/***/
+	CONSTANT boolean WAIT 		= TRUE
+	CONSTANT boolean NOWAIT 	= FALSE
+	
+//	gvo_aplicacao.Of_Grava_Log("Chamada fun$$HEX2$$e700e300$$ENDHEX$$o GF_RUN : " + ps_exe)
+	
+	wsh 	= CREATE OleObject
+	li_rc = wsh.ConnectToNewObject( "WScript.Shell" ) 
+	gf_Delay(2)
+	li_rc = wsh.Run( ps_EXE, pi_Modo, pb_Wait )
+	gf_Delay(2)
+	
+	Destroy(wsh)
+end subroutine
+

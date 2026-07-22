@@ -1,0 +1,25 @@
+HA$PBExportHeader$gf_mascara_cpf_cnpj.srf
+global type gf_mascara_cpf_cnpj from function_object
+end type
+
+forward prototypes
+global function string gf_mascara_cpf_cnpj (string as_cpf)
+end prototypes
+
+global function string gf_mascara_cpf_cnpj (string as_cpf);String ls_Cpf_Cnpj_Formatado
+
+ls_Cpf_Cnpj_Formatado = ''
+
+If isNull(as_cpf) Then
+	Return ls_Cpf_Cnpj_Formatado
+End If
+
+If lenA(as_cpf) = 11  Then
+	ls_Cpf_Cnpj_Formatado = Mid(as_cpf, 1,3) + "******" + Mid(as_cpf, 10,2)
+Else
+	ls_Cpf_Cnpj_Formatado = Mid(as_cpf, 1,5) + "*******" + Mid(as_cpf, 13,2)		
+End If
+
+Return ls_Cpf_Cnpj_Formatado
+end function
+

@@ -1,0 +1,9 @@
+HA$PBExportHeader$t_emit_cte.srs
+global type t_emit_cte from structure
+	string		cnpj
+	string		ie
+	string		xnome
+	string		xfant
+	t_enderemit_cte		enderemit
+end type
+

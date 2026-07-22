@@ -1,0 +1,52 @@
+HA$PBExportHeader$gf_verifica_lancamento_psico_pendente.srf
+global type gf_verifica_lancamento_psico_pendente from function_object
+end type
+
+forward prototypes
+global function boolean gf_verifica_lancamento_psico_pendente ()
+end prototypes
+
+global function boolean gf_verifica_lancamento_psico_pendente ();
+Long     ll_movimento
+
+String   ls_filial
+
+select vl_parametro Into :ls_filial
+  from parametro_loja
+ where cd_parametro = 'ID_REDE_FILIAL'
+ Using Sqlca;
+ 
+If Sqlca.Sqlcode = -1 Then
+   Sqlca.of_MsgDbError("Localiza$$HEX2$$e700e300$$ENDHEX$$o Rede Filial")
+	Return False
+End If
+
+//Filial Manipula$$HEX2$$e700e300$$ENDHEX$$o - Proformula
+If ls_filial <> "MP" And ls_Filial <> "PF" Then
+
+	Select count(*) Into :ll_movimento
+	 From controle_psico c,
+			parametro p
+	Where c.dh_movimentacao < p.dh_movimentacao
+	  and c.dh_movimentacao >= '2008/01/01'
+	  and c.dh_conferencia is null
+	Using Sqlca;
+	
+	If Sqlca.Sqlcode = -1 Then
+		Sqlca.of_MsgDbError("lan$$HEX1$$e700$$ENDHEX$$amentos de psicotr$$HEX1$$f300$$ENDHEX$$picos pendentes.")
+		Return False
+	End If	
+	
+	If IsNull(ll_movimento) Then ll_movimento = 0
+	
+	If ll_movimento >= 4 Then
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o","Escritura$$HEX2$$e700e300$$ENDHEX$$o de psicotr$$HEX1$$f300$$ENDHEX$$picos pendentes.~rExistem mais de 4 dias n$$HEX1$$e300$$ENDHEX$$o finalizados no lan$$HEX1$$e700$$ENDHEX$$amento de receitu$$HEX1$$e100$$ENDHEX$$rios.~r" + &
+									  "Favor verificar.",Exclamation!)
+		Return False
+	End If	
+	
+End If	
+
+Return True
+end function
+

@@ -1,0 +1,98 @@
+HA$PBExportHeader$iif_old.srf
+global type iif_old from function_object
+end type
+
+forward prototypes
+global function powerobject iif (boolean ab_condition, powerobject apo_if_true, powerobject apo_if_false)
+global function datetime iif (boolean ab_condition, datetime adt_if_true, datetime adt_if_false)
+global function date iif (boolean ab_condition, date ad_if_true, date ad_if_false)
+global function time iif (boolean ab_condition, time at_if_true, time at_if_false)
+global function decimal iif (boolean ab_condition, decimal adc_if_true, decimal adc_if_false)
+global function long iif (boolean ab_condition, long al_if_true, long al_if_false)
+global function icon iif (boolean ab_condition, icon ao_if_true, icon ao_if_false)
+global function string iif_old (any ab_condition, string as_if_true, string as_if_false)
+end prototypes
+
+global function powerobject iif (boolean ab_condition, powerobject apo_if_true, powerobject apo_if_false);
+if ab_condition then return apo_if_true
+
+return apo_if_false
+end function
+
+global function datetime iif (boolean ab_condition, datetime adt_if_true, datetime adt_if_false);
+if ab_condition then return adt_if_true
+
+return adt_if_false
+end function
+
+global function date iif (boolean ab_condition, date ad_if_true, date ad_if_false);
+if ab_condition then return ad_if_true
+
+return ad_if_false
+end function
+
+global function time iif (boolean ab_condition, time at_if_true, time at_if_false);
+if ab_condition then return at_if_true
+
+return at_if_false
+end function
+
+global function decimal iif (boolean ab_condition, decimal adc_if_true, decimal adc_if_false);
+if ab_condition then return adc_if_true
+
+return adc_if_false
+end function
+
+global function long iif (boolean ab_condition, long al_if_true, long al_if_false);
+if ab_condition then return al_if_true
+
+return al_if_false
+end function
+
+global function icon iif (boolean ab_condition, icon ao_if_true, icon ao_if_false)
+if ab_condition then return ao_if_true
+
+return ao_if_false
+end function
+
+global function string iif_old (any ab_condition, string as_if_true, string as_if_false);/**********************************************************************************************************************
+Desc:	Se o primeiro argumento $$HEX1$$e900$$ENDHEX$$ verdadeiro ent$$HEX1$$e300$$ENDHEX$$o o valor do segundo argumento $$HEX1$$e900$$ENDHEX$$ retornado; se n$$HEX1$$e300$$ENDHEX$$o o valor do terceiro argumento $$HEX1$$e900$$ENDHEX$$ retornado.
+		Funcionamento similar a fun$$HEX2$$e700e300$$ENDHEX$$o "IIF" do Visual Basic and the ternary operator of C (<cond> ? <if true> : <if false>;)
+		Esta fun$$HEX2$$e700e300$$ENDHEX$$o $$HEX1$$e900$$ENDHEX$$ uma ajuda para as contru$$HEX2$$e700f500$$ENDHEX$$es de "if...else" - sendo poss$$HEX1$$ed00$$ENDHEX$$vel atrav$$HEX1$$e900$$ENDHEX$$s de seu uso a remo$$HEX2$$e700e300$$ENDHEX$$o de 4 linhas extras:
+		
+		Sem a fun$$HEX2$$e700e300$$ENDHEX$$o:
+		if lc_sex = "M" then
+			ls_greeting = "Mr"
+		else
+			ls_greeting = "Ms"
+		end if
+		
+		Com a fun$$HEX2$$e700e300$$ENDHEX$$o:
+		ls_greeting = iif(lc_sex = "M", "Mr", "Ms")
+		-----------------------------------------------------------------------------------------------------------------
+		CUIDADO! Se voc$$HEX1$$ea00$$ENDHEX$$ passar uma express$$HEX1$$e300$$ENDHEX$$o como o 2$$HEX1$$ba00$$ENDHEX$$ ou 3$$HEX1$$ba00$$ENDHEX$$ par$$HEX1$$e200$$ENDHEX$$metro , a express$$HEX1$$e300$$ENDHEX$$o $$HEX1$$e900$$ENDHEX$$ avaliada em primeiro lugar
+		e , em seguida, o valor de seu resultado $$HEX1$$e900$$ENDHEX$$ enviado para a fun$$HEX2$$e700e300$$ENDHEX$$o , por isso n$$HEX1$$e300$$ENDHEX$$o use IIF em situa$$HEX2$$e700f500$$ENDHEX$$es como zero, exemplo :
+		ll_result = iif(ll_val_2 <> 0, ll_val_1 / ll_val_2, 0) // Haver$$HEX1$$e100$$ENDHEX$$ falha se ll_val_2 for igual a 0!!!
+-----------------------------------------------------------------------------------------------------------------------
+Arg:	ab_condition (boolean) - para selecionar o valor a retornar
+		as_if_true (string) - valor a retornar se ab_condition $$HEX1$$e900$$ENDHEX$$ verdadeiro
+		as_if_false (string) - valor a retornar se ab_condition $$HEX1$$e900$$ENDHEX$$ falso
+		-----------------------------------------------------------------------------------------------------------------
+		Esta fun$$HEX2$$e700e300$$ENDHEX$$o tem sobrecarga para os tipos de dados: string, long, decimal, date, time, datetime, powerobject.
+		Para ver os overloads, abrir fun$$HEX2$$e700e300$$ENDHEX$$o no modo "Edit Source".
+-----------------------------------------------------------------------------------------------------------------------
+Retorno:	string
+-----------------------------------------------------------------------------------------------------------------------
+Log:	25.Apr.2012 Michael Zuskin (http://powerbuilder.us/)	Initial version
+		18.Dez.2015 Marlon Kniss - Tradu$$HEX2$$e700e300$$ENDHEX$$o e Adapta$$HEX2$$e700e300$$ENDHEX$$o
+**********************************************************************************************************************/
+Boolean lvb_condition
+
+lvb_condition = ab_condition
+if lvb_condition then
+	return as_if_true
+end if
+
+return as_if_false
+end function
+

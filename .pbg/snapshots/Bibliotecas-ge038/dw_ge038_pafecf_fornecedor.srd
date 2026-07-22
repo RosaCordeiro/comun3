@@ -1,0 +1,45 @@
+HA$PBExportHeader$dw_ge038_pafecf_fornecedor.srd
+release 7;
+datawindow(units=0 timer_interval=0 color=80269524 processing=0 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=96 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=108 color="536870912" )
+table(column=(type=char(9) update=yes updatewhereclause=yes key=yes name=cd_fornecedor dbname="fornecedor.cd_fornecedor" )
+ column=(type=char(40) update=yes updatewhereclause=yes name=nm_razao_social dbname="fornecedor.nm_razao_social" )
+ column=(type=char(14) update=yes updatewhereclause=yes name=nr_cgc dbname="fornecedor.nr_cgc" )
+ column=(type=char(11) update=yes updatewhereclause=yes name=nr_cpf dbname="fornecedor.nr_cpf" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=nr_inscricao_estadual dbname="fornecedor.nr_inscricao_estadual" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=de_bairro dbname="fornecedor.de_bairro" )
+ column=(type=char(40) update=yes updatewhereclause=yes name=de_endereco dbname="fornecedor.de_endereco" )
+ column=(type=long update=yes updatewhereclause=yes name=cd_cidade dbname="fornecedor.cd_cidade" )
+ retrieve="  SELECT fornecedor.cd_fornecedor,   
+         fornecedor.nm_razao_social,   
+         fornecedor.nr_cgc,   
+         fornecedor.nr_cpf,   
+         fornecedor.nr_inscricao_estadual,   
+         fornecedor.de_bairro,   
+         fornecedor.de_endereco,   
+         fornecedor.cd_cidade  
+    FROM fornecedor
+   WHERE fornecedor.id_situacao = 'A'
+	  AND fornecedor.id_distribuidora = 'S'
+" update="fornecedor" updatewhere=1 updatekeyinplace=no )
+text(band=header alignment="2" text="Cd Fornecedor" border="0" color="8388608" x="18" y="16" height="64" width="389"  name=cd_fornecedor_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nm Razao Social" border="0" color="8388608" x="425" y="16" height="64" width="1125"  name=nm_razao_social_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Cgc" border="0" color="8388608" x="1568" y="16" height="64" width="411"  name=nr_cgc_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Cpf" border="0" color="8388608" x="1998" y="16" height="64" width="329"  name=nr_cpf_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Inscricao Estadual" border="0" color="8388608" x="2345" y="16" height="64" width="567"  name=nr_inscricao_estadual_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="De Bairro" border="0" color="8388608" x="2930" y="16" height="64" width="576"  name=de_bairro_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="De Endereco" border="0" color="8388608" x="3525" y="16" height="64" width="1125"  name=de_endereco_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cd Cidade" border="0" color="8388608" x="4667" y="16" height="64" width="329"  name=cd_cidade_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=10 border="2" color="0" x="18" y="16" height="76" width="274" format="[general]"  name=cd_fornecedor edit.limit=9 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=20 border="2" color="0" x="425" y="16" height="76" width="1125" format="[general]"  name=nm_razao_social edit.limit=40 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=30 border="2" color="0" x="1568" y="16" height="76" width="411" format="[general]"  name=nr_cgc edit.limit=14 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=40 border="2" color="0" x="1998" y="16" height="76" width="329" format="[general]"  name=nr_cpf edit.limit=11 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=50 border="2" color="0" x="2345" y="16" height="76" width="439" format="[general]"  name=nr_inscricao_estadual edit.limit=15 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=60 border="2" color="0" x="2930" y="16" height="76" width="576" format="[general]"  name=de_bairro edit.limit=20 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=70 border="2" color="0" x="3525" y="16" height="76" width="1125" format="[general]"  name=de_endereco edit.limit=40 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="1" tabsequence=80 border="2" color="0" x="4667" y="16" height="76" width="329" format="[general]"  name=cd_cidade edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" )

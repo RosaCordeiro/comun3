@@ -1,0 +1,63 @@
+HA$PBExportHeader$gf_valida_data_prescricao_receita.srf
+global type gf_valida_data_prescricao_receita from function_object
+end type
+
+forward prototypes
+global function boolean gf_valida_data_prescricao_receita (string as_portaria, string as_uso_prolongado, date adt_prescricao)
+global function boolean gf_valida_data_prescricao_receita (string as_portaria, string as_uso_prolongado, date adt_prescricao, date adt_comparacao)
+global function boolean gf_valida_data_prescricao_receita (string as_portaria, string as_uso_prolongado, date adt_prescricao, date adt_comparacao, ref string ps_mensagem)
+end prototypes
+
+global function boolean gf_valida_data_prescricao_receita (string as_portaria, string as_uso_prolongado, date adt_prescricao)
+	Return gf_valida_data_prescricao_receita ( as_portaria, as_uso_prolongado, adt_prescricao, Date( gvo_Parametro.of_Dh_Movimentacao() ) )
+end function
+
+global function boolean gf_valida_data_prescricao_receita (string as_portaria, string as_uso_prolongado, date adt_prescricao, date adt_comparacao)
+	Boolean lb_Retorno
+	String ls_Mensagem_Retorno = ""
+	
+	lb_Retorno = gf_valida_data_prescricao_receita ( as_portaria, as_uso_prolongado, adt_prescricao, Date( gvo_Parametro.of_Dh_Movimentacao() ), Ref ls_Mensagem_Retorno )
+	
+	If ls_Mensagem_Retorno <> "" Then
+		MessageBox( "Aten$$HEX2$$e700e300$$ENDHEX$$o", ls_Mensagem_Retorno )
+	End If
+	
+	Return lb_Retorno
+end function
+
+global function boolean gf_valida_data_prescricao_receita (string as_portaria, string as_uso_prolongado, date adt_prescricao, date adt_comparacao, ref string ps_mensagem);/* 
+*	Este arquivo cont$$HEX1$$e900$$ENDHEX$$m v$$HEX1$$e100$$ENDHEX$$rias fun$$HEX2$$e700f500$$ENDHEX$$es. 
+*	Para poder editar/visualizar todas, $$HEX1$$e900$$ENDHEX$$ necess$$HEX1$$e100$$ENDHEX$$rio usar a op$$HEX2$$e700e300$$ENDHEX$$o Edit Source
+*
+*	Assinaturas:
+*	 - gf_valida_data_prescricao_receita (string as_portaria, string as_uso_prolongado, date adt_prescricao)
+*	 - gf_valida_data_prescricao_receita (string as_portaria, string as_uso_prolongado, date adt_prescricao, date adt_comparacao)
+*	 - gf_valida_data_prescricao_receita (string as_portaria, string as_uso_prolongado, date adt_prescricao, date adt_comparacao, ref ps_mensagem)
+*/
+
+Long ll_Dias_Validade_Receita
+
+ll_Dias_Validade_Receita = 30
+
+If as_Portaria = 'W' Then
+	If as_Uso_Prolongado = 'S' Then
+		ll_Dias_Validade_Receita = 90
+	Else
+		ll_Dias_Validade_Receita = 10
+	End If
+End If
+
+If Date(adt_Prescricao) < RelativeDate(adt_Comparacao, - ll_Dias_Validade_Receita ) Then
+	If as_Portaria <> 'W' Then
+		ll_Dias_Validade_Receita = ll_Dias_Validade_Receita + 1
+	End If
+	
+	ps_Mensagem = "Receita vencida." + &
+						  "~rData de prescri$$HEX2$$e700e300$$ENDHEX$$o:" + String(adt_Prescricao) +"."
+				
+	Return False
+End If
+
+Return True
+end function
+

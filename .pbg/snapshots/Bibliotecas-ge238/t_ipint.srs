@@ -1,0 +1,5 @@
+HA$PBExportHeader$t_ipint.srs
+global type t_ipint from structure
+	string		CST
+end type
+

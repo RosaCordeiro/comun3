@@ -1,0 +1,14 @@
+HA$PBExportHeader$win32_find_dataa.srs
+global type win32_find_dataa from structure
+	unsignedlong		dwfileattributes
+	filetime		ftcreationtime
+	filetime		ftlastaccesstime
+	filetime		ftlastwritetime
+	unsignedlong		nfilesizehigh
+	unsignedlong		nfilesizelow
+	unsignedlong		dwreserved0
+	unsignedlong		dwreserved1
+	character		cfilename[260]
+	character		calternatefilename[14]
+end type
+

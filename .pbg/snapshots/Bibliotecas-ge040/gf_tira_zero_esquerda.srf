@@ -1,0 +1,19 @@
+HA$PBExportHeader$gf_tira_zero_esquerda.srf
+global type gf_tira_zero_esquerda from function_object
+end type
+
+forward prototypes
+global function string gf_tira_zero_esquerda (string as_texto)
+end prototypes
+
+global function string gf_tira_zero_esquerda (string as_texto);If IsNumber(as_Texto) Then
+	as_Texto = String(Dec(as_Texto))
+Else
+	DO WHILE Mid(as_Texto, 1,1) = "0"
+		as_Texto = Mid(as_Texto, 2)
+	LOOP
+End If
+
+Return as_Texto
+end function
+

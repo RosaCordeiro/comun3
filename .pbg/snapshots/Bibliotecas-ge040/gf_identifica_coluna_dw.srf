@@ -1,0 +1,25 @@
+HA$PBExportHeader$gf_identifica_coluna_dw.srf
+global type gf_identifica_coluna_dw from function_object
+end type
+
+forward prototypes
+global function boolean gf_identifica_coluna_dw (ref string lvs_colunas[], ref long ll_qtdcolunas, dc_uo_dw_base dw_atual)
+end prototypes
+
+global function boolean gf_identifica_coluna_dw (ref string lvs_colunas[], ref long ll_qtdcolunas, dc_uo_dw_base dw_atual);long ll_Nro, ll_numCols
+string ls_Desc
+ 
+//Recupera o n$$HEX1$$fa00$$ENDHEX$$mero de colunas da Datawindow
+ll_numCols = Long(Dw_Atual.Describe("Datawindow.Column.Count"))
+ll_QtdColunas=ll_numCols
+ 
+For ll_Nro = 1 to ll_numCols
+ 	//Recupera o nome da coluna e salva no vetor
+	 ls_Desc = "#" + string(ll_Nro) + ".Name"	
+	 lvs_Colunas[ll_Nro] = Dw_Atual.Describe(ls_Desc)
+Next
+
+
+Return True 
+end function
+

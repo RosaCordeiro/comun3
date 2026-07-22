@@ -1,0 +1,25 @@
+HA$PBExportHeader$gf_captura_hash.srf
+global type gf_captura_hash from function_object
+end type
+
+forward prototypes
+global function string gf_captura_hash (string ps_valor)
+end prototypes
+
+global function string gf_captura_hash (string ps_valor);//Long lvl_Count
+//Long lvl_Digito
+//
+String lvs_Hash
+
+lvs_Hash = ""
+
+uo_MD5 lvo_MD5
+lvo_MD5 = Create uo_MD5
+
+lvs_Hash = lvo_MD5.of_MD5(ps_Valor)
+
+Destroy(lvo_MD5)
+
+Return lvs_Hash
+end function
+

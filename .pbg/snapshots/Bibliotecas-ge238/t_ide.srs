@@ -1,0 +1,27 @@
+HA$PBExportHeader$t_ide.srs
+global type t_ide from structure
+	string		cuf
+	long		cnf
+	string		natop
+	long		indpag
+	long		modelo
+	string		serie
+	long		nnf
+	date		demi
+	date		dsaient
+	long		tpnf
+	long		cmunfg
+	string		cmunfgibs
+	long		tpimp
+	long		tpemis
+	long		cdv
+	long		tpamb
+	long		finnfe
+	string		tpnfdebito
+	string		tpnfcredito
+	long		procemi
+	string		verproc
+	t_nfref		nfref
+	t_gPagAntecipado		gPagAntecipado
+end type
+

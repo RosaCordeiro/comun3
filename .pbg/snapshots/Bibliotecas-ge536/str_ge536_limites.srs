@@ -1,0 +1,9 @@
+HA$PBExportHeader$str_ge536_limites.srs
+global type str_ge536_limites from structure
+	long		idcampanha[]
+	string		codigoproduto[]
+	string		produto[]
+	long		tipoproduto[]
+	decimal		quantidade[]
+end type
+

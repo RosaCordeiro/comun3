@@ -1,0 +1,23 @@
+HA$PBExportHeader$gf_ge501_commit.srf
+global type gf_ge501_commit from function_object
+end type
+
+forward prototypes
+global function boolean gf_ge501_commit (dc_uo_transacao p_transacao)
+end prototypes
+
+global function boolean gf_ge501_commit (dc_uo_transacao p_transacao);Integer li_SqlCode 
+
+// Se a aplica$$HEX2$$e700e300$$ENDHEX$$o perder a conex$$HEX1$$e300$$ENDHEX$$o com o BD n$$HEX1$$e300$$ENDHEX$$o vai estourar a mensagem "Transa$$HEX2$$e700e300$$ENDHEX$$o n$$HEX1$$e300$$ENDHEX$$o logada"
+// Desta forma a execu$$HEX2$$e700e300$$ENDHEX$$o do programa n$$HEX1$$e300$$ENDHEX$$o ir$$HEX1$$e100$$ENDHEX$$ parar
+p_transacao.exibe_notificacao = False
+
+li_SqlCode = p_transacao.of_Commit();
+
+p_transacao.exibe_notificacao = True
+
+If li_SqlCode = -1 Then Return False
+
+Return True
+end function
+

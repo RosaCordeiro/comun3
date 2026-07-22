@@ -1,0 +1,14 @@
+HA$PBExportHeader$t_enderdest_cte.srs
+global type t_enderdest_cte from structure
+	string		xlgr
+	string		nro
+	string		xcpl
+	string		xbairro
+	long		cmun
+	string		xmun
+	string		cep
+	string		uf
+	long		cpais
+	string		xpais
+end type
+

@@ -1,0 +1,134 @@
+HA$PBExportHeader$gf_ultima_alter_cad_prod.srf
+global type gf_ultima_alter_cad_prod from function_object
+end type
+
+forward prototypes
+global function boolean gf_ultima_alter_cad_prod (string as_produto, ref datetime adh_ultima_alter, ref string as_matricula, ref string as_nome_usuario)
+end prototypes
+
+global function boolean gf_ultima_alter_cad_prod (string as_produto, ref datetime adh_ultima_alter, ref string as_matricula, ref string as_nome_usuario);Long ll_Produto
+Long ll_Len
+
+Datetime lvdh_Ultima_Alteracao
+
+Datetime lvdh_Data_Aux
+String lvs_Matricula_Aux
+
+
+ll_Produto = Long(as_Produto)
+ll_Len		  = Len(as_Produto)
+
+lvdh_Ultima_Alteracao = Datetime("2015/01/01")
+
+Select top 1 c.dh_revisao_fiscal, c.nr_matricula_revisao_fiscal
+Into :lvdh_Data_Aux, :lvs_Matricula_Aux
+From produto_central c
+Where c.cd_produto = :ll_Produto
+Using SQLCa;
+
+If SqlCa.SqlCode = -1 Then
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao consultar a $$HEX1$$fa00$$ENDHEX$$ltima altera$$HEX2$$e700e300$$ENDHEX$$o no cadastro do produto " + as_Produto + ".~r~r" + SqlCa.SqlErrText, StopSign!)
+	Return False
+End If
+
+If lvdh_Data_Aux > lvdh_Ultima_Alteracao Then 
+	as_matricula				= lvs_Matricula_Aux
+	lvdh_Ultima_Alteracao	= lvdh_Data_Aux
+End If
+
+Select top 1 c.dh_atualizacao, c.nr_matricula_atualizacao
+Into :lvdh_Data_Aux, :lvs_Matricula_Aux
+From codigo_barras_produto c
+Where c.cd_produto = :ll_Produto
+	And c.dh_atualizacao >= :lvdh_Ultima_Alteracao
+order by  c.dh_atualizacao desc
+Using SQLCa;
+
+If SqlCa.SqlCode = -1 Then
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao consultar a $$HEX1$$fa00$$ENDHEX$$ltima altera$$HEX2$$e700e300$$ENDHEX$$o no cadastro do produto " + as_Produto + ".~r~r" + SqlCa.SqlErrText, StopSign!)
+	Return False
+End If
+
+If lvdh_Data_Aux > lvdh_Ultima_Alteracao Then 
+	as_matricula				= lvs_Matricula_Aux
+	lvdh_Ultima_Alteracao	= lvdh_Data_Aux
+End If
+
+Select top 1 h.dh_alteracao, h.nr_matric_alteracao
+Into :lvdh_Data_Aux, :lvs_Matricula_Aux
+From historico_alteracao_tabela h (index idx_tabela)
+Where h.nm_tabela In ('PRODUTO_GERAL' , 'PRODUTO_CENTRAL')
+	And h.de_chave = :as_Produto
+	And h.dh_alteracao >= :lvdh_Ultima_Alteracao
+order by h.dh_alteracao desc
+Using SQLCa;
+
+If SqlCa.SqlCode = -1 Then
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao consultar a $$HEX1$$fa00$$ENDHEX$$ltima altera$$HEX2$$e700e300$$ENDHEX$$o no cadastro do produto " + as_Produto + ".~r~r" + SqlCa.SqlErrText, StopSign!)
+	Return False
+End If
+	
+If lvdh_Data_Aux > lvdh_Ultima_Alteracao Then 
+	as_matricula				= lvs_Matricula_Aux
+	lvdh_Ultima_Alteracao	= lvdh_Data_Aux
+End If
+
+Select top 1 h.dh_alteracao, h.nr_matric_alteracao
+Into :lvdh_Data_Aux, :lvs_Matricula_Aux
+From historico_alteracao_tabela h (index idx_tabela)
+Where h.nm_tabela In ('COMPOSICAO_PRODUTO', 'TIPO_COMISSAO_PRODUTO')
+	And substring(h.de_chave, 1, :ll_Len) = :as_Produto
+	And h.dh_alteracao >= :lvdh_Ultima_Alteracao
+order by h.dh_alteracao desc
+Using SQLCa;
+
+If SqlCa.SqlCode = -1 Then
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao consultar a $$HEX1$$fa00$$ENDHEX$$ltima altera$$HEX2$$e700e300$$ENDHEX$$o no cadastro do produto " + as_Produto + ".~r~r" + SqlCa.SqlErrText, StopSign!)
+	Return False
+End If
+
+If lvdh_Data_Aux > lvdh_Ultima_Alteracao Then 
+	as_matricula				= lvs_Matricula_Aux
+	lvdh_Ultima_Alteracao	= lvdh_Data_Aux
+End If
+
+Select top 1 h.dh_alteracao, h.nr_matric_alteracao
+Into :lvdh_Data_Aux, :lvs_Matricula_Aux
+From historico_alteracao_tabela h (index idx_tabela)
+Where h.nm_tabela = 'PRODUTO_UF'
+	And substring(h.de_chave, 6, :ll_Len) = :as_Produto
+	And h.dh_alteracao >= :lvdh_Ultima_Alteracao
+order by h.dh_alteracao desc
+Using SQLCa;
+
+If SqlCa.SqlCode = -1 Then
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao consultar a $$HEX1$$fa00$$ENDHEX$$ltima altera$$HEX2$$e700e300$$ENDHEX$$o no cadastro do produto " + as_Produto + ".~r~r" + SqlCa.SqlErrText, StopSign!)
+	Return False
+End If
+	
+If lvdh_Data_Aux > lvdh_Ultima_Alteracao Then 
+	as_matricula				= lvs_Matricula_Aux
+	lvdh_Ultima_Alteracao	= lvdh_Data_Aux
+End If
+
+If lvdh_Ultima_Alteracao > Datetime("2015/01/01") Then
+	adh_ultima_alter = lvdh_Ultima_Alteracao
+	
+	select nm_usuario 
+	Into :as_nome_usuario
+	From usuario
+	Where nr_matricula = :as_matricula
+	Using SQLCa;
+	
+	If SqlCa.SqlCode = -1 Then
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao consultar o nome do usu$$HEX1$$e100$$ENDHEX$$rio na altera$$HEX2$$e700e300$$ENDHEX$$o no cadastro do produto " + as_Produto + ".~r~r" + SqlCa.SqlErrText, StopSign!)
+		Return False
+	End If
+Else
+	SetNull(as_matricula)
+	SetNull(adh_ultima_alter)
+End If
+
+Return True
+end function
+

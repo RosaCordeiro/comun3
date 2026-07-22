@@ -1,0 +1,36 @@
+HA$PBExportHeader$ge038_prod_blocoxsoap.srx
+$PBExportComments$Proxy imported from Web service using Web Service Proxy Generator.
+global type ge038_prod_BlocoXSoap from NonVisualObject
+end type
+
+type variables
+Protected:
+   string xmlns = ""
+   string tm = "http://microsoft.com/wsdl/mime/textMatching/"
+   string soapenc = "http://schemas.xmlsoap.org/soap/encoding/"
+   string wsdl = "http://schemas.xmlsoap.org/wsdl/"
+   string http = "http://schemas.xmlsoap.org/wsdl/http/"
+   string mime = "http://schemas.xmlsoap.org/wsdl/mime/"
+   string soap = "http://schemas.xmlsoap.org/wsdl/soap/"
+   string soap12 = "http://schemas.xmlsoap.org/wsdl/soap12/"
+   string tns = "http://webservices.sef.sc.gov.br/wsDfeSiv/"
+   string s = "http://www.w3.org/2001/XMLSchema"
+   string pb__TargetNamespace = "http://webservices.sef.sc.gov.br/wsDfeSiv/"
+   string BindingStyle = ""
+
+   string endpoint = "http://webservices.sef.sc.gov.br/wsDfeSiv/BlocoX.asmx"
+end variables
+
+forward prototypes
+public:
+function string CancelarArquivo (string pXml) alias for "CancelarArquivo([in] s:string pXml) return s:string CancelarArquivoResult@http://webservices.sef.sc.gov.br/wsDfeSiv/@http://webservices.sef.sc.gov.br/wsDfeSiv/CancelarArquivo*CancelarArquivo*http://webservices.sef.sc.gov.br/wsDfeSiv/"
+function string ConsultarHistoricoArquivo (string pXml) alias for "ConsultarHistoricoArquivo([in] s:string pXml) return s:string ConsultarHistoricoArquivoResult@http://webservices.sef.sc.gov.br/wsDfeSiv/@http://webservices.sef.sc.gov.br/wsDfeSiv/ConsultarHistoricoArquivo*ConsultarHistoricoArquivo*http://webservices.sef.sc.gov.br/wsDfeSiv/"
+function string ConsultarPendenciasContribuinte (string pXml) alias for "ConsultarPendenciasContribuinte([in] s:string pXml) return s:string ConsultarPendenciasContribuinteResult@http://webservices.sef.sc.gov.br/wsDfeSiv/@http://webservices.sef.sc.gov.br/wsDfeSiv/ConsultarPendenciasContribuinte*ConsultarPendenciasContribuinte*http://webservices.sef.sc.gov.br/wsDfeSiv/"
+function string ConsultarPendenciasDesenvolvedorPafEcf (string pXml) alias for "ConsultarPendenciasDesenvolvedorPafEcf([in] s:string pXml) return s:string ConsultarPendenciasDesenvolvedorPafEcfResult@http://webservices.sef.sc.gov.br/wsDfeSiv/@http://webservices.sef.sc.gov.br/wsDfeSiv/ConsultarPendenciasDesenvolvedorPafEcf*ConsultarPendenciasDesenvolvedorPafEcf*http://webservices.sef.sc.gov.br/wsDfeSiv/"
+function string ConsultarProcessamentoArquivo (string pXml) alias for "ConsultarProcessamentoArquivo([in] s:string pXml) return s:string ConsultarProcessamentoArquivoResult@http://webservices.sef.sc.gov.br/wsDfeSiv/@http://webservices.sef.sc.gov.br/wsDfeSiv/ConsultarProcessamentoArquivo*ConsultarProcessamentoArquivo*http://webservices.sef.sc.gov.br/wsDfeSiv/"
+function string DownloadArquivo (string pXml) alias for "DownloadArquivo([in] s:string pXml) return s:string DownloadArquivoResult@http://webservices.sef.sc.gov.br/wsDfeSiv/@http://webservices.sef.sc.gov.br/wsDfeSiv/DownloadArquivo*DownloadArquivo*http://webservices.sef.sc.gov.br/wsDfeSiv/"
+function string ListarArquivos (string pXml) alias for "ListarArquivos([in] s:string pXml) return s:string ListarArquivosResult@http://webservices.sef.sc.gov.br/wsDfeSiv/@http://webservices.sef.sc.gov.br/wsDfeSiv/ListarArquivos*ListarArquivos*http://webservices.sef.sc.gov.br/wsDfeSiv/"
+function string ReprocessarArquivo (string pXml) alias for "ReprocessarArquivo([in] s:string pXml) return s:string ReprocessarArquivoResult@http://webservices.sef.sc.gov.br/wsDfeSiv/@http://webservices.sef.sc.gov.br/wsDfeSiv/ReprocessarArquivo*ReprocessarArquivo*http://webservices.sef.sc.gov.br/wsDfeSiv/"
+function string TransmitirArquivo (blob pXmlCompactado) alias for "TransmitirArquivo([in] s:base64Binary pXmlCompactado) return s:string TransmitirArquivoResult@http://webservices.sef.sc.gov.br/wsDfeSiv/@http://webservices.sef.sc.gov.br/wsDfeSiv/TransmitirArquivo*TransmitirArquivo*http://webservices.sef.sc.gov.br/wsDfeSiv/"
+end prototypes
+

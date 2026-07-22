@@ -1,0 +1,610 @@
+HA$PBExportHeader$gf_grava_atualiza_volume_romaneio_n.srf
+global type gf_grava_atualiza_volume_romaneio_n from function_object
+end type
+
+forward prototypes
+global function boolean gf_grava_atualiza_volume_romaneio (long al_filial, long al_pedido_distribuidora)
+global function boolean gf_grava_atualiza_volume_romaneio_n (long al_filial, long al_pedido_distribuidora, boolean ab_inclui_volume_individual, long al_esteira, long al_tipo_volume)
+end prototypes
+
+global function boolean gf_grava_atualiza_volume_romaneio (long al_filial, long al_pedido_distribuidora);Boolean lvb_Sucesso = False
+
+Long 	ll_Volumes,&
+		ll_Romaneio,&
+		ll_Tipo_Volume,&
+		ll_Achou
+
+DateTime ldh_Fechamento
+
+String 	ls_MSG,&
+			ls_Chave,&
+			ls_Pedido_Almoxarifado
+			
+Date ldt_Data			
+
+ls_Chave = "(" + string(al_Filial) + " - " + string(al_Pedido_Distribuidora) + ")"
+
+//Verifica se $$HEX1$$e900$$ENDHEX$$ pedido de almoxarifado
+Select coalesce(id_pedido_almoxarifado, 'N')
+Into :ls_Pedido_Almoxarifado
+From pedido_distribuidora
+Where cd_filial = :al_Filial
+	And nr_pedido_distribuidora = :al_Pedido_Distribuidora
+Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+	Case 0
+		If ls_Pedido_Almoxarifado = "S" Then
+			//Se for a filial 534 ou filial 2 n$$HEX1$$e300$$ENDHEX$$o grava romaneio
+			//If al_Filial = 534 or al_Filial = 2 Then 
+			//	Return True
+			//End If
+			
+			//Se for pedido almoxarifado n$$HEX1$$e300$$ENDHEX$$o grava romaneio aqui, a grava$$HEX2$$e700e300$$ENDHEX$$o do romaneio $$HEX1$$e900$$ENDHEX$$ feito no objeto uo_ws093_fatura_pedido_almoxarifado
+			Return True
+		End If
+	Case 100
+		SqlCa.of_Rollback()
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "N$$HEX1$$e300$$ENDHEX$$o foi localizado nenhum registro ao verificar se $$HEX1$$e900$$ENDHEX$$ pedido do almoxarifado."+ls_Chave,StopSign!)
+		Return False
+	Case -1
+		ls_MSG = 	"Verifica se $$HEX1$$e900$$ENDHEX$$ pedido do almoxarifado" + SQLCA.SQLErrText
+		SqlCa.of_Rollback()
+		MessageBox("Erro", ls_MSG, StopSign!)
+		Return False
+End Choose
+
+//Se n$$HEX1$$e300$$ENDHEX$$o tem o romaneio insere um romaneio
+Select nr_romaneio
+Into :ll_Romaneio
+from wms_romaneio
+where cd_filial = :al_Filial
+  and dh_movimentacao = (select dh_movimentacao from parametro where id_parametro = '1')
+Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+	Case 100
+		ldt_Data = Date(gf_GetServerDate())
+		
+		Insert into wms_romaneio(	nr_romaneio, cd_filial, dh_movimentacao, nr_matricula_inclusao, dh_inclusao)
+		select max(nr_romaneio) + 1, :al_Filial, :ldt_Data, '14330', GetDate() from wms_romaneio
+		Using SqlCa;
+		
+		If SqlCa.SqlCode = -1 Then
+			ls_MSG = 	"Inser$$HEX2$$e700e300$$ENDHEX$$o do romaneio da filial '" + string(al_Filial) + "', fun$$HEX2$$e700e300$$ENDHEX$$o 'gf_grava_volume_romaneio'" + SQLCA.SQLErrText
+			SqlCa.of_Rollback()
+			MessageBox("Erro", ls_MSG, StopSign!)
+			Return False
+		End If
+		
+	Case -1
+		ls_MSG = 	"Localiza$$HEX2$$e700e300$$ENDHEX$$o do romaneio da filial '" + string(al_Filial) + "', fun$$HEX2$$e700e300$$ENDHEX$$o 'gf_grava_volume_romaneio'" + SQLCA.SQLErrText
+		SqlCa.of_Rollback()
+		MessageBox("Erro", ls_MSG, StopSign!)
+		Return False
+End Choose
+
+//Seleciona o romaneio da filial
+Select nr_romaneio,  dh_fechamento
+Into :ll_Romaneio, :ldh_Fechamento
+from wms_romaneio
+where cd_filial = :al_Filial
+  and dh_movimentacao = (select dh_movimentacao from parametro where id_parametro = '1')
+Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+	Case 0
+		If Not IsNull(ldh_Fechamento) Then
+			SqlCa.of_Rollback()
+			Messagebox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "O romaneio j$$HEX1$$e100$$ENDHEX$$ foi fechado.", StopSign!)
+			Return False
+		End If
+	Case 100
+		SqlCa.of_Rollback()
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "N$$HEX1$$e300$$ENDHEX$$o foi localizado nenhum romaneio para a filial '" + String(al_Filial) + "' com a data atual.",StopSign!)
+		Return False
+	Case -1
+		ls_MSG = 	"Localiza$$HEX2$$e700e300$$ENDHEX$$o do romaneio da filial '" + string(al_Filial) + "' " + SQLCA.SQLErrText
+		SqlCa.of_Rollback()
+		MessageBox("Erro", ls_MSG, StopSign!)
+		Return False
+End Choose
+
+// Volume FLOW -> BACIA
+Select count(*) 
+Into :ll_Volumes
+from wms_lista_separacao
+where cd_filial 						= :al_Filial
+  and nr_pedido_distribuidora 	= :al_pedido_distribuidora
+  and dh_cancelamento 			is null
+  and cd_tipo_volume 			= 1
+  and cd_esteira					not in (4, 6)
+ Using SqlCa;
+ 
+ If SqlCa.SqlCode = -1 Then
+	ls_MSG = 	"Localiza$$HEX2$$e700e300$$ENDHEX$$o do volume do FLOW " + ls_Chave + SQLCA.SQLErrText
+	SqlCa.of_Rollback()
+	MessageBox("Erro", ls_MSG, StopSign!)
+	Return False
+End If
+ 
+If ll_Volumes > 0 Then
+	If ls_Pedido_Almoxarifado = "S" Then
+		ll_Tipo_Volume = 6
+	Else
+		ll_Tipo_Volume = 1
+	End If
+	
+	//Verifica se j$$HEX1$$e100$$ENDHEX$$ tem o volume para o romaneio
+	Select nr_romaneio
+	Into :ll_Romaneio
+	From wms_romaneio_volume
+	Where  nr_romaneio 		= :ll_Romaneio
+		And cd_tipo_volume 	= :ll_Tipo_Volume
+	Using SqlCa;
+	
+	Choose Case SqlCa.SqlCode
+		Case 0
+			
+			Update wms_romaneio_volume
+			Set qt_volume = qt_volume + :ll_Volumes
+			Where nr_romaneio 		= :ll_Romaneio
+				and cd_tipo_volume 	= :ll_Tipo_Volume
+			Using SqlCa;
+			
+			If SqlCa.SqlCode = -1 Then
+				ls_MSG = 	"Atualiza$$HEX2$$e700e300$$ENDHEX$$o do " + ls_Chave + SQLCA.SQLErrText
+				SqlCa.of_Rollback()
+				MessageBox("Erro", ls_MSG, StopSign!)
+				Return False
+			End If			
+			
+		Case 100		
+			INSERT INTO wms_romaneio_volume ( nr_romaneio, cd_tipo_volume, qt_volume, dh_inclusao)   
+			Values (:ll_Romaneio, :ll_Tipo_Volume, :ll_Volumes, getdate())
+			Using SqlCa;
+			
+			If SqlCa.SqlCode = -1 Then
+				ls_MSG = 	"Inclus$$HEX1$$e300$$ENDHEX$$o do " + ls_Chave + SQLCA.SQLErrText
+				SqlCa.of_Rollback()
+				MessageBox("Erro", ls_MSG, StopSign!)
+				Return False
+			End If
+		Case -1
+			ls_MSG = 	"Erro ao verificar se j$$HEX1$$e100$$ENDHEX$$ existe o registro na tabela 'wms_romaneio_volume '. Chave: " + ls_Chave + "'. " + SQLCA.SQLErrText
+			SqlCa.of_Rollback()
+			MessageBox("Erro", ls_MSG, StopSign!)
+			Return False
+
+	End Choose
+End If	
+// fim volume FLOW -> BACIA
+
+//Volume Flow -> Geladeira
+Select count(*) 
+Into :ll_Volumes
+from wms_lista_separacao
+where cd_filial 						= :al_Filial
+  and nr_pedido_distribuidora 	= :al_pedido_distribuidora
+  and dh_cancelamento 			is null
+  and cd_tipo_volume 			= 1
+  and cd_esteira					in (4, 6)
+ Using SqlCa;
+ 
+ If SqlCa.SqlCode = -1 Then
+	ls_MSG = 	"Localiza$$HEX2$$e700e300$$ENDHEX$$o do volume do FLOW " + ls_Chave + SQLCA.SQLErrText
+	SqlCa.of_Rollback()
+	MessageBox("Erro", ls_MSG, StopSign!)
+	Return False
+End If
+ 
+If ll_Volumes > 0 Then
+	ll_Tipo_Volume = 10
+	
+	//Verifica se j$$HEX1$$e100$$ENDHEX$$ tem o volume para o romaneio
+	Select nr_romaneio
+	Into :ll_Romaneio
+	From wms_romaneio_volume
+	Where  nr_romaneio 		= :ll_Romaneio
+		And cd_tipo_volume 	= :ll_Tipo_Volume
+	Using SqlCa;
+	
+	Choose Case SqlCa.SqlCode
+		Case 0
+			Update wms_romaneio_volume
+				Set qt_volume = qt_volume + :ll_Volumes
+			Where nr_romaneio 		= :ll_Romaneio
+			  and cd_tipo_volume 	= :ll_Tipo_Volume
+			Using SqlCa;
+			
+			If SqlCa.SqlCode = -1 Then
+				ls_MSG = 	"Atualiza$$HEX2$$e700e300$$ENDHEX$$o do " + ls_Chave + SQLCA.SQLErrText
+				SqlCa.of_Rollback()
+				MessageBox("Erro", ls_MSG, StopSign!)
+				Return False
+			End If
+		Case 100		
+			INSERT INTO wms_romaneio_volume ( nr_romaneio, cd_tipo_volume, qt_volume, dh_inclusao)   
+			Values (:ll_Romaneio, :ll_Tipo_Volume, :ll_Volumes, getdate())
+			Using SqlCa;
+			
+			If SqlCa.SqlCode = -1 Then
+				ls_MSG = 	"Inclus$$HEX1$$e300$$ENDHEX$$o do " + ls_Chave + SQLCA.SQLErrText
+				SqlCa.of_Rollback()
+				MessageBox("Erro", ls_MSG, StopSign!)
+				Return False
+			End If
+		Case -1
+			ls_MSG = 	"Erro ao verificar se j$$HEX1$$e100$$ENDHEX$$ existe o registro na tabela 'wms_romaneio_volume '. Chave: " + ls_Chave + "'. " + SQLCA.SQLErrText
+			SqlCa.of_Rollback()
+			MessageBox("Erro", ls_MSG, StopSign!)
+			Return False
+
+	End Choose
+End If	
+//Fim volume FLOW -> Geladeira
+
+
+
+
+// Volume PULMAO -> VOLUME EXTRA
+Select count(*) 
+Into :ll_Volumes
+from wms_lista_separacao
+where cd_filial 						= :al_Filial
+  and nr_pedido_distribuidora 	= :al_pedido_distribuidora
+  and dh_cancelamento 			is null
+  and cd_tipo_volume 				= 2
+ Using SqlCa;
+ 
+ If SqlCa.SqlCode = -1 Then
+	ls_MSG = 	"Localiza$$HEX2$$e700e300$$ENDHEX$$o do volume do FLOW " + ls_Chave + SQLCA.SQLErrText
+	SqlCa.of_Rollback()
+	MessageBox("Erro", ls_MSG, StopSign!)
+	Return False
+End If
+ 
+If ll_Volumes > 0 Then
+	
+	// Agora tem volume extra do almoxarifado
+	Select nr_romaneio
+	Into :ll_Achou
+	From wms_romaneio_volume
+	Where nr_romaneio = :ll_Romaneio
+		and cd_tipo_volume = 5
+	Using SqlCa;
+	
+	Choose Case SqlCa.SqlCode
+		Case 0
+			
+			Update wms_romaneio_volume
+			Set qt_volume = qt_volume + :ll_Volumes, dh_inclusao = getdate()
+			Where nr_romaneio 		= :ll_Romaneio
+				and cd_tipo_volume 	= 5
+			Using SqlCa;
+			
+			If SqlCa.SqlCode = -1 Then
+				ls_MSG = 	"Atualiza$$HEX2$$e700e300$$ENDHEX$$o do " + ls_Chave + SQLCA.SQLErrText
+				SqlCa.of_Rollback()
+				MessageBox("Erro", ls_MSG, StopSign!)
+				Return False
+			End If
+						
+		Case 100
+			
+			INSERT INTO wms_romaneio_volume ( nr_romaneio, cd_tipo_volume, qt_volume, dh_inclusao)   
+			Values (:ll_Romaneio, 5, :ll_Volumes, getdate())
+			Using SqlCa;
+			
+			If SqlCa.SqlCode = -1 Then
+				ls_MSG = 	"Inclus$$HEX1$$e300$$ENDHEX$$o do " + ls_Chave + SQLCA.SQLErrText
+				SqlCa.of_Rollback()
+				MessageBox("Erro", ls_MSG, StopSign!)
+				Return False
+			End If
+		Case -1 
+			ls_MSG = 	"Localiza$$HEX2$$e700e300$$ENDHEX$$o do volume extra " + ls_Chave + SQLCA.SQLErrText
+			SqlCa.of_Rollback()
+			MessageBox("Erro", ls_MSG, StopSign!)
+			Return False
+	End Choose
+End If
+// fim volume PULMAO
+
+Return True
+end function
+
+global function boolean gf_grava_atualiza_volume_romaneio_n (long al_filial, long al_pedido_distribuidora, boolean ab_inclui_volume_individual, long al_esteira, long al_tipo_volume);/* Tabela : WMS_TIPO_VOLUME_ROMANEIO
+1	BACIA  /  2	MALOTE
+3	VOLUME / 4	TRANSFER$$HEX1$$f200$$ENDHEX$$NCIAS
+5	VOLUME EXTRA / 6	ALMOXARIFADO
+7	MARKETING / 8	RH / 9	PATRIM$$HEX1$$e500$$ENDHEX$$NIO
+10	VOLUME TERMOL$$HEX1$$ea00$$ENDHEX$$BIL / 
+
+Para Esteiras: 		Geladeira e Vacinas, n$$HEX1$$e300$$ENDHEX$$o $$HEX1$$e900$$ENDHEX$$ VOLUME EXTRA $$HEX1$$e900$$ENDHEX$$ VOLUME TERMOLABIL
+Para Almoxarifado: Com o trecho abaixo, n$$HEX1$$e300$$ENDHEX$$o esta contabilizando volume extra para almoxarifado.
+*/
+Boolean 	lvb_Sucesso = False
+Date 		ldt_Data
+DateTime ldh_Fechamento
+Long 		ll_Volumes, ll_Romaneio, ll_Tipo_Volume, ll_Achou
+String 	ls_MSG, ls_Chave, ls_Pedido_Almoxarifado
+
+ls_Chave = "(" + string(al_Filial) + " - " + string(al_Pedido_Distribuidora) + ")"
+
+//  VERIFICADO QUE O VOLUME EXTRA DE "ALMOXARIFADO" N$$HEX1$$c300$$ENDHEX$$O CONTABILIZA... 
+//Verifica se $$HEX1$$e900$$ENDHEX$$ Pedido Almoxarifado
+Select coalesce(id_pedido_almoxarifado, 'N')
+Into :ls_Pedido_Almoxarifado
+From pedido_distribuidora
+Where cd_filial = :al_Filial
+	And nr_pedido_distribuidora = :al_Pedido_Distribuidora
+Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+	Case 0
+		If ls_Pedido_Almoxarifado = "S" Then
+			//Se for a filial 534 ou filial 2 nao grava romaneio
+			//If al_Filial = 534 or al_Filial = 2 Then 
+			//	Return True
+			//End If
+			
+			//Se for pedido almoxarifado n$$HEX1$$e300$$ENDHEX$$o grava romaneio aqui, a grava o romaneio feito no objeto uo_ws093_fatura_pedido_almoxarifado
+			Return True
+		End If
+	Case 100
+		SqlCa.of_Rollback()
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "N$$HEX1$$e300$$ENDHEX$$o foi localizado nenhum registro ao verificar se existe pedido do almoxarifado."+ls_Chave,StopSign!)
+		Return False
+	Case -1
+		ls_MSG = 	"Verifica se existe pedido do almoxarifado" + SQLCA.SQLErrText
+		SqlCa.of_Rollback()
+		MessageBox("Erro", ls_MSG, StopSign!)
+		Return False
+End Choose
+
+//Romaneio na lista de separa$$HEX2$$e700e300$$ENDHEX$$o
+Select Max(Coalesce(nr_romaneio, 0)) AS nr_romaneio
+Into :ll_Romaneio
+From wms_lista_separacao
+Where cd_filial = :al_Filial
+And nr_pedido_distribuidora = :al_Pedido_Distribuidora
+ and dh_cancelamento is null
+Using SqlCa;
+
+If SqlCa.SqlCode = -1 Then
+	ls_MSG = 	"Localiza$$HEX2$$e700e300$$ENDHEX$$o do nr_romaneio n$$HEX1$$e300$$ENDHEX$$o foi localizado na tabela wms_lista_separacao..." + ls_Chave + SQLCA.SQLErrText
+	SqlCa.of_Rollback()
+	MessageBox("Erro", ls_MSG, StopSign!)
+	Return False
+End If
+
+If ll_Romaneio = 0 Then
+	
+	//Se n$$HEX1$$e300$$ENDHEX$$o tem o romaneio insere um romaneio
+	Select nr_romaneio, dh_fechamento
+	Into :ll_Romaneio, :ldh_Fechamento
+	From wms_romaneio
+	Where cd_filial = :al_Filial
+	And dh_movimentacao = (select dh_movimentacao 
+									 from parametro 
+									where id_parametro = '1')
+	Using SqlCa;
+	
+	Choose Case SqlCa.SqlCode
+		Case 100
+			ldt_Data = Date(gf_GetServerDate())
+			
+			Insert into wms_romaneio(nr_romaneio, 
+											 cd_filial, 
+											 dh_movimentacao, 
+											 nr_matricula_inclusao, 
+											 dh_inclusao)
+									select max(nr_romaneio) + 1, 
+											 :al_Filial, 
+											 :ldt_Data, 
+											 '14330', 
+											 GetDate() 
+									  from wms_romaneio
+			Using SqlCa;
+			
+			If SqlCa.SqlCode = -1 Then
+				ls_MSG = 	"Inser$$HEX2$$e700e300$$ENDHEX$$o do romaneio da filial '" + string(al_Filial) + "', fun$$HEX2$$e700e300$$ENDHEX$$o 'gf_grava_volume_romaneio'" + SQLCA.SQLErrText
+				SqlCa.of_Rollback()
+				MessageBox("Erro", ls_MSG, StopSign!)
+				Return False
+			End If
+		Case -1
+			ls_MSG = 	"Localiza$$HEX2$$e700e300$$ENDHEX$$o do romaneio da filial '" + string(al_Filial) + "', fun$$HEX2$$e700e300$$ENDHEX$$o 'gf_grava_volume_romaneio'" + SQLCA.SQLErrText
+			SqlCa.of_Rollback()
+			MessageBox("Erro", ls_MSG, StopSign!)
+			Return False
+	End Choose
+Else 
+
+	Select dh_fechamento
+	Into	:ldh_Fechamento
+	From wms_romaneio
+	Where cd_filial = :al_Filial
+	And nr_romaneio =	:ll_Romaneio
+	Using SqlCa;
+	
+	If SqlCa.SqlCode = -1 Then
+		ls_MSG = 	"Localiza$$HEX2$$e700e300$$ENDHEX$$o da dta de fechamento do romaneio na tabel wms_romaneio. " + ls_Chave + SQLCA.SQLErrText
+		SqlCa.of_Rollback()
+		MessageBox("Erro", ls_MSG, StopSign!)
+		Return False
+	End If
+	
+End If
+
+If Not IsNull(ldh_Fechamento) Then
+		Messagebox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "O romaneio j$$HEX1$$e100$$ENDHEX$$ foi fechado.", StopSign!)
+		Return False
+End If
+
+
+If ls_Pedido_Almoxarifado = "S" Then 
+	ll_Tipo_Volume = 6
+ElseIf al_esteira=4 or al_esteira = 6 Then 
+	ll_Tipo_Volume = 10 // TERMOLABIL
+Else 
+	ll_Tipo_Volume = 5  // VOLUME EXTRA
+End If 	
+
+
+//  FLOW RACK
+If al_tipo_volume = 1 Then 
+
+	// Volume FLOW
+	Select count(*) 
+	Into :ll_Volumes
+	From wms_lista_separacao
+	Where cd_filial 						= :al_Filial
+	And nr_pedido_distribuidora 	= :al_pedido_distribuidora
+	And dh_cancelamento 				is null
+	And cd_tipo_volume 				= 1
+	And cd_esteira  					=:al_esteira 
+	Using SqlCa;
+		 
+	If SqlCa.SqlCode = -1 Then
+		ls_MSG = 	"Localiza$$HEX2$$e700e300$$ENDHEX$$o do volume do FLOW " + ls_Chave + SQLCA.SQLErrText
+		SqlCa.of_Rollback()
+		MessageBox("Erro", ls_MSG, StopSign!)
+		Return False
+	End If
+	
+	 
+	If ll_Volumes > 0 Then		
+		ll_Volumes	= 1
+		
+		//Verifica se j$$HEX1$$e100$$ENDHEX$$ tem o volume para o romaneio
+		Select nr_romaneio
+		Into :ll_Romaneio
+		From wms_romaneio_volume
+		Where  nr_romaneio 	= :ll_Romaneio
+		And cd_tipo_volume 	= :ll_Tipo_Volume
+		Using SqlCa;
+		
+		Choose Case SqlCa.SqlCode
+			Case 0	
+				Update wms_romaneio_volume
+					Set qt_volume = qt_volume + :ll_Volumes
+				 Where nr_romaneio 		= :ll_Romaneio
+					And cd_tipo_volume 	= :ll_Tipo_Volume
+				Using SqlCa;
+				
+				If SqlCa.SqlCode = -1 Then
+					ls_MSG = 	"Atualiza$$HEX2$$e700e300$$ENDHEX$$o do " + ls_Chave + SQLCA.SQLErrText
+					SqlCa.of_Rollback()
+					MessageBox("Erro", ls_MSG, StopSign!)
+					Return False
+				End If			
+				
+				Return True 
+			Case 100		
+				INSERT INTO wms_romaneio_volume (nr_romaneio, 
+															cd_tipo_volume, 
+															qt_volume, 
+															dh_inclusao)   
+												 Values (:ll_Romaneio, 
+															:ll_Tipo_Volume, 
+															:ll_Volumes, 
+															getdate())
+				Using SqlCa;
+				
+				If SqlCa.SqlCode = -1 Then
+					ls_MSG = 	"Inclus$$HEX1$$e300$$ENDHEX$$o do " + ls_Chave + SQLCA.SQLErrText
+					SqlCa.of_Rollback()
+					MessageBox("Erro", ls_MSG, StopSign!)
+					Return False
+				End If
+				
+				Return True 
+			Case -1
+				ls_MSG = 	"Erro ao verificar se j$$HEX1$$e100$$ENDHEX$$ existe o registro na tabela 'wms_romaneio_volume '. Chave: " + ls_Chave + "'. " + SQLCA.SQLErrText
+				SqlCa.of_Rollback()
+				MessageBox("Erro", ls_MSG, StopSign!)
+				Return False
+		End Choose
+	End If	
+
+Else  //  Volume PULMAO -> VOLUME EXTRA
+
+	If ab_inclui_volume_individual and IsNull(al_esteira) then
+		ll_Volumes	= 1
+	Else
+		Select count(*) 
+		Into :ll_Volumes
+		From wms_lista_separacao
+		Where cd_filial 						= :al_Filial
+		And nr_pedido_distribuidora 	= :al_pedido_distribuidora
+		And dh_cancelamento 			is null
+		And cd_tipo_volume 				= 2
+		Using SqlCa;
+		 
+		If SqlCa.SqlCode = -1 Then
+			ls_MSG = 	"Localiza$$HEX2$$e700e300$$ENDHEX$$o do volume do FLOW " + ls_Chave + SQLCA.SQLErrText
+			SqlCa.of_Rollback()
+			MessageBox("Erro", ls_MSG, StopSign!)
+			Return False
+		End If
+	End If
+	 
+	If ll_Volumes > 0 Then
+		if ab_inclui_volume_individual then
+			ll_Volumes	= 1
+		end if
+		
+		// Agora tem volume extra do almoxarifado
+		Select nr_romaneio
+		  Into :ll_Achou
+		  From wms_romaneio_volume
+		 Where nr_romaneio 		= :ll_Romaneio
+			and cd_tipo_volume 	= 5
+		Using SqlCa;
+		
+		Choose Case SqlCa.SqlCode
+			Case 0
+				Update wms_romaneio_volume
+					Set qt_volume = qt_volume + :ll_Volumes, dh_inclusao = getdate()
+				 Where nr_romaneio 		= :ll_Romaneio
+					and cd_tipo_volume 	= 5
+				Using SqlCa;
+				
+				If SqlCa.SqlCode = -1 Then
+					ls_MSG = 	"Atualiza$$HEX2$$e700e300$$ENDHEX$$o do " + ls_Chave + SQLCA.SQLErrText
+					SqlCa.of_Rollback()
+					MessageBox("Erro", ls_MSG, StopSign!)
+					Return False
+				End If		
+			Case 100
+				INSERT INTO wms_romaneio_volume (nr_romaneio, 
+															cd_tipo_volume, 
+															qt_volume, 
+															dh_inclusao)   
+												 Values (:ll_Romaneio, 
+															5, 
+															:ll_Volumes, 
+															getdate())
+				Using SqlCa;
+				
+				If SqlCa.SqlCode = -1 Then
+					ls_MSG = 	"Inclus$$HEX1$$e300$$ENDHEX$$o do " + ls_Chave + SQLCA.SQLErrText
+					SqlCa.of_Rollback()
+					MessageBox("Erro", ls_MSG, StopSign!)
+					Return False
+				End If
+			Case -1 
+				ls_MSG = 	"Localiza$$HEX2$$e700e300$$ENDHEX$$o do volume extra " + ls_Chave + SQLCA.SQLErrText
+				SqlCa.of_Rollback()
+				MessageBox("Erro", ls_MSG, StopSign!)
+				Return False
+		End Choose
+	End If
+	// fim volume PULMAO
+End If 
+
+Return True
+end function
+

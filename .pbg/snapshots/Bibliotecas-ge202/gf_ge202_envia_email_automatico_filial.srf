@@ -1,0 +1,39 @@
+HA$PBExportHeader$gf_ge202_envia_email_automatico_filial.srf
+global type gf_ge202_envia_email_automatico_filial from function_object
+end type
+
+forward prototypes
+global function boolean gf_ge202_envia_email_automatico_filial (integer pl_mensagem, string ps_assunto, string ps_mensagem, string ps_anexo[], integer pl_filial)
+global function boolean gf_ge202_envia_email_automatico_filial (integer pl_mensagem, string ps_assunto, string ps_mensagem, string ps_anexo[], integer pl_filial, boolean pb_exibe_msg)
+global function boolean gf_ge202_envia_email_automatico_filial (integer pl_mensagem, string ps_assunto, string ps_mensagem, string ps_anexo[], integer pl_filial, string ps_telefone)
+global function boolean gf_ge202_envia_email_automatico_filial (integer pl_mensagem, string ps_assunto, string ps_mensagem, string ps_anexo[], integer pl_filial, string ps_telefone, boolean pb_exibe_msg)
+end prototypes
+
+global function boolean gf_ge202_envia_email_automatico_filial (integer pl_mensagem, string ps_assunto, string ps_mensagem, string ps_anexo[], integer pl_filial);Return gf_ge202_envia_email_automatico_filial(pl_mensagem,ps_assunto,ps_mensagem,ps_anexo,pl_filial,True)
+end function
+
+global function boolean gf_ge202_envia_email_automatico_filial (integer pl_mensagem, string ps_assunto, string ps_mensagem, string ps_anexo[], integer pl_filial, boolean pb_exibe_msg);Return gf_ge202_envia_email_automatico_filial(pl_mensagem,ps_assunto,ps_mensagem,ps_anexo,pl_filial,'',pb_exibe_msg)
+end function
+
+global function boolean gf_ge202_envia_email_automatico_filial (integer pl_mensagem, string ps_assunto, string ps_mensagem, string ps_anexo[], integer pl_filial, string ps_telefone);Return gf_ge202_envia_email_automatico_filial(pl_mensagem,ps_assunto,ps_mensagem,ps_anexo,pl_filial,ps_telefone,True)
+end function
+
+global function boolean gf_ge202_envia_email_automatico_filial (integer pl_mensagem, string ps_assunto, string ps_mensagem, string ps_anexo[], integer pl_filial, string ps_telefone, boolean pb_exibe_msg);s_email lst_email
+
+lst_email.ps_assunto = ps_assunto
+lst_email.ps_mensagem = ps_mensagem
+lst_email.ps_anexo = ps_anexo
+lst_email.ps_telefone = ps_telefone
+lst_email.pb_assinatura = True
+
+If Not IsNull(pl_filial) Then
+	// Vai enviar para as lojas somente se for enviado de produ$$HEX2$$e700e300$$ENDHEX$$o
+	If gvo_aplicacao.ivs_datasource = 'central'  Then
+		lst_email.ps_to[UpperBound(lst_email.ps_to)+1] = String(pl_Filial, "0000") + '@clamedlocal.com.br'
+	End If
+End If
+
+Return gf_ge202_envia_email_padrao(pl_mensagem,lst_email,pb_exibe_msg)
+
+end function
+

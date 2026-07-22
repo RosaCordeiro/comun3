@@ -1,0 +1,35 @@
+HA$PBExportHeader$gf_wms_endereco_inventario.srf
+global type gf_wms_endereco_inventario from function_object
+end type
+
+forward prototypes
+global function boolean gf_wms_endereco_inventario (string as_endereco)
+end prototypes
+
+global function boolean gf_wms_endereco_inventario (string as_endereco);//Se estiver sendo feito invent$$HEX1$$e100$$ENDHEX$$rio do endere$$HEX1$$e700$$ENDHEX$$o ou ocorrer erro retorna True
+Long ll_Achou
+
+
+select count(*)
+  into :ll_Achou
+  from wms_inventario i
+  inner join wms_inventario_cont_endereco e on i.nr_inventario = e.nr_inventario
+ where e.cd_endereco = :as_endereco
+   and i.id_situacao in ('A', 'F')
+	and i.dh_termino is null
+Using SqlCa;
+
+If SqlCa.Sqlcode = -1 Then
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Problema na verifica$$HEX2$$e700e300$$ENDHEX$$o de invent$$HEX1$$e100$$ENDHEX$$rio do endere$$HEX1$$e700$$ENDHEX$$o. Erro" + SQLCA.SQLErrText, StopSign!)
+	Return True
+End If
+
+If ll_Achou > 0 Then
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Endere$$HEX1$$e700$$ENDHEX$$o: "+as_endereco+" com invent$$HEX1$$e100$$ENDHEX$$rio em aberto ou em vias de finaliza$$HEX2$$e700e300$$ENDHEX$$o, favor aguardar procurar respons$$HEX1$$e100$$ENDHEX$$vel para libera$$HEX2$$e700e300$$ENDHEX$$o.")
+	Return True
+End If
+
+Return False
+
+end function
+

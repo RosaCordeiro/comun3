@@ -1,0 +1,84 @@
+HA$PBExportHeader$gf_ge350_grava_retirada_produto.srf
+global type gf_ge350_grava_retirada_produto from function_object
+end type
+
+forward prototypes
+global function boolean gf_ge350_grava_retirada_produto (string as_tipo, long al_filial, long al_retirada, long al_produto, string as_lote, long al_qt_aprovada)
+end prototypes
+
+global function boolean gf_ge350_grava_retirada_produto (string as_tipo, long al_filial, long al_retirada, long al_produto, string as_lote, long al_qt_aprovada);Long ll_Qtd
+Long ll_Qtd_Solicitada
+
+String ls_Erro
+
+Select Coalesce(Sum(qt_aprovada), 0) , 
+		 Coalesce(Sum(qt_solicitada), 0) 
+	Into :ll_Qtd,
+		  :ll_Qtd_Solicitada
+From retirada_estoque_produto
+Where cd_filial = :al_Filial
+	And nr_retirada_estoque = :al_Retirada
+	And cd_produto = :al_Produto
+Using SqlCa;
+
+If SqlCa.SqlCode = -1 Then
+	ls_Erro = SqlCa.SqlErrText
+	SqlCa.of_Rollback();
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao gravar o registro na tabela RETIRADA_ESTOQUE_PRODUTO. " + ls_Erro)
+	Return False
+End If
+
+ll_Qtd = ll_Qtd + al_Qt_Aprovada
+
+If ll_Qtd = 0 Then //Compras informou que a retirada automatica gravou como Zero a quantidade atendida, adicionado valida$$HEX2$$e700e300$$ENDHEX$$o. Chamado 	953238
+	SqlCa.of_Rollback();
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Existe produto que teve a quantidade aprovada igual a zero. Retirada: " + String(al_Retirada), Exclamation!)
+	Return False
+End If
+
+//<Chamado 944390>
+If (al_qt_aprovada > ll_Qtd_Solicitada)  or   ( ll_Qtd > ll_Qtd_Solicitada  )  Then 
+	SqlCa.of_Rollback();
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Quantidade aprovada esta Maior do que Solicitada!!. " + ls_Erro)
+	Return False
+End If 
+//</Chamado 944390>
+
+//O update na retirda_estoque_produto ser$$HEX1$$e100$$ENDHEX$$ feito na trigger de update da tabela retirada_estoque_produto
+
+//Update retirada_estoque_produto
+//	Set qt_aprovada = :ll_Qtd
+//Where cd_filial = :al_Filial
+//	And nr_retirada_estoque = :al_Retirada
+//	And cd_produto = :al_Produto
+//Using SqlCa;
+//
+//If SqlCa.SqlCode = -1 Then
+//	ls_Erro = SqlCa.SqlErrText
+//	SqlCa.of_Rollback();
+//	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao gravar o registro na tabela RETIRADA_ESTOQUE_PRODUTO. " + ls_Erro)
+//	Return False
+//End If
+
+//Recolhimento / Avaria / Defeito Fab. / Vencido
+If as_Tipo = 'R' Or as_Tipo = 'A' Or as_Tipo = 'D' Or as_Tipo = 'V' Then
+
+	Update retirada_estoque_produto_lote
+		Set qt_aprovada = :al_Qt_Aprovada
+	Where cd_filial = :al_Filial
+		And nr_retirada_estoque = :al_Retirada
+		And cd_produto = :al_Produto
+		And nr_lote = :as_Lote
+	Using SqlCa;
+	
+	If SqlCa.SqlCode = -1 Then
+		ls_Erro = SqlCa.SqlErrText
+		SqlCa.of_Rollback();
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao gravar o registro na tabela RETIRADA_ESTOQUE_PRODUTO_LOTE. " + ls_Erro)
+		Return False
+	End If
+End If
+
+Return True
+end function
+

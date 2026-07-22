@@ -1,0 +1,49 @@
+HA$PBExportHeader$gf_verifica_inicio_operacao_sap_loja.srf
+global type gf_verifica_inicio_operacao_sap_loja from function_object
+end type
+
+forward prototypes
+global function boolean gf_verifica_inicio_operacao_sap ()
+global function boolean gf_verifica_inicio_operacao_sap_loja (string ps_parametro, ref boolean pb_operacao_iniciada, ref string ps_log)
+global function boolean gf_verifica_inicio_operacao_sap_loja (long al_cd_filial, string ps_parametro, ref boolean pb_operacao_iniciada, ref string ps_log)
+end prototypes
+
+global function boolean gf_verifica_inicio_operacao_sap ();//If Not gf_inicio_operacao_cd_sap('DH_INICIO_OPERACAO_SAP', Ref ld_data, Ref ls_Log) Then
+//		This.of_Grava_Log(li_Log, ls_Mensagem)
+//		Return
+//	End If
+//		
+//	// Assim que iniciar a opera$$HEX2$$e700e300$$ENDHEX$$o no SAP n$$HEX1$$e300$$ENDHEX$$o ser$$HEX1$$e100$$ENDHEX$$ mais realizada a manifesta$$HEX2$$e700e300$$ENDHEX$$o das notas do CD
+//	If ldt_Parametro >= ld_data Then lb_Inicio_Operacao_SAP = True
+
+Return True
+end function
+
+global function boolean gf_verifica_inicio_operacao_sap_loja (string ps_parametro, ref boolean pb_operacao_iniciada, ref string ps_log);Date ldh_Data_Parametro
+Date ldh_Data_Servidor
+
+pb_operacao_iniciada = False
+
+If Not gf_inicio_operacao_cd_sap(ps_parametro, Ref ldh_Data_Parametro, Ref ps_log) Then Return False
+
+ldh_Data_Servidor = Date(gf_GetServerDate())
+		
+If ldh_Data_Servidor >= ldh_Data_Parametro Then pb_operacao_iniciada = True
+
+Return True
+end function
+
+global function boolean gf_verifica_inicio_operacao_sap_loja (long al_cd_filial, string ps_parametro, ref boolean pb_operacao_iniciada, ref string ps_log);Date ldh_Data_Parametro
+Date ldh_Data_Servidor
+
+pb_operacao_iniciada = False
+
+If Not gf_inicio_operacao_loja_sap(al_cd_filial, ps_parametro, Ref ldh_Data_Parametro, Ref ps_log) Then Return False
+
+ldh_Data_Servidor = Date(gf_GetServerDate())
+		
+If ldh_Data_Servidor >= ldh_Data_Parametro Then pb_operacao_iniciada = True
+
+Return True
+end function
+

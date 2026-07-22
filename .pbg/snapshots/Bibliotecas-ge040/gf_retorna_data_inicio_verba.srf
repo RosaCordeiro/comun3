@@ -1,0 +1,39 @@
+HA$PBExportHeader$gf_retorna_data_inicio_verba.srf
+global type gf_retorna_data_inicio_verba from function_object
+end type
+
+forward prototypes
+global function boolean gf_retorna_data_inicio_verba (ref date pdt_inicio_sap)
+end prototypes
+
+global function boolean gf_retorna_data_inicio_verba (ref date pdt_inicio_sap);Date lvdt_Return
+String lvs_Valor
+
+Try
+	SetNull(lvdt_Return)
+	
+	uo_parametro_geral lvo_parametro
+	lvo_parametro = Create uo_parametro_geral
+	
+	//YYYY-MM-DD
+	If lvo_parametro.Of_Localiza_Parametro('DT_INICIO_VERBA_SAP', lvs_Valor) Then
+		If IsDate(lvs_Valor) Then
+			lvdt_Return = Date(lvs_Valor)
+		End If
+	End If
+
+Catch (RuntimeError lvo_Erro)
+	MessageBox('Erro', lvo_Erro.GetMessage(), StopSign!)
+	SetNull(lvdt_Return)
+	Return False
+	
+Finally
+	If IsValid(lvo_parametro) Then Destroy(lvo_parametro)
+End Try
+
+//Atribui o valor a variavel de retorno
+pdt_inicio_sap = lvdt_Return
+
+Return True
+end function
+

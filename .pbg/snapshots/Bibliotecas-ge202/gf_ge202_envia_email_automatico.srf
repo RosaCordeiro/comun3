@@ -1,0 +1,43 @@
+HA$PBExportHeader$gf_ge202_envia_email_automatico.srf
+global type gf_ge202_envia_email_automatico from function_object
+end type
+
+forward prototypes
+global function boolean gf_ge202_envia_email_automatico (integer pl_mensagem)
+global function boolean gf_ge202_envia_email_automatico (integer pl_mensagem, boolean pb_exibe_mensagem)
+global function boolean gf_ge202_envia_email_automatico (integer pl_mensagem, string ps_assunto)
+global function boolean gf_ge202_envia_email_automatico (integer pl_mensagem, string ps_assunto, boolean pb_exibe_mensagem)
+global function boolean gf_ge202_envia_email_automatico (integer pl_mensagem, string ps_assunto, string ps_mensagem)
+global function boolean gf_ge202_envia_email_automatico (integer pl_mensagem, string ps_assunto, string ps_mensagem, boolean pb_exibe_mensagem)
+global function boolean gf_ge202_envia_email_automatico (integer pl_mensagem, string ps_assunto, string ps_mensagem, string ps_anexo[])
+global function boolean gf_ge202_envia_email_automatico (integer pl_mensagem, string ps_assunto, string ps_mensagem, string ps_anexo[], boolean pb_exibe_mensagem)
+end prototypes
+
+global function boolean gf_ge202_envia_email_automatico (integer pl_mensagem);Return gf_ge202_envia_email_automatico(pl_mensagem,True)
+end function
+
+global function boolean gf_ge202_envia_email_automatico (integer pl_mensagem, boolean pb_exibe_mensagem);Return gf_ge202_envia_email_automatico(pl_mensagem,'',pb_exibe_mensagem)
+end function
+
+global function boolean gf_ge202_envia_email_automatico (integer pl_mensagem, string ps_assunto);Return gf_ge202_envia_email_automatico(pl_mensagem,ps_assunto,True)
+end function
+
+global function boolean gf_ge202_envia_email_automatico (integer pl_mensagem, string ps_assunto, boolean pb_exibe_mensagem);Return gf_ge202_envia_email_automatico(pl_mensagem,ps_assunto,'',pb_exibe_mensagem)
+end function
+
+global function boolean gf_ge202_envia_email_automatico (integer pl_mensagem, string ps_assunto, string ps_mensagem);Return gf_ge202_envia_email_automatico(pl_mensagem,ps_assunto,ps_mensagem,True)
+end function
+
+global function boolean gf_ge202_envia_email_automatico (integer pl_mensagem, string ps_assunto, string ps_mensagem, boolean pb_exibe_mensagem);Return gf_ge202_envia_email_automatico(pl_mensagem,ps_assunto,ps_mensagem,{''},pb_exibe_mensagem)
+end function
+
+global function boolean gf_ge202_envia_email_automatico (integer pl_mensagem, string ps_assunto, string ps_mensagem, string ps_anexo[]);Return gf_ge202_envia_email_automatico(pl_mensagem,ps_assunto,ps_mensagem,ps_anexo,True)
+end function
+
+global function boolean gf_ge202_envia_email_automatico (integer pl_mensagem, string ps_assunto, string ps_mensagem, string ps_anexo[], boolean pb_exibe_mensagem);Integer lvl_Null
+
+SetNull(lvl_Null)
+
+Return gf_ge202_envia_email_automatico_filial(pl_mensagem,ps_assunto,ps_mensagem,ps_anexo,lvl_Null, pb_exibe_mensagem)
+end function
+

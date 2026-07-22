@@ -1,0 +1,23 @@
+HA$PBExportHeader$gf_valor_com_ponto.srf
+global type gf_valor_com_ponto from function_object
+end type
+
+forward prototypes
+global function string gf_valor_com_ponto (decimal pd_valor)
+end prototypes
+
+global function string gf_valor_com_ponto (decimal pd_valor);String lvs_valor    , &
+       lvs_auxiliar
+
+Long   lvl_posicao		 
+		 
+lvs_auxiliar = string(pd_valor, "0.00")
+lvl_posicao  = PosA(lvs_auxiliar, ",")
+
+
+lvs_valor    = LeftA(lvs_auxiliar,lvl_posicao - 1) + "." + &
+               MidA(lvs_auxiliar,lvl_posicao + 1,2)
+					
+Return lvs_valor
+end function
+

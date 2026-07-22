@@ -1,0 +1,39 @@
+HA$PBExportHeader$dw_nf_transferencia_atualiza.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=80 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=92 color="536870912" )
+table(column=(type=long updatewhereclause=yes key=yes name=cd_filial_origem dbname="nf_transferencia.cd_filial_origem" )
+ column=(type=long updatewhereclause=yes key=yes name=nr_nf dbname="nf_transferencia.nr_nf" )
+ column=(type=char(3) updatewhereclause=yes key=yes name=de_especie dbname="nf_transferencia.de_especie" )
+ column=(type=char(3) updatewhereclause=yes key=yes name=de_serie dbname="nf_transferencia.de_serie" )
+ column=(type=char(1) updatewhereclause=yes name=id_estoque_automatico dbname="nf_transferencia.id_estoque_automatico" )
+ column=(type=datetime updatewhereclause=yes name=dh_atualizacao_estoque dbname="nf_transferencia.dh_atualizacao_estoque" )
+ column=(type=char(6) updatewhereclause=yes name=nr_matric_atualizacao_estoque dbname="nf_transferencia.nr_matric_atualizacao_estoque" )
+ retrieve="select cd_filial_origem,   
+       nr_nf,   
+       de_especie,   
+       de_serie,   
+       id_estoque_automatico,
+		 dh_atualizacao_estoque,
+		 nr_matric_atualizacao_estoque
+from nf_transferencia
+where dh_exportacao = :data_base
+" update="nf_transferencia" updatewhere=0 updatekeyinplace=no arguments=(("data_base", date)) )
+text(band=header alignment="2" text="Cd Filial Origem"border="0" color="0" x="9" y="8" height="64" width="425"  name=cd_filial_origem_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Nf"border="0" color="0" x="443" y="8" height="64" width="329"  name=nr_nf_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="De Especie"border="0" color="0" x="782" y="8" height="64" width="306"  name=de_especie_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="De Serie"border="0" color="0" x="1097" y="8" height="64" width="229"  name=de_serie_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Id Estoque Automatico"border="0" color="0" x="1335" y="4" height="76" width="1458"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Dh Atualizacao Estoque"border="0" color="0" x="2802" y="4" height="76" width="1015"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Nr Matric Atualizacao Estoque"border="0" color="0" x="3826" y="4" height="76" width="1435"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="1" tabsequence=10 border="0" color="0" x="9" y="8" height="76" width="425" format="[general]"  name=cd_filial_origem edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=20 border="0" color="0" x="443" y="8" height="76" width="329" format="[general]"  name=nr_nf edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=30 border="0" color="0" x="782" y="8" height="76" width="306" format="[general]"  name=de_especie edit.limit=3 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=40 border="0" color="0" x="1097" y="8" height="76" width="229" format="[general]"  name=de_serie edit.limit=3 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="1335" y="0" height="64" width="1458" format="[general]"  name=id_estoque_automatico edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="0" x="2802" y="0" height="64" width="1015" format="[shortdate] [time]"  name=dh_atualizacao_estoque edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="0" x="3826" y="0" height="64" width="1435" format="[general]"  name=nr_matric_atualizacao_estoque edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

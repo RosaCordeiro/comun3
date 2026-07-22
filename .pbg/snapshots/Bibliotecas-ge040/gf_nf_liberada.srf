@@ -1,0 +1,57 @@
+HA$PBExportHeader$gf_nf_liberada.srf
+global type gf_nf_liberada from function_object
+end type
+
+forward prototypes
+global function boolean gf_nf_liberada ()
+end prototypes
+
+global function boolean gf_nf_liberada ();String	lvs_Especie,&
+		lvs_NFE_Liberada
+
+Select de_especie_nf
+Into :lvs_Especie
+From parametro
+Where id_parametro = '1'
+Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+	Case 0
+	Case 100
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Par$$HEX1$$e200$$ENDHEX$$metro n$$HEX1$$e300$$ENDHEX$$o localizado.")
+		Return False
+	Case -1
+		SqlCa.of_MsgDbError("Localiza$$HEX2$$e700e300$$ENDHEX$$o da esp$$HEX1$$e900$$ENDHEX$$cie na tabela par$$HEX1$$e200$$ENDHEX$$metro.")
+		Return False
+End Choose
+
+If lvs_Especie = "NFE" Then
+	
+	Select vl_parametro
+	Into :lvs_NFE_Liberada
+	From parametro_loja
+	Where cd_parametro = 'ID_NFE_LIBERADA'
+	Using SqlCa;
+	
+	Choose Case SqlCa.SqlCode
+		Case 0
+		Case 100
+			lvs_NFE_Liberada = 'S'
+		Case -1
+			SqlCa.of_MsgDbError("Localiza$$HEX2$$e700e300$$ENDHEX$$o da 'ID_NFE_LIBERADA' na tabela par$$HEX1$$e200$$ENDHEX$$metro loja.")
+			Return False
+	End Choose
+	
+	If lvs_NFE_Liberada = "N" Then
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "A sua loja n$$HEX1$$e300$$ENDHEX$$o esta liberada para gerar a NOTA FISCAL ELETR$$HEX1$$d400$$ENDHEX$$NICA.~r~r" +&
+					"Entre em contato com o depto de INFORM$$HEX1$$c100$$ENDHEX$$TICA.", StopSign!)
+		Return False
+	End If
+	
+End If
+
+Return True
+
+
+end function
+

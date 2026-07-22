@@ -1,0 +1,16 @@
+HA$PBExportHeader$t_ide_cte.srs
+global type t_ide_cte from structure
+	long		cuf
+	long		cct
+	long		cfop
+	string		natop
+	long		forpag
+	long		mod
+	string		serie
+	long		nct
+	string		dhemi
+	long		cmunenv
+	string		xmunenv
+	string		ufenv
+end type
+

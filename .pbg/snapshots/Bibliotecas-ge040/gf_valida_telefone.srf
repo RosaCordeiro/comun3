@@ -1,0 +1,28 @@
+HA$PBExportHeader$gf_valida_telefone.srf
+global type gf_valida_telefone from function_object
+end type
+
+forward prototypes
+global function boolean gf_valida_telefone (string as_telefone)
+end prototypes
+
+global function boolean gf_valida_telefone (string as_telefone);as_telefone = trim(as_telefone)
+
+as_telefone = gf_Replace(as_telefone, ' ', '', 0)
+as_telefone = gf_Replace(as_telefone, '(', '', 0)
+as_telefone = gf_Replace(as_telefone, ')', '', 0)
+as_telefone = gf_Replace(as_telefone, '-', '', 0)
+
+If Not Isnull(as_telefone) and as_telefone <> '' Then
+	If IsNumber(as_telefone) Then
+		If LenA(as_telefone) < 10 Or LenA(as_telefone) > 11 Then
+			Return False
+		End If
+	Else
+		Return False
+	End If
+End If
+
+Return True
+end function
+

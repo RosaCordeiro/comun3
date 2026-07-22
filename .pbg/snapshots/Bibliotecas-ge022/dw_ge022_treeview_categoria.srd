@@ -1,0 +1,19 @@
+HA$PBExportHeader$dw_ge022_treeview_categoria.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=72 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=84 color="536870912" )
+table(column=(type=char(6) update=yes updatewhereclause=yes key=yes name=cd_categoria dbname="categoria.cd_categoria" )
+ column=(type=char(40) update=yes updatewhereclause=yes name=de_categoria dbname="categoria.de_categoria" )
+ retrieve="select cd_categoria,   
+       de_categoria  
+from categoria
+where cd_subgrupo = :subgrupo
+" update="categoria" updatewhere=1 updatekeyinplace=no arguments=(("subgrupo", string))  sort="cd_categoria A " )
+text(band=header alignment="2" text="Cd Categoria"border="0" color="0" x="5" y="4" height="64" width="343"  name=cd_categoria_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="De Categoria"border="0" color="0" x="352" y="4" height="64" width="1125"  name=de_categoria_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=10 border="0" color="0" x="5" y="4" height="76" width="192" format="[general]"  name=cd_categoria edit.limit=6 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=20 border="0" color="0" x="352" y="4" height="76" width="1125" format="[general]"  name=de_categoria edit.limit=40 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

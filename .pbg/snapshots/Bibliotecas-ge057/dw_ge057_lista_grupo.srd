@@ -1,0 +1,20 @@
+HA$PBExportHeader$dw_ge057_lista_grupo.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=79741120 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=92 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=80 color="536870912" )
+table(column=(type=long updatewhereclause=yes key=yes name=cd_grupo_produto dbname="grupo_produto.cd_grupo_produto" )
+ column=(type=char(40) updatewhereclause=yes name=de_grupo_produto dbname="grupo_produto.de_grupo_produto" )
+ retrieve="select cd_grupo_produto,   
+       de_grupo_produto  
+from grupo_produto   
+" update="grupo_produto" updatewhere=1 updatekeyinplace=no )
+text(band=header alignment="0" text="C$$HEX1$$f300$$ENDHEX$$digo"border="0" color="8388608" x="14" y="12" height="60" width="210"  name=cd_categoria_internet_t  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=header x1="14" y1="84" x2="224" y2="84" pen.style="0" pen.width="9" pen.color="8388608"  background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="1" tabsequence=32766 border="2" color="0" x="14" y="4" height="64" width="210" format="[general]"  name=cd_grupo_produto edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Descri$$HEX2$$e700e300$$ENDHEX$$o"border="0" color="8388608" x="242" y="12" height="60" width="1627"  name=de_categoria_internet_t  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=header x1="242" y1="84" x2="1870" y2="84" pen.style="0" pen.width="9" pen.color="8388608"  background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="2" color="0" x="242" y="4" height="64" width="1627" format="[general]"  name=de_grupo_produto edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

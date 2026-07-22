@@ -1,0 +1,9 @@
+HA$PBExportHeader$t_gcbs.srs
+global type t_gcbs from structure
+	decimal{4}		pcbs
+	t_gdif		gdif
+	t_gdevtrib		gdevtrib
+	t_gred		gred
+	decimal{4}		vcbs
+end type
+

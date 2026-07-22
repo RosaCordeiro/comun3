@@ -1,0 +1,55 @@
+HA$PBExportHeader$dw_troca_nf_venda_parcela_cc.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=136 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=116 color="536870912" )
+table(column=(type=long updatewhereclause=yes name=cd_filial dbname="nf_venda_parcela_cc.cd_filial" )
+ column=(type=long updatewhereclause=yes name=nr_nf dbname="nf_venda_parcela_cc.nr_nf" )
+ column=(type=char(3) updatewhereclause=yes name=de_especie dbname="nf_venda_parcela_cc.de_especie" )
+ column=(type=char(3) updatewhereclause=yes name=de_serie dbname="nf_venda_parcela_cc.de_serie" )
+ column=(type=long updatewhereclause=yes name=nr_parcela dbname="nf_venda_parcela_cc.nr_parcela" )
+ column=(type=datetime updatewhereclause=yes name=dh_vencimento dbname="nf_venda_parcela_cc.dh_vencimento" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_parcela dbname="nf_venda_parcela_cc.vl_parcela" )
+ retrieve="  SELECT p.cd_filial,   
+         p.nr_nf,   
+         p.de_especie,   
+         p.de_serie,   
+         p.nr_parcela,   
+         p.dh_vencimento,   
+         p.vl_parcela  
+    FROM nf_venda n,
+         nf_venda_parcela_cc p
+   WHERE p.cd_filial					= n.cd_filial
+     and p.nr_nf 						= n.nr_nf
+     and p.de_especie				= n.de_especie
+     and p.de_serie					= n.de_serie
+     and n.cd_filial					= p.cd_filial
+     and n.nr_nf 						= p.nr_nf
+     and n.de_especie			 	= p.de_especie
+     and n.de_serie					= p.de_serie
+     and n.cd_filial 				= :filial
+     and n.dh_movimentacao_caixa = :data_base" arguments=(("filial", number),("data_base", date)) )
+text(band=header alignment="2" text="Nf Venda Parcela Cc
+Cd Filial"border="0" color="0" x="5" y="4" height="128" width="553"  name=nf_venda_parcela_cc_cd_filial_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nf Venda Parcela Cc
+Nr Nf"border="0" color="0" x="562" y="4" height="128" width="553"  name=nf_venda_parcela_cc_nr_nf_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nf Venda Parcela Cc
+De Especie"border="0" color="0" x="1120" y="4" height="128" width="553"  name=nf_venda_parcela_cc_de_especie_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nf Venda Parcela Cc
+De Serie"border="0" color="0" x="1678" y="4" height="128" width="553"  name=nf_venda_parcela_cc_de_serie_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nf Venda Parcela Cc
+Nr Parcela"border="0" color="0" x="2235" y="4" height="128" width="553"  name=nf_venda_parcela_cc_nr_parcela_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nf Venda Parcela Cc
+Dh Vencimento"border="0" color="0" x="2793" y="4" height="128" width="603"  name=nf_venda_parcela_cc_dh_vencimento_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nf Venda Parcela Cc
+Vl Parcela"border="0" color="0" x="3401" y="4" height="128" width="553"  name=nf_venda_parcela_cc_vl_parcela_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="23" y="4" height="76" width="96" format="[general]"  name=cd_filial edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="1275" y="16" height="76" width="96" format="[general]"  name=nr_nf edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="1463" y="20" height="76" width="96" format="[general]"  name=de_especie edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="1623" y="12" height="76" width="96" format="[general]"  name=de_serie edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="1774" y="12" height="76" width="32" format="[general]"  name=nr_parcela edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="0" x="1993" y="28" height="76" width="608" format="[shortdate] [time]"  name=dh_vencimento edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="0" x="2661" y="20" height="76" width="1376" format="[general]"  name=vl_parcela edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

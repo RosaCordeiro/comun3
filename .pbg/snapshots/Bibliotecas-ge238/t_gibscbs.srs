@@ -1,0 +1,10 @@
+HA$PBExportHeader$t_gibscbs.srs
+global type t_gibscbs from structure
+	decimal { 2 }		vbc
+	t_gibsuf		gibsuf
+	t_gibsmun		gibsmun
+	decimal { 2 }		vibs
+	t_gcbs		gcbs
+	t_gtribregular		gtribregular
+end type
+

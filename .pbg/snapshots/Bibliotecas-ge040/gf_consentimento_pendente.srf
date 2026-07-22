@@ -1,0 +1,59 @@
+HA$PBExportHeader$gf_consentimento_pendente.srf
+global type gf_consentimento_pendente from function_object
+end type
+
+forward prototypes
+global function boolean gf_consentimento_pendente (string as_cliente, string as_rede, ref boolean ab_pendente)
+end prototypes
+
+global function boolean gf_consentimento_pendente (string as_cliente, string as_rede, ref boolean ab_pendente);Integer li_Linhas, li_Find
+
+Date ldt_Inicio_Consentimento
+
+Try
+	ab_pendente = False 
+	
+	dc_uo_ds_base lds_Consentimentos
+	lds_Consentimentos = Create dc_uo_ds_base
+	
+	If Not lds_Consentimentos.of_changedataobject( 'ds_ge040_consentimento_cliente' ) Then
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o","Erro no evento of_changedataobject")
+		Return False
+	End If
+	
+	li_Linhas = lds_Consentimentos.Retrieve( as_cliente, as_rede )
+	
+	If li_Linhas < 0 Then
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o","Erro no retrieve. Fun$$HEX2$$e700e300$$ENDHEX$$o: gf_consentimento_pendente()")
+		Return False
+	End If
+	
+	uo_parametro_filial lo_Parametro
+	lo_Parametro = Create uo_parametro_filial
+	If Not lo_Parametro.of_localiza_parametro( 'DH_INICIO_CONSENTIMENTO_CLIENTE', Ref ldt_Inicio_Consentimento ) Then
+		Return False
+	End If
+	If IsValid(lo_Parametro) Then Destroy lo_Parametro
+	
+	li_Find = lds_Consentimentos.Find( "dh_consentimento < DATE('" +string( ldt_Inicio_Consentimento, 'YYYY/MM/DD')+ "') ",  1 ,  lds_Consentimentos.RowCount() )
+	
+	If li_Find < 0 Then
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o","Erro no find DS: ds_ge040_consentimento_cliente. Fun$$HEX2$$e700e300$$ENDHEX$$o: gf_consentimento_pendente()")
+		Return False
+	End If
+	
+	//Condi$$HEX2$$e700e300$$ENDHEX$$o tempor$$HEX1$$e100$$ENDHEX$$ria para teste em uma loja piloto
+	If Date(gvo_Parametro.dh_movimentacao) < ldt_Inicio_Consentimento Then
+		//N$$HEX1$$e300$$ENDHEX$$o considera a atualiza$$HEX2$$e700e300$$ENDHEX$$o de consentimento
+		ab_pendente = False
+	Else	
+		//Zero linhas: Todos os consentimentos do cliente para a rede da loja j$$HEX1$$e100$$ENDHEX$$ foram confirmados
+		ab_pendente = ( li_Find > 0  )
+	End If
+	
+	Return True
+Finally
+	If IsValid(lds_Consentimentos) Then Destroy lds_Consentimentos
+End Try
+end function
+

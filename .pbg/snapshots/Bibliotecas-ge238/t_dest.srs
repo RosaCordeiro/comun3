@@ -1,0 +1,11 @@
+HA$PBExportHeader$t_dest.srs
+global type t_dest from structure
+	string		CNPJ
+	string		xNome
+	string		xFant
+	t_endereco		endereco
+	string		IE
+	string		ISUF
+	string		email
+end type
+

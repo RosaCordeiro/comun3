@@ -1,0 +1,63 @@
+HA$PBExportHeader$gf_valor_coluna_dw.srf
+global type gf_valor_coluna_dw from function_object
+end type
+
+forward prototypes
+global function any gf_valor_coluna_dw (datawindow pdw, integer pi_linha, string ps_coluna)
+end prototypes
+
+global function any gf_valor_coluna_dw (datawindow pdw, integer pi_linha, string ps_coluna);Any lvany_Valor
+
+String lvs_Expressao, &
+		 lvs_Tipo_Coluna
+
+// Verifica qual o tipo da coluna recebida como par$$HEX1$$e200$$ENDHEX$$metro
+lvs_Expressao = ps_Coluna + ".ColType"
+lvs_Tipo_Coluna = pdw.Describe(lvs_Expressao)
+
+// Decide pelo tipo de dado da coluna e faz a convers$$HEX1$$e300$$ENDHEX$$o para String
+
+Choose Case lvs_Tipo_Coluna
+	Case "date"
+		lvany_Valor = pdw.GetItemDate(pi_Linha, ps_Coluna)
+//		If Trim(lvany_valor) = "" Then
+//			SetNull(lvany_valor)
+//		End If
+	Case "datetime"
+		lvany_Valor = pdw.GetItemDateTime(pi_Linha, ps_Coluna)
+//		If Trim(lvany_valor) = "" Then
+//			SetNull(lvany_valor)
+//		End If
+	Case "time"
+		lvany_Valor = pdw.GetItemTime(pi_Linha, ps_Coluna)
+//		If Trim(lvany_valor) = "" Then
+//			SetNull(lvany_valor)
+//		End If
+	Case "number"
+		lvany_Valor = pdw.GetItemNumber(pi_Linha, ps_Coluna)
+//		If Integer(lvany_valor) = 0 Then
+//			SetNull(lvany_valor)
+//		End If
+	Case "long"
+		lvany_Valor = pdw.GetItemNumber(pi_Linha, ps_Coluna)
+//		If Long(lvany_valor) = 0 Then
+//			SetNull(lvany_valor)
+//		End If
+	Case Else
+		If LeftA(lvs_tipo_coluna, 4) = "char" Then
+			lvany_Valor = pdw.GetItemString(pi_Linha, ps_Coluna)
+//			If Trim(lvany_valor) = "" Then
+//				SetNull(lvany_valor)
+//			End If
+		Else
+			lvany_Valor = pdw.GetItemDecimal(pi_Linha, ps_Coluna)
+//			If Dec(lvany_valor) = 0 Then
+//				SetNull(lvany_valor)
+//			End If
+		End If
+End Choose
+
+// Retorna o valor da coluna da DW
+Return lvany_Valor
+end function
+

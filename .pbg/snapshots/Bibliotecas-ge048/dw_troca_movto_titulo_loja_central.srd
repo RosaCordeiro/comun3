@@ -1,0 +1,84 @@
+HA$PBExportHeader$dw_troca_movto_titulo_loja_central.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=80 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=92 color="536870912" )
+table(column=(type=char(13) update=yes updatewhereclause=yes key=yes name=nr_titulo dbname="movimento_titulo_receber.nr_titulo" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=nr_movimento dbname="movimento_titulo_receber.nr_movimento" )
+ column=(type=long update=yes updatewhereclause=yes name=cd_tipo_movimento dbname="movimento_titulo_receber.cd_tipo_movimento" )
+ column=(type=char(6) update=yes updatewhereclause=yes name=nr_matricula_responsavel dbname="movimento_titulo_receber.nr_matricula_responsavel" )
+ column=(type=datetime update=yes updatewhereclause=yes name=dh_sistema dbname="movimento_titulo_receber.dh_sistema" )
+ column=(type=datetime update=yes updatewhereclause=yes name=dh_movimento dbname="movimento_titulo_receber.dh_movimento" )
+ column=(type=datetime update=yes updatewhereclause=yes name=dh_credito dbname="movimento_titulo_receber.dh_credito" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_movimento dbname="movimento_titulo_receber.vl_movimento" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_juros_recebidos dbname="movimento_titulo_receber.vl_juros_recebidos" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_desconto_concedido dbname="movimento_titulo_receber.vl_desconto_concedido" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_despesas_recebidas dbname="movimento_titulo_receber.vl_despesas_recebidas" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=id_estorno dbname="movimento_titulo_receber.id_estorno" )
+ column=(type=char(50) update=yes updatewhereclause=yes name=de_historico dbname="movimento_titulo_receber.de_historico" )
+ column=(type=char(11) update=yes updatewhereclause=yes name=nr_recibo_cobranca dbname="movimento_titulo_receber.nr_recibo_cobranca" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=cd_filial_movimento dbname="movimento_titulo_receber.cd_filial_movimento" )
+ column=(type=char(6) update=yes updatewhereclause=yes name=nr_matric_juros_desconto dbname="movimento_titulo_receber.nr_matric_juros_desconto" )
+ column=(type=long updatewhereclause=yes name=cd_filial_atualizacao dbname="movimento_titulo_receber.cd_filial_atualizacao" )
+ column=(type=datetime updatewhereclause=yes name=dh_atualizacao_filial dbname="movimento_titulo_receber.dh_atualizacao_filial" )
+ retrieve="select nr_titulo,   
+       nr_movimento,   
+       cd_tipo_movimento,   
+       nr_matricula_responsavel,   
+       dh_sistema,   
+       dh_movimento,   
+       dh_credito,   
+       vl_movimento,   
+       vl_juros_recebidos,   
+       vl_desconto_concedido,   
+       vl_despesas_recebidas,   
+       id_estorno,   
+       de_historico,   
+       nr_recibo_cobranca,   
+       cd_filial_movimento,   
+       nr_matric_juros_desconto,
+       cd_filial_atualizacao,
+       dh_atualizacao_filial
+from movimento_titulo_receber
+where cd_filial_atualizacao = :filial
+  and dh_atualizacao_filial = :data_movto
+" update="movimento_titulo_receber" updatewhere=1 updatekeyinplace=no arguments=(("filial", number),("data_movto", date))  sort="nr_titulo A cd_filial_movimento A nr_movimento A dh_sistema A " )
+text(band=header alignment="2" text="Nr Titulo"border="0" color="0" x="9" y="8" height="64" width="384"  name=nr_titulo_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Movimento"border="0" color="0" x="402" y="8" height="64" width="361"  name=nr_movimento_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cd Tipo Movimento"border="0" color="0" x="773" y="8" height="64" width="503"  name=cd_tipo_movimento_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Matricula Responsavel"border="0" color="0" x="1285" y="8" height="64" width="672"  name=nr_matricula_responsavel_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Dh Sistema"border="0" color="0" x="1966" y="8" height="64" width="603"  name=dh_sistema_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Dh Movimento"border="0" color="0" x="2578" y="8" height="64" width="603"  name=dh_movimento_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Dh Credito"border="0" color="0" x="3191" y="8" height="64" width="603"  name=dh_credito_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Movimento"border="0" color="0" x="3803" y="8" height="64" width="357"  name=vl_movimento_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Juros Recebidos"border="0" color="0" x="4169" y="8" height="64" width="512"  name=vl_juros_recebidos_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Desconto Concedido"border="0" color="0" x="4690" y="8" height="64" width="622"  name=vl_desconto_concedido_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Despesas Recebidas"border="0" color="0" x="5321" y="8" height="64" width="635"  name=vl_despesas_recebidas_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Id Estorno"border="0" color="0" x="5966" y="8" height="64" width="270"  name=id_estorno_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="De Historico"border="0" color="0" x="6245" y="8" height="64" width="1399"  name=de_historico_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Recibo Cobranca"border="0" color="0" x="7653" y="8" height="64" width="530"  name=nr_recibo_cobranca_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cd Filial Movimento"border="0" color="0" x="8192" y="8" height="64" width="517"  name=cd_filial_movimento_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Matric Juros Desconto"border="0" color="0" x="8718" y="8" height="64" width="672"  name=nr_matric_juros_desconto_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=10 border="0" color="0" x="9" y="8" height="76" width="384" format="[general]"  name=nr_titulo edit.limit=13 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=20 border="0" color="0" x="402" y="8" height="76" width="361" format="[general]"  name=nr_movimento edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=30 border="0" color="0" x="773" y="8" height="76" width="503" format="[general]"  name=cd_tipo_movimento edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=40 border="0" color="0" x="1285" y="8" height="76" width="672" format="[general]"  name=nr_matricula_responsavel edit.limit=6 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=50 border="0" color="0" x="1966" y="8" height="76" width="603" format="[shortdate] [time]"  name=dh_sistema edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=60 border="0" color="0" x="2578" y="8" height="76" width="603" format="[shortdate] [time]"  name=dh_movimento edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=70 border="0" color="0" x="3191" y="8" height="76" width="603" format="[shortdate] [time]"  name=dh_credito edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="1" tabsequence=80 border="0" color="0" x="3803" y="8" height="76" width="357" format="[general]"  name=vl_movimento edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="1" tabsequence=90 border="0" color="0" x="4169" y="8" height="76" width="512" format="[general]"  name=vl_juros_recebidos edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="1" tabsequence=100 border="0" color="0" x="4690" y="8" height="76" width="622" format="[general]"  name=vl_desconto_concedido edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=11 alignment="1" tabsequence=110 border="0" color="0" x="5321" y="8" height="76" width="635" format="[general]"  name=vl_despesas_recebidas edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=12 alignment="0" tabsequence=120 border="0" color="0" x="5966" y="8" height="76" width="270" format="[general]"  name=id_estorno edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=13 alignment="0" tabsequence=130 border="0" color="0" x="6245" y="8" height="76" width="1399" format="[general]"  name=de_historico edit.limit=50 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=14 alignment="0" tabsequence=140 border="0" color="0" x="7653" y="8" height="76" width="530" format="[general]"  name=nr_recibo_cobranca edit.limit=11 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=15 alignment="1" tabsequence=150 border="0" color="0" x="8192" y="8" height="76" width="517" format="[general]"  name=cd_filial_movimento edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=16 alignment="0" tabsequence=160 border="0" color="0" x="8718" y="8" height="76" width="672" format="[general]"  name=nr_matric_juros_desconto edit.limit=6 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=17 alignment="0" tabsequence=0 border="0" color="0" x="9403" y="0" height="64" width="1152"  name=cd_filial_atualizacao  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Cd Filial Atualizacao"border="0" color="0" x="9399" y="4" height="76" width="1157"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=18 alignment="0" tabsequence=0 border="0" color="0" x="10569" y="0" height="64" width="773"  name=dh_atualizacao_filial  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Dh Atualizacao Filial"border="0" color="0" x="10565" y="4" height="76" width="777"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

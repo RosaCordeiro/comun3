@@ -1,0 +1,107 @@
+HA$PBExportHeader$gf_valida_informacoes_chave_nfe.srf
+global type gf_valida_informacoes_chave_nfe from function_object
+end type
+
+forward prototypes
+global function boolean gf_valida_informacoes_chave_nfe (string as_chave, string as_parametro, integer ai_tipo_parametro)
+end prototypes
+
+global function boolean gf_valida_informacoes_chave_nfe (string as_chave, string as_parametro, integer ai_tipo_parametro);String lvs_Chave, lvs_UF, lvs_Codigo_UF, lvs_Informacao
+
+Integer lvi_Tamanho, lvi_Codigo_UF
+
+If IsNull(as_Parametro) Then as_Parametro = ''
+
+lvi_Tamanho = Len(Trim(as_Parametro))
+
+Choose Case ai_Tipo_Parametro
+		
+	Case 1 // UF
+		
+		If lvi_Tamanho <> 2 Then
+			MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Tamanho:'" + String(lvi_Tamanho) + "' do par$$HEX1$$e200$$ENDHEX$$metro 'UF' inv$$HEX1$$e100$$ENDHEX$$lido.", StopSign!)
+			Return False
+		End If
+		
+		lvs_Codigo_UF = Mid(as_Chave, 1,2)
+		
+		Select cd_unidade_federacao
+		Into :lvs_UF
+		From unidade_federacao
+		Where cd_uf_ibge = :lvs_Codigo_UF
+		Using SqlCa;
+		
+		Choose Case SqlCa.SqlCode
+			Case 0
+				If lvs_UF <> as_Parametro Then
+					MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "A UF informada:'" + as_Parametro + "' $$HEX1$$e900$$ENDHEX$$ diferente da informada na chave de acesso:'" + lvs_UF + "'.")
+					Return False
+				End If
+			Case 100
+				Messagebox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "UF n$$HEX1$$e300$$ENDHEX$$o cadastrada.")
+				Return False
+			Case -1
+				SqlCa.of_MSgDbError("Erro ao localizar a UF.")
+				Return False
+		End Choose
+		
+	Case 2 // Emiss$$HEX1$$e300$$ENDHEX$$o NFE 
+		
+		If lvi_Tamanho <> 4 Then
+			MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Tamanho:'" + String(lvi_Tamanho) + "' do par$$HEX1$$e200$$ENDHEX$$metro 'DATA DE EMISS$$HEX1$$c300$$ENDHEX$$O' 'AAMM' inv$$HEX1$$e100$$ENDHEX$$lido.", StopSign!)
+			Return False
+		End If
+		
+		lvs_Informacao = Mid(as_Chave, 3,4)
+		
+		If as_Parametro <> lvs_Informacao Then
+			MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "A DATA DE EMISS$$HEX1$$c300$$ENDHEX$$O da nota fiscal:'" + as_Parametro + "' (AAMM) $$HEX1$$e900$$ENDHEX$$ diferente da informada na chave de acesso:'" + lvs_Informacao + "' (AAMM).")
+			Return False
+		End If
+		
+	Case 3 // CNPJ
+		
+		If lvi_Tamanho <> 14 Then
+			MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Tamanho:'" + String(lvi_Tamanho) + "' do par$$HEX1$$e200$$ENDHEX$$metro 'CNPJ' inv$$HEX1$$e100$$ENDHEX$$lido.", StopSign!)
+			Return False
+		End If
+		
+		lvs_Informacao = Mid(as_Chave, 7,14)
+		
+		If as_Parametro <> lvs_Informacao Then
+			MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "O CNPJ Informado:'" + as_Parametro + "' $$HEX1$$e900$$ENDHEX$$ diferente do informado na chave de acesso:'" + lvs_Informacao + "'.")
+			Return False
+		End If
+		
+	Case 4 // SERIE
+		
+		lvs_Informacao = Mid(as_Chave, 23,3)
+		
+		If Integer(as_Parametro) <> Integer(lvs_Informacao) Then
+			MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "A s$$HEX1$$e900$$ENDHEX$$rie informada:'" + as_Parametro + "' $$HEX1$$e900$$ENDHEX$$ diferente da informada na chave de acesso:'" + lvs_Informacao + "'.")
+			Return False
+		End If
+		
+	Case 5 // N$$HEX1$$fa00$$ENDHEX$$mero da NFe
+		
+		If lvi_Tamanho <> 9 Then
+			MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Tamanho:'" + String(lvi_Tamanho) + "' do par$$HEX1$$e200$$ENDHEX$$metro 'N$$HEX1$$da00$$ENDHEX$$MERO DA NFE' inv$$HEX1$$e100$$ENDHEX$$lido.", StopSign!)
+			Return False
+		End If
+		
+		lvs_Informacao = Mid(as_Chave, 26,9)
+		
+		If long(as_Parametro) <> long(lvs_Informacao) Then
+			MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "O n$$HEX1$$fa00$$ENDHEX$$mero da nota informado:'" + string(long(as_Parametro)) + "' $$HEX1$$e900$$ENDHEX$$ diferente do informado na chave de acesso:'" + string(long(lvs_Informacao)) + "'.")
+			Return False
+		End If	
+			
+	Case Else
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Tipo do par$$HEX1$$e200$$ENDHEX$$metro informado para a fun$$HEX2$$e700e300$$ENDHEX$$o $$HEX1$$e900$$ENDHEX$$ inv$$HEX1$$e100$$ENDHEX$$lido.", StopSign!)
+		Return False
+End Choose
+		
+
+Return True
+end function
+

@@ -1,0 +1,81 @@
+HA$PBExportHeader$gf_ge040_proximo_pedido_distribuidora.srf
+global type gf_ge040_proximo_pedido_distribuidora from function_object
+end type
+
+forward prototypes
+global function boolean gf_ge040_proximo_pedido_distribuidora (ref long al_pedido, ref string as_erro)
+end prototypes
+
+global function boolean gf_ge040_proximo_pedido_distribuidora (ref long al_pedido, ref string as_erro);String lvs_Mensagem,&
+		ls_Ultimo,&
+		ls_Proximo
+
+dc_uo_transacao lo_Transact
+
+Try
+	Try
+		lo_Transact = Create dc_uo_transacao
+		
+		lo_Transact.ivs_database = "SYBASE"
+			
+		If Not lo_Transact.of_Connect(gvo_Aplicacao.ivs_DataSource, "") Then 
+			as_Erro =  "Erro ao criar uma nova tranza$$HEX2$$e700e300$$ENDHEX$$o, fun$$HEX2$$e700e300$$ENDHEX$$o 'of_proximo_pedido_distribuidora'."
+			Return False
+		End If
+		
+		Select coalesce(vl_parametro, '0')
+		Into :ls_Ultimo
+		From parametro_geral
+		Where cd_parametro = 'NR_ULTIMO_PEDIDO_DISTRIBUIDORA'
+		Using lo_Transact;
+		
+		Choose Case lo_Transact.SqlCode
+			Case 0
+				
+				al_Pedido = Long(ls_Ultimo) + 1
+				
+				ls_Proximo	= String(al_Pedido)
+				
+				Update parametro_geral
+				Set vl_parametro = :ls_Proximo
+				Where	cd_parametro	= 'NR_ULTIMO_PEDIDO_DISTRIBUIDORA'
+					and	vl_parametro	= :ls_Ultimo
+				Using lo_Transact;
+				
+				If lo_Transact.SqlCode = -1 Then
+					as_Erro =  "Erro na atualiza$$HEX2$$e700e300$$ENDHEX$$o do $$HEX1$$fa00$$ENDHEX$$ltimo n$$HEX1$$fa00$$ENDHEX$$mero do pedido distribuidora." + lo_Transact.SqlErrText
+					lo_Transact.of_RollBack()
+					Return False
+				Else
+					If lo_Transact.SqlnRows <> 1 Then
+						Return gf_ge040_proximo_pedido_distribuidora(Ref al_Pedido, Ref as_erro)				
+					Else
+						lo_Transact.of_Commit()
+						Return True
+					End If
+				End If		
+				
+			Case 100
+				as_Erro =  "N$$HEX1$$e300$$ENDHEX$$o foi localizado o par$$HEX1$$e200$$ENDHEX$$metro 'NR_ULTIMO_PEDIDO_DISTRIBUIDORA', fun$$HEX2$$e700e300$$ENDHEX$$o 'of_proximo_pedido_distribuidora'." 
+				lo_Transact.of_RollBack()
+				Return False
+			Case -1
+				as_Erro =  "Erro ao localizado o par$$HEX1$$e200$$ENDHEX$$metro 'NR_ULTIMO_PEDIDO_DISTRIBUIDORA', fun$$HEX2$$e700e300$$ENDHEX$$o 'of_proximo_pedido_distribuidora'." 
+				lo_Transact.of_RollBack()
+				Return False
+		End Choose
+	Catch ( runtimeerror  lo_rte )
+		as_Erro =  "Erro ao localizado ao localizar o pr$$HEX1$$f300$$ENDHEX$$ximo pedido distribuidora', fun$$HEX2$$e700e300$$ENDHEX$$o 'of_proximo_pedido_distribuidora'." 
+		lo_Transact.of_RollBack()
+		Return False						 
+	End Try	
+	
+Finally
+	lo_Transact.of_Disconnect()
+
+	Destroy(lo_Transact)
+End Try
+
+Return True
+end function
+

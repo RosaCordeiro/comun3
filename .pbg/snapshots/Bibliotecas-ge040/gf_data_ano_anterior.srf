@@ -1,0 +1,109 @@
+HA$PBExportHeader$gf_data_ano_anterior.srf
+global type gf_data_ano_anterior from function_object
+end type
+
+forward prototypes
+global function string gf_ano_bisexto (date pd_data)
+global function boolean gf_data_ano_anterior (long pl_ano)
+global function date gf_data_ano_anterior (date dataoriginal)
+end prototypes
+
+global function string gf_ano_bisexto (date pd_data);
+String 	ls_DiaSemana
+String 	ls_DataExtenso
+
+Long 	 	ll_Mes
+Long 		ll_Ano
+Long 		ll_Dia
+
+ll_Ano	= Year(Date(pd_data))
+ll_Mes	= Month(Date(pd_data))
+ll_Dia	= Day(Date(pd_data))
+
+Choose Case DayNumber(pd_data)
+	Case 1
+		ls_DiaSemana = 'Domingo'	
+	Case 2
+		ls_DiaSemana = 'Segunda-feira'
+	Case 3
+		ls_DiaSemana = 'Ter$$HEX1$$e700$$ENDHEX$$a-feira'
+	Case 4
+		ls_DiaSemana = 'Quarta-feira'
+	Case 5
+		ls_DiaSemana = 'Quinta-feira'
+	Case 6
+		ls_DiaSemana = 'Sexta-feira'
+	Case 7
+		ls_DiaSemana = 'S$$HEX1$$e100$$ENDHEX$$bado'
+End Choose		
+
+ls_DataExtenso = ls_DiaSemana + ', ' + String(ll_Dia) + ' de ' + gf_Mes_Extenso(ll_Mes) + ' de ' + String(ll_Ano)
+
+Return ls_DataExtenso
+
+
+end function
+
+global function boolean gf_data_ano_anterior (long pl_ano);// Descri$$HEX2$$e700e300$$ENDHEX$$o: Verifica se um determinado ano $$HEX1$$e900$$ENDHEX$$ bissexto.
+// Par$$HEX1$$e200$$ENDHEX$$metros:
+//   ano (long): O ano a ser verificado.
+// Retorno:
+//   Boolean: TRUE se o ano for bissexto, FALSE caso contr$$HEX1$$e100$$ENDHEX$$rio.
+
+// Regras para ano bissexto:
+ // 1. Anos divis$$HEX1$$ed00$$ENDHEX$$veis por 4 s$$HEX1$$e300$$ENDHEX$$o bissextos.
+ // 2. Anos divis$$HEX1$$ed00$$ENDHEX$$veis por 100 n$$HEX1$$e300$$ENDHEX$$o s$$HEX1$$e300$$ENDHEX$$o bissextos, a menos que...
+ // 3. Sejam divis$$HEX1$$ed00$$ENDHEX$$veis por 400.
+
+IF Mod(pl_ano, 4) = 0 THEN
+  IF Mod(pl_ano, 100) = 0 THEN
+		IF Mod(pl_ano, 400) = 0 THEN
+			 RETURN TRUE // Divis$$HEX1$$ed00$$ENDHEX$$vel por 400, ent$$HEX1$$e300$$ENDHEX$$o $$HEX1$$e900$$ENDHEX$$ bissexto
+		ELSE
+			 RETURN FALSE // Divis$$HEX1$$ed00$$ENDHEX$$vel por 100, mas n$$HEX1$$e300$$ENDHEX$$o por 400, ent$$HEX1$$e300$$ENDHEX$$o n$$HEX1$$e300$$ENDHEX$$o $$HEX1$$e900$$ENDHEX$$ bissexto
+		END IF
+  ELSE
+		RETURN TRUE // Divis$$HEX1$$ed00$$ENDHEX$$vel por 4, mas n$$HEX1$$e300$$ENDHEX$$o por 100, ent$$HEX1$$e300$$ENDHEX$$o $$HEX1$$e900$$ENDHEX$$ bissexto
+  END IF
+ELSE
+  RETURN FALSE // N$$HEX1$$e300$$ENDHEX$$o $$HEX1$$e900$$ENDHEX$$ divis$$HEX1$$ed00$$ENDHEX$$vel por 4, ent$$HEX1$$e300$$ENDHEX$$o n$$HEX1$$e300$$ENDHEX$$o $$HEX1$$e900$$ENDHEX$$ bissexto
+END IF
+
+
+end function
+
+global function date gf_data_ano_anterior (date dataoriginal);// Fun$$HEX2$$e700e300$$ENDHEX$$o: uf_data_ano_anterior
+// Descri$$HEX2$$e700e300$$ENDHEX$$o: Retorna a data correspondente no ano anterior.
+// Par$$HEX1$$e200$$ENDHEX$$metros:
+//   dataOriginal (date): A data original.
+// Retorno:
+//   date: A data no ano anterior.
+
+date dataAnterior
+
+// Extrai o ano, m$$HEX1$$ea00$$ENDHEX$$s e dia da data original
+long ano
+long mes
+long dia
+
+ano = Year(dataOriginal)
+mes = Month(dataOriginal)
+dia = Day(dataOriginal)
+
+// Subtrai 1 do ano
+ano = ano - 1
+
+// Cria a nova data no ano anterior
+dataAnterior = Date(ano, mes, dia)
+
+// Verifica se a data $$HEX1$$e900$$ENDHEX$$ v$$HEX1$$e100$$ENDHEX$$lida (por exemplo, 29 de fevereiro em um ano n$$HEX1$$e300$$ENDHEX$$o bissexto)
+IF Month(dataAnterior) <> mes THEN
+  // Se a data n$$HEX1$$e300$$ENDHEX$$o for v$$HEX1$$e100$$ENDHEX$$lida, ajusta para o $$HEX1$$fa00$$ENDHEX$$ltimo dia do m$$HEX1$$ea00$$ENDHEX$$s anterior
+  dataAnterior = RelativeDate(Date(ano, mes + 1, 1), -1)
+END IF
+
+RETURN dataAnterior
+
+
+end function
+

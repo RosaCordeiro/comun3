@@ -1,0 +1,2138 @@
+HA$PBExportHeader$dc_m_mdi.srm
+forward
+global type dc_m_mdi from menu
+end type
+type m_arquivo from menu within dc_m_mdi
+end type
+type m_salvarcomo from menu within m_arquivo
+end type
+type m_-5 from menu within m_arquivo
+end type
+type m_configurarimpressora from menu within m_arquivo
+end type
+type m_imprimir from menu within m_arquivo
+end type
+type m_imprimirimediato from menu within m_arquivo
+end type
+type m_-1 from menu within m_arquivo
+end type
+type m_alterasenha from menu within m_arquivo
+end type
+type m_cadastrarimpressaodigital from menu within m_arquivo
+end type
+type m_trocadeusurio from menu within m_arquivo
+end type
+type m_-7 from menu within m_arquivo
+end type
+type m_sair from menu within m_arquivo
+end type
+type m_arquivo from menu within dc_m_mdi
+m_salvarcomo m_salvarcomo
+m_-5 m_-5
+m_configurarimpressora m_configurarimpressora
+m_imprimir m_imprimir
+m_imprimirimediato m_imprimirimediato
+m_-1 m_-1
+m_alterasenha m_alterasenha
+m_cadastrarimpressaodigital m_cadastrarimpressaodigital
+m_trocadeusurio m_trocadeusurio
+m_-7 m_-7
+m_sair m_sair
+end type
+type m_editar from menu within dc_m_mdi
+end type
+type m_desfazer from menu within m_editar
+end type
+type m_-6 from menu within m_editar
+end type
+type m_cortar from menu within m_editar
+end type
+type m_c from menu within m_editar
+end type
+type m_colar from menu within m_editar
+end type
+type m_-11 from menu within m_editar
+end type
+type m_recuperar from menu within m_editar
+end type
+type m_-8 from menu within m_editar
+end type
+type m_incluir from menu within m_editar
+end type
+type m_alterar from menu within m_editar
+end type
+type m_excluir from menu within m_editar
+end type
+type m_-4 from menu within m_editar
+end type
+type m_classificar from menu within m_editar
+end type
+type m_filtrar from menu within m_editar
+end type
+type m_limparfiltro from menu within m_editar
+end type
+type m_localizar from menu within m_editar
+end type
+type m_sep0 from menu within m_editar
+end type
+type m_historicoalteracoes from menu within m_editar
+end type
+type m_-2 from menu within m_editar
+end type
+type m_confirmaroperacao from menu within m_editar
+end type
+type m_cancelaroperacao from menu within m_editar
+end type
+type m_-3 from menu within m_editar
+end type
+type m_fecharjanela from menu within m_editar
+end type
+type m_editar from menu within dc_m_mdi
+m_desfazer m_desfazer
+m_-6 m_-6
+m_cortar m_cortar
+m_c m_c
+m_colar m_colar
+m_-11 m_-11
+m_recuperar m_recuperar
+m_-8 m_-8
+m_incluir m_incluir
+m_alterar m_alterar
+m_excluir m_excluir
+m_-4 m_-4
+m_classificar m_classificar
+m_filtrar m_filtrar
+m_limparfiltro m_limparfiltro
+m_localizar m_localizar
+m_sep0 m_sep0
+m_historicoalteracoes m_historicoalteracoes
+m_-2 m_-2
+m_confirmaroperacao m_confirmaroperacao
+m_cancelaroperacao m_cancelaroperacao
+m_-3 m_-3
+m_fecharjanela m_fecharjanela
+end type
+type m_janela from menu within dc_m_mdi
+end type
+type m_ladoaladohorizontalmente from menu within m_janela
+end type
+type m_ladoaladoverticalmente from menu within m_janela
+end type
+type m_ladoaladoemcascata from menu within m_janela
+end type
+type m_janela from menu within dc_m_mdi
+m_ladoaladohorizontalmente m_ladoaladohorizontalmente
+m_ladoaladoverticalmente m_ladoaladoverticalmente
+m_ladoaladoemcascata m_ladoaladoemcascata
+end type
+type m_ajuda from menu within dc_m_mdi
+end type
+type m_conteudo from menu within m_ajuda
+end type
+type m_help from menu within m_ajuda
+end type
+type m_novidades from menu within m_ajuda
+end type
+type m_-1ajuda from menu within m_ajuda
+end type
+type m_sobre from menu within m_ajuda
+end type
+type m_ajuda from menu within dc_m_mdi
+m_conteudo m_conteudo
+m_help m_help
+m_novidades m_novidades
+m_-1ajuda m_-1ajuda
+m_sobre m_sobre
+end type
+global type dc_m_mdi from menu
+m_arquivo m_arquivo
+m_editar m_editar
+m_janela m_janela
+m_ajuda m_ajuda
+end type
+end forward
+
+global type dc_m_mdi from menu
+m_arquivo m_arquivo
+m_editar m_editar
+m_janela m_janela
+m_ajuda m_ajuda
+end type
+global dc_m_mdi dc_m_mdi
+
+type variables
+Boolean ivb_Permite_Incluir = True, &
+              ivb_Permite_Excluir = True, &
+              ivb_Permite_Alterar = True, &
+              ivb_Permite_Classificar = True, &
+              ivb_Permite_Filtrar = True, &
+              ivb_Permite_Localizar = True, &
+              ivb_Permite_Imprimir = False, &
+              ivb_Permite_Recuperar = True
+
+string ivs_mensagem_cancelamento = "Deseja desistir de TODAS as opera$$HEX2$$e700f500$$ENDHEX$$es efetuadas ?"
+end variables
+
+forward prototypes
+public subroutine mf_executa_evento (string ps_evento)
+public subroutine mf_incluir (boolean pb_habilita)
+public subroutine mf_excluir (boolean pb_habilita)
+public subroutine mf_alterar (boolean pb_habilita)
+public subroutine mf_classificar (boolean pb_habilita)
+public subroutine mf_filtrar (boolean pb_habilita)
+public subroutine mf_localizar (boolean pb_habilita)
+public subroutine mf_imprimir (boolean pb_habilita)
+public subroutine mf_recuperar (boolean pb_habilita)
+public subroutine mf_confirmar (boolean pb_habilita)
+public subroutine mf_cancelar (boolean pb_habilita)
+public subroutine mf_abre_janela (string as_janela)
+public subroutine mf_salvarcomo (boolean pb_habilita)
+public subroutine mf_limpar_filtro (boolean pb_habilita)
+public subroutine mf_help (string ps_arquivo)
+public subroutine mf_habilita_help (boolean pb_habilita)
+public subroutine mf_habilita_biometria ()
+public subroutine mf_abre_janela (string ps_janela, boolean pb_seguranca, boolean pb_controle_usuario)
+public subroutine mf_abre_janela (string as_janela, boolean pb_seguranca)
+public subroutine mf_copiar (boolean pb_habilita)
+public subroutine mf_colar (boolean pb_habilita)
+public subroutine mf_recortar (boolean pb_habilita)
+public subroutine mf_historico (boolean pb_habilita)
+end prototypes
+
+public subroutine mf_executa_evento (string ps_evento);SetPointer(HourGlass!)
+
+dc_uo_Menu_Base lvm_Menu
+
+lvm_Menu = Create dc_uo_Menu_Base
+lvm_Menu.of_SendMessage(This, ps_Evento)
+
+gvo_Aplicacao.of_SetMicroHelp()
+
+SetPointer(Arrow!)
+end subroutine
+
+public subroutine mf_incluir (boolean pb_habilita);If pb_Habilita and Not This.ivb_Permite_Incluir Then
+	pb_Habilita = False
+End If
+
+This.m_Editar.m_Incluir.Enabled = pb_Habilita
+end subroutine
+
+public subroutine mf_excluir (boolean pb_habilita);If pb_Habilita and Not This.ivb_Permite_Excluir Then
+	pb_Habilita = False
+End If
+
+This.m_Editar.m_Excluir.Enabled = pb_Habilita
+end subroutine
+
+public subroutine mf_alterar (boolean pb_habilita);If pb_Habilita and Not This.ivb_Permite_Alterar Then
+	pb_Habilita = False
+End If
+
+This.m_Editar.m_Alterar.Enabled = pb_Habilita
+end subroutine
+
+public subroutine mf_classificar (boolean pb_habilita);If pb_Habilita and Not This.ivb_Permite_Classificar Then
+	pb_Habilita = False
+End If
+
+This.m_Editar.m_Classificar.Enabled = pb_Habilita
+end subroutine
+
+public subroutine mf_filtrar (boolean pb_habilita);If pb_Habilita and Not This.ivb_Permite_Filtrar Then
+	pb_Habilita = False
+End If
+
+This.m_Editar.m_Filtrar.Enabled = pb_Habilita
+end subroutine
+
+public subroutine mf_localizar (boolean pb_habilita);If pb_Habilita and Not This.ivb_Permite_Localizar Then
+	pb_Habilita = False
+End If
+
+This.m_Editar.m_Localizar.Enabled = pb_Habilita
+end subroutine
+
+public subroutine mf_imprimir (boolean pb_habilita);If pb_Habilita and Not This.ivb_Permite_Imprimir Then
+	pb_Habilita = False
+End If
+
+This.m_Arquivo.m_Imprimir.Enabled         = pb_Habilita
+This.m_Arquivo.m_ImprimirImediato.Enabled = pb_Habilita
+end subroutine
+
+public subroutine mf_recuperar (boolean pb_habilita);If pb_Habilita and Not This.ivb_Permite_Recuperar Then
+	pb_Habilita = False
+End If
+
+This.m_Editar.m_Recuperar.Enabled = pb_Habilita
+end subroutine
+
+public subroutine mf_confirmar (boolean pb_habilita);This.m_Editar.m_ConfirmarOperacao.Enabled = pb_Habilita
+
+If pb_Habilita Then
+	mf_Executa_Evento("ue_startchanging")
+Else
+	mf_Executa_Evento("ue_endchanging")
+End If
+end subroutine
+
+public subroutine mf_cancelar (boolean pb_habilita);This.m_Editar.m_CancelarOperacao.Enabled = pb_Habilita
+end subroutine
+
+public subroutine mf_abre_janela (string as_janela);mf_Abre_Janela(as_Janela, True, False)
+end subroutine
+
+public subroutine mf_salvarcomo (boolean pb_habilita);This.m_Arquivo.m_SalvarComo.Enabled = pb_Habilita
+end subroutine
+
+public subroutine mf_limpar_filtro (boolean pb_habilita);This.m_Editar.m_LimparFiltro.Enabled = pb_Habilita
+end subroutine
+
+public subroutine mf_help (string ps_arquivo);SetPointer( HourGlass! )
+
+dc_uo_Menu_Base lvm_Menu
+
+lvm_Menu = Create dc_uo_Menu_Base
+lvm_Menu.of_help( This , ps_Arquivo)
+end subroutine
+
+public subroutine mf_habilita_help (boolean pb_habilita);This.m_Ajuda.m_Help.Enabled = pb_Habilita
+end subroutine
+
+public subroutine mf_habilita_biometria ();This.m_Arquivo.m_CadastrarImpressaoDigital.Visible = gvo_Aplicacao.ivb_Usa_Biometria
+end subroutine
+
+public subroutine mf_abre_janela (string ps_janela, boolean pb_seguranca, boolean pb_controle_usuario);Try
+	SetPointer(HourGlass!)
+
+	//Fernando Cambiaghi - 26/07/2016
+	//Se a situa$$HEX2$$e700e300$$ENDHEX$$o do usu$$HEX1$$e100$$ENDHEX$$rio passar para I = Inativo ap$$HEX1$$f300$$ENDHEX$$s ele ter logado no sistema, n$$HEX1$$e300$$ENDHEX$$o permite abrir as telas.
+	//Se o usu$$HEX1$$e100$$ENDHEX$$rio conseguir n$$HEX1$$e300$$ENDHEX$$o estiver com situa$$HEX2$$e700e300$$ENDHEX$$o I, registra o $$HEX1$$fa00$$ENDHEX$$ltimo acesso.
+	If gvo_Aplicacao.ivo_Seguranca.ivb_LogIn Then
+		gvo_Aplicacao.ivo_Seguranca.of_Localiza_Usuario( gvo_Aplicacao.ivo_Seguranca.Nr_Matricula )
+		If Not gvo_Aplicacao.ivo_Seguranca.ivb_Usuario_Localizado Then Return
+	End If
+	
+	dc_uo_Menu_Base lvm_Menu
+
+	lvm_Menu = Create dc_uo_Menu_Base
+	
+	If pb_Seguranca Then
+		If gvo_Aplicacao.ivo_Seguranca.cd_Sistema = 'RL' Then
+			gvo_Aplicacao.ivo_Seguranca.of_Permite_Incluir_Alterar_Excluir( pb_controle_usuario, ps_Janela )
+			
+			Message.StringParm = ps_janela
+			lvm_Menu.of_SendMessage(This, "ue_Open")
+		Else		
+			If gvo_Aplicacao.ivo_Seguranca.of_Acesso_Procedimento(ps_Janela, pb_controle_usuario) Then
+				Message.StringParm = ps_janela
+				lvm_Menu.of_SendMessage(This, "ue_Open")
+			Else
+				MessageBox("Seguran$$HEX1$$e700$$ENDHEX$$a do Sistema", "Procedimento n$$HEX1$$e300$$ENDHEX$$o liberado para este usu$$HEX1$$e100$$ENDHEX$$rio.", StopSign!)
+			End If
+		End If
+	Else
+		gvo_Aplicacao.ivo_Seguranca.of_Set_Id_Inclusao( True )
+		gvo_Aplicacao.ivo_Seguranca.of_Set_Id_Alteracao( True )
+		gvo_Aplicacao.ivo_Seguranca.of_Set_Id_Exclusao( True )
+		
+		Message.StringParm = ps_janela
+		lvm_Menu.of_SendMessage(This, "ue_Open")
+	End If
+
+Catch ( runtimeerror  lo_rte )
+	MessageBox (	"Erro", "Ocorreu erro ao abrir a janela. ~r~r"+ & 						
+ 						"Erro: "+lo_rte.GetMessage( ), StopSign!)
+	
+Finally	
+	Destroy(lvm_Menu)
+	SetPointer(Arrow!)
+End Try
+end subroutine
+
+public subroutine mf_abre_janela (string as_janela, boolean pb_seguranca);mf_Abre_Janela(as_Janela, pb_seguranca, False)
+end subroutine
+
+public subroutine mf_copiar (boolean pb_habilita);This.m_Editar.m_c.Enabled = pb_Habilita
+end subroutine
+
+public subroutine mf_colar (boolean pb_habilita);This.m_Editar.m_colar.Enabled = pb_Habilita
+end subroutine
+
+public subroutine mf_recortar (boolean pb_habilita);This.m_Editar.m_cortar.Enabled = pb_Habilita
+end subroutine
+
+public subroutine mf_historico (boolean pb_habilita);This.m_Editar.m_historicoalteracoes.Enabled = pb_Habilita
+
+end subroutine
+
+on dc_m_mdi.create
+dc_m_mdi=this
+call super::create
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+this.m_arquivo=create m_arquivo
+this.m_editar=create m_editar
+this.m_janela=create m_janela
+this.m_ajuda=create m_ajuda
+this.Item[UpperBound(this.Item)+1]=this.m_arquivo
+this.Item[UpperBound(this.Item)+1]=this.m_editar
+this.Item[UpperBound(this.Item)+1]=this.m_janela
+this.Item[UpperBound(this.Item)+1]=this.m_ajuda
+end on
+
+on dc_m_mdi.destroy
+call super::destroy
+destroy(this.m_arquivo)
+destroy(this.m_editar)
+destroy(this.m_janela)
+destroy(this.m_ajuda)
+end on
+
+type m_arquivo from menu within dc_m_mdi
+m_salvarcomo m_salvarcomo
+m_-5 m_-5
+m_configurarimpressora m_configurarimpressora
+m_imprimir m_imprimir
+m_imprimirimediato m_imprimirimediato
+m_-1 m_-1
+m_alterasenha m_alterasenha
+m_cadastrarimpressaodigital m_cadastrarimpressaodigital
+m_trocadeusurio m_trocadeusurio
+m_-7 m_-7
+m_sair m_sair
+end type
+
+on m_arquivo.create
+call super::create
+this.text = "&Arquivo"
+this.microhelp = "Habilita as Fun$$HEX2$$e700f500$$ENDHEX$$es de Manipula$$HEX2$$e700e300$$ENDHEX$$o das Tabelas"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+this.m_salvarcomo=create m_salvarcomo
+this.m_-5=create m_-5
+this.m_configurarimpressora=create m_configurarimpressora
+this.m_imprimir=create m_imprimir
+this.m_imprimirimediato=create m_imprimirimediato
+this.m_-1=create m_-1
+this.m_alterasenha=create m_alterasenha
+this.m_cadastrarimpressaodigital=create m_cadastrarimpressaodigital
+this.m_trocadeusurio=create m_trocadeusurio
+this.m_-7=create m_-7
+this.m_sair=create m_sair
+this.Item[UpperBound(this.Item)+1]=this.m_salvarcomo
+this.Item[UpperBound(this.Item)+1]=this.m_-5
+this.Item[UpperBound(this.Item)+1]=this.m_configurarimpressora
+this.Item[UpperBound(this.Item)+1]=this.m_imprimir
+this.Item[UpperBound(this.Item)+1]=this.m_imprimirimediato
+this.Item[UpperBound(this.Item)+1]=this.m_-1
+this.Item[UpperBound(this.Item)+1]=this.m_alterasenha
+this.Item[UpperBound(this.Item)+1]=this.m_cadastrarimpressaodigital
+this.Item[UpperBound(this.Item)+1]=this.m_trocadeusurio
+this.Item[UpperBound(this.Item)+1]=this.m_-7
+this.Item[UpperBound(this.Item)+1]=this.m_sair
+end on
+
+on m_arquivo.destroy
+call super::destroy
+destroy(this.m_salvarcomo)
+destroy(this.m_-5)
+destroy(this.m_configurarimpressora)
+destroy(this.m_imprimir)
+destroy(this.m_imprimirimediato)
+destroy(this.m_-1)
+destroy(this.m_alterasenha)
+destroy(this.m_cadastrarimpressaodigital)
+destroy(this.m_trocadeusurio)
+destroy(this.m_-7)
+destroy(this.m_sair)
+end on
+
+type m_salvarcomo from menu within m_arquivo
+end type
+
+event clicked;mf_Executa_Evento("ue_saveas")
+end event
+
+on m_salvarcomo.create
+call super::create
+this.text = "Salvar &Como..."
+this.enabled = false
+this.microhelp = "Salvar a janela ativa como arquivo"
+this.toolbaritemvisible = false
+this.toolbaritemname = "saveas!"
+this.toolbaritemtext = "Salvar,Salvar como arquivo"
+this.menuimage = "saveas!"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.menuanimation = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_salvarcomo.destroy
+call super::destroy
+end on
+
+type m_-5 from menu within m_arquivo
+end type
+
+on m_-5.create
+call super::create
+this.text = "-"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_-5.destroy
+call super::destroy
+end on
+
+type m_configurarimpressora from menu within m_arquivo
+end type
+
+event clicked;SetPointer(HourGlass!)
+
+// Abre a janela de configura$$HEX2$$e700e300$$ENDHEX$$o da impressora (default do Windows)
+
+PrintSetup()
+end event
+
+on m_configurarimpressora.create
+call super::create
+this.text = "Configurar I&mpressora"
+this.microhelp = "Configurar a impressora"
+this.toolbaritemtext = "Config."
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_configurarimpressora.destroy
+call super::destroy
+end on
+
+type m_imprimir from menu within m_arquivo
+end type
+
+event clicked;mf_Executa_Evento("ue_print")
+end event
+
+on m_imprimir.create
+call super::create
+this.text = "&Imprimir"
+this.enabled = false
+this.microhelp = "Imprimir a janela ativa"
+this.toolbaritemvisible = false
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_imprimir.destroy
+call super::destroy
+end on
+
+type m_imprimirimediato from menu within m_arquivo
+end type
+
+event clicked;mf_Executa_Evento("ue_printimmediate")
+end event
+
+on m_imprimirimediato.create
+call super::create
+this.visible = false
+this.text = "Imprimir imediato"
+this.enabled = false
+this.toolbaritemvisible = false
+this.toolbaritemname = "print!"
+this.toolbaritemtext = "Imprimir"
+this.toolbaritemspace = 3
+this.menuimage = "print!"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.menuanimation = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_imprimirimediato.destroy
+call super::destroy
+end on
+
+type m_-1 from menu within m_arquivo
+end type
+
+on m_-1.create
+call super::create
+this.text = "-"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_-1.destroy
+call super::destroy
+end on
+
+type m_alterasenha from menu within m_arquivo
+end type
+
+event clicked;MessageBox( "Aten$$HEX2$$e700e300$$ENDHEX$$o", "A identifica$$HEX2$$e700e300$$ENDHEX$$o a seguir $$HEX1$$e900$$ENDHEX$$ do usu$$HEX1$$e100$$ENDHEX$$rio que ir$$HEX1$$e100$$ENDHEX$$ realizar a altera$$HEX2$$e700e300$$ENDHEX$$o da senha." )
+
+Open(dc_w_Alteracao_Senha)
+end event
+
+on m_alterasenha.create
+call super::create
+this.text = "&Alterar Senha"
+this.microhelp = "Altera a senha do usu$$HEX1$$e100$$ENDHEX$$rio atual"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_alterasenha.destroy
+call super::destroy
+end on
+
+type m_cadastrarimpressaodigital from menu within m_arquivo
+end type
+
+on m_cadastrarimpressaodigital.create
+call super::create
+this.visible = false
+this.text = "Cadastrar Impress$$HEX1$$e300$$ENDHEX$$o Digital"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_cadastrarimpressaodigital.destroy
+call super::destroy
+end on
+
+event clicked;If Not gvo_Aplicacao.ivb_Usa_Biometria Then Return
+
+String ls_Operador
+
+uo_GE040_Leitor_Biometrico lvo_Biometria
+lvo_Biometria = Create uo_GE040_Leitor_Biometrico
+
+If Not lvo_Biometria.of_Inicializa() Then
+	MessageBox( "Aten$$HEX2$$e700e300$$ENDHEX$$o", "N$$HEX1$$e300$$ENDHEX$$o foi identificado nenhum leitor biom$$HEX1$$e900$$ENDHEX$$trico instalado.", StopSign! )
+	Destroy lvo_Biometria
+	Return
+End If
+
+MessageBox( "Aten$$HEX2$$e700e300$$ENDHEX$$o", "A identifica$$HEX2$$e700e300$$ENDHEX$$o a seguir $$HEX1$$e900$$ENDHEX$$ do usu$$HEX1$$e100$$ENDHEX$$rio que est$$HEX1$$e100$$ENDHEX$$ cadastrando a impress$$HEX1$$e300$$ENDHEX$$o digital" )
+
+If gvo_Aplicacao.ivo_Seguranca.of_Libera_Acesso_Usuario( ref ls_Operador) Then 
+
+	Select coalesce( nr_cpf, '0' )
+		Into :gvo_Aplicacao.ivo_Seguranca.Nr_Cpf
+	 From usuario
+	Where nr_matricula = :ls_Operador
+	  Using SqlCa;
+	  
+	Choose Case SqlCa.SqlCode
+		Case -1
+			SqlCa.of_MsgDbError()					
+	End Choose
+	
+	If gvo_Aplicacao.ivo_Seguranca.Nr_Cpf = '0' Then
+		MessageBox( "Aten$$HEX2$$e700e300$$ENDHEX$$o", "N$$HEX1$$e300$$ENDHEX$$o foi encontrado CPF para este usu$$HEX1$$e100$$ENDHEX$$rio." )
+		Return
+	End If
+	
+	If lvo_Biometria.of_Cadastra( gvo_Aplicacao.ivo_Seguranca.Nr_Cpf ) Then
+		Messagebox( "Aten$$HEX2$$e700e300$$ENDHEX$$o", "Digital cadastrada com sucesso." )
+	End If
+End If
+
+Destroy lvo_Biometria
+end event
+
+type m_trocadeusurio from menu within m_arquivo
+end type
+
+event clicked;SetPointer(HourGlass!)
+
+// Abre a janela de Logon
+
+If IsValid(ParentWindow.GetFirstSheet()) Then
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o!", "Para trocar de usu$$HEX1$$e100$$ENDHEX$$rio, todas as janelas dever$$HEX1$$e300$$ENDHEX$$o estar fechadas.", Information!, Ok!)
+	Return
+End If
+
+// Dispara a fun$$HEX2$$e700e300$$ENDHEX$$o PFC de login
+gvo_Aplicacao.ivo_seguranca.of_Login_Sistema()
+end event
+
+on m_trocadeusurio.create
+call super::create
+this.text = "Trocar de &Usu$$HEX1$$e100$$ENDHEX$$rio"
+this.microhelp = "Troca do usu$$HEX1$$e100$$ENDHEX$$rio atual"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_trocadeusurio.destroy
+call super::destroy
+end on
+
+type m_-7 from menu within m_arquivo
+end type
+
+on m_-7.create
+call super::create
+this.text = "-"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_-7.destroy
+call super::destroy
+end on
+
+type m_sair from menu within m_arquivo
+end type
+
+on m_sair.create
+call super::create
+this.text = "&Sair~tAlt+F4"
+this.shortcut = 627
+this.microhelp = "Sair do sistema"
+this.toolbaritemname = "exit!"
+this.toolbaritemtext = "Sair,Sair do sistema"
+this.menuimage = "exit!"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.menuanimation = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+event clicked;Close(ParentWindow)
+end event
+
+on m_sair.destroy
+call super::destroy
+end on
+
+type m_editar from menu within dc_m_mdi
+m_desfazer m_desfazer
+m_-6 m_-6
+m_cortar m_cortar
+m_c m_c
+m_colar m_colar
+m_-11 m_-11
+m_recuperar m_recuperar
+m_-8 m_-8
+m_incluir m_incluir
+m_alterar m_alterar
+m_excluir m_excluir
+m_-4 m_-4
+m_classificar m_classificar
+m_filtrar m_filtrar
+m_limparfiltro m_limparfiltro
+m_localizar m_localizar
+m_sep0 m_sep0
+m_historicoalteracoes m_historicoalteracoes
+m_-2 m_-2
+m_confirmaroperacao m_confirmaroperacao
+m_cancelaroperacao m_cancelaroperacao
+m_-3 m_-3
+m_fecharjanela m_fecharjanela
+end type
+
+on m_editar.create
+call super::create
+this.visible = false
+this.text = "&Editar"
+this.microhelp = "Habilita as Fun$$HEX2$$e700f500$$ENDHEX$$es de Manuten$$HEX2$$e700e300$$ENDHEX$$o de Registros"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+this.m_desfazer=create m_desfazer
+this.m_-6=create m_-6
+this.m_cortar=create m_cortar
+this.m_c=create m_c
+this.m_colar=create m_colar
+this.m_-11=create m_-11
+this.m_recuperar=create m_recuperar
+this.m_-8=create m_-8
+this.m_incluir=create m_incluir
+this.m_alterar=create m_alterar
+this.m_excluir=create m_excluir
+this.m_-4=create m_-4
+this.m_classificar=create m_classificar
+this.m_filtrar=create m_filtrar
+this.m_limparfiltro=create m_limparfiltro
+this.m_localizar=create m_localizar
+this.m_sep0=create m_sep0
+this.m_historicoalteracoes=create m_historicoalteracoes
+this.m_-2=create m_-2
+this.m_confirmaroperacao=create m_confirmaroperacao
+this.m_cancelaroperacao=create m_cancelaroperacao
+this.m_-3=create m_-3
+this.m_fecharjanela=create m_fecharjanela
+this.Item[UpperBound(this.Item)+1]=this.m_desfazer
+this.Item[UpperBound(this.Item)+1]=this.m_-6
+this.Item[UpperBound(this.Item)+1]=this.m_cortar
+this.Item[UpperBound(this.Item)+1]=this.m_c
+this.Item[UpperBound(this.Item)+1]=this.m_colar
+this.Item[UpperBound(this.Item)+1]=this.m_-11
+this.Item[UpperBound(this.Item)+1]=this.m_recuperar
+this.Item[UpperBound(this.Item)+1]=this.m_-8
+this.Item[UpperBound(this.Item)+1]=this.m_incluir
+this.Item[UpperBound(this.Item)+1]=this.m_alterar
+this.Item[UpperBound(this.Item)+1]=this.m_excluir
+this.Item[UpperBound(this.Item)+1]=this.m_-4
+this.Item[UpperBound(this.Item)+1]=this.m_classificar
+this.Item[UpperBound(this.Item)+1]=this.m_filtrar
+this.Item[UpperBound(this.Item)+1]=this.m_limparfiltro
+this.Item[UpperBound(this.Item)+1]=this.m_localizar
+this.Item[UpperBound(this.Item)+1]=this.m_sep0
+this.Item[UpperBound(this.Item)+1]=this.m_historicoalteracoes
+this.Item[UpperBound(this.Item)+1]=this.m_-2
+this.Item[UpperBound(this.Item)+1]=this.m_confirmaroperacao
+this.Item[UpperBound(this.Item)+1]=this.m_cancelaroperacao
+this.Item[UpperBound(this.Item)+1]=this.m_-3
+this.Item[UpperBound(this.Item)+1]=this.m_fecharjanela
+end on
+
+on m_editar.destroy
+call super::destroy
+destroy(this.m_desfazer)
+destroy(this.m_-6)
+destroy(this.m_cortar)
+destroy(this.m_c)
+destroy(this.m_colar)
+destroy(this.m_-11)
+destroy(this.m_recuperar)
+destroy(this.m_-8)
+destroy(this.m_incluir)
+destroy(this.m_alterar)
+destroy(this.m_excluir)
+destroy(this.m_-4)
+destroy(this.m_classificar)
+destroy(this.m_filtrar)
+destroy(this.m_limparfiltro)
+destroy(this.m_localizar)
+destroy(this.m_sep0)
+destroy(this.m_historicoalteracoes)
+destroy(this.m_-2)
+destroy(this.m_confirmaroperacao)
+destroy(this.m_cancelaroperacao)
+destroy(this.m_-3)
+destroy(this.m_fecharjanela)
+end on
+
+type m_desfazer from menu within m_editar
+end type
+
+on m_desfazer.create
+call super::create
+this.text = "&Desfazer~tCtrl+Z"
+this.enabled = false
+this.shortcut = 346
+this.microhelp = "Desfaz a $$HEX1$$fa00$$ENDHEX$$tlima altera$$HEX2$$e700e300$$ENDHEX$$o"
+this.toolbaritemvisible = false
+this.toolbaritemname = "undo!"
+this.toolbaritemtext = "Desfazer,Desfazer a $$HEX1$$fa00$$ENDHEX$$tlima altera$$HEX2$$e700e300$$ENDHEX$$o"
+this.toolbaritemspace = 3
+this.menuimage = "undo!"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.menuanimation = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+event clicked;SetPointer(HourGlass!)
+
+mf_Executa_Evento( "pfc_restorerow" )
+end event
+
+on m_desfazer.destroy
+call super::destroy
+end on
+
+type m_-6 from menu within m_editar
+end type
+
+on m_-6.create
+call super::create
+this.text = "-"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_-6.destroy
+call super::destroy
+end on
+
+type m_cortar from menu within m_editar
+end type
+
+on m_cortar.create
+call super::create
+this.text = "Cor&tar"
+this.enabled = false
+this.microhelp = "Recorta o texto selecionado"
+this.toolbaritemvisible = false
+this.toolbaritemname = "cut!"
+this.toolbaritemtext = "Cortar"
+this.toolbaritemspace = 3
+this.menuimage = "cut!"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.menuanimation = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_cortar.destroy
+call super::destroy
+end on
+
+event clicked;SetPointer(HourGlass!)
+
+mf_Executa_Evento("ue_cortar")
+end event
+
+type m_c from menu within m_editar
+end type
+
+on m_c.create
+call super::create
+this.text = "Co&piar"
+this.enabled = false
+this.microhelp = "Copia o texto selecionado"
+this.toolbaritemvisible = false
+this.toolbaritemname = "copy!"
+this.toolbaritemtext = "Copiar"
+this.menuimage = "copy!"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.menuanimation = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_c.destroy
+call super::destroy
+end on
+
+event clicked;SetPointer(HourGlass!)
+
+mf_Executa_Evento("ue_copiar")
+end event
+
+type m_colar from menu within m_editar
+end type
+
+on m_colar.create
+call super::create
+this.text = "Co&lar"
+this.enabled = false
+this.microhelp = "Cola o texto"
+this.toolbaritemvisible = false
+this.toolbaritemname = "paste!"
+this.toolbaritemtext = "Colar"
+this.menuimage = "paste!"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.menuanimation = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_colar.destroy
+call super::destroy
+end on
+
+event clicked;SetPointer(HourGlass!)
+
+mf_Executa_Evento("ue_colar")
+end event
+
+type m_-11 from menu within m_editar
+end type
+
+on m_-11.create
+call super::create
+this.text = "-"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_-11.destroy
+call super::destroy
+end on
+
+type m_recuperar from menu within m_editar
+end type
+
+on m_recuperar.create
+call super::create
+this.text = "Rec&uperar~tCtrl+R"
+this.enabled = false
+this.shortcut = 338
+this.microhelp = "Recuperar as informa$$HEX2$$e700f500$$ENDHEX$$es da base de dados"
+this.toolbaritemvisible = false
+this.toolbaritemname = "retrieve!"
+this.toolbaritemtext = "Recuperar,Recuperar as informa$$HEX2$$e700f500$$ENDHEX$$es do banco de dados"
+this.toolbaritemspace = 3
+this.menuimage = "retrieve!"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.menuanimation = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+event clicked;SetPointer(HourGlass!)
+
+mf_Executa_Evento("ue_retrieve")
+end event
+
+on m_recuperar.destroy
+call super::destroy
+end on
+
+type m_-8 from menu within m_editar
+end type
+
+on m_-8.create
+call super::create
+this.text = "-"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_-8.destroy
+call super::destroy
+end on
+
+type m_incluir from menu within m_editar
+end type
+
+on m_incluir.create
+call super::create
+this.text = "&Incluir~tCtrl+I"
+this.enabled = false
+this.shortcut = 329
+this.microhelp = "Incluir novo registro"
+this.toolbaritemvisible = false
+this.toolbaritemname = "insert!"
+this.toolbaritemtext = "Incluir,Incluir um registro novo"
+this.toolbaritemspace = 3
+this.menuimage = "insert!"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.menuanimation = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+event clicked;mf_Executa_Evento("ue_addrow")
+end event
+
+on m_incluir.destroy
+call super::destroy
+end on
+
+type m_alterar from menu within m_editar
+end type
+
+on m_alterar.create
+call super::create
+this.visible = false
+this.text = "&Alterar~tCtrl+A"
+this.enabled = false
+this.shortcut = 321
+this.microhelp = "Alterar o registro selecionado"
+this.toolbaritemvisible = false
+this.toolbaritemname = "custom044!"
+this.toolbaritemtext = "Alterar,Alterar o registro"
+this.menuimage = "custom044!"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.menuanimation = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_alterar.destroy
+call super::destroy
+end on
+
+type m_excluir from menu within m_editar
+end type
+
+on m_excluir.create
+call super::create
+this.text = "&Excluir~tCtrl+E"
+this.enabled = false
+this.shortcut = 325
+this.microhelp = "Excluir o registro selecionado"
+this.toolbaritemvisible = false
+this.toolbaritemname = "S:\Sistemas_PB12\Comuns\Figuras\excluir.ico"
+this.toolbaritemtext = "Excluir,Excluir o registro"
+this.menuimage = "S:\Sistemas_PB12\Comuns\Figuras\excluir.ico"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.menuanimation = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+event clicked;mf_Executa_Evento("ue_deleterow")
+end event
+
+on m_excluir.destroy
+call super::destroy
+end on
+
+type m_-4 from menu within m_editar
+end type
+
+on m_-4.create
+call super::create
+this.text = "-"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_-4.destroy
+call super::destroy
+end on
+
+type m_classificar from menu within m_editar
+end type
+
+on m_classificar.create
+call super::create
+this.text = "Cla&ssificar"
+this.enabled = false
+this.microhelp = "Classificar os registros"
+this.toolbaritemvisible = false
+this.toolbaritemname = "sort!"
+this.toolbaritemtext = "Classificar,Classificar os registros"
+this.toolbaritemspace = 3
+this.menuimage = "sort!"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.menuanimation = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+event clicked;mf_Executa_Evento("ue_sort")
+end event
+
+on m_classificar.destroy
+call super::destroy
+end on
+
+type m_filtrar from menu within m_editar
+end type
+
+on m_filtrar.create
+call super::create
+this.text = "Filt&rar"
+this.enabled = false
+this.microhelp = "Filtrar os registros"
+this.toolbaritemvisible = false
+this.toolbaritemname = "horizontal!"
+this.toolbaritemtext = "Filtrar,Filtrar os registros"
+this.menuimage = "horizontal!"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.menuanimation = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+event clicked;mf_Executa_Evento("ue_filter")
+end event
+
+on m_filtrar.destroy
+call super::destroy
+end on
+
+type m_limparfiltro from menu within m_editar
+end type
+
+on m_limparfiltro.create
+call super::create
+this.text = "Li&mpar Filtro"
+this.enabled = false
+this.microhelp = "Limpar o filtro"
+this.toolbaritemvisible = false
+this.toolbaritemname = "layer!"
+this.toolbaritemtext = "Limpar,Limpar o filtro"
+this.menuimage = "layer!"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.menuanimation = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+event clicked;mf_Executa_Evento("ue_clearfilter")
+end event
+
+on m_limparfiltro.destroy
+call super::destroy
+end on
+
+type m_localizar from menu within m_editar
+end type
+
+event clicked;mf_Executa_Evento("ue_Find")
+end event
+
+on m_localizar.create
+call super::create
+this.visible = false
+this.text = "Locali&zar"
+this.enabled = false
+this.microhelp = "Localizar registro"
+this.toolbaritemvisible = false
+this.toolbaritemname = "find!"
+this.toolbaritemtext = "Localizar,Localizar registro"
+this.menuimage = "find!"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.menuanimation = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_localizar.destroy
+call super::destroy
+end on
+
+type m_sep0 from menu within m_editar
+end type
+
+on m_sep0.create
+call super::create
+this.text = "-"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_sep0.destroy
+call super::destroy
+end on
+
+type m_historicoalteracoes from menu within m_editar
+end type
+
+on m_historicoalteracoes.create
+call super::create
+this.text = "Hist$$HEX1$$f300$$ENDHEX$$rico Altera$$HEX2$$e700f500$$ENDHEX$$es"
+this.enabled = false
+this.toolbaritemvisible = false
+this.toolbaritemname = "s:\sistemas_pb12\comuns\figuras\calendar2.png"
+this.toolbaritemtext = "Hist$$HEX1$$f300$$ENDHEX$$rico de Altera$$HEX2$$e700e300$$ENDHEX$$o Registro"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_historicoalteracoes.destroy
+call super::destroy
+end on
+
+event clicked;mf_Executa_Evento("ue_historico")
+end event
+
+type m_-2 from menu within m_editar
+end type
+
+on m_-2.create
+call super::create
+this.text = "-"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_-2.destroy
+call super::destroy
+end on
+
+type m_confirmaroperacao from menu within m_editar
+end type
+
+on m_confirmaroperacao.create
+call super::create
+this.text = "Confirmar &Opera$$HEX2$$e700e300$$ENDHEX$$o~tCtrl+S"
+this.enabled = false
+this.shortcut = 339
+this.microhelp = "Confirmar a opera$$HEX2$$e700e300$$ENDHEX$$o"
+this.toolbaritemvisible = false
+this.toolbaritemname = "s:\sistemas_pb12\comuns\figuras\confirma.bmp"
+this.toolbaritemtext = "Confirmar,Confirmar a opera$$HEX2$$e700e300$$ENDHEX$$o"
+this.toolbaritemspace = 3
+this.menuimage = "s:\sistemas_pb12\comuns\figuras\confirma.bmp"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.menuanimation = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+event clicked;mf_Executa_Evento("ue_save")
+end event
+
+on m_confirmaroperacao.destroy
+call super::destroy
+end on
+
+type m_cancelaroperacao from menu within m_editar
+end type
+
+on m_cancelaroperacao.create
+call super::create
+this.text = "&Cancelar Opera$$HEX2$$e700e300$$ENDHEX$$o~tCtrl+N"
+this.enabled = false
+this.shortcut = 334
+this.microhelp = "Cancelar a opera$$HEX2$$e700e300$$ENDHEX$$o"
+this.toolbaritemvisible = false
+this.toolbaritemname = "notfound!"
+this.toolbaritemtext = "Cancelar,Cancelar a opera$$HEX2$$e700e300$$ENDHEX$$o"
+this.menuimage = "notfound!"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.menuanimation = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+event clicked;If MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", ivs_Mensagem_Cancelamento, Question!, YesNo!, 2) = 2 Then
+	Return
+End If
+
+mf_Executa_Evento("ue_cancel")
+end event
+
+on m_cancelaroperacao.destroy
+call super::destroy
+end on
+
+type m_-3 from menu within m_editar
+end type
+
+on m_-3.create
+call super::create
+this.text = "-"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_-3.destroy
+call super::destroy
+end on
+
+type m_fecharjanela from menu within m_editar
+end type
+
+on m_fecharjanela.create
+call super::create
+this.text = "&Fechar Janela"
+this.microhelp = "Fechar a janela ativa"
+this.toolbaritemvisible = false
+this.toolbaritemname = "exit!"
+this.toolbaritemtext = "Fechar,Fechar a janela ativa"
+this.toolbaritemspace = 3
+this.menuimage = "Exit!"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.menuanimation = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+event clicked;Close(ParentWindow)
+end event
+
+on m_fecharjanela.destroy
+call super::destroy
+end on
+
+type m_janela from menu within dc_m_mdi
+m_ladoaladohorizontalmente m_ladoaladohorizontalmente
+m_ladoaladoverticalmente m_ladoaladoverticalmente
+m_ladoaladoemcascata m_ladoaladoemcascata
+end type
+
+on m_janela.create
+call super::create
+this.text = "&Janela"
+this.microhelp = "Fun$$HEX2$$e700f500$$ENDHEX$$es de distribui$$HEX2$$e700e300$$ENDHEX$$o das janelas"
+this.shifttoright = true
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+this.m_ladoaladohorizontalmente=create m_ladoaladohorizontalmente
+this.m_ladoaladoverticalmente=create m_ladoaladoverticalmente
+this.m_ladoaladoemcascata=create m_ladoaladoemcascata
+this.Item[UpperBound(this.Item)+1]=this.m_ladoaladohorizontalmente
+this.Item[UpperBound(this.Item)+1]=this.m_ladoaladoverticalmente
+this.Item[UpperBound(this.Item)+1]=this.m_ladoaladoemcascata
+end on
+
+on m_janela.destroy
+call super::destroy
+destroy(this.m_ladoaladohorizontalmente)
+destroy(this.m_ladoaladoverticalmente)
+destroy(this.m_ladoaladoemcascata)
+end on
+
+type m_ladoaladohorizontalmente from menu within m_janela
+end type
+
+on m_ladoaladohorizontalmente.create
+call super::create
+this.text = "Lado a Lado &Horizontalmente"
+this.microhelp = "Disp$$HEX1$$f500$$ENDHEX$$e as janelas abertas horizontalemente"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+event clicked;dc_w_MDI.ArrangeSheets(TileHorizontal!)
+end event
+
+on m_ladoaladohorizontalmente.destroy
+call super::destroy
+end on
+
+type m_ladoaladoverticalmente from menu within m_janela
+end type
+
+event clicked;dc_w_MDI.ArrangeSheets(Tile!)
+end event
+
+on m_ladoaladoverticalmente.create
+call super::create
+this.text = "Lado a Lado &Verticalmente"
+this.microhelp = "Disp$$HEX1$$f500$$ENDHEX$$e as janelas abertas verticalmente"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_ladoaladoverticalmente.destroy
+call super::destroy
+end on
+
+type m_ladoaladoemcascata from menu within m_janela
+end type
+
+event clicked;dc_w_MDI.ArrangeSheets(Cascade!)
+end event
+
+on m_ladoaladoemcascata.create
+call super::create
+this.text = "&Cascata"
+this.microhelp = "Disp$$HEX1$$f500$$ENDHEX$$e as janelas abertas em cascata"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_ladoaladoemcascata.destroy
+call super::destroy
+end on
+
+type m_ajuda from menu within dc_m_mdi
+m_conteudo m_conteudo
+m_help m_help
+m_novidades m_novidades
+m_-1ajuda m_-1ajuda
+m_sobre m_sobre
+end type
+
+on m_ajuda.create
+call super::create
+this.text = "Aj&uda"
+this.microhelp = "Fun$$HEX2$$e700f500$$ENDHEX$$es de ajuda do sistema"
+this.shifttoright = true
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+this.m_conteudo=create m_conteudo
+this.m_help=create m_help
+this.m_novidades=create m_novidades
+this.m_-1ajuda=create m_-1ajuda
+this.m_sobre=create m_sobre
+this.Item[UpperBound(this.Item)+1]=this.m_conteudo
+this.Item[UpperBound(this.Item)+1]=this.m_help
+this.Item[UpperBound(this.Item)+1]=this.m_novidades
+this.Item[UpperBound(this.Item)+1]=this.m_-1ajuda
+this.Item[UpperBound(this.Item)+1]=this.m_sobre
+end on
+
+on m_ajuda.destroy
+call super::destroy
+destroy(this.m_conteudo)
+destroy(this.m_help)
+destroy(this.m_novidades)
+destroy(this.m_-1ajuda)
+destroy(this.m_sobre)
+end on
+
+type m_conteudo from menu within m_ajuda
+end type
+
+on m_conteudo.create
+call super::create
+this.visible = false
+this.text = "Conte$$HEX1$$fa00$$ENDHEX$$do"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_conteudo.destroy
+call super::destroy
+end on
+
+event clicked;mf_Help('')
+end event
+
+type m_help from menu within m_ajuda
+end type
+
+event clicked;mf_Help('')
+end event
+
+on m_help.create
+call super::create
+this.text = "Help"
+this.menuimage = "S:\Sistemas_PB12\Comuns\Figuras\Help_16X16.ico"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_help.destroy
+call super::destroy
+end on
+
+type m_novidades from menu within m_ajuda
+end type
+
+on m_novidades.create
+call super::create
+this.visible = false
+this.text = "Novidades"
+this.menuimage = "S:\Sistemas_PB12\Comuns\Figuras\Info_16X16.ico"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_novidades.destroy
+call super::destroy
+end on
+
+type m_-1ajuda from menu within m_ajuda
+end type
+
+on m_-1ajuda.create
+call super::create
+this.text = "-"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_-1ajuda.destroy
+call super::destroy
+end on
+
+type m_sobre from menu within m_ajuda
+end type
+
+on m_sobre.create
+call super::create
+this.text = "&Sobre"
+this.microhelp = "Informa$$HEX2$$e700f500$$ENDHEX$$es sobre sistema"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = -8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+event clicked;Open(dc_w_Sobre)
+end event
+
+on m_sobre.destroy
+call super::destroy
+end on
+

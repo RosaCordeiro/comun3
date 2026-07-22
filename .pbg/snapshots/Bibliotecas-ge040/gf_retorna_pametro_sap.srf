@@ -1,0 +1,35 @@
+HA$PBExportHeader$gf_retorna_pametro_sap.srf
+global type gf_retorna_pametro_sap from function_object
+end type
+
+forward prototypes
+global function boolean gf_retorna_pametro_sap (dc_uo_transacao ptrans, string as_ambiente_sap, string as_parametro, ref string as_valor, ref string as_log)
+end prototypes
+
+global function boolean gf_retorna_pametro_sap (dc_uo_transacao ptrans, string as_ambiente_sap, string as_parametro, ref string as_valor, ref string as_log);If IsNull(as_ambiente_sap) or Trim(as_ambiente_sap) = "" Then
+	as_log = "N$$HEX1$$e300$$ENDHEX$$o foi informado o ambiente do SAP."
+	Return False
+End If
+
+Select p.vl_parametro 
+Into :as_valor
+from parametro_sap p
+where p.cd_ambiente_sap 	= :as_ambiente_sap
+	and p.cd_parametro 		= :as_parametro
+Using ptrans;
+
+Choose Case ptrans.SqlCode
+	Case 0
+	Case 100
+		as_log = "Par$$HEX1$$e200$$ENDHEX$$metro '" + as_parametro + "' n$$HEX1$$e300$$ENDHEX$$o localizado para o ambiente do SAP '" + as_ambiente_sap + "'."
+		Return False
+	Case -1
+		as_log = "Localiza$$HEX2$$e700e300$$ENDHEX$$o do Par$$HEX1$$e200$$ENDHEX$$metro  '" + as_parametro + "' para o ambiente SAP '" + as_ambiente_sap + "': " + ptrans.SqlerrText
+		Return False		
+End Choose
+
+Return True
+
+
+end function
+

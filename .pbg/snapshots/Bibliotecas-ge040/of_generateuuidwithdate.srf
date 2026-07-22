@@ -1,0 +1,24 @@
+HA$PBExportHeader$of_generateuuidwithdate.srf
+global type of_generateuuidwithdate from function_object
+end type
+
+forward prototypes
+global function string of_generateuuidwithdate ()
+end prototypes
+
+global function string of_generateuuidwithdate ();String ls_datetime, ls_random, ls_uuid
+
+
+ls_datetime = String(gf_getserverdate(), "yyyyMMdd-HHmmss")
+
+ls_uuid = Lower( &
+    ls_datetime + &
+    String(Rand(9999)) + "-" + &
+    String(Rand(9999)) + "-" + &
+    String(Rand(99999999)) &
+)
+
+RETURN ls_uuid
+
+end function
+

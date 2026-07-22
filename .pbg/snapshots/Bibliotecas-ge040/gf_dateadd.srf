@@ -1,0 +1,29 @@
+HA$PBExportHeader$gf_dateadd.srf
+global type gf_dateadd from function_object
+end type
+
+forward prototypes
+global function boolean gf_dateadd (date adt_base, string as_tipo, integer ai_qtde, ref date adt_retorno)
+end prototypes
+
+global function boolean gf_dateadd (date adt_base, string as_tipo, integer ai_qtde, ref date adt_retorno);DateTime lvdh_Retorno
+
+String ls_Formato
+
+as_Tipo =  Lower(as_Tipo)
+ls_Formato = String(adt_Base, "yyyy/mm/dd")
+
+Select dbo.adddate(:as_Tipo, :ai_Qtde, :ls_Formato )
+   Into :lvdh_Retorno
+  From parametro
+ Using SqlCa;
+ 
+Choose Case SqlCa.SqlCode
+	Case -1
+		SqlCa.of_MsgDbError()
+End Choose
+
+adt_Retorno = Date(lvdh_Retorno)
+Return True
+end function
+

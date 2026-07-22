@@ -1,0 +1,15 @@
+HA$PBExportHeader$t_endereco.srs
+global type t_endereco from structure
+	string		xlgr
+	string		nro
+	string		xcpl
+	string		xbairro
+	Long		cmun
+	string		xmun
+	string		uf
+	Long		cep
+	Long		cpais
+	string		xpais
+	string		fone
+end type
+

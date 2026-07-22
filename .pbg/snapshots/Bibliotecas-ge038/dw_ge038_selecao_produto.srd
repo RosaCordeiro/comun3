@@ -1,0 +1,15 @@
+HA$PBExportHeader$dw_ge038_selecao_produto.srd
+release 7;
+datawindow(units=0 timer_interval=0 color=80269524 processing=0 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=80 color="536870912" )
+table(column=(type=long updatewhereclause=no name=cd_produto dbname="cd_produto" )
+ column=(type=char(50) updatewhereclause=no name=de_produto dbname="de_produto" )
+ column=(type=char(13) updatewhereclause=no name=de_codigo_barras dbname="de_codigo_barras" )
+ )
+text(band=detail alignment="1" text="Produto:" border="0" color="8388608" x="9" y="8" height="64" width="233"  name=cd_codigo_t  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=10 border="2" color="0" x="261" y="8" height="64" width="1298" format="[general]"  name=de_produto edit.limit=0 edit.case=upper edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="1" tabsequence=32766 border="2" color="0" x="1577" y="8" height="64" width="256"  name=cd_produto  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" )

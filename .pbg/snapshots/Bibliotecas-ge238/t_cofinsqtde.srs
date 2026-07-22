@@ -1,0 +1,8 @@
+HA$PBExportHeader$t_cofinsqtde.srs
+global type t_cofinsqtde from structure
+	string		cst
+	double		qbcprod
+	double		valiqprod
+	double		vcofins
+end type
+

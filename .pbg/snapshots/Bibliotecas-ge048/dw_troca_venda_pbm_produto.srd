@@ -1,0 +1,59 @@
+HA$PBExportHeader$dw_troca_venda_pbm_produto.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=72 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=80 color="536870912" )
+table(column=(type=long updatewhereclause=yes name=cd_filial dbname="venda_pbm_produto.cd_filial" )
+ column=(type=long updatewhereclause=yes name=nr_nf dbname="venda_pbm_produto.nr_nf" )
+ column=(type=char(3) updatewhereclause=yes name=de_especie dbname="venda_pbm_produto.de_especie" )
+ column=(type=char(3) updatewhereclause=yes name=de_serie dbname="venda_pbm_produto.de_serie" )
+ column=(type=long updatewhereclause=yes name=cd_produto dbname="venda_pbm_produto.cd_produto" )
+ column=(type=long updatewhereclause=yes name=qt_vendida dbname="venda_pbm_produto.qt_vendida" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_preco_maximo dbname="venda_pbm_produto.vl_preco_maximo" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_praticado dbname="venda_pbm_produto.vl_praticado" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_pago_avista dbname="venda_pbm_produto.vl_pago_avista" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_subsidio dbname="venda_pbm_produto.vl_subsidio" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_reembolso dbname="venda_pbm_produto.vl_reembolso" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_reposicao dbname="venda_pbm_produto.vl_reposicao" )
+ retrieve="SELECT p.cd_filial,   
+		 p.nr_nf,   
+		 p.de_especie,   
+		 p.de_serie,   
+		 p.cd_produto,   
+		 p.qt_vendida,   
+		 p.vl_preco_maximo,   
+		 p.vl_praticado,   
+		 p.vl_pago_avista,   
+		 p.vl_subsidio,   
+		 p.vl_reembolso,   
+		 p.vl_reposicao  
+  FROM venda_pbm v,   
+		 venda_pbm_produto p
+ WHERE v.cd_filial    = :pl_filial  
+	AND v.dh_venda     = :pdt_data    
+   AND p.cd_filial  = v.cd_filial
+	AND p.nr_nf      = v.nr_nf
+	AND p.de_especie = v.de_especie
+	AND p.de_serie   = v.de_serie" arguments=(("pl_filial", number),("pdt_data", date)) )
+text(band=header alignment="2" text="Cd Convenio Pbm"border="0" color="0" x="4795" y="4" height="64" width="576"  name=cd_convenio_pbm_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Cartao"border="0" color="0" x="5376" y="4" height="64" width="576"  name=nr_cartao_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Reembolso Total"border="0" color="0" x="5957" y="4" height="64" width="517"  name=vl_reembolso_total_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cd Filial"border="0" color="0" x="5" y="4" height="64" width="329"  name=cd_filial_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Nf"border="0" color="0" x="338" y="4" height="64" width="329"  name=nr_nf_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="De Especie"border="0" color="0" x="672" y="4" height="64" width="306"  name=de_especie_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="De Serie"border="0" color="0" x="983" y="4" height="64" width="229"  name=de_serie_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=0 border="2" color="0" x="14" y="8" height="64" width="329"  name=cd_filial  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=0 border="2" color="0" x="361" y="8" height="64" width="329"  name=nr_nf  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="0" tabsequence=0 border="2" color="0" x="709" y="8" height="64" width="306"  name=de_especie  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="0" tabsequence=0 border="2" color="0" x="1033" y="8" height="64" width="229"  name=de_serie  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="0" tabsequence=0 border="2" color="0" x="1280" y="8" height="64" width="329"  name=cd_produto  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=6 alignment="0" tabsequence=0 border="2" color="0" x="1632" y="8" height="64" width="416"  name=qt_vendida  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=7 alignment="0" tabsequence=0 border="2" color="0" x="2066" y="8" height="64" width="480"  name=vl_preco_maximo  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=8 alignment="0" tabsequence=0 border="2" color="0" x="2565" y="8" height="64" width="480"  name=vl_praticado  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=9 alignment="0" tabsequence=0 border="2" color="0" x="3063" y="8" height="64" width="480"  name=vl_pago_avista  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=10 alignment="0" tabsequence=0 border="2" color="0" x="3561" y="8" height="64" width="480"  name=vl_subsidio  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=11 alignment="0" tabsequence=0 border="2" color="0" x="4064" y="8" height="64" width="494"  name=vl_reembolso  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=12 alignment="0" tabsequence=0 border="2" color="0" x="4576" y="8" height="64" width="407"  name=vl_reposicao  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

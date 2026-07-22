@@ -1,0 +1,57 @@
+HA$PBExportHeader$ds_ge501_pedido_loja_pagamento.srd
+release 12;
+datawindow(units=0 timer_interval=0 color=1073741824 brushmode=0 transparency=0 gradient.angle=0 gradient.color=8421504 gradient.focus=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.repetition.mode=0 gradient.scale=100 gradient.spread=100 gradient.transparency=0 picture.blur=0 picture.clip.bottom=0 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.transparency=0 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes hidegrayline=no showbackcoloronxp=no picture.file="" )
+header(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+detail(height=108 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+table(column=(type=decimal(2) updatewhereclause=yes name=vl_forma_pagamento dbname="pedido_ecommerce_auxiliar.vl_forma_pagamento" dbalias="a.vl_forma_pagamento" )
+ column=(type=long updatewhereclause=yes name=nr_parcelas dbname="pedido_ecommerce.nr_parcelas" dbalias="p.nr_parcelas" )
+ column=(type=char(20) updatewhereclause=yes name=nr_comprovante_cartao_credito dbname="pedido_ecommerce_auxiliar.nr_comprovante_cartao_credito" dbalias="a.nr_comprovante_cartao_credito" )
+ column=(type=char(20) updatewhereclause=yes name=nr_autorizacao_cartao_credito dbname="pedido_ecommerce_auxiliar.nr_autorizacao_cartao_credito" dbalias="a.nr_autorizacao_cartao_credito" )
+ column=(type=char(40) updatewhereclause=yes name=nm_administradora_cartao dbname="pedido_ecommerce_auxiliar.nm_administradora_cartao" dbalias="a.nm_administradora_cartao" )
+ column=(type=char(10) updatewhereclause=yes name=cd_estabelecimento_cartao dbname="pedido_ecommerce_auxiliar.cd_estabelecimento_cartao" dbalias="a.cd_estabelecimento_cartao" )
+ column=(type=char(20) updatewhereclause=yes name=nr_cartao_credito dbname="pedido_ecommerce_auxiliar.nr_cartao_credito" dbalias="a.nr_cartao_credito" )
+ column=(type=char(50) updatewhereclause=yes name=cd_forma_pagamento dbname="pedido_ecommerce.cd_forma_pagamento" dbalias="p.cd_forma_pagamento" )
+ column=(type=char(50) updatewhereclause=yes name=cd_tipo_pagamento dbname="pedido_ecommerce.cd_tipo_pagamento" dbalias="p.cd_tipo_pagamento" )
+ retrieve="select a.vl_forma_pagamento,
+		p.nr_parcelas,
+		a.nr_comprovante_cartao_credito,
+		a.nr_autorizacao_cartao_credito,
+		a.nm_administradora_cartao,
+		a.cd_estabelecimento_cartao,
+		a.nr_cartao_credito,
+		p.cd_forma_pagamento,
+		p.cd_tipo_pagamento 
+from pedido_ecommerce p
+	inner join pedido_ecommerce_auxiliar a on a.cd_filial_ecommerce = p.cd_filial_ecommerce and a.nr_pedido = p.nr_pedido 
+where p.nr_pedido = :pl_nr_pedido
+and p.cd_filial_ecommerce = :pl_cd_filial
+
+UNION ALL
+
+select vl_forma_pagamento_2, 
+		nr_parcelas_2 , 
+		nr_comp_cartao_credito_2 , 
+		nr_autoriz_cartao_credito_2 ,
+		nm_administradora_cartao_2 , 
+		cd_estabelecimento_cartao_2 , 
+		nr_cartao_credito_2 , 
+		cd_forma_pagamento_2 , 
+		cd_tipo_pagamento_2  
+from pedido_ecommerce_auxiliar 
+where nr_pedido = :pl_nr_pedido
+and cd_filial_ecommerce = :pl_cd_filial
+and nm_administradora_cartao_2 is not null
+and vl_forma_pagamento_2 > 0" arguments=(("pl_cd_filial", number),("pl_nr_pedido", number)) )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

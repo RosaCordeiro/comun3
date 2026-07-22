@@ -1,0 +1,9 @@
+HA$PBExportHeader$t_total.srs
+global type t_total from structure
+	t_icmstot		icmstot
+	t_issqntot		issqntot
+	t_rettrib		rettrib
+	t_istot		istot
+	t_ibscbstot		ibscbstot
+end type
+

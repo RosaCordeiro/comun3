@@ -1,0 +1,69 @@
+HA$PBExportHeader$gf_ge565_existe_lote_entrada_matriz_nova.srf
+global type gf_ge565_existe_lote_entrada_matriz_nova from function_object
+end type
+
+forward prototypes
+global function boolean gf_ge565_existe_lote_entrada_matriz_nova (string as_fornecedor, long pl_produto, string ps_lote, boolean pb_mostra_mensagem)
+end prototypes
+
+global function boolean gf_ge565_existe_lote_entrada_matriz_nova (string as_fornecedor, long pl_produto, string ps_lote, boolean pb_mostra_mensagem);Long ll_Retorno
+
+Boolean lb_Sucesso = False
+
+Date ldt_Periodo
+
+Try
+	ldt_Periodo = Date( gvo_Parametro.dh_movimentacao )
+
+	SetPointer(HourGlass!)
+	
+	Open(w_Aguarde)
+	w_Aguarde.Title = "Localizando informa$$HEX2$$e700f500$$ENDHEX$$es na Matriz, aguarde..."
+	
+	uo_Transacao_Remota lo_Conexao  //GE105
+	lo_Conexao = Create uo_Transacao_Remota
+	
+	lo_Conexao.of_BancoProducao()
+	lo_Conexao.of_ConverteVirgula(True)
+	lo_Conexao.of_Define_Variaveis(True)
+	
+	If as_Fornecedor = "053404705" Then		
+		lo_Conexao.of_Executa_Rotina('0138', { String( pl_Produto) , ps_lote, String( ldt_Periodo, 'YYYY/MM/DD' ) } )
+	Else		
+		lo_Conexao.of_Executa_Rotina('0150', { as_Fornecedor, String(gvo_Parametro.Cd_Filial), String( pl_Produto) , ps_lote, String( ldt_Periodo, 'YYYY/MM/DD' ) } )
+	End If
+
+	w_Aguarde.Title = "Finalizando a comunica$$HEX2$$e700e300$$ENDHEX$$o com a matriz, aguarde..."	
+	
+	If lo_Conexao.of_Erro_Execucao() Or lo_Conexao.of_Erro_Conexao() Then
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o","Erro na conex$$HEX1$$e300$$ENDHEX$$o com o servidor distribu$$HEX1$$ed00$$ENDHEX$$do.")
+	Else
+		If lo_Conexao.of_Linhas() > 0 Then
+			If lo_Conexao.of_Retorno('contador', Ref ll_Retorno) Then
+				If ll_Retorno = 0 Then
+					If pb_mostra_mensagem Then
+						MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o","O lote informado n$$HEX1$$e300$$ENDHEX$$o foi localizado nas notas de compra do Perini.", Exclamation!)
+					End If
+					
+					Return False
+				End If
+				
+				lb_Sucesso = True
+			End If
+		End If
+		
+	End If
+	
+	Return lb_Sucesso
+Finally
+	If IsValid( lo_Conexao ) 	Then Destroy lo_Conexao
+	
+	SetPointer(Arrow!)
+	Close(w_Aguarde)
+End Try
+
+
+
+
+end function
+

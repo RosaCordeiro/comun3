@@ -1,0 +1,103 @@
+HA$PBExportHeader$gf_download_matriz.srf
+global type gf_download_matriz from function_object
+end type
+
+forward prototypes
+global function boolean gf_download_matriz (string ps_validar[], string ps_baixar[], string ps_caminho_local, string ps_caminho_ftp, boolean pb_extrair)
+end prototypes
+
+global function boolean gf_download_matriz (string ps_validar[], string ps_baixar[], string ps_caminho_local, string ps_caminho_ftp, boolean pb_extrair);Boolean lb_Baixar = False
+
+Long ll_Pos   = 1
+Long ll_Start = 1
+
+String ls_Pasta
+String ls_Valor
+String ls_Error
+String ls_Arquivo
+
+dc_uo_Ftp lo_Ftp
+lo_Ftp = Create dc_uo_Ftp
+
+Do While ll_Pos > 0
+	
+	ll_Pos = PosA(ps_Caminho_Local, "\", ll_Pos +1)
+	
+	If ll_Pos > 0 Then	
+		ls_Pasta = MidA(ps_Caminho_Local, 1, ll_Pos -1)
+	Else
+		ls_Pasta = ps_Caminho_Local
+	End If
+	
+	If Not FileExists(ls_Pasta) Then
+		dc_uo_api lo_Api
+		lo_Api = Create dc_uo_api
+		
+		lo_Api.of_Create_Directory(ls_Pasta)
+		
+		Destroy lo_Api
+		
+	End If
+	
+Loop
+
+Open(w_Aguarde)
+w_Aguarde.Title = "Atualizacao autom$$HEX1$$e100$$ENDHEX$$tica do sistema, aguarde..."
+
+gf_Servidor_Ftp_Matriz(ref ls_Valor)
+
+If Not lo_Ftp.of_Conecta_Ftp("", ls_Valor, "pdv2", "pdv2") Then
+	Destroy lo_Ftp
+	Close(w_Aguarde)
+	Return False
+Else
+	If(ps_Caminho_Ftp) <> "" Then
+		lo_Ftp.of_Ftp_Set_Dir(ps_Caminho_Ftp)
+	End If
+End If
+
+For ll_Start = 1 To UpperBound(ps_Validar)
+	
+	ls_Arquivo = ps_Caminho_Local + '\' + ps_Validar[ll_Start]
+	
+	If Not FileExists(ls_Arquivo) Then
+		
+		If Not pb_Extrair Then			
+			If lo_Ftp.of_Ftp_GetFile(ps_Baixar[ll_Start], ls_Arquivo) Then
+			End If			
+		Else		
+			lb_Baixar = True
+			Exit			
+		End If
+		
+	End If
+	
+Next
+
+If lb_Baixar Then
+	If lo_Ftp.of_Ftp_GetFile(ps_Baixar[1], ps_Caminho_Local + '\' + ps_Baixar[1]) Then
+		
+		dc_uo_zip lo_Zip
+		lo_Zip = Create dc_uo_zip
+	
+		lo_Zip.of_UnZip_Origem(ps_Caminho_Local + '\' + ps_Baixar[1])
+		lo_Zip.of_UnZip_Destino(ps_Caminho_Local + '\')
+		ls_Error = lo_Zip.of_UnZip(True)
+					
+		If ls_Error <> "" Then
+			MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", ls_Error, StopSign!)
+		End If
+	End If
+	
+	Destroy lo_Zip
+	
+End If
+
+lo_Ftp.of_Desconecta_Ftp()
+Destroy lo_Ftp
+
+Close(w_Aguarde)
+
+Return True
+end function
+

@@ -1,0 +1,274 @@
+HA$PBExportHeader$ds_ge473_contabil_bseg_1.srd
+release 12;
+datawindow(units=0 timer_interval=0 color=1073741824 brushmode=0 transparency=0 gradient.angle=0 gradient.color=8421504 gradient.focus=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.repetition.mode=0 gradient.scale=100 gradient.spread=100 gradient.transparency=0 picture.blur=0 picture.clip.bottom=0 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.transparency=0 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes hidegrayline=no showbackcoloronxp=no picture.file="" )
+header(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+detail(height=196 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+table(column=(type=char(3) update=yes updatewhereclause=yes key=yes name=mandt dbname="bseg_1.mandt" dbalias=".mandt" )
+ column=(type=char(4) update=yes updatewhereclause=yes key=yes name=bukrs dbname="bseg_1.bukrs" dbalias=".bukrs" )
+ column=(type=char(10) update=yes updatewhereclause=yes key=yes name=belnr dbname="bseg_1.belnr" dbalias=".belnr" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=gjahr dbname="bseg_1.gjahr" dbalias=".gjahr" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=buzei dbname="bseg_1.buzei" dbalias=".buzei" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=nr_sequencial dbname="bseg_1.nr_sequencial" dbalias=".nr_sequencial" )
+ column=(type=char(6) update=yes updatewhereclause=yes name=abper dbname="bseg_1.abper" dbalias=".abper" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=absbt dbname="bseg_1.absbt" dbalias=".absbt" )
+ column=(type=char(11) update=yes updatewhereclause=yes name=acritmtype dbname="bseg_1.acritmtype" dbalias=".acritmtype" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=acrobjtype dbname="bseg_1.acrobjtype" dbalias=".acrobjtype" )
+ column=(type=char(32) update=yes updatewhereclause=yes name=acrobj_id dbname="bseg_1.acrobj_id" dbalias=".acrobj_id" )
+ column=(type=char(32) update=yes updatewhereclause=yes name=acrsobj_id dbname="bseg_1.acrsobj_id" dbalias=".acrsobj_id" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=agzei dbname="bseg_1.agzei" dbalias=".agzei" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=altkt dbname="bseg_1.altkt" dbalias=".altkt" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=anbtr_pn dbname="bseg_1.anbtr_pn" dbalias=".anbtr_pn" )
+ column=(type=char(3) update=yes updatewhereclause=yes name=anbwa dbname="bseg_1.anbwa" dbalias=".anbwa" )
+ column=(type=char(8) update=yes updatewhereclause=yes name=anfae dbname="bseg_1.anfae" dbalias=".anfae" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=anfbj dbname="bseg_1.anfbj" dbalias=".anfbj" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=anfbn dbname="bseg_1.anfbn" dbalias=".anfbn" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=anfbu dbname="bseg_1.anfbu" dbalias=".anfbu" )
+ column=(type=char(12) update=yes updatewhereclause=yes name=anln1 dbname="bseg_1.anln1" dbalias=".anln1" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=anln2 dbname="bseg_1.anln2" dbalias=".anln2" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=anln2_pn dbname="bseg_1.anln2_pn" dbalias=".anln2_pn" )
+ column=(type=char(8) update=yes updatewhereclause=yes name=aplzl dbname="bseg_1.aplzl" dbalias=".aplzl" )
+ column=(type=char(12) update=yes updatewhereclause=yes name=aufnr dbname="bseg_1.aufnr" dbalias=".aufnr" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=aufpl dbname="bseg_1.aufpl" dbalias=".aufpl" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=augbl dbname="bseg_1.augbl" dbalias=".augbl" )
+ column=(type=char(8) update=yes updatewhereclause=yes name=augcp dbname="bseg_1.augcp" dbalias=".augcp" )
+ column=(type=char(8) update=yes updatewhereclause=yes name=augdt dbname="bseg_1.augdt" dbalias=".augdt" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=auggj dbname="bseg_1.auggj" dbalias=".auggj" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=awkey dbname="bseg_1.awkey" dbalias=".awkey" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=awsys dbname="bseg_1.awsys" dbalias=".awsys" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=awtyp dbname="bseg_1.awtyp" dbalias=".awtyp" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=bdif2 dbname="bseg_1.bdif2" dbalias=".bdif2" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=bdif3 dbname="bseg_1.bdif3" dbalias=".bdif3" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=bdiff dbname="bseg_1.bdiff" dbalias=".bdiff" )
+ column=(type=char(3) update=yes updatewhereclause=yes name=bewar dbname="bseg_1.bewar" dbalias=".bewar" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=blnbt dbname="bseg_1.blnbt" dbalias=".blnbt" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=blnkz dbname="bseg_1.blnkz" dbalias=".blnkz" )
+ column=(type=char(9) update=yes updatewhereclause=yes name=blnpz dbname="bseg_1.blnpz" dbalias=".blnpz" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=bonfb dbname="bseg_1.bonfb" dbalias=".bonfb" )
+ column=(type=char(16) update=yes updatewhereclause=yes name=bpmng dbname="bseg_1.bpmng" dbalias=".bpmng" )
+ column=(type=char(3) update=yes updatewhereclause=yes name=bprme dbname="bseg_1.bprme" dbalias=".bprme" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=bschl dbname="bseg_1.bschl" dbalias=".bschl" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=btype dbname="bseg_1.btype" dbalias=".btype" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=bualt dbname="bseg_1.bualt" dbalias=".bualt" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=budget_pd dbname="bseg_1.budget_pd" dbalias=".budget_pd" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=bupla dbname="bseg_1.bupla" dbalias=".bupla" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=bustw dbname="bseg_1.bustw" dbalias=".bustw" )
+ column=(type=char(3) update=yes updatewhereclause=yes name=buzei_sender dbname="bseg_1.buzei_sender" dbalias=".buzei_sender" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=buzid dbname="bseg_1.buzid" dbalias=".buzid" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=bvtyp dbname="bseg_1.bvtyp" dbalias=".bvtyp" )
+ column=(type=char(3) update=yes updatewhereclause=yes name=bwasl_pn dbname="bseg_1.bwasl_pn" dbalias=".bwasl_pn" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=bwkey dbname="bseg_1.bwkey" dbalias=".bwkey" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=bwtar dbname="bseg_1.bwtar" dbalias=".bwtar" )
+ column=(type=char(8) update=yes updatewhereclause=yes name=bzdat dbname="bseg_1.bzdat" dbalias=".bzdat" )
+ column=(type=char(8) update=yes updatewhereclause=yes name=bzdat_pn dbname="bseg_1.bzdat_pn" dbalias=".bzdat_pn" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=ccbtc dbname="bseg_1.ccbtc" dbalias=".ccbtc" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=cession_kz dbname="bseg_1.cession_kz" dbalias=".cession_kz" )
+ column=(type=char(8) update=yes updatewhereclause=yes name=dabrz dbname="bseg_1.dabrz" dbalias=".dabrz" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=depot dbname="bseg_1.depot" dbalias=".depot" )
+ column=(type=char(30) update=yes updatewhereclause=yes name=dh_vencimento dbname="bseg_1.dh_vencimento" dbalias=".dh_vencimento" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=diekz dbname="bseg_1.diekz" dbalias=".diekz" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=disbj dbname="bseg_1.disbj" dbalias=".disbj" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=disbn dbname="bseg_1.disbn" dbalias=".disbn" )
+ column=(type=char(3) update=yes updatewhereclause=yes name=disbz dbname="bseg_1.disbz" dbalias=".disbz" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=dmb21 dbname="bseg_1.dmb21" dbalias=".dmb21" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=dmb22 dbname="bseg_1.dmb22" dbalias=".dmb22" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=dmb23 dbname="bseg_1.dmb23" dbalias=".dmb23" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=dmb31 dbname="bseg_1.dmb31" dbalias=".dmb31" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=dmb32 dbname="bseg_1.dmb32" dbalias=".dmb32" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=dmb33 dbname="bseg_1.dmb33" dbalias=".dmb33" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=dmbe2 dbname="bseg_1.dmbe2" dbalias=".dmbe2" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=dmbe3 dbname="bseg_1.dmbe3" dbalias=".dmbe3" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=dmbt1 dbname="bseg_1.dmbt1" dbalias=".dmbt1" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=dmbt2 dbname="bseg_1.dmbt2" dbalias=".dmbt2" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=dmbt3 dbname="bseg_1.dmbt3" dbalias=".dmbt3" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=dmbtr dbname="bseg_1.dmbtr" dbalias=".dmbtr" )
+ column=(type=char(6) update=yes updatewhereclause=yes name=docln dbname="bseg_1.docln" dbalias=".docln" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=dtws1 dbname="bseg_1.dtws1" dbalias=".dtws1" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=dtws2 dbname="bseg_1.dtws2" dbalias=".dtws2" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=dtws3 dbname="bseg_1.dtws3" dbalias=".dtws3" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=dtws4 dbname="bseg_1.dtws4" dbalias=".dtws4" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=dummy_incl_eew_cobl dbname="bseg_1.dummy_incl_eew_cobl" dbalias=".dummy_incl_eew_cobl" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=ebeln dbname="bseg_1.ebeln" dbalias=".ebeln" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=ebelp dbname="bseg_1.ebelp" dbalias=".ebelp" )
+ column=(type=char(3) update=yes updatewhereclause=yes name=egbld dbname="bseg_1.egbld" dbalias=".egbld" )
+ column=(type=char(3) update=yes updatewhereclause=yes name=eglld dbname="bseg_1.eglld" dbalias=".eglld" )
+ column=(type=char(3) update=yes updatewhereclause=yes name=egrup dbname="bseg_1.egrup" dbalias=".egrup" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=elikz dbname="bseg_1.elikz" dbalias=".elikz" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=empfb dbname="bseg_1.empfb" dbalias=".empfb" )
+ column=(type=char(3) update=yes updatewhereclause=yes name=erfme dbname="bseg_1.erfme" dbalias=".erfme" )
+ column=(type=char(16) update=yes updatewhereclause=yes name=erfmg dbname="bseg_1.erfmg" dbalias=".erfmg" )
+ column=(type=char(11) update=yes updatewhereclause=yes name=esrnr dbname="bseg_1.esrnr" dbalias=".esrnr" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=esrpz dbname="bseg_1.esrpz" dbalias=".esrpz" )
+ column=(type=char(27) update=yes updatewhereclause=yes name=esrre dbname="bseg_1.esrre" dbalias=".esrre" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=eten2 dbname="bseg_1.eten2" dbalias=".eten2" )
+ column=(type=char(3) update=yes updatewhereclause=yes name=etype dbname="bseg_1.etype" dbalias=".etype" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=fastpay dbname="bseg_1.fastpay" dbalias=".fastpay" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=fdgrp dbname="bseg_1.fdgrp" dbalias=".fdgrp" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=fdlev dbname="bseg_1.fdlev" dbalias=".fdlev" )
+ column=(type=char(8) update=yes updatewhereclause=yes name=fdtag dbname="bseg_1.fdtag" dbalias=".fdtag" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=fdwbt dbname="bseg_1.fdwbt" dbalias=".fdwbt" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=filkd dbname="bseg_1.filkd" dbalias=".filkd" )
+ column=(type=char(14) update=yes updatewhereclause=yes name=fipos dbname="bseg_1.fipos" dbalias=".fipos" )
+ column=(type=char(16) update=yes updatewhereclause=yes name=fistl dbname="bseg_1.fistl" dbalias=".fistl" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=fkber dbname="bseg_1.fkber" dbalias=".fkber" )
+ column=(type=char(16) update=yes updatewhereclause=yes name=fkber_long dbname="bseg_1.fkber_long" dbalias=".fkber_long" )
+ column=(type=char(3) update=yes updatewhereclause=yes name=fkont dbname="bseg_1.fkont" dbalias=".fkont" )
+ column=(type=char(22) update=yes updatewhereclause=yes name=fmfgus_key dbname="bseg_1.fmfgus_key" dbalias=".fmfgus_key" )
+ column=(type=char(6) update=yes updatewhereclause=yes name=fmxdocln dbname="bseg_1.fmxdocln" dbalias=".fmxdocln" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=fmxdocnr dbname="bseg_1.fmxdocnr" dbalias=".fmxdocnr" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=fmxyear dbname="bseg_1.fmxyear" dbalias=".fmxyear" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=fmxzekkn dbname="bseg_1.fmxzekkn" dbalias=".fmxzekkn" )
+ column=(type=char(6) update=yes updatewhereclause=yes name=fqftype dbname="bseg_1.fqftype" dbalias=".fqftype" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=fwbas dbname="bseg_1.fwbas" dbalias=".fwbas" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=fwzuz dbname="bseg_1.fwzuz" dbalias=".fwzuz" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=gbetr dbname="bseg_1.gbetr" dbalias=".gbetr" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=geber dbname="bseg_1.geber" dbalias=".geber" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=ghkon dbname="bseg_1.ghkon" dbalias=".ghkon" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=gityp dbname="bseg_1.gityp" dbalias=".gityp" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=gkart dbname="bseg_1.gkart" dbalias=".gkart" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=gkont dbname="bseg_1.gkont" dbalias=".gkont" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=glupm dbname="bseg_1.glupm" dbalias=".glupm" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=gmvkz dbname="bseg_1.gmvkz" dbalias=".gmvkz" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=grant_nbr dbname="bseg_1.grant_nbr" dbalias=".grant_nbr" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=gricd dbname="bseg_1.gricd" dbalias=".gricd" )
+ retrieve="  SELECT bseg_1.mandt,   
+         bseg_1.bukrs,   
+         bseg_1.belnr,   
+         bseg_1.gjahr,   
+         bseg_1.buzei,   
+         bseg_1.nr_sequencial,   
+         bseg_1.abper,   
+         bseg_1.absbt,   
+         bseg_1.acritmtype,   
+         bseg_1.acrobjtype,   
+         bseg_1.acrobj_id,   
+         bseg_1.acrsobj_id,   
+         bseg_1.agzei,   
+         bseg_1.altkt,   
+         bseg_1.anbtr_pn,   
+         bseg_1.anbwa,   
+         bseg_1.anfae,   
+         bseg_1.anfbj,   
+         bseg_1.anfbn,   
+         bseg_1.anfbu,   
+         bseg_1.anln1,   
+         bseg_1.anln2,   
+         bseg_1.anln2_pn,   
+         bseg_1.aplzl,   
+         bseg_1.aufnr,   
+         bseg_1.aufpl,   
+         bseg_1.augbl,   
+         bseg_1.augcp,   
+         bseg_1.augdt,   
+         bseg_1.auggj,   
+         bseg_1.awkey,   
+         bseg_1.awsys,   
+         bseg_1.awtyp,   
+         bseg_1.bdif2,   
+         bseg_1.bdif3,   
+         bseg_1.bdiff,   
+         bseg_1.bewar,   
+         bseg_1.blnbt,   
+         bseg_1.blnkz,   
+         bseg_1.blnpz,   
+         bseg_1.bonfb,   
+         bseg_1.bpmng,   
+         bseg_1.bprme,   
+         bseg_1.bschl,   
+         bseg_1.btype,   
+         bseg_1.bualt,   
+         bseg_1.budget_pd,   
+         bseg_1.bupla,   
+         bseg_1.bustw,   
+         bseg_1.buzei_sender,   
+         bseg_1.buzid,   
+         bseg_1.bvtyp,   
+         bseg_1.bwasl_pn,   
+         bseg_1.bwkey,   
+         bseg_1.bwtar,   
+         bseg_1.bzdat,   
+         bseg_1.bzdat_pn,   
+         bseg_1.ccbtc,   
+         bseg_1.cession_kz,   
+         bseg_1.dabrz,   
+         bseg_1.depot,   
+		bseg_1.dh_vencimento,
+         bseg_1.diekz,   
+         bseg_1.disbj,   
+         bseg_1.disbn,   
+         bseg_1.disbz,   
+         bseg_1.dmb21,   
+         bseg_1.dmb22,   
+         bseg_1.dmb23,   
+         bseg_1.dmb31,   
+         bseg_1.dmb32,   
+         bseg_1.dmb33,   
+         bseg_1.dmbe2,   
+         bseg_1.dmbe3,   
+         bseg_1.dmbt1,   
+         bseg_1.dmbt2,   
+         bseg_1.dmbt3,   
+         bseg_1.dmbtr,   
+         bseg_1.docln,   
+         bseg_1.dtws1,   
+         bseg_1.dtws2,   
+         bseg_1.dtws3,   
+         bseg_1.dtws4,   
+         bseg_1.dummy_incl_eew_cobl,   
+         bseg_1.ebeln,   
+         bseg_1.ebelp,   
+         bseg_1.egbld,   
+         bseg_1.eglld,   
+         bseg_1.egrup,   
+         bseg_1.elikz,   
+         bseg_1.empfb,   
+         bseg_1.erfme,   
+         bseg_1.erfmg,   
+         bseg_1.esrnr,   
+         bseg_1.esrpz,   
+         bseg_1.esrre,   
+         bseg_1.eten2,   
+         bseg_1.etype,   
+         bseg_1.fastpay,   
+         bseg_1.fdgrp,   
+         bseg_1.fdlev,   
+         bseg_1.fdtag,   
+         bseg_1.fdwbt,   
+         bseg_1.filkd,   
+         bseg_1.fipos,   
+         bseg_1.fistl,   
+         bseg_1.fkber,   
+         bseg_1.fkber_long,   
+         bseg_1.fkont,   
+         bseg_1.fmfgus_key,   
+         bseg_1.fmxdocln,   
+         bseg_1.fmxdocnr,   
+         bseg_1.fmxyear,   
+         bseg_1.fmxzekkn,   
+         bseg_1.fqftype,   
+         bseg_1.fwbas,   
+         bseg_1.fwzuz,   
+         bseg_1.gbetr,   
+         bseg_1.geber,   
+         bseg_1.ghkon,   
+         bseg_1.gityp,   
+         bseg_1.gkart,   
+         bseg_1.gkont,   
+         bseg_1.glupm,   
+         bseg_1.gmvkz,   
+         bseg_1.grant_nbr,   
+         bseg_1.gricd  
+    FROM bseg_1   
+" update="bseg_1" updatewhere=0 updatekeyinplace=yes )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

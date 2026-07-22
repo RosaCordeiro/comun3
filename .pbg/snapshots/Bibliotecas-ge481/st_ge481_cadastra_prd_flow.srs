@@ -1,0 +1,14 @@
+HA$PBExportHeader$st_ge481_cadastra_prd_flow.srs
+global type st_ge481_cadastra_prd_flow from structure
+	long		cd_produto
+	string		de_produto
+	string		de_grupo
+	long		qt_cadastrar
+	decimal		qt_media_transferencia
+	string		id_exclusivo_bahia
+	string		nr_lote
+	long		cd_esteira
+	string		id_origem_excesso
+	string		id_cadastrou_endereco
+end type
+

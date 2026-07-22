@@ -1,0 +1,42 @@
+HA$PBExportHeader$gf_ge134_grava_historico_exclusao_promo.srf
+global type gf_ge134_grava_historico_exclusao_promo from function_object
+end type
+
+forward prototypes
+global function boolean gf_ge134_grava_historico_exclusao_promo (long al_promocao, long al_filial, long al_produto, long al_estoque_minimo_ant, string as_tipo_alteracao, long al_motivo_alteracao)
+end prototypes
+
+global function boolean gf_ge134_grava_historico_exclusao_promo (long al_promocao, long al_filial, long al_produto, long al_estoque_minimo_ant, string as_tipo_alteracao, long al_motivo_alteracao);DateTime ldh_Alteracao
+
+String ls_Erro
+
+ldh_Alteracao = gf_GetServerDate()
+
+Insert Into historico_promocao_estoque_min(	cd_promocao,
+															cd_filial,
+															cd_produto,
+															dh_alteracao,
+															qt_estoque_minimo_anterior,
+															id_tipo_alteracao,
+															nr_matricula_alteracao,
+															cd_motivo_alteracao)
+				Values(	:al_Promocao,
+							:al_Filial,
+							:al_Produto,
+							:ldh_Alteracao,
+							:al_Estoque_Minimo_Ant,
+							:as_Tipo_Alteracao,
+							:gvo_Aplicacao.ivo_Seguranca.Nr_Matricula,
+							:al_motivo_alteracao)
+Using SqlCa;
+
+If SqlCa.SqlCode = -1 Then
+	ls_Erro = SqlCa.SqlErrText
+	SqlCa.of_Rollback();
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao gravar o hist$$HEX1$$f300$$ENDHEX$$rico de exclus$$HEX1$$e300$$ENDHEX$$o do produto '" + String(al_Produto) + "' da promo$$HEX2$$e700e300$$ENDHEX$$o '" + String(al_Promocao) + "' da filial '" + String(al_Filial) + "'. ~r" + ls_Erro, StopSign!)
+	Return False
+End If
+
+Return True
+end function
+

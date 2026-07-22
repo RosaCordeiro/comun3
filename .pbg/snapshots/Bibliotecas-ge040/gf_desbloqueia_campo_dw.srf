@@ -1,0 +1,14 @@
+HA$PBExportHeader$gf_desbloqueia_campo_dw.srf
+global type gf_desbloqueia_campo_dw from function_object
+end type
+
+forward prototypes
+global function boolean gf_desbloqueia_campo_dw (datawindow adw, string as_coluna)
+end prototypes
+
+global function boolean gf_desbloqueia_campo_dw (datawindow adw, string as_coluna);adw.Modify(as_coluna + ".Protect=0")
+adw.Modify(as_coluna + ".Background.Color='16777215'")
+
+return true
+end function
+

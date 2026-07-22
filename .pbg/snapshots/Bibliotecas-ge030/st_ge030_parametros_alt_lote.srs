@@ -1,0 +1,17 @@
+HA$PBExportHeader$st_ge030_parametros_alt_lote.srs
+global type st_ge030_parametros_alt_lote from structure
+	long		cd_produto
+	string		de_produto
+	string		nr_lote
+	datetime		dh_validade
+	long		cd_filial
+	string		nm_fantasia
+	string		cd_fornecedor
+	string		nm_razao_social
+	long		nr_nf
+	string		de_especie
+	string		de_serie
+	long		cd_natureza_operacao
+	long		qt_faturada
+end type
+

@@ -1,0 +1,19 @@
+HA$PBExportHeader$gf_decimal.srf
+global type gf_decimal from function_object
+end type
+
+forward prototypes
+global function decimal gf_decimal (string ps_valor, integer pi_decimal)
+end prototypes
+
+global function decimal gf_decimal (string ps_valor, integer pi_decimal);Decimal lvdc_Valor
+
+String lvs_Temp
+
+lvs_Temp = LeftA( ps_Valor, LenA( ps_Valor ) - pi_Decimal ) + "," + RightA( ps_Valor, pi_Decimal )
+
+lvdc_Valor = Dec( lvs_Temp )
+
+Return lvdc_Valor
+end function
+

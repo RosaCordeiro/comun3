@@ -1,0 +1,29 @@
+HA$PBExportHeader$gf_retorna_loja_pdv_novo.srf
+global type gf_retorna_loja_pdv_novo from function_object
+end type
+
+forward prototypes
+global function boolean gf_retorna_loja_pdv_novo (long pl_cd_filial, ref boolean pb_usa_pdv_novo, ref string ps_log)
+end prototypes
+
+global function boolean gf_retorna_loja_pdv_novo (long pl_cd_filial, ref boolean pb_usa_pdv_novo, ref string ps_log);string ls_id_pdv_java
+
+select id_pdv_java 
+into :ls_id_pdv_java
+from parametro_odbc 
+where cd_filial = :pl_cd_filial;
+
+if sqlca.sqlcode = -1 then
+	ps_log = 'Objeto: gf_retorna_loja_pdv_novo - Erro ao consultar a tabela "parametro_odbc": ' + sqlca.sqlerrtext
+	return false
+end if
+
+if ls_id_pdv_java = 'S' Then
+	pb_usa_pdv_novo = True
+else
+	pb_usa_pdv_novo = False
+end if
+
+return true
+end function
+

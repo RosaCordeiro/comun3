@@ -1,0 +1,32 @@
+HA$PBExportHeader$gf_wms_endereco_abast.srf
+global type gf_wms_endereco_abast from function_object
+end type
+
+forward prototypes
+global function boolean gf_wms_endereco_abast (ref string as_parametro)
+end prototypes
+
+global function boolean gf_wms_endereco_abast (ref string as_parametro);String ls_Parametro
+
+
+Select vl_parametro
+Into :ls_Parametro
+From wms_parametro
+Where cd_parametro ='ID_UTILIZA_PROCESSO_ENDER_FLOW_ABASTECIM'
+Using SqlCa;
+
+
+
+Choose Case SqlCa.SqlCode
+	Case 0
+		as_parametro = ls_Parametro
+	Case 100
+		Return True
+	Case -1
+		SqlCa.of_MsgDbError("Erro na localiza$$HEX2$$e700e300$$ENDHEX$$o wms_parametro: ID_UTILIZA_PROCESSO_ENDER_FLOW_ABASTECIM do WMS.")
+		Return False
+End Choose
+
+Return True
+end function
+

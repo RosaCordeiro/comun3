@@ -1,0 +1,46 @@
+HA$PBExportHeader$gf_servidor_ftp_matriz.srf
+global type gf_servidor_ftp_matriz from function_object
+end type
+
+forward prototypes
+global function boolean gf_servidor_ftp_matriz (ref string as_retorno)
+end prototypes
+
+global function boolean gf_servidor_ftp_matriz (ref string as_retorno);Long lvl_Filial, lvl_Matriz
+
+gf_Filiais_Parametro(ref lvl_Filial, ref lvl_Matriz)
+
+If lvl_Matriz = lvl_Filial Then
+	Select vl_parametro
+	  Into :as_retorno
+	  From parametro_loja
+	 Where cd_parametro = 'DE_SERVIDOR_DOWNLOAD_VERSAO_MATRIZ'
+	   and cd_filial    = 13
+	 Using SqlCa;
+
+Else
+	
+	Select vl_parametro
+	  Into :as_retorno
+	  From parametro_loja
+	 Where cd_parametro = 'DE_SERVIDOR_DOWNLOAD_VERSAO_MATRIZ'
+	 Using SqlCa;
+
+End If
+
+ 
+Choose Case SqlCa.SqlCode
+		
+	Case -1
+		SqlCa.of_MsgDbError("LOCALIZA$$HEX2$$c700c300$$ENDHEX$$O DO PAR$$HEX1$$c200$$ENDHEX$$METRO 'DE_SERVIDOR_DOWNLOAD_VERSAO_MATRIZ'.")
+		Return False
+
+	Case 100
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Par$$HEX1$$e200$$ENDHEX$$metro n$$HEX1$$e300$$ENDHEX$$o localizado na tabela parametro_loja: 'DE_SERVIDOR_DOWNLOAD_VERSAO_MATRIZ'.")
+		Return False
+		
+End Choose
+
+Return True
+end function
+

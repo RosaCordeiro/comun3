@@ -1,0 +1,33 @@
+HA$PBExportHeader$gf_promocao_sap.srf
+global type gf_promocao_sap from function_object
+end type
+
+forward prototypes
+global function boolean gf_promocao_sap (long al_promocao, ref string as_promocao_sap)
+end prototypes
+
+global function boolean gf_promocao_sap (long al_promocao, ref string as_promocao_sap);
+Select  a.cd_promocao_sap 
+Into :as_promocao_sap
+From promocao_sos a
+where	a.cd_promocao_sos  = :al_promocao
+Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+	Case 0
+		
+	Case 100
+		as_promocao_sap ="0"
+		
+	Case -1
+		MessageBox("Erro", "Erro ao localizar o codigo da promocao SAP: "+SqlCa.SqlErrText)
+		Return False
+End Choose
+
+
+Return True
+
+
+
+end function
+

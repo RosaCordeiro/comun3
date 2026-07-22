@@ -1,0 +1,573 @@
+HA$PBExportHeader$dw_ge400_detalhe_ecommerce.srd
+release 12;
+datawindow(units=0 timer_interval=0 color=80269524 brushmode=0 transparency=0 gradient.angle=0 gradient.color=8421504 gradient.focus=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.repetition.mode=0 gradient.scale=100 gradient.spread=100 gradient.transparency=0 picture.blur=0 picture.clip.bottom=0 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.transparency=0 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes hidegrayline=no showbackcoloronxp=no picture.file="" )
+header(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+detail(height=1544 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+table(column=(type=long updatewhereclause=yes name=cd_produto_central dbname="cd_produto" )
+ column=(type=long updatewhereclause=yes name=cd_mix_produto dbname="cd_mix_produto" )
+ column=(type=char(1) updatewhereclause=yes name=id_tipo_reposicao_estoque dbname="id_tipo_reposicao_estoque" )
+ column=(type=char(15) updatewhereclause=yes name=cd_produto_fornecedor dbname="cd_produto_fornecedor" )
+ column=(type=decimal(2) updatewhereclause=yes name=pc_desconto_fornecedor dbname="pc_desconto_fornecedor" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_peso_liquido dbname="vl_peso_liquido" )
+ column=(type=datetime updatewhereclause=yes name=dh_situacao dbname="dh_situacao" )
+ column=(type=char(8) updatewhereclause=yes name=cd_local_estocagem dbname="cd_local_estocagem" )
+ column=(type=char(1) updatewhereclause=yes name=id_origem_produto_fornec dbname="id_origem_produto_fornecedor" )
+ column=(type=long updatewhereclause=yes name=cd_produto_abcfarma dbname="cd_produto_abcfarma" )
+ column=(type=char(1) updatewhereclause=yes name=nm_fabricante_abc_farma dbname="nm_fabricante_abc_farma" )
+ column=(type=decimal(4) updatewhereclause=yes name=vl_fator_conversao_abcfa dbname="vl_fator_conversao_abcfarma" )
+ column=(type=char(3) updatewhereclause=yes name=cd_divisao_estocagem dbname="cd_divisao_estocagem" )
+ column=(type=char(1) updatewhereclause=yes name=id_preco_informado dbname="id_preco_informado" )
+ column=(type=char(1) updatewhereclause=yes name=id_contrato_fornecedor dbname="id_contrato_fornecedor" )
+ column=(type=char(1) updatewhereclause=yes name=id_pagamento_apos_venda dbname="id_pagamento_apos_venda" )
+ column=(type=char(1) updatewhereclause=yes name=id_sugere_pedido_filial dbname="id_sugere_pedido_filial" )
+ column=(type=char(1) updatewhereclause=yes name=id_lei_generico dbname="id_lei_generico" )
+ column=(type=char(1) updatewhereclause=yes name=id_lei_generico dbname="id_lei_generico" )
+ column=(type=char(60) updatewhereclause=yes name=de_produto dbname="de_produto" )
+ column=(type=char(40) updatewhereclause=yes name=de_apresentacao_estoque dbname="de_apresentacao_estoque" )
+ column=(type=char(40) updatewhereclause=yes name=de_apresentacao_venda dbname="de_apresentacao_venda" )
+ column=(type=long updatewhereclause=yes name=nr_embalagem_padrao dbname="nr_embalagem_padrao" )
+ column=(type=long updatewhereclause=yes name=nr_classificacao_fiscal dbname="nr_classificacao_fiscal" )
+ column=(type=char(3) updatewhereclause=yes name=cd_unidade_medida_compra dbname="cd_unidade_medida_compra" )
+ column=(type=char(3) updatewhereclause=yes name=cd_unidade_medida_venda dbname="cd_unidade_medida_venda" )
+ column=(type=long updatewhereclause=yes name=cd_grupo_produto dbname="cd_grupo_produto" )
+ column=(type=long updatewhereclause=yes name=cd_subgrupo_produto dbname="cd_subgrupo_produto" )
+ column=(type=char(5) updatewhereclause=yes name=cd_linha_produto dbname="cd_linha_produto" )
+ column=(type=char(9) updatewhereclause=yes name=cd_fornecedor_usual dbname="cd_fornecedor_usual" )
+ column=(type=char(1) updatewhereclause=yes name=id_situacao dbname="id_situacao" )
+ column=(type=char(1) updatewhereclause=yes name=id_situacao_anterior dbname="id_situacao_anterior" )
+ column=(type=char(6) updatewhereclause=yes name=nr_matric_alteracao_situacao dbname="nr_matric_alteracao_situacao" )
+ column=(type=char(100) updatewhereclause=yes name=de_alteracao_situacao dbname="de_alteracao_situacao" )
+ column=(type=char(100) updatewhereclause=yes name=de_alteracao_situacao_anterior dbname="de_alteracao_situacao_anterior" )
+ column=(type=char(1) updatewhereclause=yes name=id_liberado_filial dbname="id_liberado_filial" )
+ column=(type=char(20) updatewhereclause=yes name=de_codigo_barras dbname="de_codigo_barras" )
+ column=(type=datetime updatewhereclause=yes name=dh_alteracao_codigo_barras dbname="dh_alteracao_codigo_barras" )
+ column=(type=decimal(4) updatewhereclause=yes name=vl_fator_conversao dbname="vl_fator_conversao" )
+ column=(type=decimal(6) updatewhereclause=yes name=vl_custo_medio dbname="vl_custo_medio" )
+ column=(type=decimal(6) updatewhereclause=yes name=vl_custo_gerencial dbname="vl_custo_gerencial" )
+ column=(type=decimal(2) updatewhereclause=yes name=pc_desconto_atual dbname="pc_desconto_atual" )
+ column=(type=decimal(2) updatewhereclause=yes name=pc_desconto_futuro dbname="pc_desconto_futuro" )
+ column=(type=char(1) updatewhereclause=yes name=id_preco_bloqueado dbname="id_preco_bloqueado" )
+ column=(type=decimal(2) updatewhereclause=yes name=pc_ipi dbname="pc_ipi" )
+ column=(type=char(2) updatewhereclause=yes name=cd_grupo_psico dbname="cd_grupo_psico" )
+ column=(type=char(10) updatewhereclause=yes name=cd_dcb dbname="cd_dcb" )
+ column=(type=char(1) updatewhereclause=yes name=cd_origem_produto dbname="cd_origem_produto" )
+ column=(type=char(1) updatewhereclause=yes name=id_caderno_abcfarma dbname="id_caderno_abcfarma" )
+ column=(type=decimal(2) updatewhereclause=yes name=pc_reducao_base_icms dbname="pc_reducao_base_icms" )
+ column=(type=long updatewhereclause=yes name=cd_produto_geral dbname="cd_produto" )
+ column=(type=char(6) updatewhereclause=yes name=nr_matricula_desconto_futuro dbname="nr_matricula_desconto_futuro" )
+ column=(type=char(6) updatewhereclause=yes name=nr_matricula_desconto_atual dbname="nr_matricula_desconto_atual" )
+ column=(type=datetime updatewhereclause=yes name=dh_desconto_atual dbname="dh_desconto_atual" )
+ column=(type=datetime updatewhereclause=yes name=dh_desconto_futuro dbname="dh_desconto_futuro" )
+ column=(type=datetime updatewhereclause=yes name=dh_inclusao_produto dbname="dh_inclusao_produto" )
+ column=(type=datetime updatewhereclause=yes name=dh_termino_avaliacao dbname="dh_termino_avaliacao" )
+ column=(type=char(1) updatewhereclause=yes name=id_tipo_desconto_atual dbname="id_tipo_desconto_atual" )
+ column=(type=char(1) updatewhereclause=yes name=id_tipo_desconto_futuro dbname="id_tipo_desconto_futuro" )
+ column=(type=char(1) updatewhereclause=yes name=id_proprio_consignado dbname="id_proprio_consignado" )
+ column=(type=char(1) updatewhereclause=yes name=id_situacao_pis_cofins dbname="id_situacao_pis_cofins" )
+ column=(type=char(9) updatewhereclause=yes name=cd_subcategoria dbname="cd_subcategoria" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_ponto_clube dbname="vl_ponto_clube" )
+ column=(type=long updatewhereclause=yes name=qt_pontos_resgate dbname="qt_pontos_resgate" )
+ column=(type=decimal(2) updatewhereclause=yes name=pc_desconto_clube_atual dbname="pc_desconto_clube_atual" )
+ column=(type=datetime updatewhereclause=yes name=dh_desconto_clube_atual dbname="dh_desconto_clube_atual" )
+ column=(type=char(6) updatewhereclause=yes name=nr_matric_desc_clube_atual dbname="nr_matric_desc_clube_atual" )
+ column=(type=decimal(2) updatewhereclause=yes name=pc_desconto_clube_futuro dbname="pc_desconto_clube_futuro" )
+ column=(type=datetime updatewhereclause=yes name=dh_desconto_clube_futuro dbname="dh_desconto_clube_futuro" )
+ column=(type=char(6) updatewhereclause=yes name=nr_matric_desc_clube_futuro dbname="nr_matric_desc_clube_futuro" )
+ column=(type=char(1) updatewhereclause=yes name=id_utiliza_vale_resgate dbname="id_utiliza_vale_resgate" )
+ column=(type=long updatewhereclause=yes name=qt_unidades_embalagem dbname="qt_unidades_embalagem" )
+ column=(type=decimal(5) updatewhereclause=yes name=qt_concentracao dbname="qt_concentracao" )
+ column=(type=char(2) updatewhereclause=yes name=id_apresentacao dbname="id_apresentacao" )
+ column=(type=long updatewhereclause=yes name=qt_dias_maximo_tratamento dbname="qt_dias_maximo_tratamento" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_volume dbname="vl_volume" )
+ column=(type=long updatewhereclause=yes name=cd_fabricante dbname="cd_fabricante" )
+ column=(type=char(13) updatewhereclause=yes name=de_registro_ms dbname="de_registro_ms" )
+ column=(type=char(1) updatewhereclause=yes name=id_projeto_conexao dbname="id_projeto_conexao" )
+ column=(type=char(1) updatewhereclause=yes name=id_recuperacao_vencido dbname="id_recuperacao_vencido" )
+ column=(type=char(255) updatewhereclause=yes name=de_descricao_internet dbname="de_descricao_internet" )
+ column=(type=decimal(2) updatewhereclause=yes name=qt_largura_cm dbname="qt_largura_cm" )
+ column=(type=decimal(2) updatewhereclause=yes name=qt_altura_cm dbname="qt_altura_cm" )
+ column=(type=decimal(2) updatewhereclause=yes name=qt_profundidade_cm dbname="qt_profundidade_cm" )
+ column=(type=decimal(3) updatewhereclause=yes name=qt_peso_grama dbname="qt_peso_grama" )
+ column=(type=char(1) updatewhereclause=yes name=id_liberado_ecommerce dbname="id_liberado_ecommerce" values="Liberado eCommerce FA ?	S/Liberado eCommerce FA ?	N" )
+ column=(type=char(32768) updatewhereclause=yes name=de_principal_internet dbname="de_principal_internet" )
+ column=(type=char(40) updatewhereclause=yes name=de_grupo dbname="de_grupo" )
+ column=(type=char(40) updatewhereclause=yes name=de_subgrupo dbname="de_subgrupo" )
+ column=(type=char(40) updatewhereclause=yes name=de_categoria dbname="de_categoria" )
+ column=(type=char(40) updatewhereclause=yes name=de_subcategoria dbname="de_subcategoria" )
+ column=(type=char(1) updatewhereclause=yes name=de_produto_abcfarma dbname="de_produto_abcfarma" )
+ column=(type=char(1) updatewhereclause=yes name=de_apresentacao_abcfarma dbname="de_apresentacao_abcfarma" )
+ column=(type=char(40) updatewhereclause=yes name=nm_fornecedor dbname="nm_fornecedor" )
+ column=(type=char(40) updatewhereclause=yes name=nm_fabricante dbname="nm_fabricante" )
+ column=(type=char(40) updatewhereclause=yes name=de_dcb dbname="de_dcb" )
+ column=(type=char(1) updatewhereclause=yes name=de_produto_localizacao dbname="de_produto_localizacao" )
+ column=(type=char(1) updatewhereclause=yes name=id_foto dbname="id_foto" values="Foto eCommerce	S/Foto eCommerce	N" )
+ column=(type=char(1) updatewhereclause=yes name=id_foto_categoria dbname="id_foto_categoria" values="Foto Categoria	S/Foto Categoria	N" )
+ column=(type=char(10) updatewhereclause=yes name=principal_internet dbname="principal_internet" )
+ column=(type=char(80) updatewhereclause=yes name=de_grupo_alteracao_preco dbname="de_grupo_alteracao_preco" )
+ column=(type=long updatewhereclause=yes name=cd_grupo_alteracao_preco dbname="cd_grupo_alteracao_preco" )
+ column=(type=char(1) updatewhereclause=yes name=id_farmacia_popular dbname="id_farmacia_popular" )
+ column=(type=char(1) updatewhereclause=yes name=id_gratis_farm_popular dbname="id_gratis_farm_popular" )
+ column=(type=long updatewhereclause=yes name=cd_planograma dbname="cd_planograma" )
+ column=(type=char(1) updatewhereclause=yes name=id_revisao_fiscal dbname="id_revisao_fiscal" )
+ column=(type=char(40) updatewhereclause=yes name=de_marca dbname="de_marca" )
+ column=(type=long updatewhereclause=yes name=cd_marca dbname="cd_marca" )
+ column=(type=char(1) updatewhereclause=yes name=cd_st_origem dbname="cd_st_origem" )
+ column=(type=char(1) updatewhereclause=yes name=id_geladeira dbname="id_geladeira" )
+ column=(type=decimal(2) updatewhereclause=yes name=qt_largura_cm_caixa_forn dbname="qt_largura_cm_caixa_forn" )
+ column=(type=decimal(2) updatewhereclause=yes name=qt_altura_cm_caixa_forn dbname="qt_altura_cm_caixa_forn" )
+ column=(type=decimal(2) updatewhereclause=yes name=qt_profundidade_cm_caixa_forn dbname="qt_profundidade_cm_caixa_forn" )
+ column=(type=decimal(2) updatewhereclause=yes name=qt_largura_cm_caixa_estoque dbname="qt_largura_cm_caixa_estoque" )
+ column=(type=decimal(2) updatewhereclause=yes name=qt_altura_cm_caixa_estoque dbname="qt_altura_cm_caixa_estoque" )
+ column=(type=decimal(2) updatewhereclause=yes name=qt_profund_cm_caixa_estoque dbname="qt_profund_cm_caixa_estoque" )
+ column=(type=char(1) updatewhereclause=yes name=cd_bairro_wms dbname="cd_bairro_wms" )
+ column=(type=char(1) updatewhereclause=yes name=id_conexao dbname="id_conexao" )
+ column=(type=char(20) updatewhereclause=yes name=de_conexao dbname="de_conexao" )
+ column=(type=char(1) updatewhereclause=yes name=id_exclusivo dbname="id_exclusivo" values="Exclusivo?	S/Exclusivo?	N" )
+ column=(type=long updatewhereclause=yes name=nr_divisao_fornecedor dbname="nr_divisao_fornecedor" )
+ column=(type=char(3) updatewhereclause=yes name=cd_unidade_medida_padrao dbname="cd_unidade_medida_padrao" )
+ column=(type=decimal(4) updatewhereclause=yes name=vl_fator_conversao_padrao dbname="vl_fator_conversao_padrao" )
+ column=(type=char(1) updatewhereclause=yes name=id_promover_venda dbname="id_promover_venda" )
+ column=(type=char(40) updatewhereclause=yes name=de_ncm dbname="de_ncm" )
+ column=(type=char(1) updatewhereclause=yes name=id_permite_devolucao dbname="id_permite_devolucao" )
+ column=(type=long updatewhereclause=yes name=cd_marca_ecommerce dbname="cd_marca_ecommerce" )
+ column=(type=char(40) updatewhereclause=yes name=de_marca dbname="de_marca" )
+ column=(type=char(1) updatewhereclause=yes name=id_controle_preco dbname="id_controle_preco" )
+ column=(type=char(1) updatewhereclause=yes name=nm_pbm dbname="nm_pbm" )
+ column=(type=long updatewhereclause=yes name=qt_estoque_minimo dbname="qt_estoque_minimo" )
+ column=(type=char(1) updatewhereclause=yes name=id_contem_gluten dbname="id_contem_gluten" )
+ column=(type=char(1) updatewhereclause=yes name=id_contem_acucar dbname="id_contem_acucar" )
+ column=(type=char(1) updatewhereclause=yes name=id_contem_lactose dbname="id_contem_lactose" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_reembolso_fpb dbname="vl_reembolso_fpb" )
+ column=(type=char(6) updatewhereclause=yes name=nr_matricula_inclusao dbname="nr_matricula_inclusao" )
+ column=(type=char(7) updatewhereclause=yes name=cd_cest dbname="cd_cest" )
+ column=(type=char(1) updatewhereclause=yes name=id_pbm dbname="id_pbm" )
+ column=(type=char(6) updatewhereclause=yes name=nr_matric_solicitacao_alt_sit dbname="nr_matric_solicitacao_alt_sit" )
+ column=(type=char(40) updatewhereclause=yes name=nm_usuario dbname="nm_usuario" )
+ column=(type=char(1) updatewhereclause=yes name=id_tipo_un_calc_preco dbname="id_tipo_un_calc_preco" )
+ column=(type=decimal(3) updatewhereclause=yes name=qt_peso_apresentacao dbname="qt_peso_apresentacao" )
+ column=(type=long updatewhereclause=yes name=cd_tipo_prescricao dbname="cd_tipo_prescricao" )
+ column=(type=char(200) updatewhereclause=yes name=de_tipo_alerta dbname="de_tipo_alerta" )
+ column=(type=char(20) updatewhereclause=yes name=cd_produto_sap dbname="cd_produto_sap" )
+ column=(type=char(1) updatewhereclause=yes name=id_liberado_filial_sap dbname="id_liberado_filial_sap" )
+ column=(type=long updatewhereclause=yes name=cd_categoria_ecommerce dbname="cd_categoria_ecommerce" )
+ column=(type=char(40) updatewhereclause=yes name=de_categoria_ecommerce dbname="de_categoria_ecommerce" )
+ column=(type=char(10) updatewhereclause=yes name=cd_sku_dc dbname="cd_sku_dc" )
+ column=(type=char(10) updatewhereclause=yes name=cd_sku_fa dbname="cd_sku_fa" )
+ column=(type=char(10) updatewhereclause=yes name=cd_sku_pp dbname="cd_sku_pp" )
+ column=(type=char(10) updatewhereclause=yes name=cd_sku_mp dbname="cd_sku_mp" )
+ column=(type=char(1) updatewhereclause=yes name=id_liberado_ecommerce_dc dbname="id_liberado_ecommerce_dc" values="Liberado eCommerce DC ?	S/Liberado eCommerce DC ?	N" )
+ column=(type=char(1) updatewhereclause=yes name=id_liberado_ecommerce_mp dbname="id_liberado_ecommerce_mp" values="Liberado eCommerce MP ?	S/Liberado eCommerce MP ?	N" )
+ column=(type=char(1) updatewhereclause=yes name=id_liberado_ecommerce_pp dbname="id_liberado_ecommerce_pp" values="Liberado eCommerce PP ?	S/Liberado eCommerce PP ?	N" )
+ column=(type=long updatewhereclause=yes name=cd_categ_mercadologica dbname="cd_categ_mercadologica" )
+ column=(type=decimal(2) updatewhereclause=yes name=qt_comprimento dbname="qt_comprimento" )
+ column=(type=char(100) updatewhereclause=yes name=de_motivo_registro_ms_isento dbname="de_motivo_registro_ms_isento" )
+ column=(type=long updatewhereclause=yes name=qt_prazo_reposicao dbname="qt_prazo_reposicao" )
+ column=(type=char(1) updatewhereclause=yes name=id_marca_propria dbname="id_marca_propria" )
+ column=(type=char(18) updatewhereclause=yes name=cd_arvore_mercadologica_sap dbname="cd_arvore_mercadologica_sap" )
+ column=(type=char(3) updatewhereclause=yes name=cd_segmento_ims dbname="cd_segmento_ims" )
+ column=(type=char(60) updatewhereclause=yes name=de_segmento dbname="de_segmento" )
+ column=(type=long updatewhereclause=yes name=cd_area_farmacia dbname="cd_area_farmacia" )
+ column=(type=char(100) updatewhereclause=yes name=de_area_farmacia dbname="de_area_farmacia" )
+ column=(type=long updatewhereclause=yes name=cd_tarja dbname="cd_tarja" )
+ column=(type=char(100) updatewhereclause=yes name=de_tarja dbname="de_tarja" )
+ column=(type=long updatewhereclause=yes name=cd_cronicidade dbname="cd_cronicidade" )
+ column=(type=char(100) updatewhereclause=yes name=de_cronicidade dbname="de_cronicidade" )
+ column=(type=char(9) updatewhereclause=yes name=cd_grupo_mercadorias dbname="cd_grupo_mercadorias" )
+ column=(type=char(60) updatewhereclause=yes name=de_grupo_mercadorias dbname="de_grupo_mercadorias" )
+ column=(type=char(1) updatewhereclause=yes name=id_sem_gtin dbname="id_sem_gtin" )
+ column=(type=char(1) updatewhereclause=yes name=id_farm_gov_bolsa_familia dbname="id_farm_gov_bolsa_familia" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_temp_minima dbname="vl_temp_minima" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_temp_maxima dbname="vl_temp_maxima" )
+ column=(type=char(1) updatewhereclause=yes name=id_pbm_permite_cobre_preco dbname="id_pbm_permite_cobre_preco" )
+ column=(type=char(100) updatewhereclause=yes name=produto_central_de_produto_primaria dbname="de_produto_primaria" )
+ column=(type=char(100) updatewhereclause=yes name=produto_central_de_produto_secundaria dbname="de_produto_secundaria" )
+ column=(type=char(140) updatewhereclause=yes name=produto_central_de_texto_legal dbname="de_texto_legal" )
+ column=(type=char(80) updatewhereclause=yes name=produto_central_de_alergenicos dbname="de_alergenicos" )
+ column=(type=char(1) updatewhereclause=yes name=produto_central_id_permite_publicidade dbname="id_permite_publicidade" )
+ column=(type=char(1) updatewhereclause=yes name=produto_central_id_publi_obriga_texto_legal dbname="id_publi_obriga_texto_legal" )
+ column=(type=char(1) updatewhereclause=yes name=id_lib_marketing_externo dbname="id_lib_marketing_externo" )
+ column=(type=char(1) updatewhereclause=yes name=id_lib_marketing_interno dbname="id_lib_marketing_interno" )
+ column=(type=char(50) updatewhereclause=yes name=de_produto_area_atuacao dbname="de_produto_area_atuacao" )
+ column=(type=char(50) updatewhereclause=yes name=de_produto_atributo dbname="de_produto_atributo" )
+ column=(type=char(50) updatewhereclause=yes name=de_produto_faixa_etaria dbname="de_produto_faixa_etaria" )
+ column=(type=char(255) updatewhereclause=yes name=de_produto_posologia dbname="de_produto_posologia" )
+ column=(type=char(255) updatewhereclause=yes name=de_produto_precaucoes dbname="de_produto_precaucoes" )
+ column=(type=char(50) updatewhereclause=yes name=de_produto_publico_dest dbname="de_produto_publico_dest" )
+ column=(type=char(50) updatewhereclause=yes name=de_produto_selo dbname="de_produto_selo" )
+ column=(type=char(255) updatewhereclause=yes name=de_produto_texto_min_saude dbname="de_produto_texto_min_saude" )
+ column=(type=char(1) updatewhereclause=yes name=id_contem_corante dbname="id_contem_corante" )
+ column=(type=char(1) updatewhereclause=yes name=id_testado_animais dbname="id_testado_animais" )
+ column=(type=char(1) updatewhereclause=yes name=id_vegano dbname="id_vegano" )
+ column=(type=char(2) updatewhereclause=yes name=id_stb dbname="id_stb" )
+ column=(type=char(100) updatewhereclause=yes name=de_desc_stb dbname="de_desc_stb" )
+ column=(type=datetime updatewhereclause=yes name=dt_inicio_stb dbname="dt_inicio_stb" )
+ column=(type=datetime updatewhereclause=yes name=dt_fim_stb dbname="dt_fim_stb" )
+ retrieve="Select pc.cd_produto,   
+       pc.cd_mix_produto,
+       pc.id_tipo_reposicao_estoque,
+       pc.cd_produto_fornecedor,   
+       pc.pc_desconto_fornecedor,   
+       pc.vl_peso_liquido,   
+       pc.dh_situacao,   
+       pc.cd_local_estocagem,   
+       pc.id_origem_produto_fornecedor,   
+       0 as cd_produto_abcfarma,   
+	  '' as nm_fabricante_abc_farma,
+       pc.vl_fator_conversao_abcfarma,   
+       pc.cd_divisao_estocagem,   
+       pc.id_preco_informado,   
+       pc.id_contrato_fornecedor,   
+       pc.id_pagamento_apos_venda,
+       pc.id_sugere_pedido_filial,
+       pc.id_lei_generico,
+       pg.id_lei_generico,
+       pg.de_produto,   
+       pg.de_apresentacao_estoque,   
+       pg.de_apresentacao_venda,   
+       pg.nr_embalagem_padrao,   
+       pg.nr_classificacao_fiscal,   
+       pg.cd_unidade_medida_compra,   
+       pg.cd_unidade_medida_venda,   
+       pg.cd_grupo_produto,   
+       pg.cd_subgrupo_produto,   
+       pg.cd_linha_produto,   
+       pg.cd_fornecedor_usual,   
+       pg.id_situacao, 
+       pg.id_situacao as id_situacao_anterior,
+       pc.nr_matric_alteracao_situacao,
+       pc.de_alteracao_situacao,     
+       pc.de_alteracao_situacao as de_alteracao_situacao_anterior,
+       pg.id_liberado_filial,   
+       pg.de_codigo_barras,   
+       pg.dh_alteracao_codigo_barras,   
+       pg.vl_fator_conversao,   
+       round(pc.vl_custo_gerencial * pg.vl_fator_conversao, 2) 'vl_custo_medio',   
+       round(pc.vl_custo_gerencial_geral * pg.vl_fator_conversao, 2) 'vl_custo_gerencial',   
+       pg.pc_desconto_atual,   
+       pg.pc_desconto_futuro,   
+       pg.id_preco_bloqueado,   
+       pg.pc_ipi,   
+       pg.cd_grupo_psico,   
+       pg.cd_dcb,   
+       pg.cd_origem_produto,   
+       pg.id_caderno_abcfarma,   
+       pg.pc_reducao_base_icms,   
+       pg.cd_produto,   
+       pg.nr_matricula_desconto_futuro,   
+       pg.nr_matricula_desconto_atual,   
+       pg.dh_desconto_atual,   
+       pg.dh_desconto_futuro,   
+       pg.dh_inclusao_produto,   
+       pg.dh_termino_avaliacao,
+       pg.id_tipo_desconto_atual,   
+       pg.id_tipo_desconto_futuro,
+       pg.id_proprio_consignado,
+       pg.id_situacao_pis_cofins,
+       pg.cd_subcategoria,
+       pg.vl_ponto_clube,
+       pg.qt_pontos_resgate,
+       pg.pc_desconto_clube_atual,
+       pg.dh_desconto_clube_atual,
+       pg.nr_matric_desc_clube_atual,
+       pg.pc_desconto_clube_futuro,
+       pg.dh_desconto_clube_futuro,
+       pg.nr_matric_desc_clube_futuro,
+       pg.id_utiliza_vale_resgate,
+       pg.qt_unidades_embalagem,
+       pg.qt_concentracao,
+       isnull(pg.id_apresentacao, '00') id_apresentacao,
+       pg.qt_dias_maximo_tratamento,
+       pg.vl_volume,
+       pg.cd_fabricante,
+       pg.de_registro_ms,
+       isnull(pc.id_projeto_conexao, '0') id_projeto_conexao,
+       pg.id_recuperacao_vencido,
+       pg.de_descricao_internet,
+       pg.qt_largura_cm,
+       pg.qt_altura_cm,
+       pg.qt_profundidade_cm,
+       pg.qt_peso_grama,
+       isnull(pg.id_liberado_ecommerce, 'N') id_liberado_ecommerce,
+       pg.de_principal_internet,
+       cp.de_grupo,
+       cp.de_subgrupo,
+       cp.de_categoria,
+       cp.de_subcategoria,
+	  '' as de_produto_abcfarma, 
+       '' as de_apresentacao_abcfarma, 
+       fo.nm_razao_social As nm_fornecedor,
+       fa.nm_razao_social As nm_fabricante,   
+       dcb.de_dcb,   
+       '' As de_produto_localizacao,
+       'N' id_foto,
+       'N' id_foto_categoria,
+       space(10) principal_internet,
+       gap.de_grupo as de_grupo_alteracao_preco,
+       pc.cd_grupo_alteracao_preco,
+       pg.id_farmacia_popular,
+       pg.id_gratis_farm_popular,
+       pg.cd_planograma,
+       pc.id_revisao_fiscal,
+       mp.de_marca,
+       pg.cd_marca,
+       pg.cd_st_origem,
+       pg.id_geladeira,
+       pc.qt_largura_cm_caixa_forn,   
+       pc.qt_altura_cm_caixa_forn,    
+       pc.qt_profundidade_cm_caixa_forn,    
+       pc.qt_largura_cm_caixa_estoque,    
+       pc.qt_altura_cm_caixa_estoque,    
+       pc.qt_profund_cm_caixa_estoque,
+       pc.cd_bairro_wms,
+    	   (Case pc.id_projeto_conexao
+			  when null then 'N' 
+			  else 'S' End ) as id_conexao,
+       (Case pc.id_projeto_conexao
+			 when null Then 'NENHUM'
+			 Else (select x.de_projeto_conexao from conexao x where x.id_projeto_conexao = pc.id_projeto_conexao)
+    	   End) as de_conexao,
+       pg.id_exclusivo as id_exclusivo,
+       00 nr_divisao_fornecedor,
+       pg.cd_unidade_medida_padrao ,
+       pg.vl_fator_conversao_padrao,
+       pg.id_promover_venda,
+       space(40) de_ncm,
+       pg.id_permite_devolucao,
+       pg.cd_marca_ecommerce,
+       me.de_marca,
+	  '' as id_controle_preco,
+	  ~"~" As nm_pbm,
+	 Coalesce(pg.qt_estoque_minimo, 0) As qt_estoque_minimo,
+	Coalesce(pg.id_contem_gluten, 'N') As id_contem_gluten,
+	Coalesce(pg.id_contem_acucar, 'N') As id_contem_acucar,
+	Coalesce(pg.id_contem_lactose, 'N') As id_contem_lactose,
+	pg.vl_reembolso_fpb,
+	pg.nr_matricula_inclusao,
+	pg.cd_cest,
+	'' As id_pbm,
+	pc.nr_matric_solicitacao_alt_sit,
+	us.nm_usuario,
+	pc.id_tipo_un_calc_preco,
+	pc.qt_peso_apresentacao,
+	pg.cd_tipo_prescricao,
+	tar.de_tipo_alerta,
+	pg.cd_produto_sap,
+	pg.id_liberado_filial_sap,
+	pc.cd_categoria_ecommerce,
+	ce.de_categoria as de_categoria_ecommerce,
+		(select ep.cd_sku
+			from ecommerce_prd ep
+			where ep.cd_produto = pg.cd_produto
+			and ep.id_ecommerce = '2'
+			and ep.id_rede_filial = 'DC') as cd_sku_dc,
+(select ep.cd_sku
+			from ecommerce_prd ep
+			where ep.cd_produto = pg.cd_produto
+			and ep.id_ecommerce = '2'
+			and ep.id_rede_filial = 'FA') as cd_sku_fa,
+(select ep.cd_sku
+			from ecommerce_prd ep
+			where ep.cd_produto = pg.cd_produto
+			and ep.id_ecommerce = '2'
+			and ep.id_rede_filial = 'PP') as cd_sku_pp,
+(select ep.cd_sku
+			from ecommerce_prd ep
+			where ep.cd_produto = pg.cd_produto
+			and ep.id_ecommerce = '2'
+			and ep.id_rede_filial = 'MP') as cd_sku_mp,
+		isnull(pg.id_liberado_ecommerce_dc, 'N') id_liberado_ecommerce_dc,
+		isnull(pg.id_liberado_ecommerce_mp, 'N') id_liberado_ecommerce_mp,
+		pg.id_liberado_ecommerce_pp,
+		pc.cd_categ_mercadologica,
+		pg.qt_comprimento,
+		pg.de_motivo_registro_ms_isento,
+		pg.qt_prazo_reposicao,
+		coalesce(mp.id_marca_propria,'N') as id_marca_propria, 
+		pg.cd_arvore_mercadologica_sap,
+		pc.cd_segmento_ims,
+		si.de_segmento,
+		pg.cd_area_farmacia,
+		af.de_area_farmacia,
+		pg.cd_tarja,
+		tj.de_tarja,
+		pg.cd_cronicidade,
+		cr.de_cronicidade,
+		gm.cd_grupo as cd_grupo_mercadorias,
+		gm.de_grupo as de_grupo_mercadorias,
+		Coalesce(pg.id_sem_gtin, 'N') As id_sem_gtin,
+		Coalesce(pg.id_farm_gov_bolsa_familia, 'N') As id_farm_gov_bolsa_familia,
+		pg.vl_temp_minima, 
+		pg.vl_temp_maxima,
+		coalesce(pg.id_pbm_permite_cobre_preco, 'N') as id_pbm_permite_cobre_preco,
+		pc.de_produto_primaria,
+		pc.de_produto_secundaria,
+		pc.de_texto_legal,
+		pc.de_alergenicos,
+		pc.id_permite_publicidade,
+		pc.id_publi_obriga_texto_legal,
+		pc.id_lib_marketing_externo,
+		pc.id_lib_marketing_interno,
+		paa.de_produto_area_atuacao,
+		pa.de_produto_atributo,
+		pfe.de_produto_faixa_etaria,
+		pp.de_produto_posologia,
+		ppr.de_produto_precaucoes,
+		ppd.de_produto_publico_dest,
+		ps.de_produto_selo,
+		ptms.de_produto_texto_min_saude,
+		pg.id_contem_corante,
+		pg.id_testado_animais,
+		pg.id_vegano,
+		pc.id_stb,
+		pc.de_desc_stb,
+		pc.dt_inicio_stb,
+		pc.dt_fim_stb
+From produto_geral As pg
+	Inner Join produto_central As pc
+		On pc.cd_produto = pg.cd_produto
+	Left Outer Join fabricante As fa
+		On fa.cd_fabricante = pg.cd_fabricante
+	Left Outer Join fornecedor As fo
+		On fo.cd_fornecedor = pg.cd_fornecedor_usual
+	Left Outer Join vw_classificacao_produto As cp
+		On cp.cd_subcategoria = pg.cd_subcategoria
+	Left Outer Join marca_produto As mp
+		On mp.cd_marca = pg.cd_marca
+	Left Outer Join dcb_produto As dcb
+		On dcb.cd_dcb = pg.cd_dcb
+	Left Outer Join grupo_alteracao_preco As gap
+		On gap.cd_grupo = pc.cd_grupo_alteracao_preco
+	Left Outer Join marca_ecommerce As me
+		On me.cd_marca = pg.cd_marca_ecommerce
+	Left Outer Join usuario As us
+		On us.nr_matricula = pc.nr_matric_solicitacao_alt_sit
+	Left Outer Join categoria_ecommerce As ce
+		On ce.cd_categoria = pc.cd_categoria_ecommerce
+	Left Outer Join segmento_ims As si
+		On si.cd_segmento = pc.cd_segmento_ims 
+	Left Outer Join area_farmacia As af
+		On af.cd_area_farmacia = pg.cd_area_farmacia 
+	Left Outer Join tarja As tj 
+		On tj.cd_tarja = pg.cd_tarja 
+	Left Outer Join cronicidade As cr 
+		On cr.cd_cronicidade = pg.cd_cronicidade 
+	Left Outer Join grupo_mercadorias As gm 
+		On gm.cd_grupo  = pg.cd_grupo_mercadoria_sap
+
+	Left Outer Join produto_area_atuacao As paa
+		On paa.cd_produto_area_atuacao = pg.cd_produto_area_atuacao
+
+	Left Outer Join produto_atributo As pa
+		On pa.cd_produto_atributo = pg.cd_produto_atributo
+
+	Left Outer Join produto_faixa_etaria As pfe
+		On pfe.cd_produto_faixa_etaria = pg.cd_produto_faixa_etaria
+
+	Left Outer Join produto_posologia As pp
+		On pp.cd_produto_posologia = pg.cd_produto_posologia
+
+	Left Outer Join produto_precaucoes As ppr
+		On ppr.cd_produto_precaucoes = pg.cd_produto_precaucoes
+
+	Left Outer Join produto_publico_dest As ppd
+		On ppd.cd_produto_publico_dest = pg.cd_produto_publico_dest
+
+	Left Outer Join produto_selo As ps
+		On ps.cd_produto_selo = pg.cd_produto_selo
+
+	Left Outer Join produto_texto_min_saude As ptms
+		On ptms.cd_produto_texto_min_saude = pg.cd_produto_texto_min_saude
+
+	Left Outer Join tipo_alerta_restricao AS tar
+		On tar.cd_tipo_alerta = pg.cd_tipo_alerta_restricao
+
+Where pg.cd_produto = :produto" arguments=(("produto", number)) )
+column(band=detail id=120 alignment="0" tabsequence=32766 border="0" color="8388608" x="553" y="120" height="52" width="416" format="[general]" html.valueishtml="0"  name=id_exclusivo visible="1" checkbox.text="Exclusivo?" checkbox.on="S" checkbox.off="N" checkbox.scale=no checkbox.threed=yes  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=1 alignment="1" tabsequence=32766 border="2" color="0" x="526" y="8" height="64" width="251" format="[general]" html.valueishtml="0"  name=cd_produto_central visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=detail alignment="1" text="C$$HEX1$$f300$$ENDHEX$$digo do Produto:" border="0" color="8388608" x="0" y="8" height="64" width="507" html.valueishtml="0"  name=t_8 visible="1"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=86 alignment="0" tabsequence=32766 border="0" color="8388608" x="553" y="204" height="52" width="901" format="[general]" html.valueishtml="0"  name=id_liberado_ecommerce visible="1" checkbox.text="Liberado eCommerce FA ?" checkbox.on="S" checkbox.off="N" checkbox.scale=no checkbox.threed=yes  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=detail alignment="0" text="SKU FA:" border="0" color="8388608" x="553" y="272" height="52" width="215" html.valueishtml="0"  name=t_1 visible="1"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=153 alignment="0" tabsequence=32766 border="0" color="8388608" x="553" y="360" height="52" width="901" format="[general]" html.valueishtml="0"  name=id_liberado_ecommerce_dc visible="1" checkbox.text="Liberado eCommerce DC ?" checkbox.on="S" checkbox.off="N" checkbox.scale=no checkbox.threed=yes  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=detail alignment="0" text="SKU DC:" border="0" color="8388608" x="553" y="428" height="52" width="233" html.valueishtml="0"  name=t_10 visible="1"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=155 alignment="0" tabsequence=32766 border="0" color="8388608" x="1842" y="204" height="52" width="901" format="[general]" html.valueishtml="0"  name=id_liberado_ecommerce_pp visible="1" checkbox.text="Liberado eCommerce PP ?" checkbox.on="S" checkbox.off="N" checkbox.scale=no checkbox.threed=yes  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=detail alignment="0" text="SKU PP:" border="0" color="8388608" x="1842" y="272" height="52" width="215" html.valueishtml="0"  name=t_9 visible="1"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=154 alignment="0" tabsequence=32766 border="0" color="8388608" x="1842" y="360" height="52" width="901" format="[general]" html.valueishtml="0"  name=id_liberado_ecommerce_mp visible="1" checkbox.text="Liberado eCommerce MP ?" checkbox.on="S" checkbox.off="N" checkbox.scale=no checkbox.threed=yes  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=detail alignment="0" text="SKU MP:" border="0" color="8388608" x="1842" y="428" height="52" width="224" html.valueishtml="0"  name=t_11 visible="1"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=detail alignment="1" text="Descri$$HEX2$$e700e300$$ENDHEX$$o:" border="0" color="8388608" x="215" y="524" height="64" width="315" html.valueishtml="0"  name=produto_geral_de_apresentacao_venda_t visible="1"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=81 alignment="0" tabsequence=32766 border="2" color="0" x="553" y="520" height="144" width="2793" format="[general]" html.valueishtml="0" protect="0~t1"  name=de_descricao_internet visible="1" edit.limit=70 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.nilisnull=yes  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="134217750" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=87 alignment="0" tabsequence=10 border="2" color="0" x="553" y="696" height="440" width="2793" format="[general]" html.valueishtml="0"  name=de_principal_internet visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.nilisnull=yes edit.autovscroll=yes edit.vscrollbar=yes  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=detail alignment="1" text="*Des. Principal:" border="0" color="8388608" x="119" y="696" height="52" width="411" html.valueishtml="0"  name=t_12 visible="1"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=detail alignment="1" text="Marca:" border="0" color="8388608" x="1993" y="1160" height="52" width="247" html.valueishtml="0"  name=t_6 visible="1"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=detail alignment="1" text="*Categoria (VTEX):" border="0" color="8388608" x="14" y="1160" height="52" width="517" html.valueishtml="0"  name=t_13 visible="1"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=128 alignment="0" tabsequence=32766 border="2" color="0" x="2258" y="1160" height="64" width="919" format="[general]" html.valueishtml="0" protect="0~t1"  name=de_marca visible="1" edit.limit=0 edit.case=upper edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="134217750" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=127 alignment="1" tabsequence=32766 border="2" color="0" x="3195" y="1160" height="64" width="155" format="[general]" html.valueishtml="0" protect="0~t1"  name=cd_marca_ecommerce visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="134217750" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=147 alignment="0" tabsequence=32766 border="2" color="0" x="1723" y="1160" height="64" width="197" format="[general]" html.valueishtml="0"  name=cd_categoria_ecommerce visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=152 alignment="1" tabsequence=32766 border="2" color="0" x="2080" y="428" height="64" width="270" format="[general]" html.valueishtml="0"  name=cd_sku_mp visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.displayonly=yes  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="134217750" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=149 alignment="1" tabsequence=32766 border="2" color="0" x="809" y="428" height="64" width="270" format="[general]" html.valueishtml="0"  name=cd_sku_dc visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.displayonly=yes  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="134217750" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=150 alignment="1" tabsequence=32766 border="2" color="0" x="782" y="272" height="64" width="270" format="[general]" html.valueishtml="0"  name=cd_sku_fa visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.displayonly=yes  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="134217750" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=151 alignment="1" tabsequence=32766 border="2" color="0" x="2080" y="272" height="64" width="270" format="[general]" html.valueishtml="0"  name=cd_sku_pp visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.displayonly=yes  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="134217750" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=detail alignment="1" text="Altura (cm):" border="0" color="8388608" x="14" y="1312" height="64" width="517" html.valueishtml="0"  name=t_2 visible="1"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=83 alignment="1" tabsequence=32766 border="2" color="0" x="553" y="1312" height="64" width="329" format="[general]" html.valueishtml="0" protect="0~t1"  name=qt_altura_cm visible="1" editmask.mask="###,##0.00" editmask.focusrectangle=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="134217750" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=84 alignment="1" tabsequence=32766 border="2" color="0" x="553" y="1392" height="64" width="329" format="[general]" html.valueishtml="0" protect="0~t1"  name=qt_profundidade_cm visible="1" editmask.mask="##,##0.00" editmask.focusrectangle=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="134217750" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=detail alignment="1" text="Profundidade (cm):" border="0" color="8388608" x="14" y="1392" height="64" width="517" html.valueishtml="0"  name=t_4 visible="1"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=detail alignment="1" text="Largura (cm):" border="0" color="8388608" x="923" y="1312" height="64" width="384" html.valueishtml="0"  name=t_3 visible="1"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=82 alignment="1" tabsequence=32766 border="2" color="0" x="1326" y="1312" height="64" width="329" format="[general]" html.valueishtml="0" protect="0~t1"  name=qt_largura_cm visible="1" editmask.mask="###,##0.00" editmask.focusrectangle=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="134217750" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=85 alignment="1" tabsequence=32766 border="2" color="0" x="1326" y="1392" height="64" width="329" format="[general]" html.valueishtml="0" protect="0~t1"  name=qt_peso_grama visible="1" editmask.mask="##,##0.000" editmask.focusrectangle=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="134217750" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=detail alignment="1" text="Peso (kg):" border="0" color="8388608" x="1024" y="1392" height="64" width="283" html.valueishtml="0"  name=t_5 visible="1"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=detail alignment="1" text="~t'Peso (g): '  + string(qt_peso_grama * 1000, ~"#,##0~")" border="0" color="8388608" x="1701" y="1392" height="64" width="539" html.valueishtml="0"  name=t_7 visible="1"  font.face="Verdana" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=detail alignment="1" text="* Estes campos devem ser alterados no Sybase (demais campos no SAP)" border="0" color="8388608" x="14" y="1480" height="48" width="1659" html.valueishtml="0"  name=t_14 visible="1"  font.face="Verdana" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=148 alignment="0" tabsequence=20 border="2" color="0" x="553" y="1160" height="64" width="1147" format="[general]" html.valueishtml="0"  name=de_categoria_ecommerce visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=detail alignment="0" text="" border="0" color="33554432" x="553" y="1240" height="48" width="1367" html.valueishtml="0"  name=de_arvore_cat_t visible="1"  font.face="Verdana" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=146 alignment="0" tabsequence=32766 border="0" color="0" x="2350" y="84" height="52" width="256" format="[general]" html.valueishtml="0"  name=id_liberado_filial_sap visible="0" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=157 alignment="0" tabsequence=32766 border="0" color="8388608" x="2030" y="28" height="52" width="256" format="[general]" html.valueishtml="0"  name=qt_comprimento visible="0" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=156 alignment="0" tabsequence=32766 border="0" color="8388608" x="2350" y="12" height="52" width="256" format="[general]" html.valueishtml="0"  name=cd_categ_mercadologica visible="0" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=158 alignment="0" tabsequence=32766 border="0" color="8388608" x="2629" y="12" height="52" width="256" format="[general]" html.valueishtml="0"  name=de_motivo_registro_ms_isento visible="0" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=159 alignment="0" tabsequence=32766 border="0" color="8388608" x="2624" y="84" height="52" width="256" format="[general]" html.valueishtml="0"  name=qt_prazo_reposicao visible="0" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=161 alignment="0" tabsequence=32766 border="0" color="8388608" x="2953" y="92" height="52" width="178" format="[general]" html.valueishtml="0"  name=cd_arvore_mercadologica_sap visible="0" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=160 alignment="0" tabsequence=32766 border="0" color="8388608" x="2953" y="20" height="52" width="178" format="[general]" html.valueishtml="0"  name=id_marca_propria visible="0" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=162 alignment="0" tabsequence=32766 border="0" color="8388608" x="2953" y="172" height="52" width="178" format="[general]" html.valueishtml="0"  name=cd_segmento_ims visible="0" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=163 alignment="0" tabsequence=32766 border="0" color="8388608" x="2953" y="252" height="52" width="178" format="[general]" html.valueishtml="0"  name=de_segmento visible="0" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=164 alignment="0" tabsequence=32766 border="0" color="8388608" x="2953" y="332" height="52" width="178" format="[general]" html.valueishtml="0"  name=cd_area_farmacia visible="0" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=165 alignment="0" tabsequence=32766 border="0" color="8388608" x="2953" y="400" height="52" width="178" format="[general]" html.valueishtml="0"  name=de_area_farmacia visible="0" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=166 alignment="0" tabsequence=32766 border="0" color="8388608" x="3150" y="24" height="52" width="178" format="[general]" html.valueishtml="0"  name=cd_tarja visible="0" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=167 alignment="0" tabsequence=32766 border="0" color="8388608" x="3150" y="96" height="52" width="178" format="[general]" html.valueishtml="0"  name=de_tarja visible="0" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=168 alignment="0" tabsequence=32766 border="0" color="8388608" x="3150" y="176" height="52" width="178" format="[general]" html.valueishtml="0"  name=cd_cronicidade visible="0" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=169 alignment="0" tabsequence=32766 border="0" color="8388608" x="3150" y="244" height="52" width="178" format="[general]" html.valueishtml="0"  name=de_cronicidade visible="0" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=170 alignment="0" tabsequence=32766 border="0" color="8388608" x="3351" y="0" height="52" width="242" format="[general]" html.valueishtml="0"  name=cd_grupo_mercadorias visible="0" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=171 alignment="0" tabsequence=32766 border="0" color="8388608" x="3355" y="60" height="52" width="242" format="[general]" html.valueishtml="0"  name=de_grupo_mercadorias visible="0" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=172 alignment="0" tabsequence=32766 border="0" color="8388608" x="3351" y="120" height="52" width="242" format="[general]" html.valueishtml="0"  name=id_sem_gtin visible="0" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=174 alignment="0" tabsequence=32766 border="0" color="8388608" x="3351" y="188" height="52" width="242" format="[general]" html.valueishtml="0"  name=vl_temp_minima visible="0" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=176 alignment="0" tabsequence=32766 border="0" color="8388608" x="3365" y="324" height="52" width="27" format="[general]" html.valueishtml="0"  name=id_pbm_permite_cobre_preco visible="0" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=173 alignment="0" tabsequence=32766 border="0" color="0" x="3159" y="308" height="52" width="155" format="[general]" html.valueishtml="0"  name=id_farm_gov_bolsa_familia visible="0" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=183 alignment="0" tabsequence=32766 border="0" color="8388608" x="3150" y="372" height="52" width="155" format="[general]" html.valueishtml="0"  name=id_lib_marketing_externo visible="0" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=184 alignment="0" tabsequence=32766 border="0" color="8388608" x="3150" y="436" height="52" width="155" format="[general]" html.valueishtml="0"  name=id_lib_marketing_interno visible="0" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=185 alignment="0" tabsequence=32766 border="0" color="8388608" x="3598" y="0" height="52" width="242" format="[general]" html.valueishtml="0"  name=de_produto_area_atuacao visible="0" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=188 alignment="0" tabsequence=32766 border="0" color="8388608" x="3621" y="196" height="52" width="242" format="[general]" html.valueishtml="0"  name=de_produto_posologia visible="0" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=193 alignment="0" tabsequence=32766 border="0" color="8388608" x="3657" y="560" height="52" width="242" format="[general]" html.valueishtml="0"  name=id_contem_corante visible="0" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=194 alignment="0" tabsequence=32766 border="0" color="8388608" x="3630" y="640" height="52" width="242" format="[general]" html.valueishtml="0"  name=id_testado_animais visible="0" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=195 alignment="0" tabsequence=32766 border="0" color="8388608" x="3639" y="716" height="52" width="242" format="[general]" html.valueishtml="0"  name=id_vegano visible="0" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=192 alignment="0" tabsequence=32766 border="0" color="8388608" x="3621" y="484" height="52" width="242" format="[general]" html.valueishtml="0"  name=de_produto_texto_min_saude visible="0" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=191 alignment="0" tabsequence=32766 border="0" color="8388608" x="3648" y="420" height="52" width="242" format="[general]" html.valueishtml="0"  name=de_produto_selo visible="0" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=190 alignment="0" tabsequence=32766 border="0" color="8388608" x="3630" y="352" height="52" width="242" format="[general]" html.valueishtml="0"  name=de_produto_publico_dest visible="0" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=189 alignment="0" tabsequence=32766 border="0" color="8388608" x="3621" y="280" height="52" width="242" format="[general]" html.valueishtml="0"  name=de_produto_precaucoes visible="0" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=187 alignment="0" tabsequence=32766 border="0" color="8388608" x="3630" y="136" height="52" width="242" format="[general]" html.valueishtml="0"  name=de_produto_faixa_etaria visible="0" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=186 alignment="0" tabsequence=32766 border="0" color="8388608" x="3630" y="80" height="52" width="242" format="[general]" html.valueishtml="0"  name=de_produto_atributo visible="0" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=175 alignment="0" tabsequence=32766 border="0" color="8388608" x="3351" y="248" height="52" width="242" format="[general]" html.valueishtml="0"  name=vl_temp_maxima visible="0" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=144 alignment="0" tabsequence=32766 border="0" color="8388608" x="3342" y="424" height="52" width="242" format="[general]" html.valueishtml="0"  name=de_tipo_alerta visible="0" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=summary id=133 alignment="0" tabsequence=32766 border="0" color="0" x="1947" y="4" height="44" width="343" format="[general]" html.valueishtml="0"  name=id_contem_acucar visible="0" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=footer id=132 alignment="0" tabsequence=32766 border="0" color="0" x="1947" y="0" height="48" width="384" format="[general]" html.valueishtml="0"  name=id_contem_gluten visible="0" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=198 alignment="0" tabsequence=30 border="0" color="8388608" x="3607" y="796" height="52" width="315" html.valueishtml="0"  name=dt_inicio_stb visible="0" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=199 alignment="0" tabsequence=40 border="0" color="8388608" x="3602" y="876" height="52" width="311" html.valueishtml="0"  name=dt_fim_stb visible="0" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

@@ -1,0 +1,6 @@
+HA$PBExportHeader$str_ge415_produto_filial.srs
+global type str_ge415_produto_filial from structure
+	long		cd_produto
+	long		cd_filial
+end type
+

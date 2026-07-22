@@ -1,0 +1,26 @@
+HA$PBExportHeader$gf_retorna_so_caracteres_especiais.srf
+$PBExportComments$Retorna apenas os n$$HEX1$$fa00$$ENDHEX$$meros de uma string
+global type gf_retorna_so_caracteres_especiais from function_object
+end type
+
+forward prototypes
+global function string gf_retorna_so_caracteres_especiais (string ps_valor)
+end prototypes
+
+global function string gf_retorna_so_caracteres_especiais (string ps_valor);/* Retorna apenas os caracteres especiais da string passada como parametro */
+String lvs_Retorno = ''
+String lvs_Case =  "$$HEX1$$1420$$ENDHEX$$-$$HEX1$$ac00$$ENDHEX$$'~^$$HEX1$$b400$$ENDHEX$$`$$HEX18$$a800e600c600f800a300d8009201aa00ba00bf00ae00bd00a700bc00d300df00b500fe00$$ENDHEX$$!@#$%$$HEX1$$a800$$ENDHEX$$&*()_=+{}[]?/;><,\"
+
+Long lvl_Char
+
+If IsNull(ps_valor) Then ps_valor = ""
+
+For lvl_Char = 1 to Len(ps_Valor)
+	If Pos(lvs_Case,Mid(ps_Valor,lvl_Char,1))>0 Then
+		lvs_Retorno += Mid(ps_Valor,lvl_Char,1)
+	End If
+Next
+
+Return lvs_Retorno
+end function
+

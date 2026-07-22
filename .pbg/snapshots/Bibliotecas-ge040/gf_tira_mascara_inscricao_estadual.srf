@@ -1,0 +1,38 @@
+HA$PBExportHeader$gf_tira_mascara_inscricao_estadual.srf
+global type gf_tira_mascara_inscricao_estadual from function_object
+end type
+
+forward prototypes
+global function string gf_tira_mascara_inscricao_estadual (string as_inscricao)
+end prototypes
+
+global function string gf_tira_mascara_inscricao_estadual (string as_inscricao);Integer lvi_Pos,&
+	    lvi_Pos_Anterior
+
+lvi_Pos = PosA(as_Inscricao, ".")
+
+If lvi_Pos > 0 Then
+	as_Inscricao = MidA(as_Inscricao, 1, lvi_Pos - 1) + MidA(as_Inscricao, lvi_Pos + 1)
+End If
+
+lvi_Pos = PosA(as_Inscricao, ".")
+
+If lvi_Pos > 0 Then
+	as_Inscricao = MidA(as_Inscricao, 1, lvi_Pos -1) + MidA(as_Inscricao, lvi_Pos + 1)
+End If
+
+lvi_Pos = PosA(as_Inscricao, "/")
+
+If lvi_Pos > 0 Then
+	as_Inscricao = MidA(as_Inscricao, 1, lvi_Pos -1) + MidA(as_Inscricao, lvi_Pos + 1)
+End If
+
+lvi_Pos = PosA(as_Inscricao, "-")
+
+If lvi_Pos > 0 Then
+	as_Inscricao = MidA(as_Inscricao, 1, lvi_Pos -1) + MidA(as_Inscricao, lvi_Pos + 1)
+End If
+
+Return as_Inscricao
+end function
+

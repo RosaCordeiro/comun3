@@ -1,0 +1,31 @@
+HA$PBExportHeader$gf_tempo_percorrido.srf
+global type gf_tempo_percorrido from function_object
+end type
+
+forward prototypes
+global function string gf_tempo_percorrido (time pt_horainicio)
+end prototypes
+
+global function string gf_tempo_percorrido (time pt_horainicio);/*
+	Esta fun$$HEX2$$e700e300$$ENDHEX$$o retorna uma String com tempo percorrido desde pt_HoraInicio at$$HEX1$$e900$$ENDHEX$$ agora no formato exemplo:
+		- 10m 15s (quando passou mais de um minuto)
+		- 30 segundos (quando passou menos)
+*/
+
+Long lvl_SegundosTotal, lvl_Minutos, lvl_Segundos
+String lvs_Tempo
+
+lvl_SegundosTotal = SecondsAfter(pt_HoraInicio, Now())
+
+// Se passou mais que 60 segundos, separar string em minutos e segundos.
+If lvl_SegundosTotal >= 60 Then
+	lvl_Minutos = Long(lvl_SegundosTotal/60)
+	lvl_Segundos = lvl_SegundosTotal - (lvl_Minutos*60)
+	lvs_Tempo = String(lvl_Minutos)+"m "+String(lvl_Segundos)+"s"
+Else
+	lvs_Tempo = String(lvl_SegundosTotal)+" segundos"
+End If
+
+Return lvs_Tempo
+end function
+

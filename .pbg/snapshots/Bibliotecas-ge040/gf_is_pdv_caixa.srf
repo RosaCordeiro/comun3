@@ -1,0 +1,42 @@
+HA$PBExportHeader$gf_is_pdv_caixa.srf
+global type gf_is_pdv_caixa from function_object
+end type
+
+forward prototypes
+global function boolean gf_is_pdv_caixa ()
+end prototypes
+
+global function boolean gf_is_pdv_caixa ();String ls_Nome_PDV, ls_Caixa
+
+Integer li_Count
+
+Try	
+	ls_Nome_PDV	= gvo_Aplicacao.is_ComputerName
+	
+	//Desconsidera PDV_01
+	If Right(ls_Nome_PDV, 3) = '_01' Then
+		Return False
+	End If 
+		
+	ls_Nome_PDV = gf_Replace(ls_Nome_PDV, '_', '' ,1)
+	
+	Select (select Count(*) from caixa where cd_caixa = :ls_Nome_PDV and de_caixa <> 'DESABILITADO')  +
+			(select Count(*) from parametro_pdv where cd_parametro = 'CD_CAIXA' and nm_pdv = :ls_Nome_PDV)
+	Into :li_Count
+	From parametro
+	where id_parametro = '1'
+	Using Sqlca;
+	
+	If SqlCa.SqlCode = -1 Then
+		SqlCa.of_MsgDbError("Erro ao localizar os par$$HEX1$$e200$$ENDHEX$$metros. Fun$$HEX2$$e700e300$$ENDHEX$$o wf_possui_caixa()")
+		Return False
+	End If
+	
+	Return ( li_Count > 0 )
+	
+Finally
+End Try
+
+
+end function
+

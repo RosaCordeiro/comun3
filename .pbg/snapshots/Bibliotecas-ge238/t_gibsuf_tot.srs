@@ -1,0 +1,7 @@
+HA$PBExportHeader$t_gibsuf_tot.srs
+global type t_gibsuf_tot from structure
+	decimal{2}		vDif
+	decimal{2}		vDevTrib
+	decimal{2}		vIBSUF
+end type
+

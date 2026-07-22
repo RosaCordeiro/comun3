@@ -1,0 +1,74 @@
+HA$PBExportHeader$ds_ge325_rel_dinamico_filial_txt.srd
+release 12;
+datawindow(units=0 timer_interval=0 color=1073741824 brushmode=0 transparency=0 gradient.angle=0 gradient.color=8421504 gradient.focus=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.repetition.mode=0 gradient.scale=100 gradient.spread=100 gradient.transparency=0 picture.blur=0 picture.clip.bottom=0 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.transparency=0 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes hidegrayline=no showbackcoloronxp=no picture.file="" )
+header(height=112 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+detail(height=180 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+table(column=(type=long updatewhereclause=yes name=cd_filial dbname="a_nf_venda_cfop.cd_filial" dbalias="x.cd_filial" )
+ column=(type=long updatewhereclause=yes name=mes dbname="mes" )
+ column=(type=long updatewhereclause=yes name=ano dbname="ano" )
+ column=(type=char(5) updatewhereclause=yes name=cd_cfop dbname="a_nf_venda_cfop.cd_cfop" dbalias="x.cd_cfop" )
+ column=(type=decimal(2) updatewhereclause=yes name=pc_icms dbname="a_nf_venda_cfop.pc_icms" dbalias="x.pc_icms" )
+ column=(type=decimal(2) updatewhereclause=yes name=pc_icms_efetivo dbname="a_nf_venda_cfop.pc_icms_efetivo" dbalias="x.pc_icms_efetivo" )
+ column=(type=decimal(2) updatewhereclause=yes name=pc_icms_atual dbname="a_nf_venda_cfop.pc_icms_atual" dbalias="x.pc_icms_atual" )
+ column=(type=decimal(2) updatewhereclause=yes name=pc_fcp_atual dbname="a_nf_venda_cfop.pc_fcp_atual" dbalias="x.pc_fcp_atual" )
+ column=(type=decimal(2) updatewhereclause=yes name=pc_icms_mes dbname="a_nf_venda_cfop.pc_icms_mes" dbalias="x.pc_icms_mes" )
+ column=(type=decimal(2) updatewhereclause=yes name=pc_fcp_mes dbname="a_nf_venda_cfop.pc_fcp_mes" dbalias="x.pc_fcp_mes" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_total_bruto dbname="vl_total_bruto" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_total_liquido dbname="vl_total_liquido" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_base_icms dbname="vl_base_icms" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_icms dbname="vl_icms" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_fcp dbname="vl_fcp" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_bc_pis dbname="vl_bc_pis" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_pis dbname="vl_pis" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_bc_cofins dbname="vl_bc_cofins" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_cofins dbname="vl_cofins" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_bc_icms_efetivo dbname="vl_bc_icms_efetivo" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_icms_efetivo dbname="vl_icms_efetivo" )
+ retrieve="select 	x.cd_filial, 
+		MONTH(x.dh_movimentacao_caixa) as mes, 
+		YEAR (x.dh_movimentacao_caixa) as ano,
+		x.cd_cfop, 
+	    x.pc_icms,
+		x.pc_icms_efetivo,
+		x.pc_icms_atual,
+		x.pc_fcp_atual,
+		x.pc_icms_mes,
+		x.pc_fcp_mes,
+		sum(x.vl_total_bruto) vl_total_bruto , 
+		sum(x.vl_total_liquido) vl_total_liquido , 
+		sum(x.vl_base_icms) vl_base_icms ,
+		sum(x.vl_icms) vl_icms ,
+		sum(x.vl_fcp) vl_fcp ,
+		sum(x.vl_bc_pis) vl_bc_pis ,
+		sum(x.vl_pis) vl_pis ,
+		sum(x.vl_bc_cofins) vl_bc_cofins ,
+		sum(x.vl_cofins) vl_cofins ,
+		sum(x.vl_bc_icms_efetivo) vl_bc_icms_efetivo ,
+		sum(x.vl_icms_efetivo) vl_icms_efetivo 
+from dbo.a_nf_venda_cfop x
+where x.dh_movimentacao_caixa between :pdt_ini and :pdt_fim
+group by x.cd_filial, 
+			MONTH(x.dh_movimentacao_caixa), 
+		YEAR (x.dh_movimentacao_caixa), 
+		x.cd_cfop, 
+	    x.pc_icms,
+		x.pc_icms_efetivo,
+		x.pc_icms_atual,
+		x.pc_fcp_atual,
+		x.pc_icms_mes,
+		x.pc_fcp_mes" arguments=(("pdt_ini", datetime),("pdt_fim", datetime)) )
+column(band=detail id=2 alignment="0" tabsequence=0 border="0" color="33554432" x="0" y="0" height="52" width="2135" html.valueishtml="0"  name=mes visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1073741824" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=3 alignment="0" tabsequence=0 border="0" color="33554432" x="2135" y="0" height="52" width="2135" html.valueishtml="0"  name=ano visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1073741824" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

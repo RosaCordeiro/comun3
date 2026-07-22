@@ -1,0 +1,24 @@
+HA$PBExportHeader$gf_mensagem_uf_diferente.srf
+global type gf_mensagem_uf_diferente from function_object
+end type
+
+forward prototypes
+global function integer gf_mensagem_uf_diferente ()
+end prototypes
+
+global function integer gf_mensagem_uf_diferente ();Integer lvi_retorno
+
+lvi_retorno = MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o!",																		 &
+            "Voc$$HEX1$$ea00$$ENDHEX$$ est$$HEX1$$e100$$ENDHEX$$ transferindo mercadoria para um estado diferente da sua ~r"       + &
+			   "filial. Para fazer a transfer$$HEX1$$ea00$$ENDHEX$$ncia, ser$$HEX1$$e100$$ENDHEX$$ necess$$HEX1$$e100$$ENDHEX$$rio preencher a Guia de ~r" + &
+			   "Recolhimento do ICMS a favor do Estado destino e pag$$HEX1$$e100$$ENDHEX$$-la no Banco do ~r"    + &
+				"Estado da filial destino. Somente ap$$HEX1$$f300$$ENDHEX$$s o pagamento poder$$HEX1$$e100$$ENDHEX$$ ser enviada a ~r" + & 
+				"mercadoria com a guia anexada $$HEX1$$e000$$ENDHEX$$ Nota Fiscal. ~r" 									  + &
+				"Qualquer d$$HEX1$$fa00$$ENDHEX$$vida entrar em contato com o Depto Fiscal. ~r" 						  + &
+				" ~r" 																							  + &
+				"                              Continuar a opera$$HEX2$$e700e300$$ENDHEX$$o ?",										    &
+				Question!,YesNo!)
+					
+Return lvi_retorno					
+end function
+

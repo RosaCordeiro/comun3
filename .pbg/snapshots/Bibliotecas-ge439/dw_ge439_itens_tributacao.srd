@@ -1,0 +1,181 @@
+HA$PBExportHeader$dw_ge439_itens_tributacao.srd
+release 12;
+datawindow(units=0 timer_interval=0 color=553648127 brushmode=0 transparency=0 gradient.angle=0 gradient.color=8421504 gradient.focus=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.repetition.mode=0 gradient.scale=100 gradient.spread=100 gradient.transparency=0 picture.blur=0 picture.clip.bottom=0 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.transparency=0 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes hidegrayline=no showbackcoloronxp=no picture.file="" )
+header(height=24 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+detail(height=320 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+table(column=(type=long updatewhereclause=yes key=yes name=cd_filial_origem dbname="item_nf_diversa.cd_filial_origem" dbalias=".cd_filial_origem" )
+ column=(type=long updatewhereclause=yes key=yes name=nr_nf dbname="item_nf_diversa.nr_nf" dbalias=".nr_nf" )
+ column=(type=char(3) updatewhereclause=yes key=yes name=de_especie dbname="item_nf_diversa.de_especie" dbalias=".de_especie" )
+ column=(type=char(3) updatewhereclause=yes key=yes name=de_serie dbname="item_nf_diversa.de_serie" dbalias=".de_serie" )
+ column=(type=long updatewhereclause=yes key=yes name=cd_item dbname="item_nf_diversa.cd_item" dbalias=".cd_item" )
+ column=(type=char(70) updatewhereclause=yes name=de_item dbname="item_nf_diversa.de_item" dbalias=".de_item" )
+ column=(type=char(3) updatewhereclause=yes name=de_unidade_medida dbname="item_nf_diversa.de_unidade_medida" dbalias=".de_unidade_medida" )
+ column=(type=long updatewhereclause=yes name=qt_item dbname="item_nf_diversa.qt_item" dbalias=".qt_item" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_preco_unitario dbname="item_nf_diversa.vl_preco_unitario" dbalias=".vl_preco_unitario" )
+ column=(type=decimal(2) updatewhereclause=yes name=pc_desconto dbname="item_nf_diversa.pc_desconto" dbalias=".pc_desconto" )
+ column=(type=decimal(2) updatewhereclause=yes name=pc_icms dbname="item_nf_diversa.pc_icms" dbalias=".pc_icms" )
+ column=(type=char(2) updatewhereclause=yes name=cd_situacao_tributaria dbname="item_nf_diversa.cd_situacao_tributaria" dbalias=".cd_situacao_tributaria" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_bc_icms_st dbname="item_nf_diversa.vl_bc_icms_st" dbalias=".vl_bc_icms_st" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_icms_st dbname="item_nf_diversa.vl_icms_st" dbalias=".vl_icms_st" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_bc_icms dbname="item_nf_diversa.vl_bc_icms" dbalias=".vl_bc_icms" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_icms dbname="item_nf_diversa.vl_icms" dbalias=".vl_icms" )
+ column=(type=long updatewhereclause=yes name=nr_classificacao_fiscal dbname="item_nf_diversa.nr_classificacao_fiscal" dbalias=".nr_classificacao_fiscal" )
+ column=(type=decimal(2) updatewhereclause=yes name=pc_ipi dbname="item_nf_diversa.pc_ipi" dbalias=".pc_ipi" )
+ column=(type=decimal(2) updatewhereclause=yes name=pc_icms_st dbname="item_nf_diversa.pc_icms_st" dbalias=".pc_icms_st" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_bc_icms_st_retido dbname="item_nf_diversa.vl_bc_icms_st_retido" dbalias=".vl_bc_icms_st_retido" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_icms_st_retido dbname="item_nf_diversa.vl_icms_st_retido" dbalias=".vl_icms_st_retido" )
+ column=(type=char(10) updatewhereclause=yes name=cd_bem dbname="item_nf_diversa.cd_bem" dbalias=".cd_bem" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_outras_despesas dbname="item_nf_diversa.vl_outras_despesas" dbalias=".vl_outras_despesas" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_bc_ipi dbname="item_nf_diversa.vl_bc_ipi" dbalias=".vl_bc_ipi" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_ipi dbname="item_nf_diversa.vl_ipi" dbalias=".vl_ipi" )
+ column=(type=char(1) updatewhereclause=yes name=cd_cst_origem dbname="item_nf_diversa.cd_cst_origem" dbalias=".cd_cst_origem" )
+ column=(type=char(2) updatewhereclause=yes name=cd_cst_tributacao dbname="item_nf_diversa.cd_cst_tributacao" dbalias=".cd_cst_tributacao" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_bc_icms_st_auxiliar dbname="item_nf_diversa.vl_bc_icms_st_auxiliar" dbalias=".vl_bc_icms_st_auxiliar" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_icms_st_auxiliar dbname="item_nf_diversa.vl_icms_st_auxiliar" dbalias=".vl_icms_st_auxiliar" )
+ column=(type=long updatewhereclause=yes name=id_tipo_sucata dbname="id_tipo_sucata" values="SUCATA DE PAPELAO	1/PALETE	2/SUCATA DE PLASTICO	3/SUCATA DE METAL	4/SUCATA DE BORRACHA	5/OUTROS	0/" )
+ column=(type=char(2) updatewhereclause=yes name=cd_cst_pis dbname="item_nf_diversa.cd_cst_pis" dbalias=".cd_cst_pis" )
+ column=(type=char(2) updatewhereclause=yes name=cd_cst_cofins dbname="item_nf_diversa.cd_cst_cofins" dbalias=".cd_cst_cofins" )
+ column=(type=char(10) updatewhereclause=yes name=cd_beneficio dbname="item_nf_diversa.cd_beneficio" dbalias=".cd_beneficio" )
+ column=(type=decimal(4) updatewhereclause=yes name=vl_pis dbname="item_nf_diversa.vl_pis" dbalias=".vl_pis" )
+ column=(type=decimal(4) updatewhereclause=yes name=vl_cofins dbname="item_nf_diversa.vl_cofins" dbalias=".vl_cofins" )
+ column=(type=decimal(4) updatewhereclause=yes name=vl_bc_pis dbname="item_nf_diversa.vl_bc_pis" dbalias=".vl_bc_pis" )
+ column=(type=decimal(4) updatewhereclause=yes name=vl_bc_cofins dbname="item_nf_diversa.vl_bc_cofins" dbalias=".vl_bc_cofins" )
+ column=(type=decimal(2) updatewhereclause=yes name=pc_pis dbname="item_nf_diversa.pc_pis" dbalias=".pc_pis" )
+ column=(type=decimal(2) updatewhereclause=yes name=pc_cofins dbname="item_nf_diversa.pc_cofins" dbalias=".pc_cofins" )
+ column=(type=decimal(6) updatewhereclause=yes name=vl_preco_unitario_fiscal dbname="item_nf_diversa.vl_preco_unitario_fiscal" dbalias=".vl_preco_unitario_fiscal" )
+ column=(type=char(3) updatewhereclause=yes name=cd_cst_ibscbs dbname="item_nf_diversa.cd_cst_ibscbs" dbalias=".cd_cst_ibscbs" )
+ column=(type=char(10) updatewhereclause=yes name=cd_class_trib_ibscbs dbname="item_nf_diversa.cd_class_trib_ibscbs" dbalias=".cd_class_trib_ibscbs" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_bc_ibscbs dbname="item_nf_diversa.vl_bc_ibscbs" dbalias=".vl_bc_ibscbs" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_ibs dbname="item_nf_diversa.vl_ibs" dbalias=".vl_ibs" )
+ column=(type=decimal(4) updatewhereclause=yes name=pc_ibs_uf dbname="item_nf_diversa.pc_ibs_uf" dbalias=".pc_ibs_uf" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_ibs_uf dbname="item_nf_diversa.vl_ibs_uf" dbalias=".vl_ibs_uf" )
+ column=(type=decimal(4) updatewhereclause=yes name=pc_dif_ibs_uf dbname="item_nf_diversa.pc_dif_ibs_uf" dbalias=".pc_dif_ibs_uf" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_dif_ibs_uf dbname="item_nf_diversa.vl_dif_ibs_uf" dbalias=".vl_dif_ibs_uf" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_dev_trib_ibs_uf dbname="item_nf_diversa.vl_dev_trib_ibs_uf" dbalias=".vl_dev_trib_ibs_uf" )
+ column=(type=decimal(4) updatewhereclause=yes name=pc_reducao_ibs_uf dbname="item_nf_diversa.pc_reducao_ibs_uf" dbalias=".pc_reducao_ibs_uf" )
+ column=(type=decimal(4) updatewhereclause=yes name=pc_efetiva_ibs_uf dbname="item_nf_diversa.pc_efetiva_ibs_uf" dbalias=".pc_efetiva_ibs_uf" )
+ column=(type=decimal(4) updatewhereclause=yes name=pc_ibs_mun dbname="item_nf_diversa.pc_ibs_mun" dbalias=".pc_ibs_mun" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_ibs_mun dbname="item_nf_diversa.vl_ibs_mun" dbalias=".vl_ibs_mun" )
+ column=(type=decimal(4) updatewhereclause=yes name=pc_dif_ibs_mun dbname="item_nf_diversa.pc_dif_ibs_mun" dbalias=".pc_dif_ibs_mun" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_dif_ibs_mun dbname="item_nf_diversa.vl_dif_ibs_mun" dbalias=".vl_dif_ibs_mun" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_dev_trib_ibs_mun dbname="item_nf_diversa.vl_dev_trib_ibs_mun" dbalias=".vl_dev_trib_ibs_mun" )
+ column=(type=decimal(4) updatewhereclause=yes name=pc_reducao_ibs_mun dbname="item_nf_diversa.pc_reducao_ibs_mun" dbalias=".pc_reducao_ibs_mun" )
+ column=(type=decimal(4) updatewhereclause=yes name=pc_efetiva_ibs_mun dbname="item_nf_diversa.pc_efetiva_ibs_mun" dbalias=".pc_efetiva_ibs_mun" )
+ column=(type=decimal(4) updatewhereclause=yes name=pc_cbs dbname="item_nf_diversa.pc_cbs" dbalias=".pc_cbs" )
+ column=(type=decimal(4) updatewhereclause=yes name=pc_dif_cbs dbname="item_nf_diversa.pc_dif_cbs" dbalias=".pc_dif_cbs" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_dif_cbs dbname="item_nf_diversa.vl_dif_cbs" dbalias=".vl_dif_cbs" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_dev_trib_cbs dbname="item_nf_diversa.vl_dev_trib_cbs" dbalias=".vl_dev_trib_cbs" )
+ column=(type=decimal(4) updatewhereclause=yes name=pc_reducao_cbs dbname="item_nf_diversa.pc_reducao_cbs" dbalias=".pc_reducao_cbs" )
+ column=(type=decimal(4) updatewhereclause=yes name=pc_efetiva_cbs dbname="item_nf_diversa.pc_efetiva_cbs" dbalias=".pc_efetiva_cbs" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_cbs dbname="item_nf_diversa.vl_cbs" dbalias=".vl_cbs" )
+ column=(type=char(3) updatewhereclause=yes name=cd_cst_ibscbs_reg dbname="item_nf_diversa.cd_cst_ibscbs_reg" dbalias=".cd_cst_ibscbs_reg" )
+ column=(type=char(10) updatewhereclause=yes name=cd_class_trib_ibscbs_reg dbname="item_nf_diversa.cd_class_trib_ibscbs_reg" dbalias=".cd_class_trib_ibscbs_reg" )
+ column=(type=decimal(4) updatewhereclause=yes name=pc_efetiva_reg_ibs_uf dbname="item_nf_diversa.pc_efetiva_reg_ibs_uf" dbalias=".pc_efetiva_reg_ibs_uf" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_trib_reg_ibs_uf dbname="item_nf_diversa.vl_trib_reg_ibs_uf" dbalias=".vl_trib_reg_ibs_uf" )
+ column=(type=decimal(4) updatewhereclause=yes name=pc_efetiva_reg_ibs_mun dbname="item_nf_diversa.pc_efetiva_reg_ibs_mun" dbalias=".pc_efetiva_reg_ibs_mun" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_trib_reg_ibs_mun dbname="item_nf_diversa.vl_trib_reg_ibs_mun" dbalias=".vl_trib_reg_ibs_mun" )
+ column=(type=decimal(4) updatewhereclause=yes name=pc_efetiva_reg_cbs dbname="item_nf_diversa.pc_efetiva_reg_cbs" dbalias=".pc_efetiva_reg_cbs" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_trib_reg_cbs dbname="item_nf_diversa.vl_trib_reg_cbs" dbalias=".vl_trib_reg_cbs" )
+ column=(type=char(25) updatewhereclause=yes name=id_imposto_tributacao dbname="id_imposto_tributacao" )
+ retrieve="Select	cd_filial_origem,
+			nr_nf,
+			de_especie,
+			de_serie, 
+			cd_item,
+			de_item,
+			de_unidade_medida,
+			qt_item,
+			vl_preco_unitario,
+			pc_desconto,
+			pc_icms,
+			cd_situacao_tributaria,
+			vl_bc_icms_st,
+			vl_icms_st,
+			vl_bc_icms,
+			vl_icms,
+			nr_classificacao_fiscal,
+			pc_ipi,
+			pc_icms_st,
+			vl_bc_icms_st_retido,
+			vl_icms_st_retido,
+			cd_bem,
+			vl_outras_despesas,
+			vl_bc_ipi,
+			vl_ipi,
+			cd_cst_origem,
+			cd_cst_tributacao,
+			vl_bc_icms_st_auxiliar,
+			vl_icms_st_auxiliar,
+			cast(null as integer) as id_tipo_sucata,
+			cd_cst_pis,
+			cd_cst_cofins,
+			cd_beneficio,
+			vl_pis,
+			vl_cofins,
+			vl_bc_pis,
+			vl_bc_cofins,
+			pc_pis,
+			pc_cofins,
+			vl_preco_unitario_fiscal,
+			cd_cst_ibscbs,
+			cd_class_trib_ibscbs,
+			vl_bc_ibscbs,
+			vl_ibs,
+			pc_ibs_uf,
+			vl_ibs_uf,
+			pc_dif_ibs_uf,
+			vl_dif_ibs_uf,
+			vl_dev_trib_ibs_uf,
+			pc_reducao_ibs_uf,
+			pc_efetiva_ibs_uf,
+			pc_ibs_mun,
+			vl_ibs_mun,
+			pc_dif_ibs_mun,
+			vl_dif_ibs_mun,
+			vl_dev_trib_ibs_mun,
+			pc_reducao_ibs_mun,
+			pc_efetiva_ibs_mun,
+			pc_cbs,
+			pc_dif_cbs,
+			vl_dif_cbs,
+			vl_dev_trib_cbs,
+			pc_reducao_cbs,
+			pc_efetiva_cbs,
+			vl_cbs,
+			cd_cst_ibscbs_reg,
+			cd_class_trib_ibscbs_reg,
+			pc_efetiva_reg_ibs_uf,
+			vl_trib_reg_ibs_uf,
+			pc_efetiva_reg_ibs_mun,
+			vl_trib_reg_ibs_mun,
+			pc_efetiva_reg_cbs,
+			vl_trib_reg_cbs,
+			cast(null as varchar(25)) as id_imposto_tributacao
+From item_nf_diversa" update="item_nf_diversa" updatewhere=0 updatekeyinplace=no )
+column(band=detail id=6 alignment="0" tabsequence=10 border="2" color="33554432" x="329" y="8" height="64" width="2007" format="[general]" html.valueishtml="0"  name=de_item visible="1" edit.limit=0 edit.case=upper edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1073741824" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=detail alignment="1" text="Descri$$HEX2$$e700e300$$ENDHEX$$o:" border="0" color="8388608" x="23" y="8" height="52" width="283" html.valueishtml="0"  name=t_1 visible="1"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=74 alignment="0" tabsequence=30 border="2" color="33554432" x="329" y="248" height="64" width="2007" format="[general]" html.valueishtml="0"  name=id_imposto_tributacao visible="1" dddw.name=ddw_tributacao_cbsibs dddw.displaycolumn=de_classe_tributaria dddw.datacolumn=id_imposto_tributacao dddw.percentwidth=0 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.useasborder=yes dddw.case=any dddw.vscrollbar=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1073741824" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=detail alignment="1" text="Origem:" border="0" color="8388608" x="23" y="168" height="52" width="283" html.valueishtml="0"  name=cd_cst_origem_t visible="1"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=26 alignment="0" tabsequence=32766 border="2" color="0" x="329" y="168" height="64" width="704" format="[general]" html.valueishtml="0"  name=cd_cst_origem visible="1" dddw.name=ddw_origem_produto dddw.displaycolumn=de_origem_produto dddw.datacolumn=cd_origem_produto dddw.percentwidth=0 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.useasborder=yes dddw.case=any dddw.vscrollbar=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="134217750" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=27 alignment="0" tabsequence=32766 border="2" color="0" x="329" y="88" height="64" width="1248" format="[general]" html.valueishtml="0"  name=cd_cst_tributacao visible="1" dddw.name=ddw_tributacao_icms_loja dddw.displaycolumn=de_tributacao_icms dddw.datacolumn=cd_cst dddw.percentwidth=0 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.useasborder=yes dddw.case=any dddw.vscrollbar=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="134217750" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=detail alignment="1" text="CST:" border="0" color="8388608" x="23" y="88" height="52" width="283" html.valueishtml="0"  name=cd_cst_tributacao_t visible="1"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=11 alignment="1" tabsequence=32766 border="2" color="0" x="1362" y="168" height="64" width="215" format="[general]" html.valueishtml="0" protect="0~tIf(( cd_cst_tributacao = '00')or( cd_cst_tributacao = '20')or( cd_cst_tributacao = '90')or( cd_cst_tributacao = '70'),0,1)"  name=pc_icms visible="1" editmask.mask="###,##0.00" editmask.focusrectangle=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="134217750~tIf(( cd_cst_tributacao = '00')or( cd_cst_tributacao = '20')or( cd_cst_tributacao = '90')or( cd_cst_tributacao = '70'), rgb(255,255,255), rgb(227,227,227))" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=detail alignment="1" text="(%) ICMS:" border="0" color="8388608" x="1042" y="168" height="52" width="297" html.valueishtml="0"  name=pc_icms_t visible="1"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=33 alignment="0" tabsequence=20 border="2" color="33554432" x="1934" y="88" height="64" width="402" format="[general]" html.valueishtml="0" protect="0~tIf(( cd_cst_tributacao = '00')or( cd_cst_tributacao = '10')or( cd_cst_tributacao = '60'), 1, 0)"  name=cd_beneficio visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="1073741824~tIf(( cd_cst_tributacao = '00')or( cd_cst_tributacao = '10')or( cd_cst_tributacao = '60'), rgb(227,227,227), rgb(255,255,255))" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=detail alignment="1" text="Cod. Benef.:" border="0" color="8388608" x="1582" y="88" height="52" width="334" html.valueishtml="0"  name=t_2 visible="1"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=17 alignment="1" tabsequence=32766 border="2" color="0" x="1934" y="168" height="64" width="402" format="[general]" html.valueishtml="0"  name=nr_classificacao_fiscal visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="134217750" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=detail alignment="1" text="NCM:" border="0" color="8388608" x="1618" y="168" height="52" width="297" html.valueishtml="0"  name=nr_classificacao_fiscal_t visible="1"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=detail alignment="1" text="CBS/IBS:" border="0" color="8388608" x="46" y="248" height="52" width="261" html.valueishtml="0"  name=t_4 visible="1"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

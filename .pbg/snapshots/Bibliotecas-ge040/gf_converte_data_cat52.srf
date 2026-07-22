@@ -1,0 +1,159 @@
+HA$PBExportHeader$gf_converte_data_cat52.srf
+global type gf_converte_data_cat52 from function_object
+end type
+
+forward prototypes
+global function boolean gf_converte_data_cat52 (date pd_data, ref string ps_extensao)
+end prototypes
+
+global function boolean gf_converte_data_cat52 (date pd_data, ref string ps_extensao);//Fun$$HEX2$$e700e300$$ENDHEX$$o para converter uma data na extens$$HEX1$$e300$$ENDHEX$$o de arquivo pedida na legisla$$HEX2$$e700e300$$ENDHEX$$o CAT-52
+//A extens$$HEX1$$e300$$ENDHEX$$o do arquivo gerado pela ECF $$HEX1$$e900$$ENDHEX$$ definida por dia, m$$HEX1$$ea00$$ENDHEX$$s e ano da redu$$HEX2$$e700e300$$ENDHEX$$o Z, exemplo: .ACD (10/12/2013).
+//Onde os n$$HEX1$$fa00$$ENDHEX$$meros de 01 a 09 correspondem as dias de 01 a 09.
+//As letras de A at$$HEX1$$e900$$ENDHEX$$ Z compreendem os dias acima de 09, onde o dia 10 corresponde a letra A, 
+//dia 11 a letra B, dia 12 a letra C e assim sucessivamente.
+
+String ls_st1, ls_st2, ls_st3
+String ls_dia, ls_mes, ls_ano
+String ls_Data
+
+ls_Data = String(pd_data, 'ddmmyyyy')
+
+ls_dia 	= 	String(Day(pd_data),'00')
+ls_mes 	=	String(Month(pd_data),'00')
+ls_ano	=	RightA(String(Year(pd_data),'0000'),2)
+
+If Long(ls_dia) >= 1 and  Long(ls_dia) <= 9 Then
+	ls_st1 = String(Long(ls_dia))
+Else
+	Choose Case Long(ls_dia)
+		Case 10
+			ls_st1 = 'A'
+		Case 11
+			ls_st1 = 'B'
+		Case 12
+			ls_st1 = 'C'
+		Case 13
+			ls_st1 = 'D'
+		Case 14
+			ls_st1 = 'E'
+		Case 15
+			ls_st1 = 'F'
+		Case 16
+			ls_st1 = 'G'
+		Case 17
+			ls_st1 = 'H'
+		Case 18
+			ls_st1 = 'I'
+		Case 19
+			ls_st1 = 'J'
+		Case 20
+			ls_st1 = 'K'
+		Case 21
+			ls_st1 = 'L'
+		Case 22
+			ls_st1 = 'M'
+		Case 23
+			ls_st1 = 'N'
+		Case 24
+			ls_st1 = 'O'
+		Case 25
+			ls_st1 = 'P'
+		Case 26
+			ls_st1 = 'Q'
+		Case 27
+			ls_st1 = 'R'
+		Case 28
+			ls_st1 = 'S'
+		Case 29
+			ls_st1 = 'T'
+		Case 30
+			ls_st1 = 'U'
+		Case 31
+			ls_st1 = 'V'
+		Case Else
+			Return False
+	End Choose
+End If
+
+If Long(ls_mes) >= 1 and  Long(ls_mes) <= 9 Then
+	ls_st2 = String(Long(ls_mes))
+Else
+	Choose Case Long(ls_mes)
+		Case 10
+			ls_st2 = 'A'
+		Case 11
+			ls_st2 = 'B'
+		Case 12
+			ls_st2 = 'C'
+		Case Else
+			Return False
+	End Choose
+End If
+
+If Long(ls_ano) >= 1 and  Long(ls_ano) <= 9 Then
+	ls_st3 = String(Long(ls_ano))
+Else
+	Choose Case Long(ls_ano)
+		Case 10
+			ls_st3 = 'A'
+		Case 11
+			ls_st3 = 'B'
+		Case 12
+			ls_st3 = 'C'
+		Case 13
+			ls_st3 = 'D'
+		Case 14
+			ls_st3 = 'E'
+		Case 15
+			ls_st3 = 'F'
+		Case 16
+			ls_st3 = 'G'
+		Case 17
+			ls_st3 = 'H'
+		Case 18
+			ls_st3 = 'I'
+		Case 19
+			ls_st3 = 'J'
+		Case 20
+			ls_st3 = 'K'
+		Case 21
+			ls_st3 = 'L'
+		Case 22
+			ls_st3 = 'M'
+		Case 23
+			ls_st3 = 'N'
+		Case 24
+			ls_st3 = 'O'
+		Case 25
+			ls_st3 = 'P'
+		Case 26
+			ls_st3 = 'Q'
+		Case 27
+			ls_st3 = 'R'
+		Case 28
+			ls_st3 = 'S'
+		Case 29
+			ls_st3 = 'T'
+		Case 30
+			ls_st3 = 'U'
+		Case 31
+			ls_st3 = 'V'
+		Case 32
+			ls_st3 = 'W'
+		Case 33
+			ls_st3 = 'X'
+		Case 34
+			ls_st3 = 'Y'
+		Case 35
+			ls_st3 = 'Z'			
+		Case Else
+			//Acabaram as letras do alfabeto para fazer a convers$$HEX1$$e300$$ENDHEX$$o.   :(
+			Return False
+	End Choose
+End If
+
+ps_extensao = ls_st1 + ls_st2 + ls_st3
+
+Return True
+end function
+

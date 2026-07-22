@@ -1,0 +1,60 @@
+HA$PBExportHeader$gf_atualiza_data_execucao_tarefa.srf
+global type gf_atualiza_data_execucao_tarefa from function_object
+end type
+
+forward prototypes
+global function boolean gf_atualiza_data_execucao_tarefa (long pl_tarefa)
+global function boolean gf_atualiza_data_execucao_tarefa (long pl_tarefa,  boolean pb_busca_prox)
+global function boolean gf_atualiza_data_execucao_tarefa (long pl_tarefa, datetime pdh_prox_exec)
+end prototypes
+
+global function boolean gf_atualiza_data_execucao_tarefa (long pl_tarefa);Return gf_atualiza_data_execucao_tarefa(pl_tarefa,False)
+end function
+
+global function boolean gf_atualiza_data_execucao_tarefa (long pl_tarefa,  boolean pb_busca_prox);Datetime lvdh_Prox_Exec
+If pb_busca_prox Then
+	select min(dh_prox_exec)
+	Into :lvdh_Prox_Exec
+	From agenda_tarefa
+	Where cd_tarefa = :pl_tarefa
+		And ((dh_prox_exec is not null) and (dh_prox_exec >= GetDate()))
+	Using SQLCa;
+	
+	If SQLCa.SQLCode = -1 Then
+		gf_ge202_envia_email_automatico(23,'','Falha ao recuperar a data da pr$$HEX1$$f300$$ENDHEX$$xima execu$$HEX2$$e700e300$$ENDHEX$$o da tarefa '+String(pl_tarefa)+'.~r~n'+SQLCa.SQLErrText)
+		gvo_aplicacao.Of_Grava_log('Falha ao recuperar a data da pr$$HEX1$$f300$$ENDHEX$$xima execu$$HEX2$$e700e300$$ENDHEX$$o da tarefa '+String(pl_tarefa)+'.~r~n'+SQLCa.SQLErrText)
+	End If
+Else 
+	SetNull(lvdh_Prox_Exec)
+End If
+
+Return gf_atualiza_data_execucao_tarefa(pl_tarefa,lvdh_Prox_Exec)
+end function
+
+global function boolean gf_atualiza_data_execucao_tarefa (long pl_tarefa, datetime pdh_prox_exec);
+
+If IsNull(pdh_prox_exec) Then
+	Update tarefa
+	set dh_ultima_exec = getDate()
+	Where cd_tarefa = :pl_tarefa
+	Using SQLCa;
+Else
+	Update tarefa
+	set dh_ultima_exec = getDate(),
+		dh_prox_exec = :pdh_prox_exec
+	Where cd_tarefa = :pl_tarefa
+	Using SQLCa;
+End If
+
+If SQLCa.SQLCode = -1 Then
+	gf_ge202_envia_email_automatico(23,'','Falha ao atualizar data da $$HEX1$$fa00$$ENDHEX$$ltima execu$$HEX2$$e700e300$$ENDHEX$$o da tarefa '+String(pl_tarefa)+'.~r~n'+SQLCa.SQLErrText)
+	gvo_aplicacao.Of_Grava_log('Falha ao atualizar data da $$HEX1$$fa00$$ENDHEX$$ltima execu$$HEX2$$e700e300$$ENDHEX$$o da tarefa '+String(pl_tarefa)+'.~r~n'+SQLCa.SQLErrText)
+	SQLCa.Of_Rollback()
+	Return False
+End If
+
+SQLCa.Of_Commit()
+
+Return True
+end function
+

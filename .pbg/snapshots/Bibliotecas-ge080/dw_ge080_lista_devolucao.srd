@@ -1,0 +1,37 @@
+HA$PBExportHeader$dw_ge080_lista_devolucao.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=72 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=84 color="536870912" )
+table(column=(type=char(6) updatewhereclause=yes name=nr_matricula_vendedor dbname="nf_devolucao_venda.nr_matricula_vendedor" )
+ column=(type=decimal(28) updatewhereclause=yes name=vl_devolucao dbname="vl_devolucao" )
+ column=(type=decimal(35) updatewhereclause=yes name=vl_comissao dbname="vl_comissao" )
+ column=(type=long updatewhereclause=yes name=clientes dbname="clientes" )
+ retrieve="select n.nr_matricula_vendedor,
+		 sum(round(round(round(i.vl_preco_unitario * ((100 - i.pc_desconto) / 100), 2)
+			* i.qt_devolvida, 2) * ((100 - n.pc_desconto) / 100), 2)) vl_devolucao,
+		 sum(round(round(round(round(i.vl_preco_unitario * ((100 - i.pc_desconto) / 100), 2)
+			* i.qt_devolvida, 2) * ((100 - n.pc_desconto) / 100), 2)
+         * (i.pc_comissao_extra / 100), 2)) vl_comissao,
+		 count(distinct n.nr_nf) clientes
+from nf_devolucao_venda n,
+     item_nf_devolucao_venda i
+where n.dh_movimentacao_caixa between :dt_inicial and :dt_final
+  and n.cd_filial = :filial
+  and n.dh_cancelamento is null
+  and i.cd_filial  = n.cd_filial
+  and i.nr_nf      = n.nr_nf
+  and i.de_especie = n.de_especie
+  and i.de_serie   = n.de_serie
+  and i.pc_comissao_extra > 0
+group by n.nr_matricula_vendedor" arguments=(("dt_inicial", date),("dt_final", date),("filial", number)) )
+text(band=header alignment="2" text="Vl Comissao"border="0" color="0" x="1385" y="4" height="64" width="338"  name=vl_comissao_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Matricula Vendedor"border="0" color="0" x="9" y="4" height="64" width="613"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Devolucao"border="0" color="0" x="745" y="4" height="64" width="343"  name=vl_devolucao_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="0" x="1303" y="4" height="76" width="329" format="[general]"  name=vl_comissao edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="1669" y="8" height="64" width="338" format="[general]"  name=clientes edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="9" y="4" height="76" width="613" format="[general]"  name=nr_matricula_vendedor edit.limit=6 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="0" color="0" x="745" y="4" height="76" width="329" format="[general]"  name=vl_devolucao edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

@@ -1,0 +1,34 @@
+HA$PBExportHeader$gf_pad_picking_lote.srf
+global type gf_pad_picking_lote from function_object
+end type
+
+forward prototypes
+global function boolean gf_pad_picking_lote ()
+end prototypes
+
+global function boolean gf_pad_picking_lote ();String lsdh_Data_Parametro
+Date ldh_Data_Servidor
+
+ldh_Data_Servidor = Date(gf_GetServerDate())
+
+Select vl_parametro
+Into :lsdh_Data_Parametro
+From parametro_geral 
+Where cd_parametro='DH_INICIO_PADPICKING_LOTE'
+Using SqlCa;
+
+If SqlCa.SqlCode = -1 Then
+	Sqlca.of_MsgDbError("Erro ao verificar se o padPicking por Lote")
+	Return False
+End If
+
+
+If Date(ldh_Data_Servidor) >= Date(lsdh_Data_Parametro) Then 
+	Return True 
+Else
+	Return False
+End If 
+	
+
+end function
+

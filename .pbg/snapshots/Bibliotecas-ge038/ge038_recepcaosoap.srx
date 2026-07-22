@@ -1,0 +1,33 @@
+HA$PBExportHeader$ge038_recepcaosoap.srx
+$PBExportComments$Proxy imported from Web service using Web Service Proxy Generator.
+global type ge038_RecepcaoSoap from NonVisualObject
+end type
+
+type variables
+Protected:
+   string xmlns = ""
+   string tm = "http://microsoft.com/wsdl/mime/textMatching/"
+   string soapenc = "http://schemas.xmlsoap.org/soap/encoding/"
+   string wsdl = "http://schemas.xmlsoap.org/wsdl/"
+   string http = "http://schemas.xmlsoap.org/wsdl/http/"
+   string mime = "http://schemas.xmlsoap.org/wsdl/mime/"
+   string soap = "http://schemas.xmlsoap.org/wsdl/soap/"
+   string soap12 = "http://schemas.xmlsoap.org/wsdl/soap12/"
+   string tns = "http://tempuri.org/"
+   string s = "http://www.w3.org/2001/XMLSchema"
+   string pb__TargetNamespace = "http://tempuri.org/"
+   string BindingStyle = ""
+
+   string endpoint = "http://webservices.sathomologa.sef.sc.gov.br/wsDfeSiv/Recepcao.asmx"
+   string __tns__Validar = "Validar(s:boolean pValidarPafEcfEEcf,s:boolean pValidarAssinaturaDigital,s:string pXml)@tns#YES_QUALIFIED"
+   tns__Validar i__tns__Validar
+end variables
+
+forward prototypes
+public:
+function string Consultar (string pRecibo) alias for "Consultar([in] s:string pRecibo) return s:string ConsultarResult@http://tempuri.org/@http://tempuri.org/Consultar*Consultar*http://tempuri.org/"
+function string ConsultarSituacaoPafEcf (string pXml) alias for "ConsultarSituacaoPafEcf([in] s:string pXml) return s:string ConsultarSituacaoPafEcfResult@http://tempuri.org/@http://tempuri.org/ConsultarSituacaoPafEcf*ConsultarSituacaoPafEcf*http://tempuri.org/"
+function string Enviar (blob pXmlZipado) alias for "Enviar([in] s:base64Binary pXmlZipado) return s:string EnviarResult@http://tempuri.org/@http://tempuri.org/Enviar*Enviar*http://tempuri.org/"
+function string Validar (boolean pValidarPafEcfEEcf, boolean pValidarAssinaturaDigital, string pXml) alias for "Validar([in] s:boolean pValidarPafEcfEEcf, [in] s:boolean pValidarAssinaturaDigital, [in] s:string pXml) return s:string ValidarResult@http://tempuri.org/@http://tempuri.org/Validar*Validar*http://tempuri.org/"
+end prototypes
+

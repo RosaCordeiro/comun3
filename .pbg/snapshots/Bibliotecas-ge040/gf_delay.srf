@@ -1,0 +1,11 @@
+HA$PBExportHeader$gf_delay.srf
+global type gf_delay from function_object
+end type
+
+forward prototypes
+global subroutine gf_delay (long pl_segundos)
+end prototypes
+
+global subroutine gf_delay (long pl_segundos);Sleep(pl_segundos)
+end subroutine
+

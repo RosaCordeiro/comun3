@@ -1,0 +1,27 @@
+HA$PBExportHeader$dw_troca_controle_exportacao.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=144 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=92 color="536870912" )
+table(column=(type=long updatewhereclause=yes name=cd_filial dbname="parametro.cd_filial" )
+ column=(type=datetime updatewhereclause=yes name=dh_movimentacao_caixa dbname="controle_exportacao.dh_movimentacao_caixa" )
+ column=(type=char(60) updatewhereclause=yes name=nm_arquivo dbname="controle_exportacao.nm_arquivo" )
+ retrieve="select p.cd_filial,
+       c.dh_movimentacao_caixa,   
+       c.nm_arquivo  
+from controle_exportacao c,
+     parametro p
+where c.dh_movimentacao_caixa = :data_base
+" arguments=(("data_base", date)) )
+text(band=header alignment="2" text="Parametro
+Cd Filial"border="0" color="0" x="9" y="8" height="128" width="329"  name=parametro_cd_filial_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Controle Exportacao
+Dh Movimentacao Caixa"border="0" color="0" x="347" y="8" height="128" width="640"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Controle Exportacao
+Nm Arquivo"border="0" color="0" x="997" y="8" height="128" width="1673"  name=controle_exportacao_nm_arquivo_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="1" tabsequence=32766 border="0" color="0" x="9" y="8" height="76" width="329" format="[general]"  name=cd_filial edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="352" y="8" height="76" width="635" format="[shortdate] [time]"  name=dh_movimentacao_caixa edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="1001" y="8" height="76" width="1669" format="[general]"  name=nm_arquivo edit.limit=60 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

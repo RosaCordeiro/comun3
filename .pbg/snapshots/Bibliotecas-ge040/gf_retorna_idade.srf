@@ -1,0 +1,45 @@
+HA$PBExportHeader$gf_retorna_idade.srf
+global type gf_retorna_idade from function_object
+end type
+
+forward prototypes
+global function integer gf_retorna_idade (date adt_nascimento)
+end prototypes
+
+global function integer gf_retorna_idade (date adt_nascimento);Date lvdh_Parametro
+
+Integer lvi_Ano_Nascimento,&
+		lvi_Ano_Parametro,&
+		lvi_Mes_Nascimento,&
+		lvi_Mes_Parametro,&
+		lvi_MesesTotal,&
+		lvi_Idade,&
+		lvi_Meses
+
+Integer lvi_Dia_Parametro,&
+		  lvi_Dia_Nascimento
+
+lvdh_Parametro = Date(gvo_Parametro.of_DH_Movimentacao())
+
+lvi_Ano_Nascimento 	= Year(adt_Nascimento)
+lvi_Ano_Parametro  	= Year(lvdh_Parametro)
+lvi_Mes_Nascimento 	= Month(adt_Nascimento)
+lvi_Mes_Parametro  	= Month(lvdh_Parametro)
+lvi_Dia_Nascimento 	= Day(adt_Nascimento)
+lvi_Dia_Parametro		= Day(lvdh_Parametro)
+
+lvi_MesesTotal = (lvi_Ano_Parametro - lvi_Ano_Nascimento) * 12 + (lvi_Mes_Parametro - lvi_Mes_Nascimento)
+
+lvi_Idade = (lvi_MesesTotal / 12)
+
+//Se estiver no mes do nascimento, verificar o dia
+If (lvi_Mes_Parametro = lvi_Mes_Nascimento) Then
+	If (lvi_Dia_Parametro < lvi_Dia_Nascimento ) Then
+		//Se a data atual for menor que o dia de nascimento ele ainda nao fez aniversario
+		lvi_Idade = lvi_Idade - 1
+	End If
+End If
+
+Return lvi_Idade
+end function
+

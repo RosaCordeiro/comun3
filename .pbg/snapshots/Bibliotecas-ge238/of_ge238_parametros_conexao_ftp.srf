@@ -1,0 +1,81 @@
+HA$PBExportHeader$of_ge238_parametros_conexao_ftp.srf
+global type of_ge238_parametros_conexao_ftp from function_object
+end type
+
+forward prototypes
+global function boolean of_ge238_parametros_conexao_ftp (ref string as_ftp_endereco, ref string as_ftp_usuario, ref string as_ftp_senha, ref string as_erro_log)
+end prototypes
+
+global function boolean of_ge238_parametros_conexao_ftp (ref string as_ftp_endereco, ref string as_ftp_usuario, ref string as_ftp_senha, ref string as_erro_log);Try
+	//Endere$$HEX1$$e700$$ENDHEX$$o FTP
+	select vl_parametro
+	Into :as_Ftp_Endereco
+	From parametro_geral
+	Where cd_parametro = 'DE_FTP_XML_ENDERECO'
+	Using SqlCa;
+	
+	Choose Case SqlCa.SqlCode
+		Case 0
+			If IsNull(as_Ftp_Endereco) or as_Ftp_Endereco = '' Then
+				as_Erro_Log = "Par$$HEX1$$e200$$ENDHEX$$metro geral de comunica$$HEX2$$e700e300$$ENDHEX$$o FTP inv$$HEX1$$e100$$ENDHEX$$lido 'DE_FTP_XML_ENDERECO'."
+				Return False
+			End If
+		Case 100
+			as_Erro_Log = "Par$$HEX1$$e200$$ENDHEX$$metro geral de comunica$$HEX2$$e700e300$$ENDHEX$$o n$$HEX1$$e300$$ENDHEX$$o foi localizado 'DE_FTP_XML_ENDERECO'."
+			Return False
+		Case -1
+			as_Erro_Log = "Localiza$$HEX2$$e700e300$$ENDHEX$$o do par$$HEX1$$e200$$ENDHEX$$metro geral de comunica$$HEX2$$e700e300$$ENDHEX$$o 'DE_FTP_XML_ENDERECO'."
+			Return False
+	End Choose
+	
+	//Usuario FTP
+	select vl_parametro
+	Into :as_Ftp_Usuario
+	From parametro_geral
+	Where cd_parametro = 'DE_FTP_XML_USUARIO'
+	Using SqlCa;
+	
+	Choose Case SqlCa.SqlCode
+		Case 0
+			If IsNull(as_Ftp_Usuario) or as_Ftp_Usuario = '' Then
+				as_Erro_Log = "Par$$HEX1$$e200$$ENDHEX$$metro geral de comunica$$HEX2$$e700e300$$ENDHEX$$o FTP inv$$HEX1$$e100$$ENDHEX$$lido 'DE_FTP_XML_USUARIO'."
+				Return False
+			End If
+		Case 100
+			as_Erro_Log = "Par$$HEX1$$e200$$ENDHEX$$metro geral de comunica$$HEX2$$e700e300$$ENDHEX$$o n$$HEX1$$e300$$ENDHEX$$o foi localizado 'DE_FTP_XML_USUARIO'."
+			Return False
+		Case -1
+			as_Erro_Log = "Localiza$$HEX2$$e700e300$$ENDHEX$$o do par$$HEX1$$e200$$ENDHEX$$metro geral de comunica$$HEX2$$e700e300$$ENDHEX$$o 'DE_FTP_XML_USUARIO'."
+			Return False
+	End Choose
+	
+	
+	//Senha FTP
+	select vl_parametro
+	Into :as_Ftp_Senha
+	From parametro_geral
+	Where cd_parametro = 'DE_FTP_XML_SENHA'
+	Using SqlCa;
+	
+	Choose Case SqlCa.SqlCode
+		Case 0
+			If IsNull(as_Ftp_Senha) or as_Ftp_Senha = '' Then
+				as_Erro_Log = "Par$$HEX1$$e200$$ENDHEX$$metro geral de comunica$$HEX2$$e700e300$$ENDHEX$$o FTP inv$$HEX1$$e100$$ENDHEX$$lido 'DE_FTP_XML_SENHA'."
+				Return False
+			End If
+		Case 100
+			as_Erro_Log = "Par$$HEX1$$e200$$ENDHEX$$metro geral de comunica$$HEX2$$e700e300$$ENDHEX$$o FTP n$$HEX1$$e300$$ENDHEX$$o foi localizado 'DE_FTP_XML_SENHA'."
+			Return False
+		Case -1
+			as_Erro_Log = "Localiza$$HEX2$$e700e300$$ENDHEX$$o do par$$HEX1$$e200$$ENDHEX$$metro geral de comunica$$HEX2$$e700e300$$ENDHEX$$o ''DE_FTP_XML_SENHA''."
+			Return False
+	End Choose
+
+Catch ( runtimeerror  lo_rte )
+	as_Erro_Log = "Ocorreu erro ao localizar os par$$HEX1$$e200$$ENDHEX$$metro de conex$$HEX1$$e300$$ENDHEX$$o com o FTP. Erro: "+lo_rte.GetMessage( )
+	Return False						 
+End Try		
+	
+Return True
+end function
+

@@ -1,0 +1,6 @@
+HA$PBExportHeader$t_procref.srs
+global type t_procref from structure
+	string		nproc
+	long		indproc
+end type
+

@@ -1,0 +1,7 @@
+HA$PBExportHeader$str_parametros.srs
+global type str_parametros from structure
+	long		cd_filial
+	long		nr_pedido_filial
+	long		cd_produto
+end type
+

@@ -1,0 +1,11 @@
+HA$PBExportHeader$gf_grava_log_basico.srf
+global type gf_grava_log_basico from function_object
+end type
+
+forward prototypes
+global function boolean gf_grava_log_basico (ref integer ai_arquivo, string as_mensagem)
+end prototypes
+
+global function boolean gf_grava_log_basico (ref integer ai_arquivo, string as_mensagem);return gf_grava_log_basico_email(ai_arquivo, as_mensagem, false, 0)
+end function
+

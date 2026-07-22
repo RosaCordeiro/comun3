@@ -1,0 +1,5 @@
+HA$PBExportHeader$t_gpagantecipado.srs
+global type t_gpagantecipado from structure
+	string		refNFe
+end type
+

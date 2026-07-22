@@ -1,0 +1,21 @@
+HA$PBExportHeader$dw_ge077_produto_recibo_resgate.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=80269524 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=72 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=84 color="536870912" )
+table(column=(type=long updatewhereclause=yes name=cd_produto dbname="recibo_resgate_clube_produto.cd_produto" )
+ column=(type=long updatewhereclause=yes name=qt_produto dbname="recibo_resgate_clube_produto.qt_produto" )
+ retrieve="SELECT r.cd_produto,   
+	   r.qt_produto  
+FROM recibo_resgate_clube_produto  r
+Where r.cd_produto = r.cd_produto
+
+  
+" )
+text(band=header alignment="2" text="Cd Produto"border="0" color="0" x="5" y="4" height="64" width="329"  name=cd_produto_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Qt Produto"border="0" color="0" x="338" y="4" height="64" width="329"  name=qt_produto_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="1" tabsequence=32766 border="0" color="0" x="5" y="4" height="76" width="329" format="[general]"  name=cd_produto edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="0" color="0" x="338" y="4" height="76" width="329" format="[general]"  name=qt_produto edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

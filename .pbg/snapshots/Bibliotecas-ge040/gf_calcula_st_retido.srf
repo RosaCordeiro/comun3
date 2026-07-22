@@ -1,0 +1,48 @@
+HA$PBExportHeader$gf_calcula_st_retido.srf
+global type gf_calcula_st_retido from function_object
+end type
+
+forward prototypes
+global function boolean gf_calcula_st_retido (long pl_produto, long pl_qtde, ref decimal pdc_vl_bc_icms_retido, ref decimal pdc_pc_icms_retido, ref decimal pdc_vl_icms_retido, ref decimal pdc_vl_bc_st_retido, ref decimal pdc_pc_st_retido, ref decimal pdc_vl_st_retido)
+end prototypes
+
+global function boolean gf_calcula_st_retido (long pl_produto, long pl_qtde, ref decimal pdc_vl_bc_icms_retido, ref decimal pdc_pc_icms_retido, ref decimal pdc_vl_icms_retido, ref decimal pdc_vl_bc_st_retido, ref decimal pdc_pc_st_retido, ref decimal pdc_vl_st_retido);Try
+	SetNull(pdc_vl_bc_st_retido)
+	SetNull(pdc_vl_st_retido)
+	
+	dc_uo_ds_base lvds_1
+	lvds_1 = Create dc_uo_ds_base
+	lvds_1.Of_ChangeDataObject('ds_ge040_imposto_retido_anteriormente')
+	
+	If lvds_1.Retrieve(pl_produto) > 0 Then
+		//busca a aliquota desse produto para opera$$HEX2$$e700f500$$ENDHEX$$es estaduais
+		select t.pc_icms
+		into :pdc_pc_st_retido
+		From produto_geral p
+		Inner Join tipo_icms t
+			on t.cd_tipo_icms = p.cd_tipo_icms
+		Where p.cd_produto = :pl_produto
+		Using SQLCa;
+		
+		If SQLCa.SQLCode = -1 Then
+			SQLCa.Of_Msgdberror( "Falha na localiza$$HEX2$$e700e300$$ENDHEX$$o do percentual ICMS em opera$$HEX2$$e700f500$$ENDHEX$$es internas")
+			Return False
+		End If
+		
+		pdc_vl_bc_icms_retido	= lvds_1.Object.vl_bc_icms_retido		[1] * pl_Qtde
+		pdc_pc_icms_retido		= lvds_1.Object.pc_icms_retido		[1]
+		pdc_vl_icms_retido		= lvds_1.Object.vl_icms_retido			[1] * pl_Qtde
+		pdc_vl_bc_st_retido		= lvds_1.Object.vl_bc_icms_st_retido	[1] * pl_Qtde
+		pdc_vl_st_retido			= lvds_1.Object.vl_icms_st_retido		[1] * pl_Qtde
+	End If
+	
+	
+Catch (RuntimeError lvo_Erro)
+	MessageBox("ERRO", lvo_Erro.GetMessage())
+	Return False
+	
+Finally
+	If IsValid(lvds_1) Then Destroy(lvds_1)
+End Try
+end function
+

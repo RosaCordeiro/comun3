@@ -1,0 +1,93 @@
+HA$PBExportHeader$dw_ge077_precadastro_cliente.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=72 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=84 color="536870912" )
+table(column=(type=char(11) update=yes updatewhereclause=yes key=yes name=cd_cliente dbname="cliente.cd_cliente" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=id_tipo_cliente dbname="cliente.id_tipo_cliente" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=id_fisica_juridica dbname="cliente.id_fisica_juridica" )
+ column=(type=char(40) update=yes updatewhereclause=yes name=nm_cliente dbname="cliente.nm_cliente" )
+ column=(type=char(14) update=yes updatewhereclause=yes name=nr_cpf_cgc dbname="cliente.nr_cpf_cgc" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=nr_rg dbname="cliente.nr_rg" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=de_orgao_emissor_rg dbname="cliente.de_orgao_emissor_rg" )
+ column=(type=datetime update=yes updatewhereclause=yes name=dh_emissao_rg dbname="cliente.dh_emissao_rg" )
+ column=(type=char(3) updatewhereclause=yes name=nr_ddd_fone_residencial dbname="cliente.nr_ddd_fone_residencial" )
+ column=(type=char(10) updatewhereclause=yes name=nr_fone_residencial dbname="cliente.nr_fone_residencial" )
+ column=(type=char(3) updatewhereclause=yes name=nr_ddd_celular dbname="cliente.nr_ddd_celular" )
+ column=(type=char(10) updatewhereclause=yes name=nr_celular dbname="cliente.nr_celular" )
+ column=(type=char(3) updatewhereclause=yes name=nr_ddd_fone_recado dbname="cliente.nr_ddd_fone_recado" )
+ column=(type=char(10) updatewhereclause=yes name=nr_fone_recado dbname="cliente.nr_fone_recado" )
+ column=(type=char(3) updatewhereclause=yes name=nr_ddd_fone_comercial dbname="cliente.nr_ddd_fone_comercial" )
+ column=(type=char(10) updatewhereclause=yes name=nr_fone_comercial dbname="cliente.nr_fone_comercial" )
+ column=(type=long update=yes updatewhereclause=yes name=cd_filial_inclusao dbname="cliente.cd_filial_inclusao" )
+ column=(type=char(6) update=yes updatewhereclause=yes name=nr_matricula_inclusao dbname="cliente.nr_matricula_inclusao" )
+ column=(type=datetime update=yes updatewhereclause=yes name=dh_inclusao dbname="cliente.dh_inclusao" )
+ column=(type=long update=yes updatewhereclause=yes name=cd_filial_atualizacao dbname="cliente.cd_filial_atualizacao" )
+ column=(type=char(6) update=yes updatewhereclause=yes name=nr_matricula_atualizacao dbname="cliente.nr_matricula_atualizacao" )
+ column=(type=datetime update=yes updatewhereclause=yes name=dh_atualizacao dbname="cliente.dh_atualizacao" )
+ column=(type=long updatewhereclause=yes name=qt_pontos_proxima_compra dbname="cliente.qt_pontos_proxima_compra" )
+ retrieve="select cd_cliente,   
+       id_tipo_cliente,   
+       id_fisica_juridica,   
+       nm_cliente,   
+       nr_cpf_cgc,   
+       nr_rg,   
+       de_orgao_emissor_rg,   
+       dh_emissao_rg,   
+       nr_ddd_fone_residencial,
+       nr_fone_residencial,
+       nr_ddd_celular,
+       nr_celular,
+       nr_ddd_fone_recado,
+       nr_fone_recado,
+       nr_ddd_fone_comercial,
+       nr_fone_comercial,
+       cd_filial_inclusao,   
+       nr_matricula_inclusao,   
+       dh_inclusao,   
+       cd_filial_atualizacao,   
+       nr_matricula_atualizacao,   
+       dh_atualizacao,
+       qt_pontos_proxima_compra
+from cliente   
+where cd_cliente = :cliente" update="cliente" updatewhere=1 updatekeyinplace=no arguments=(("cliente", string)) )
+text(band=header alignment="2" text="Cd Cliente"border="0" color="0" x="5" y="4" height="64" width="329"  name=cd_cliente_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Id Tipo Cliente"border="0" color="0" x="338" y="4" height="64" width="375"  name=id_tipo_cliente_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Id Fisica Juridica"border="0" color="0" x="718" y="4" height="64" width="443"  name=id_fisica_juridica_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nm Cliente"border="0" color="0" x="1166" y="4" height="64" width="1125"  name=nm_cliente_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Cpf Cgc"border="0" color="0" x="2295" y="4" height="64" width="411"  name=nr_cpf_cgc_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Rg"border="0" color="0" x="2711" y="4" height="64" width="576"  name=nr_rg_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="De Orgao Emissor Rg"border="0" color="0" x="3296" y="4" height="64" width="581"  name=de_orgao_emissor_rg_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Dh Emissao Rg"border="0" color="0" x="3881" y="4" height="64" width="603"  name=dh_emissao_rg_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cd Filial Inclusao"border="0" color="0" x="4489" y="4" height="64" width="453"  name=cd_filial_inclusao_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Matricula Inclusao"border="0" color="0" x="4946" y="4" height="64" width="558"  name=nr_matricula_inclusao_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Dh Inclusao"border="0" color="0" x="5509" y="4" height="64" width="603"  name=dh_inclusao_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cd Filial Atualizacao"border="0" color="0" x="6117" y="4" height="64" width="544"  name=cd_filial_atualizacao_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Matricula Atualizacao"border="0" color="0" x="6665" y="4" height="64" width="649"  name=nr_matricula_atualizacao_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Dh Atualizacao"border="0" color="0" x="7319" y="4" height="64" width="603"  name=dh_atualizacao_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=10 border="0" color="0" x="5" y="4" height="76" width="329" format="[general]"  name=cd_cliente edit.limit=11 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=20 border="0" color="0" x="338" y="4" height="76" width="82" format="[general]"  name=id_tipo_cliente edit.limit=2 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=30 border="0" color="0" x="718" y="4" height="76" width="55" format="[general]"  name=id_fisica_juridica edit.limit=1 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=40 border="0" color="0" x="1166" y="4" height="76" width="1125" format="[general]"  name=nm_cliente edit.limit=40 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=50 border="0" color="0" x="2295" y="4" height="76" width="411" format="[general]"  name=nr_cpf_cgc edit.limit=14 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=60 border="0" color="0" x="2711" y="4" height="76" width="576" format="[general]"  name=nr_rg edit.limit=20 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=70 border="0" color="0" x="3296" y="4" height="76" width="302" format="[general]"  name=de_orgao_emissor_rg edit.limit=10 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="0" tabsequence=80 border="0" color="0" x="3881" y="4" height="76" width="603" format="[shortdate] [time]"  name=dh_emissao_rg edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=17 alignment="1" tabsequence=90 border="0" color="0" x="4489" y="4" height="76" width="329" format="[general]"  name=cd_filial_inclusao edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=18 alignment="0" tabsequence=100 border="0" color="0" x="4946" y="4" height="76" width="192" format="[general]"  name=nr_matricula_inclusao edit.limit=6 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=19 alignment="0" tabsequence=110 border="0" color="0" x="5509" y="4" height="76" width="603" format="[shortdate] [time]"  name=dh_inclusao edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=20 alignment="1" tabsequence=120 border="0" color="0" x="6117" y="4" height="76" width="329" format="[general]"  name=cd_filial_atualizacao edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=21 alignment="0" tabsequence=130 border="0" color="0" x="6665" y="4" height="76" width="192" format="[general]"  name=nr_matricula_atualizacao edit.limit=6 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=22 alignment="0" tabsequence=140 border="0" color="0" x="7319" y="4" height="76" width="603" format="[shortdate] [time]"  name=dh_atualizacao edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=23 alignment="0" tabsequence=32766 border="0" color="0" x="7922" y="0" height="64" width="1161" format="[general]"  name=qt_pontos_proxima_compra edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="0" tabsequence=0 border="0" color="0" x="9083" y="0" height="64" width="82"  name=nr_ddd_fone_residencial  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="0" tabsequence=0 border="0" color="0" x="9166" y="0" height="64" width="270"  name=nr_fone_residencial  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=11 alignment="0" tabsequence=0 border="0" color="0" x="9435" y="0" height="64" width="82"  name=nr_ddd_celular  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=12 alignment="0" tabsequence=0 border="0" color="0" x="9518" y="0" height="64" width="270"  name=nr_celular  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=13 alignment="0" tabsequence=0 border="0" color="0" x="9787" y="0" height="64" width="82"  name=nr_ddd_fone_recado  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=14 alignment="0" tabsequence=0 border="0" color="0" x="9870" y="0" height="64" width="270"  name=nr_fone_recado  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=15 alignment="0" tabsequence=0 border="0" color="0" x="10139" y="0" height="64" width="82"  name=nr_ddd_fone_comercial  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=16 alignment="0" tabsequence=0 border="0" color="0" x="10222" y="0" height="64" width="270"  name=nr_fone_comercial  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

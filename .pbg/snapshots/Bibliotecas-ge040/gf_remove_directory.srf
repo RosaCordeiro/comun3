@@ -1,0 +1,46 @@
+HA$PBExportHeader$gf_remove_directory.srf
+global type gf_remove_directory from function_object
+end type
+
+forward prototypes
+global function integer gf_remove_directory (string ps_path)
+end prototypes
+
+global function integer gf_remove_directory (string ps_path);/* Fun$$HEX2$$e700e300$$ENDHEX$$o para remover diret$$HEX1$$f300$$ENDHEX$$rio mesmo que n$$HEX1$$e300$$ENDHEX$$o esteja vazio
+	Fernando Lu$$HEX1$$ed00$$ENDHEX$$s Cambiaghi - 07/02/2017
+*/
+
+Integer li_File
+
+String ls_Files[]
+String ls_File
+String ls_Dir
+
+gf_Dir_List( ps_path, '', 0+1+16, ref ls_Files )
+
+For li_File = 1 To UpperBound( ls_Files )
+	ls_File = ls_Files[ li_File ]
+	
+	If ls_File = '[..]' Then Continue
+	
+	If MidA( ls_File, 1, 1 ) = '[' And MidA( ls_File, LenA( ls_File ), 1 ) = ']' Then
+		ls_Dir = MidA( ls_File, 2, LenA( ls_File ) - 2 )
+		
+		If DirectoryExists( ps_path + '\' + ls_Dir ) Then
+			gf_remove_directory( ps_path + '\' + ls_Dir )
+			
+			ChangeDirectory( 'c:\' )
+			
+			RemoveDirectory( ps_path + '\' + ls_Dir )
+		End If
+	End If
+	
+	FileDelete( ps_path + '\' + ls_File  )
+Next
+
+ChangeDirectory( 'c:\' )
+RemoveDirectory( ps_path )
+
+Return 1
+end function
+

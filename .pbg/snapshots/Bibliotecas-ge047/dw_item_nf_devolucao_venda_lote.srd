@@ -1,0 +1,55 @@
+HA$PBExportHeader$dw_item_nf_devolucao_venda_lote.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=80269524 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=72 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=84 color="536870912" )
+table(column=(type=long updatewhereclause=yes name=cd_filial dbname="item_nf_devolucao_venda_lote.cd_filial" )
+ column=(type=long updatewhereclause=yes name=nr_nf dbname="item_nf_devolucao_venda_lote.nr_nf" )
+ column=(type=char(3) updatewhereclause=yes name=de_especie dbname="item_nf_devolucao_venda_lote.de_especie" )
+ column=(type=char(3) updatewhereclause=yes name=de_serie dbname="item_nf_devolucao_venda_lote.de_serie" )
+ column=(type=char(1) updatewhereclause=yes name=id_origem_nf dbname="item_nf_devolucao_venda_lote.id_origem_nf" )
+ column=(type=long updatewhereclause=yes name=cd_natureza_operacao dbname="item_nf_devolucao_venda_lote.cd_natureza_operacao" )
+ column=(type=long updatewhereclause=yes name=cd_produto dbname="item_nf_devolucao_venda_lote.cd_produto" )
+ column=(type=char(10) updatewhereclause=yes name=nr_lote dbname="item_nf_devolucao_venda_lote.nr_lote" )
+ column=(type=long updatewhereclause=yes name=qt_lote dbname="item_nf_devolucao_venda_lote.qt_lote" )
+ retrieve="  SELECT i.cd_filial,   
+         i.nr_nf,   
+         i.de_especie,   
+         i.de_serie,   
+         i.id_origem_nf,   
+         i.cd_natureza_operacao,   
+         i.cd_produto,   
+         i.nr_lote,   
+         i.qt_lote
+    FROM item_nf_devolucao_venda_lote i,   
+         nf_devolucao_venda n  
+   WHERE n.cd_filial 	 = :filial
+     and n.dh_exportacao = :data_base    
+	  and n.cd_filial    = i.cd_filial
+     and n.nr_nf 		 = i.nr_nf
+     and n.de_especie    = i.de_especie
+     and n.de_serie 	 = i.de_serie
+     and n.id_origem_nf  = i.id_origem_nf
+
+" arguments=(("filial", number),("data_base", date)) )
+text(band=header alignment="2" text="Cd Filial"border="0" color="8388608" x="9" y="4" height="64" width="242"  name=item_nf_devolucao_venda_lote_cd_filial_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Nf"border="0" color="8388608" x="274" y="4" height="64" width="329"  name=item_nf_devolucao_venda_lote_nr_nf_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Especie"border="0" color="8388608" x="622" y="4" height="64" width="238"  name=item_nf_devolucao_venda_lote_de_especie_  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Serie"border="0" color="8388608" x="878" y="4" height="64" width="155"  name=item_nf_devolucao_venda_lote_de_serie_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="id Origem Nf"border="0" color="8388608" x="1051" y="4" height="64" width="370"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cd Natureza Operacao"border="0" color="8388608" x="1440" y="4" height="64" width="667"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cd Produto"border="0" color="8388608" x="2126" y="4" height="64" width="325"  name=item_nf_devolucao_venda_lote_cd_produto_  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Lote"border="0" color="8388608" x="2469" y="4" height="64" width="302"  name=item_nf_devolucao_venda_lote_nr_lote_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Qt Lote"border="0" color="8388608" x="2789" y="4" height="64" width="329"  name=item_nf_devolucao_venda_lote_qt_lote_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="1" tabsequence=32766 border="2" color="0" x="9" y="4" height="64" width="242" format="[general]"  name=cd_filial edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="2" color="0" x="274" y="4" height="64" width="329" format="[general]"  name=nr_nf edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="2" color="0" x="622" y="4" height="64" width="238" format="[general]"  name=de_especie edit.limit=3 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="2" color="0" x="878" y="4" height="64" width="155" format="[general]"  name=de_serie edit.limit=3 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="2" tabsequence=32766 border="2" color="0" x="1051" y="4" height="64" width="370" format="[general]"  name=id_origem_nf edit.limit=1 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=6 alignment="2" tabsequence=32766 border="2" color="0" x="1440" y="4" height="64" width="667" format="[general]"  name=cd_natureza_operacao edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=7 alignment="1" tabsequence=32766 border="2" color="0" x="2126" y="0" height="64" width="325" format="[general]"  name=cd_produto edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=8 alignment="1" tabsequence=32766 border="2" color="0" x="2469" y="4" height="64" width="302" format="[general]"  name=nr_lote edit.limit=10 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=9 alignment="1" tabsequence=32766 border="2" color="0" x="2789" y="4" height="64" width="329" format="[general]"  name=qt_lote edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

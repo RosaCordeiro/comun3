@@ -1,0 +1,101 @@
+HA$PBExportHeader$gf_valida_informacoes_cliente.srf
+global type gf_valida_informacoes_cliente from function_object
+end type
+
+forward prototypes
+global function boolean gf_valida_informacoes_cliente (string as_parametro, integer ai_tipo_parametro)
+global function boolean gf_valida_informacoes_cliente (string as_parametro, integer ai_tipo_parametro, ref string as_mensagem)
+end prototypes
+
+global function boolean gf_valida_informacoes_cliente (string as_parametro, integer ai_tipo_parametro)
+  Boolean lb_Sucesso = False
+  String ls_Mensagem
+
+	lb_Sucesso = gf_valida_informacoes_cliente (as_parametro, ai_tipo_parametro, ref ls_Mensagem)
+	
+	If Not lb_Sucesso Then
+		MessageBox( "Aten$$HEX2$$e700e300$$ENDHEX$$o", ls_Mensagem, Exclamation! )
+	End If
+	
+	Return lb_Sucesso
+end function
+
+global function boolean gf_valida_informacoes_cliente (string as_parametro, integer ai_tipo_parametro, ref string as_mensagem);/* 
+*	Este arquivo cont$$HEX1$$e900$$ENDHEX$$m v$$HEX1$$e100$$ENDHEX$$rias fun$$HEX2$$e700f500$$ENDHEX$$es. 
+*	Para poder editar/visualizar todas, $$HEX1$$e900$$ENDHEX$$ necess$$HEX1$$e100$$ENDHEX$$rio usar a op$$HEX2$$e700e300$$ENDHEX$$o Edit Source
+*
+*	Assinaturas:
+*		- gf_valida_informacoes_cliente( string as_parametro, integer ai_tipo_parametro, ref string as_mensagem  )
+*		- gf_valida_informacoes_cliente( string as_parametro, integer ai_tipo_parametro  )
+*/
+
+Integer lvi_Tamanho
+
+If IsNull(as_Parametro) Then as_Parametro = ''
+
+lvi_Tamanho = Len(Trim(as_Parametro))
+
+as_mensagem = ""
+
+Choose Case ai_Tipo_Parametro
+	Case 1 //Nome Cliente
+		
+		If lvi_Tamanho  < 2 Then
+			as_mensagem = "Informe o nome corretamente."
+		End If
+		
+	Case 2 //Endereco
+		
+		If lvi_Tamanho  < 2 Then
+			as_mensagem = "Informe o endere$$HEX1$$e700$$ENDHEX$$o corretamente."
+		End If
+		
+	Case 3 //Bairro
+		
+		If lvi_Tamanho  < 2 Then
+			as_mensagem = "Informe o bairro corretamente."
+		End If
+		
+	Case 4 // CPF / CGC
+		
+		If lvi_Tamanho = 11 Then
+			If Not gf_nr_cpf_valido(as_Parametro) Then
+				Return False
+			End If
+		ElseIf lvi_Tamanho = 14 Then
+			If Not gf_cgc_valido(as_Parametro) Then
+				Return False
+			End If
+		Else	
+			as_mensagem = "Informe o n$$HEX1$$fa00$$ENDHEX$$mero do CPF/ CGC corretamente."
+		End If
+		
+	Case 5 //Telefone
+		
+		If lvi_Tamanho <> 0 and  lvi_Tamanho <> 10 and lvi_Tamanho <> 11 Then
+			as_mensagem = "Informe o n$$HEX1$$fa00$$ENDHEX$$mero do telefone corretamente."
+		End If
+	
+	Case 6 //Cep
+		
+		If lvi_Tamanho <> 8 Then
+			as_mensagem = "Informe o n$$HEX1$$fa00$$ENDHEX$$mero do CEP corretamente."
+		End If
+		
+	Case 7 //Cidade
+		
+		If lvi_Tamanho = 0 Then
+			as_mensagem = "Informe a cidade."
+		End If		
+	
+	Case Else
+		as_mensagem = "Tipo do par$$HEX1$$e200$$ENDHEX$$metro informado para a fun$$HEX2$$e700e300$$ENDHEX$$o $$HEX1$$e900$$ENDHEX$$ inv$$HEX1$$e100$$ENDHEX$$lido."		
+End Choose
+
+If as_Mensagem <> "" Then
+	Return False
+End If
+
+Return True
+end function
+

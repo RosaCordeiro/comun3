@@ -1,0 +1,25 @@
+HA$PBExportHeader$gf_saldo_inicial.srf
+global type gf_saldo_inicial from function_object
+end type
+
+forward prototypes
+global function long gf_saldo_inicial (date pdt_inicial, long pl_cd_produto)
+end prototypes
+
+global function long gf_saldo_inicial (date pdt_inicial, long pl_cd_produto);Long lvl_qt_saldo_final 
+//
+pdt_inicial = gf_mes_anterior(pdt_inicial)
+//
+select qt_saldo_final Into :lvl_qt_saldo_final
+from saldo_produto
+where dh_saldo   = :pdt_inicial
+  and cd_produto = :pl_cd_produto;
+//  
+If SqlCa.SqlCode = -1 Then
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o","Erro no na consulta do saldo do produto: " + & 
+					SqlCa.SqlErrText + ".",StopSign!,Ok!)
+End If
+//  
+Return lvl_qt_saldo_final
+end function
+

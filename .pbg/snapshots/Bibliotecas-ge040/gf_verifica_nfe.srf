@@ -1,0 +1,16 @@
+HA$PBExportHeader$gf_verifica_nfe.srf
+global type gf_verifica_nfe from function_object
+end type
+
+forward prototypes
+global function boolean gf_verifica_nfe (string as_especie)
+end prototypes
+
+global function boolean gf_verifica_nfe (string as_especie);If as_especie = "NFE" Then
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "NOTA FISCAL ELETR$$HEX1$$d400$$ENDHEX$$NICA. ~r~r" + "Este procedimento s$$HEX1$$f300$$ENDHEX$$ poder$$HEX1$$e100$$ENDHEX$$ ser realizado no sistema da Nota Fiscal Eletr$$HEX1$$f400$$ENDHEX$$nica - NFE.")
+	Return True
+End If
+
+Return False
+end function
+

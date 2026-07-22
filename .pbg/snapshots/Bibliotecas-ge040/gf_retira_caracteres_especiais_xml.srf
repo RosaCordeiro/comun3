@@ -1,0 +1,16 @@
+HA$PBExportHeader$gf_retira_caracteres_especiais_xml.srf
+global type gf_retira_caracteres_especiais_xml from function_object
+end type
+
+forward prototypes
+global function string gf_retira_caracteres_especiais_xml (string ps_texto)
+end prototypes
+
+global function string gf_retira_caracteres_especiais_xml (string ps_texto);ps_texto = gf_replace(ps_texto, '<', "&lt;", 0)
+ps_texto = gf_replace(ps_texto, '>', "&gt;", 0)
+
+ps_texto = gf_replace(ps_texto, '&', "&amp;", 0)
+
+return ps_texto
+end function
+

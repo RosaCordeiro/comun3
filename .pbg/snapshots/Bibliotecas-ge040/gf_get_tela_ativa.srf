@@ -1,0 +1,76 @@
+HA$PBExportHeader$gf_get_tela_ativa.srf
+global type gf_get_tela_ativa from function_object
+end type
+
+forward prototypes
+global function boolean gf_get_tela_ativa (long pl_filial, ref string ps_id_centro_distribuicao)
+global subroutine gf_get_tela_ativa (menu am_source)
+end prototypes
+
+global function boolean gf_get_tela_ativa (long pl_filial, ref string ps_id_centro_distribuicao);Boolean lb_Sucesso = True
+
+String ls_Auxiliar
+
+Select id_centro_distribuicao
+Into	:ls_Auxiliar
+From filial
+where cd_filial = :pl_Filial
+Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+		
+	Case 0
+			
+		If IsNull(ls_Auxiliar) Then
+			ps_id_centro_distribuicao = "S"
+			
+		ElseIf ls_Auxiliar = "S" Then
+			ps_id_centro_distribuicao = "S"
+			
+		ElseIf ls_Auxiliar = "N" Then
+			ps_id_centro_distribuicao = "N"
+			
+		ElseIf Trim(ls_Auxiliar) = "" Then
+			ps_id_centro_distribuicao = "N"
+			
+		Else
+			MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o","O valor referente ao campo 'id_centro_distribuicao' deve ser igual a 'S' ou 'N'.")
+			lb_Sucesso = False
+			
+		End If
+		
+	Case 100
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "A coluna 'id_centro_distribuicao' n$$HEX1$$e300$$ENDHEX$$o foi lozalizada na tabela filial.", StopSign!)
+		lb_Sucesso = False
+		
+	Case -1
+		SqlCa.of_MsgdbError("Localiza$$HEX2$$e700e300$$ENDHEX$$o da coluna 'id_centro_distribuicao' na tabela filial.")
+		lb_Sucesso = False
+			
+End Choose
+
+Return lb_Sucesso
+
+end function
+
+global subroutine gf_get_tela_ativa (menu am_source);//integer		li_rc = -1
+//window		lw_frame
+//window		lw_sheet
+//
+//// Determine if application is MDI by getting frame window
+//of_GetMDIFrame (am_source, lw_frame)   
+//if IsValid (lw_frame) then
+//
+//	// Try sending the message to the active MDI sheet
+//	lw_sheet = lw_frame.GetActiveSheet()
+//	if IsValid (lw_sheet) then
+//	end if
+//
+//else
+//	// Try sending the message to the parentwindow
+//	if IsValid (am_source.parentwindow) then
+//		li_rc = am_source.parentwindow.dynamic event pfc_messagerouter (as_message)
+//	end if
+//end if
+end subroutine
+

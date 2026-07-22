@@ -1,0 +1,13 @@
+HA$PBExportHeader$gf_colocar_mascara_cpf.srf
+global type gf_colocar_mascara_cpf from function_object
+end type
+
+forward prototypes
+global function string gf_colocar_mascara_cpf (string a_cgc)
+end prototypes
+
+global function string gf_colocar_mascara_cpf (string a_cgc);//
+RETURN MidA(a_cgc, 1, 3) + "." + MidA(a_cgc, 4, 3) + "." + MidA(a_cgc, 7, 3) + "-" + MidA(a_cgc,10, 2)
+//
+end function
+

@@ -1,0 +1,25 @@
+HA$PBExportHeader$gf_remove_zeros_esquerda.srf
+global type gf_remove_zeros_esquerda from function_object
+end type
+
+forward prototypes
+global function string gf_remove_zeros_esquerda (string ps_texto)
+end prototypes
+
+global function string gf_remove_zeros_esquerda (string ps_texto);String lvs_Retorno=""
+Long lvl_Char
+
+For lvl_Char=1 To Len(ps_texto)
+	//Se o caracter for zero passa para o pr$$HEX1$$f300$$ENDHEX$$ximo
+	If Mid(ps_texto, lvl_Char, 1)='0' Then
+		Continue
+	Else //Ao encontrar 1 caracter diferente copia para o retorno
+		lvs_Retorno=Mid(ps_texto, lvl_Char)
+		//Sai do loop
+		Exit
+	End If
+Next
+
+Return lvs_Retorno
+end function
+

@@ -1,0 +1,6 @@
+HA$PBExportHeader$str_ge350_periodo_aprovacao.srs
+global type str_ge350_periodo_aprovacao from structure
+	datetime		dh_inicio
+	datetime		dh_termino
+end type
+

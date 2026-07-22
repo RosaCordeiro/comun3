@@ -1,0 +1,42 @@
+HA$PBExportHeader$gf_reforco_pedido_perini.srf
+global type gf_reforco_pedido_perini from function_object
+end type
+
+forward prototypes
+global function boolean gf_reforco_pedido_perini (ref date pdt_data_reforco, ref string ps_dia_semana)
+end prototypes
+
+global function boolean gf_reforco_pedido_perini (ref date pdt_data_reforco, ref string ps_dia_semana);String lvs_Parametro
+
+Select vl_parametro
+Into :lvs_Parametro
+From parametro_geral
+Where cd_parametro = 'DT_REFORCO_PEDIDO_PERINI'
+Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+	Case 0
+		If IsNull(lvs_Parametro) or trim(lvs_Parametro) = "" Then
+			lvs_Parametro = "01/01/1900"
+		End If
+	Case 100
+		lvs_Parametro = "01/01/1900"
+	Case -1 
+		SqlCa.of_MsgDbError("Erro ao localizar a data do refor$$HEX1$$e700$$ENDHEX$$o do perini") 
+		Return False
+End Choose
+
+If Not IsDate(lvs_Parametro) Then
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "A data do refor$$HEX1$$e700$$ENDHEX$$o do perini $$HEX1$$e900$$ENDHEX$$ invalida '" + lvs_Parametro + "'.")
+	Return False
+End If
+
+pdt_data_reforco = Date(lvs_Parametro)
+
+ps_dia_semana = Upper(DayName(pdt_data_reforco))
+
+Return True
+
+
+end function
+

@@ -1,0 +1,77 @@
+HA$PBExportHeader$gf_houve_alteracao_ds.srf
+global type gf_houve_alteracao_ds from function_object
+end type
+
+forward prototypes
+global function boolean gf_houve_alteracao_ds (dc_uo_dw_base pdw_log, string as_coluna, integer al_linha, ref string as_valorpara)
+global function boolean gf_houve_alteracao_ds (dc_uo_ds_base pdw_log, string as_coluna, integer al_linha, ref string as_valorde, ref string as_valorpara)
+end prototypes
+
+global function boolean gf_houve_alteracao_ds (dc_uo_dw_base pdw_log, string as_coluna, integer al_linha, ref string as_valorpara);String lvs_ColunmType, lvs_ValorDe
+
+lvs_ColunmType = Upper(pdw_log.Describe(as_Coluna + ".ColType"))
+
+//Recupera o tipo de dado da coluna alterada
+//Recupera os valores atual e antigo da coluna conforme o tipo de dado e converte para string
+Choose Case lvs_ColunmType
+	Case 'NUMBER','LONG','INT','ULONG'
+		lvs_ValorDe		= String(pdw_log.GetItemNumber(al_linha,as_Coluna,Primary!,True))
+		as_ValorPara	= String(pdw_log.GetItemNumber(al_linha,as_Coluna,Primary!,False))
+	Case 'DATE'
+		lvs_ValorDe		= String(pdw_log.GetItemDate(al_linha,as_Coluna,Primary!,True),'DD/MM/YYYY')
+		as_ValorPara	= String(pdw_log.GetItemDate(al_linha,as_Coluna,Primary!,False),'DD/MM/YYYY')
+	Case 'DATETIME'
+		lvs_ValorDe		= String(pdw_log.GetItemDateTime(al_linha,as_Coluna,Primary!,True),'DD/MM/YYYY HH:MM:SS')
+		as_ValorPara	= String(pdw_log.GetItemDateTime(al_linha,as_Coluna,Primary!,False),'DD/MM/YYYY HH:MM:SS')
+	Case Else	
+		If (Pos(lvs_ColunmType,'DECIMAL')>0)or(lvs_ColunmType='REAL') Then
+			lvs_ValorDe		= String(pdw_log.GetItemDecimal(al_linha,as_Coluna,Primary!,True),'#,##0.00##')
+			as_ValorPara	= String(pdw_log.GetItemDecimal(al_linha,as_Coluna,Primary!,False),'#,##0.00##')
+		Else
+			lvs_ValorDe		= pdw_log.GetItemString(al_linha,as_Coluna,Primary!,True)
+			as_ValorPara	= pdw_log.GetItemString(al_linha,as_Coluna,Primary!,False)
+		End If
+End Choose		
+
+If (lvs_ValorDe <> as_ValorPara) or (IsNull(lvs_ValorDe) and Not IsNull(as_ValorPara)) or (Not IsNull(lvs_ValorDe) and IsNull(as_ValorPara))Then Return True
+
+//If IsNull(lvs_ValorDe) and Not IsNull(lvs_ValorDe) Then Return True
+//If Not IsNull(lvs_ValorDe) and IsNull(lvs_ValorDe) Then Return True
+	
+Return False
+end function
+
+global function boolean gf_houve_alteracao_ds (dc_uo_ds_base pdw_log, string as_coluna, integer al_linha, ref string as_valorde, ref string as_valorpara);String lvs_ColunmType
+
+lvs_ColunmType = Upper(pdw_log.Describe(as_Coluna + ".ColType"))
+
+//Recupera o tipo de dado da coluna alterada
+//Recupera os valores atual e antigo da coluna conforme o tipo de dado e converte para string
+Choose Case lvs_ColunmType
+	Case 'NUMBER','LONG','INT','ULONG'
+		as_valorde		= String(pdw_log.GetItemNumber(al_linha,as_Coluna,Primary!,True))
+		as_ValorPara	= String(pdw_log.GetItemNumber(al_linha,as_Coluna,Primary!,False))
+	Case 'DATE'
+		as_valorde		= String(pdw_log.GetItemDate(al_linha,as_Coluna,Primary!,True),'DD/MM/YYYY')
+		as_ValorPara	= String(pdw_log.GetItemDate(al_linha,as_Coluna,Primary!,False),'DD/MM/YYYY')
+	Case 'DATETIME'
+		as_valorde		= String(pdw_log.GetItemDateTime(al_linha,as_Coluna,Primary!,True),'DD/MM/YYYY HH:MM:SS')
+		as_ValorPara	= String(pdw_log.GetItemDateTime(al_linha,as_Coluna,Primary!,False),'DD/MM/YYYY HH:MM:SS')
+	Case Else	
+		If (Pos(lvs_ColunmType,'DECIMAL')>0)or(lvs_ColunmType='REAL') Then
+			as_valorde		= String(pdw_log.GetItemDecimal(al_linha,as_Coluna,Primary!,True),'#,##0.00##')
+			as_ValorPara	= String(pdw_log.GetItemDecimal(al_linha,as_Coluna,Primary!,False),'#,##0.00##')
+		Else
+			as_valorde		= pdw_log.GetItemString(al_linha,as_Coluna,Primary!,True)
+			as_ValorPara	= pdw_log.GetItemString(al_linha,as_Coluna,Primary!,False)
+		End If
+End Choose		
+
+If (as_valorde <> as_ValorPara) or (IsNull(as_valorde) and Not IsNull(as_ValorPara)) or (Not IsNull(as_valorde) and IsNull(as_ValorPara))Then Return True
+
+//If IsNull(lvs_ValorDe) and Not IsNull(lvs_ValorDe) Then Return True
+//If Not IsNull(lvs_ValorDe) and IsNull(lvs_ValorDe) Then Return True
+	
+Return False
+end function
+

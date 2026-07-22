@@ -1,0 +1,174 @@
+HA$PBExportHeader$gf_retorna_categoria_ecommerce.srf
+global type gf_retorna_categoria_ecommerce from function_object
+end type
+
+forward prototypes
+global function boolean gf_retorna_categoria_ecommerce (long pl_categoria, ref string ps_niveis_categoria, ref string ps_departamento, ref string ps_categoria, integer ps_subcategoria, ref string ps_log)
+global function boolean gf_retorna_categoria_ecommerce (long pl_categoria, ref string ps_niveis_categoria, ref string ps_departamento, ref string ps_categoria, ref string ps_subcategoria, ref string ps_log)
+end prototypes
+
+global function boolean gf_retorna_categoria_ecommerce (long pl_categoria, ref string ps_niveis_categoria, ref string ps_departamento, ref string ps_categoria, integer ps_subcategoria, ref string ps_log);String lvs_Nivel,&
+	   lvs_Nivel_Array[]
+
+Long lvl_Pai,&
+	 lvl_Categoria
+	 
+Integer lvi_Array = 1,&
+	    lvi_Niveis
+
+Select de_categoria, cd_categoria_pai
+Into :lvs_Nivel, :lvl_Pai
+From categoria_ecommerce
+Where cd_categoria = :pl_categoria
+Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+	Case 0
+	Case 100
+	Case -1
+End Choose
+
+ps_niveis_categoria = lvs_Nivel
+
+lvs_Nivel_Array[lvi_Array] = lvs_Nivel
+
+Do While lvl_Pai <> 0
+	
+	pl_categoria = lvl_Pai
+	
+	lvi_Array ++
+	
+	Select de_categoria, cd_categoria_pai
+	Into :lvs_Nivel, :lvl_Pai
+	From categoria_ecommerce
+	Where cd_categoria = :pl_categoria
+	Using SqlCa;
+	
+	Choose Case SqlCa.SqlCode
+		Case 0
+		Case 100
+		Case -1
+	End Choose
+	
+	lvs_Nivel_Array[lvi_Array] = lvs_Nivel
+
+LOOP
+
+lvi_Niveis = UpperBound(lvs_Nivel_Array)
+
+// Se tiver mais de um n$$HEX1$$ed00$$ENDHEX$$vel monta os niveis
+If lvi_Niveis > 1 Then
+	
+	ps_niveis_categoria = ""
+	
+	Do While lvi_Niveis <> 0
+		
+		ps_niveis_categoria = ps_niveis_categoria + lvs_Nivel_Array[lvi_Niveis] 
+		
+		If lvi_Niveis <> 1 Then
+			ps_niveis_categoria = ps_niveis_categoria + " / "
+		End If
+				
+		lvi_Niveis --
+	Loop
+		
+End If
+
+Return True
+end function
+
+global function boolean gf_retorna_categoria_ecommerce (long pl_categoria, ref string ps_niveis_categoria, ref string ps_departamento, ref string ps_categoria, ref string ps_subcategoria, ref string ps_log);String lvs_Nivel,&
+	   lvs_Nivel_Array[]
+
+Long lvl_Pai,&
+	 lvl_Categoria
+	 
+Integer lvi_Array = 1,&
+	    lvi_Niveis
+
+Select de_categoria, cd_categoria_pai
+Into :lvs_Nivel, :lvl_Pai
+From categoria_ecommerce
+Where cd_categoria = :pl_categoria
+Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+	Case 0
+	Case 100
+	Case -1
+		ps_Log = "Erro ao localizar os registros na tabela 'categoria_ecommerece': " + SQLCA.SQLErrText
+		Return False
+End Choose
+
+ps_niveis_categoria = lvs_Nivel
+
+lvs_Nivel_Array[lvi_Array] = lvs_Nivel
+
+Do While lvl_Pai <> 0
+	
+	pl_categoria = lvl_Pai
+	
+	lvi_Array ++
+	
+	Select de_categoria, cd_categoria_pai
+	Into :lvs_Nivel, :lvl_Pai
+	From categoria_ecommerce
+	Where cd_categoria = :pl_categoria
+	Using SqlCa;
+	
+	Choose Case SqlCa.SqlCode
+		Case 0
+		Case 100
+		Case -1
+			ps_Log = "Erro ao localizar os registros na tabela 'categoria_ecommerece': " + SQLCA.SQLErrText
+			Return False
+	End Choose
+	
+	lvs_Nivel_Array[lvi_Array] = lvs_Nivel
+
+LOOP
+
+lvi_Niveis = UpperBound(lvs_Nivel_Array)
+
+// Se tiver mais de um n$$HEX1$$ed00$$ENDHEX$$vel monta os niveis
+If lvi_Niveis > 1 Then
+	
+	ps_niveis_categoria = ""
+	
+	Do While lvi_Niveis <> 0
+		
+		ps_niveis_categoria = ps_niveis_categoria + lvs_Nivel_Array[lvi_Niveis] 
+		
+		If lvi_Niveis <> 1 Then
+			ps_niveis_categoria = ps_niveis_categoria + " / "
+		End If
+				
+		lvi_Niveis --
+	Loop
+		
+End If
+
+lvi_Niveis = UpperBound(lvs_Nivel_Array)
+
+If lvi_Niveis > 0 Then
+	
+	If lvi_Niveis >= 3 Then
+		ps_departamento  = lvs_Nivel_Array[3]
+		ps_categoria		= lvs_Nivel_Array[2]
+		ps_subcategoria 	= lvs_Nivel_Array[1]
+	End If
+	
+	If lvi_Niveis = 2 Then
+		ps_departamento  = lvs_Nivel_Array[2]
+		ps_categoria		= lvs_Nivel_Array[1]
+	End If
+	
+	If lvi_Niveis = 1 Then
+		ps_departamento  = lvs_Nivel_Array[1]
+	End If
+	
+End If
+
+Return True
+end function
+

@@ -1,0 +1,40 @@
+HA$PBExportHeader$gf_ge525_revisao_desconto_preste.srf
+global type gf_ge525_revisao_desconto_preste from function_object
+end type
+
+forward prototypes
+global function boolean gf_ge525_revisao_desconto_preste (long al_produto, boolean ab_mostrar_mensagem)
+end prototypes
+
+global function boolean gf_ge525_revisao_desconto_preste (long al_produto, boolean ab_mostrar_mensagem);String ls_Erro
+Long ll_RowCount
+
+Update produto_preste_a_vencer
+	Set id_revisar_desconto = 'S'
+Where cd_produto 	= :al_produto
+	And id_situacao 	= 'A'
+	And dh_validade>=dateadd(month,-12, getdate())
+Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+	Case -1
+		ls_Erro = SqlCa.sqlErrText
+		SqlCa.of_Rollback();
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro no update produto_preste_a_vencer. Fun$$HEX2$$e700e300$$ENDHEX$$o: gf_ge525_revisao_desconto_preste.~rErro: " + ls_Erro, StopSign!)
+		Return False
+End Choose
+
+if ab_mostrar_mensagem then
+	ll_RowCount  =  SqlCa.sqlnrows
+	
+	If ll_rowCount >0  Then 
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Atualizada etiqueta para Loja Revisar desconto")
+	Else
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "N$$HEX1$$e300$$ENDHEX$$o encontrada etiqueta para Loja Revisar destonto")
+	End If 	
+end if
+
+
+Return True
+end function
+

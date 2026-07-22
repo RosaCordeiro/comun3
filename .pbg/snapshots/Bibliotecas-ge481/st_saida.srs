@@ -1,0 +1,10 @@
+HA$PBExportHeader$st_saida.srs
+global type st_saida from structure
+	string		 mensagem
+	string		 material
+	string		 saldo
+	string		 deposito
+	string		 centro
+	long		 produto_legado
+end type
+

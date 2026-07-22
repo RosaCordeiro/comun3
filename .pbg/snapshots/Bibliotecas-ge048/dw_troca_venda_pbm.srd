@@ -1,0 +1,72 @@
+HA$PBExportHeader$dw_troca_venda_pbm.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=72 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=72 color="536870912" )
+table(column=(type=long update=yes updatewhereclause=yes key=yes name=cd_filial dbname="venda_pbm.cd_filial" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=nr_nf dbname="venda_pbm.nr_nf" )
+ column=(type=char(3) update=yes updatewhereclause=yes key=yes name=de_especie dbname="venda_pbm.de_especie" )
+ column=(type=char(3) update=yes updatewhereclause=yes key=yes name=de_serie dbname="venda_pbm.de_serie" )
+ column=(type=long update=yes updatewhereclause=yes name=cd_convenio dbname="venda_pbm.cd_convenio" )
+ column=(type=datetime update=yes updatewhereclause=yes name=dh_venda dbname="venda_pbm.dh_venda" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_total_venda dbname="venda_pbm.vl_total_venda" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=nr_autorizacao dbname="venda_pbm.nr_autorizacao" )
+ column=(type=char(12) update=yes updatewhereclause=yes name=nr_comprovante_venda dbname="venda_pbm.nr_comprovante_venda" )
+ column=(type=char(3) update=yes updatewhereclause=yes name=nr_ecf dbname="venda_pbm.nr_ecf" )
+ column=(type=char(6) update=yes updatewhereclause=yes name=nr_cupom dbname="venda_pbm.nr_cupom" )
+ column=(type=datetime update=yes updatewhereclause=yes name=dh_cancelamento dbname="venda_pbm.dh_cancelamento" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=cd_convenio_pbm dbname="venda_pbm.cd_convenio_pbm" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=nr_cartao dbname="venda_pbm.nr_cartao" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_reembolso_total dbname="venda_pbm.vl_reembolso_total" )
+ retrieve="SELECT cd_filial,   
+		 nr_nf,   
+		 de_especie,   
+		 de_serie,   
+		 cd_convenio,   
+		 dh_venda,   
+		 vl_total_venda,   
+		 nr_autorizacao,   
+		 nr_comprovante_venda,   
+		 nr_ecf,   
+		 nr_cupom,   
+		 dh_cancelamento,   
+		 cd_convenio_pbm,   
+		 nr_cartao,   
+		 vl_reembolso_total  
+  FROM venda_pbm
+ WHERE cd_filial = :pl_filial
+   AND dh_venda  = :pdt_data
+" update="venda_pbm" updatewhere=1 updatekeyinplace=no arguments=(("pl_filial", number),("pdt_data", date)) )
+text(band=header alignment="2" text="Cd Filial"border="0" color="0" x="50" y="4" height="52" width="242"  name=cd_filial_t  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Nf"border="0" color="0" x="430" y="4" height="52" width="151"  name=nr_nf_t  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="De Especie"border="0" color="0" x="654" y="4" height="52" width="338"  name=de_especie_t  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="De Serie"border="0" color="0" x="969" y="4" height="52" width="256"  name=de_serie_t  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cd Convenio"border="0" color="0" x="1193" y="4" height="52" width="375"  name=cd_convenio_t  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Dh Venda"border="0" color="0" x="1710" y="4" height="52" width="283"  name=dh_venda_t  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Total Venda"border="0" color="0" x="2144" y="4" height="52" width="421"  name=vl_total_venda_t  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Autorizacao"border="0" color="0" x="2629" y="4" height="52" width="434"  name=nr_autorizacao_t  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Comprovante Venda"border="0" color="0" x="3099" y="4" height="52" width="681"  name=nr_comprovante_venda_t  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Ecf"border="0" color="0" x="3744" y="4" height="52" width="178"  name=nr_ecf_t  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Cupom"border="0" color="0" x="3904" y="4" height="52" width="293"  name=nr_cupom_t  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Dh Cancelamento"border="0" color="0" x="4229" y="4" height="52" width="521"  name=dh_cancelamento_t  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cd Convenio Pbm"border="0" color="0" x="4823" y="4" height="52" width="526"  name=cd_convenio_pbm_t  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Cartao"border="0" color="0" x="5527" y="4" height="52" width="279"  name=nr_cartao_t  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Reembolso Total"border="0" color="0" x="5925" y="4" height="52" width="576"  name=vl_reembolso_total_t  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="1" tabsequence=10 border="2" color="0" x="5" y="4" height="64" width="329" format="[general]"  name=cd_filial edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=20 border="2" color="0" x="352" y="4" height="64" width="329" format="[general]"  name=nr_nf edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=30 border="2" color="0" x="699" y="4" height="64" width="110" format="[general]"  name=de_especie edit.limit=3 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=40 border="2" color="0" x="827" y="4" height="64" width="110" format="[general]"  name=de_serie edit.limit=3 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="1" tabsequence=50 border="2" color="0" x="955" y="4" height="64" width="329" format="[general]"  name=cd_convenio edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=60 border="2" color="0" x="1303" y="4" height="64" width="599" format="[shortdate] [time]"  name=dh_venda edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="1" tabsequence=70 border="2" color="0" x="1920" y="4" height="64" width="325" format="[general]"  name=vl_total_venda edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="0" tabsequence=80 border="2" color="0" x="2263" y="4" height="64" width="576" format="[general]"  name=nr_autorizacao edit.limit=20 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="0" tabsequence=90 border="2" color="0" x="2857" y="4" height="64" width="357" format="[general]"  name=nr_comprovante_venda edit.limit=12 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="0" tabsequence=100 border="2" color="0" x="3232" y="4" height="64" width="110" format="[general]"  name=nr_ecf edit.limit=3 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=11 alignment="0" tabsequence=110 border="2" color="0" x="3360" y="4" height="64" width="192" format="[general]"  name=nr_cupom edit.limit=6 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=12 alignment="0" tabsequence=120 border="2" color="0" x="3570" y="4" height="64" width="603" format="[shortdate] [time]"  name=dh_cancelamento edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=13 alignment="0" tabsequence=130 border="2" color="0" x="4192" y="4" height="64" width="576" format="[general]"  name=cd_convenio_pbm edit.limit=20 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=14 alignment="0" tabsequence=140 border="2" color="0" x="4786" y="4" height="64" width="576" format="[general]"  name=nr_cartao edit.limit=20 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=15 alignment="1" tabsequence=150 border="2" color="0" x="5376" y="4" height="64" width="329" format="[general]"  name=vl_reembolso_total edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

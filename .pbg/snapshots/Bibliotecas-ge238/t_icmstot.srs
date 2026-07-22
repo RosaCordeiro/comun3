@@ -1,0 +1,22 @@
+HA$PBExportHeader$t_icmstot.srs
+global type t_icmstot from structure
+	double		vbc
+	double		vicms
+	double		vfcp
+	double		vbcst
+	double		vst
+	double		vfcpst
+	double		vFCPSTRet
+	double		vprod
+	double		vfrete
+	double		vseg
+	double		vdesc
+	double		vii
+	double		vipi
+	double		vpis
+	double		vcofins
+	double		voutro
+	double		vnf
+	double		vicmsdeson
+end type
+

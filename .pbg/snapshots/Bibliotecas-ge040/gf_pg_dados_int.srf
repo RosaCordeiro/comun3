@@ -1,0 +1,215 @@
+HA$PBExportHeader$gf_pg_dados_int.srf
+$PBExportComments$Fun$$HEX2$$e700e300$$ENDHEX$$o para conectar ao Postgres dadosintegra
+global type gf_pg_dados_int from function_object
+end type
+
+forward prototypes
+global function boolean gf_pg_dados_int (ref string as_erro)
+end prototypes
+
+global function boolean gf_pg_dados_int (ref string as_erro);Datetime	ldh_Dh_Alteracao_Situacao
+Long		ll_Linha, &
+			ll_Linhas, &
+			ll_Ncm_Produto, &
+			ll_Nr_Dias_Pagamento, &
+			ll_Qt_Estoque_Disponivel, &
+			ll_Cd_Produto, &
+			ll_Cd_Cest
+
+String	ls_usuario, ls_senha, ls_data_source, ls_datasource_sistema
+String	ls_Cd_Distribuidora, &
+			ls_Cd_Fornecedor_sap, &
+			ls_Razao_Social, &
+			ls_Cd_Produto_Sap, &
+      	ls_De_Produto, &
+     		ls_Uf_Unidade_Federacao, &
+   	  	ls_Cd_Produto_Distribuidora, &
+     	  	ls_Cd_Produto_Hpc, &
+     	  	ls_De_Codigo_Barras_Arquivo_Preco, &
+     	  	ls_Cd_Cst,&
+			ls_Tipo,&
+			ls_Anexo[]
+
+Decimal	ldc_Vl_Preco_Atual, &
+       		ldc_Pc_Desconto_Atual, &
+       		ldc_Pc_Repasse_Icms, &
+        		ldc_Pc_Icms, &
+        		ldc_Pc_Reducao_Base_Icms, &
+        		ldc_Vl_Preco_Base_Icms_St, &
+       	 	ldc_Vl_Icms_St, &
+       	 	ldc_Pc_Desconto_Conexao, &
+       	 	ldc_Vl_Icms_St_Farmacia_Popular, &
+      	  	ldc_Pc_Comissao_Midia, &
+      	  	ldc_Vl_Icms_St_Retido, &
+      	  	ldc_Vl_Bc_St_Retido, &
+      	  	ldc_Pc_Icms_St, &
+        		ldc_Pc_Mva, &
+        		ldc_Vl_Pmc
+
+// Conex$$HEX1$$e300$$ENDHEX$$o com banco dadosintegra
+dc_uo_transacao SQLCA_PG_DADOSINT
+
+ls_Tipo = 'Inclus$$HEX1$$e300$$ENDHEX$$o'
+
+ls_data_source	= 'dadosintegra'
+ls_usuario			= 'usr-dadosintegra'
+ls_senha				= 'V8mideQU!res'
+
+SQLCA_PG_DADOSINT = Create dc_uo_transacao
+
+SQLCA_PG_DADOSINT.DBMS				= "ODBC"
+SQLCA_PG_DADOSINT.AutoCommit	= False
+SQLCA_PG_DADOSINT.DataBase		= 'postgres'
+SQLCA_PG_DADOSINT.dbParm			= "ConnectString='UID=" + ls_usuario + &
+                           ";PWD=" + ls_senha + &
+                           ";DSN=" + ls_data_source + &
+                           "', SqlCache=0, " + &
+                           "DisableBind=1" + "', " + &
+                           "CommitOnDisconnect='No'"
+
+Try
+    Connect Using SQLCA_PG_DADOSINT;
+	 
+	//Caso n$$HEX1$$e300$$ENDHEX$$o conseguir conectar 
+    If SQLCA_PG_DADOSINT.SqlCode = -1 Then
+        as_erro = "Falha na conex$$HEX1$$e300$$ENDHEX$$o com o Banco de Dados do PG_DADOSINT."
+		  gf_ge202_envia_email_automatico(325, " - Erro na tarefa de " + ls_Tipo, as_erro + "~r~nTarefa GE040-gf_pg_dados_int", ls_Anexo[], False)
+        Return False
+    End If
+
+	//Recupera os dados da data source
+    dc_uo_ds_base lvds_1
+    lvds_1 = Create dc_uo_ds_base
+    lvds_1.Of_ChangeDataObject('ds_ge040_hist_dist_produto')
+    lvds_1.Retrieve()
+
+	//Faz a contagem de resultados obtidos
+    ll_Linhas = lvds_1.RowCount()
+
+    For ll_Linha = 1 To ll_Linhas
+        // Obt$$HEX1$$e900$$ENDHEX$$m os valores dos campos espec$$HEX1$$ed00$$ENDHEX$$ficos
+        ls_Cd_Fornecedor_sap						= lvds_1.Object.cd_fornecedor_sap						[ll_Linha]
+        ls_Razao_Social								= lvds_1.Object.nm_razao_social							[ll_Linha]
+        ls_De_Produto								= lvds_1.Object.de_produto									[ll_Linha]
+        ls_Cd_Produto_Sap							= lvds_1.Object.cd_produto_sap							[ll_Linha]
+        ls_Cd_Distribuidora						= lvds_1.Object.cd_distribuidora							[ll_Linha]
+        ls_Uf_Unidade_Federacao					= lvds_1.Object.cd_unidade_federacao					[ll_Linha]
+        ls_Cd_Produto_Distribuidora				= lvds_1.Object.cd_produto_distribuidora				[ll_Linha]
+        ls_Cd_Produto_Hpc							= lvds_1.Object.id_produto_hpc							[ll_Linha]
+        ls_De_Codigo_Barras_Arquivo_Preco		= lvds_1.Object.de_codigo_barras_arquivo_preco		[ll_Linha]
+        ls_Cd_Cst										= lvds_1.Object.cd_cst										[ll_Linha]
+        ll_Cd_Produto								= long(lvds_1.Object.cd_produto							[ll_Linha])
+        ll_Qt_Estoque_Disponivel					= long(lvds_1.Object.qt_estoque_disponivel			[ll_Linha])
+        ll_Nr_Dias_Pagamento						= long(lvds_1.Object.nr_dias_pagamento					[ll_Linha])
+        ll_Ncm_Produto 								= long(lvds_1.Object.ncm_produto							[ll_Linha])
+        ll_Cd_Cest									= long(lvds_1.Object.cd_cest								[ll_Linha])
+        ldc_Vl_Preco_Atual							= lvds_1.Object.vl_preco_atual							[ll_Linha]
+        ldc_Pc_Desconto_Atual						= lvds_1.Object.pc_desconto_atual						[ll_Linha]
+        ldc_Pc_Repasse_Icms						= lvds_1.Object.pc_repasse_icms							[ll_Linha]
+        ldc_Pc_Icms									= lvds_1.Object.pc_icms										[ll_Linha]
+        ldc_Pc_Reducao_Base_Icms					= lvds_1.Object.pc_reducao_base_icms					[ll_Linha]
+        ldc_Vl_Preco_Base_Icms_St				= lvds_1.Object.vl_preco_base_icms_st					[ll_Linha]
+        ldc_Vl_Icms_St								= lvds_1.Object.vl_icms_st									[ll_Linha]
+        ldc_Pc_Desconto_Conexao					= lvds_1.Object.pc_desconto_conexao						[ll_Linha]
+        ldc_Vl_Icms_St_Farmacia_Popular		= lvds_1.Object.vl_icms_st_farmacia_popular			[ll_Linha]
+        ldc_Pc_Comissao_Midia						= lvds_1.Object.pc_comissao_midia						[ll_Linha]
+        ldc_Vl_Icms_St_Retido						= lvds_1.Object.vl_icms_st_retido						[ll_Linha]
+        ldc_Vl_Bc_St_Retido						= lvds_1.Object.vl_bc_st_retido							[ll_Linha]
+        ldc_Pc_Icms_St								= lvds_1.Object.pc_icms_st									[ll_Linha]
+        ldc_Pc_Mva									= lvds_1.Object.pc_mva										[ll_Linha]
+        ldc_Vl_Pmc									= lvds_1.Object.vl_pmc										[ll_Linha]
+        ldh_Dh_Alteracao_Situacao				= lvds_1.Object.dh_alteracao_situacao					[ll_Linha]
+
+        ls_datasource_sistema = gvo_Aplicacao.ivs_DataSource
+
+        // Insere os dados na tabela historico_distribuidora_produto do banco dadosintegra
+        INSERT INTO historico_distribuidora_produto (
+            cd_distribuidora,
+            cd_fornecedor_sap,
+            nm_razao_social,
+            cd_produto_sap,
+            de_produto,
+            cd_unidade_federacao,
+            cd_produto_distribuidora,
+            id_produto_hpc,
+            de_codigo_barras_arquivo_preco,
+            cd_cst,
+            cd_produto,
+            qt_estoque_disponivel,
+            nr_dias_pagamento,
+            ncm_produto,
+            cd_cest,
+            vl_preco_atual,
+            pc_desconto_atual,
+            pc_repasse_icms,
+            pc_icms,
+            pc_reducao_base_icms,
+            vl_preco_base_icms_st,
+            vl_icms_st,
+            pc_desconto_conexao,
+            vl_icms_st_farmacia_popular,
+            pc_comissao_midia,
+            vl_icms_st_retido,
+            vl_bc_st_retido,
+            pc_icms_st,
+            pc_mva,
+            vl_pmc,
+            dh_alteracao_situacao
+        ) VALUES (
+            :ls_Cd_Distribuidora,
+            :ls_Cd_Fornecedor_sap,
+            :ls_Razao_Social,
+            :ls_Cd_Produto_Sap,
+            :ls_De_Produto,
+            :ls_Uf_Unidade_Federacao,
+            :ls_Cd_Produto_Distribuidora,
+            :ls_Cd_Produto_Hpc,
+            :ls_De_Codigo_Barras_Arquivo_Preco,
+            :ls_Cd_Cst,
+            :ll_Cd_Produto,
+            :ll_Qt_Estoque_Disponivel,
+            :ll_Nr_Dias_Pagamento,
+            :ll_Ncm_Produto,
+            :ll_Cd_Cest,
+            :ldc_Vl_Preco_Atual,
+            :ldc_Pc_Desconto_Atual,
+            :ldc_Pc_Repasse_Icms,
+            :ldc_Pc_Icms,
+            :ldc_Pc_Reducao_Base_Icms,
+            :ldc_Vl_Preco_Base_Icms_St,
+            :ldc_Vl_Icms_St,
+            :ldc_Pc_Desconto_Conexao,
+            :ldc_Vl_Icms_St_Farmacia_Popular,
+            :ldc_Pc_Comissao_Midia,
+            :ldc_Vl_Icms_St_Retido,
+            :ldc_Vl_Bc_St_Retido,
+            :ldc_Pc_Icms_St,
+            :ldc_Pc_Mva,
+            :ldc_Vl_Pmc,
+            :ldh_Dh_Alteracao_Situacao
+        ) using SQLCA_PG_DADOSINT;
+
+        If SQLCA_PG_DADOSINT.SqlCode <> 0 Then
+            as_erro = "Falha ao inserir os dados na tabela historico_distribuidora_produto.~r~rErro:" + SQLCA_PG_DADOSINT.SQLERRTEXT
+            SQLCA_PG_DADOSINT.of_rollback();
+				gf_ge202_envia_email_automatico(325, " - Erro na tarefa de " + ls_Tipo, as_erro + "~r~nTarefa GE040-gf_pg_dados_int", ls_Anexo[], False)
+            Return False
+        Else
+            SQLCA_PG_DADOSINT.of_commit();
+        End If
+    Next
+	 
+//inserir rollback
+Catch (RunTimeError lrte)
+		as_erro = lrte.getmessage()
+		SQLCA_PG_DADOSINT.of_rollback(); // Rollback em caso de RunTimeError
+		gf_ge202_envia_email_automatico(325, " - Erro na tarefa de " + ls_Tipo, as_erro + "~r~nTarefa GE040-gf_pg_dados_int", ls_Anexo[], False)
+    Return False
+
+Finally
+    Disconnect using SQLCA_PG_DADOSINT;
+    Destroy SQLCA_PG_DADOSINT
+End TRY
+
+end function
+

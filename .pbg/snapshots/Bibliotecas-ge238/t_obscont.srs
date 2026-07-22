@@ -1,0 +1,6 @@
+HA$PBExportHeader$t_obscont.srs
+global type t_obscont from structure
+	string		xCampo
+	string		xTexto
+end type
+

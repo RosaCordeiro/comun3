@@ -1,0 +1,21 @@
+HA$PBExportHeader$dw_troca_local_estocagem.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=144 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=92 color="536870912" )
+table(column=(type=long updatewhereclause=yes name=cd_filial dbname="parametro.cd_filial" )
+ column=(type=long updatewhereclause=yes name=cd_local dbname="local_estocagem.cd_local_estocagem" )
+ column=(type=char(40) updatewhereclause=yes name=de_local dbname="local_estocagem.de_local_estocagem" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"local_estocagem~" )  TABLE(NAME=~"parametro~" ) COLUMN(NAME=~"parametro.cd_filial~") COLUMN(NAME=~"local_estocagem.cd_local_estocagem~") COLUMN(NAME=~"local_estocagem.de_local_estocagem~")WHERE(    EXP1 =~"local_estocagem.dh_atualizacao~"   OP =~"=~"    EXP2 =~":data_base~" ) ) ARG(NAME = ~"data_base~" TYPE = date) " arguments=(("data_base", date)) )
+text(band=header alignment="2" text="Parametro
+Cd Filial"border="0" color="0" x="9" y="8" height="128" width="329"  name=parametro_cd_filial_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Local Estocagem
+Cd Local Estocagem"border="0" color="0" x="347" y="8" height="128" width="553"  name=local_estocagem_cd_local_estocagem_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Local Estocagem
+De Local Estocagem"border="0" color="0" x="910" y="8" height="128" width="1125"  name=local_estocagem_de_local_estocagem_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="1" tabsequence=32766 border="0" color="0" x="9" y="8" height="76" width="329" format="[general]"  name=cd_filial edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="0" color="0" x="352" y="8" height="76" width="549" format="[general]"  name=cd_local edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="914" y="8" height="76" width="1120" format="[general]"  name=de_local edit.limit=40 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

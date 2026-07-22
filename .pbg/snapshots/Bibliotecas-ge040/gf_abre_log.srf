@@ -1,0 +1,18 @@
+HA$PBExportHeader$gf_abre_log.srf
+global type gf_abre_log from function_object
+end type
+
+forward prototypes
+global function boolean gf_abre_log (ref integer pi_log, string ps_arquivo)
+end prototypes
+
+global function boolean gf_abre_log (ref integer pi_log, string ps_arquivo);pi_Log = FileOpen(ps_arquivo, LineMode!, Write!, Shared!, Append!)
+
+If pi_Log = -1 and not gvb_Auto Then	
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro na abertura do arquivo de log '.", StopSign!)
+	Return False
+End If
+
+Return True
+end function
+

@@ -1,0 +1,6 @@
+HA$PBExportHeader$t_gdif.srs
+global type t_gdif from structure
+	decimal{4}		pdif
+	decimal{2}		vdif
+end type
+

@@ -1,0 +1,311 @@
+HA$PBExportHeader$gf_ge039_cupom_pre_venda.srf
+global type gf_ge039_cupom_pre_venda from function_object
+end type
+
+forward prototypes
+global function boolean gf_ge039_cupom_pre_venda (string as_cliente, string as_matricula, ref boolean ab_gravou_historico)
+end prototypes
+
+global function boolean gf_ge039_cupom_pre_venda (string as_cliente, string as_matricula, ref boolean ab_gravou_historico);Boolean lb_Sucesso = False
+
+String ls_Nome_Cliente, ls_produto, ls_Nome_Rede_Filial
+String ls_Pc_Desconto 
+String  ls_Texto, ls_dados[]
+String ls_Prod_Sap_Generico
+String ls_Nm_Impressora
+String ls_Fabricante
+String ls_Ini
+String ls_Descricao_produto
+String ls_Impressora_Padrao
+
+Date ldt_termino, ldt_Inicio, ldt_Parametro
+
+Long ll_Linhas, ll_Row, ll_Produto
+
+LongLong ll_Job
+
+Decimal ldc_Pc_Desconto, ldc_Preco_Final, ldc_Preco_Filial, ldc_Desconto_Fixo
+
+Integer i, li_Pos, li_retorno, li_Linha_Duplicada
+Integer li_4_Registros = 4
+
+Try
+	ab_gravou_historico = False
+	
+	dc_uo_ds_base lds_Produtos
+	lds_Produtos = Create dc_uo_ds_base
+	
+	If Not lds_Produtos.of_ChangeDataObject("ds_ge039_cupom_pre_venda") Then
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o","Erro na fun$$HEX2$$e700e300$$ENDHEX$$o of_ChangeDataObject.")
+		Return False
+	End If
+	
+	ll_Linhas = lds_Produtos.Retrieve( as_Cliente )
+	
+	Choose Case ll_Linhas
+		Case is < 0 
+			MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o","Erro no retrieve, DS ds_ge039_cupom_pre_venda.~rFun$$HEX2$$e700e300$$ENDHEX$$o: ge_ge039_cupom_pre_venda", StopSign!)
+			Return False
+		Case is < 3
+			//Imprime 3 ou quatro produtos
+			Return True
+//		Case is > 10 
+//			//Imprime 3 ou 4 produtos
+//			//a dw est$$HEX1$$e100$$ENDHEX$$ limitada a 10 registro para serem excluidos caso tenha linha duplicadas
+//			//devido ao cadastro sap dos produtos genericos (pai e filho)
+//			Return True
+	End Choose
+	
+	ls_Ini = gvo_Aplicacao.ivs_Arquivo_INI
+
+	If IsNull(ls_INI) Or Trim(ls_INI) = "" Then
+		Return True
+	End If
+		
+	ls_Impressora_Padrao = PrintGetPrinter()	
+	ls_Impressora_Padrao=left(ls_Impressora_Padrao, pos(ls_Impressora_Padrao, "~t") -1)
+		
+		
+	// Verifica se o caminho dos arquivos de ajuda est$$HEX1$$e300$$ENDHEX$$o especificados no INI
+	ls_Fabricante			= ProfileString(ls_INI, "ECF" , "Modelo","")
+	ls_Nm_Impressora 	= ProfileString(ls_INI, "ECF" , "NomeImpressora" , "")
+		
+	uo_Produto lo_Produto
+	lo_Produto = Create uo_Produto
+		
+	//Primeiro Nome do Cliente
+	ls_Nome_Cliente = lds_Produtos.Object.nm_cliente[1]
+	
+	li_Pos = Pos(ls_Nome_Cliente, ' ')
+	If li_Pos > 0 Then
+		ls_Nome_Cliente = leftA(ls_Nome_Cliente, li_pos - 1)
+	Else
+		ls_Nome_Cliente = ls_Nome_Cliente
+	End If
+		
+	//Nome Cliente: Astrogildo
+	ls_Nome_Cliente = Upper(Mid(ls_Nome_Cliente, 1,1) ) + Lower(Mid(ls_Nome_Cliente, 2) )
+	
+	ls_Nome_Cliente = gf_troca_caracteres_especiais( ls_Nome_Cliente )
+
+	//Atualiza o nome do cliente em todas as linhas
+	For ll_Row = 1 To ll_Linhas
+		lds_Produtos.Object.nm_cliente[ll_Row] = ls_Nome_Cliente	
+	Next	
+	
+	ldt_Inicio				= Date(lds_Produtos.Object.dh_inicio			[ 1 ])
+	ldt_Termino			= Date(lds_Produtos.Object.dh_termino		[ 1 ])
+	ldt_Parametro		= Date(lds_Produtos.Object.dh_parametro	[ 1 ])
+		
+	lds_Produtos.AcceptText()
+	
+	If ls_Fabricante = 'NFCE' Or ls_Fabricante = "SAT" Then		
+		
+		If IsNull(ls_Nm_Impressora) Or Trim(ls_Nm_Impressora) = '' Then
+			 Messagebox("NFC-e","Nome da Impressora NFC-e n$$HEX1$$e300$$ENDHEX$$o definida no INI do Retaguarda!"+&
+								" Avise o SAF.", StopSign!)
+			 Return False
+		End If
+		
+		For ll_Row = 1 To ll_Linhas 
+			//podem imprimir apenas 3 ou 4 registros
+			If ll_Row > li_4_Registros Then
+				lds_Produtos.deleterow( ll_Row )
+				ll_Linhas = lds_Produtos.RowCount()
+				ll_Row = ll_Row -1
+				Continue
+			End If
+			
+			ldc_Preco_Filial 	= 0.00
+			ldc_Preco_Final 	= 0.00
+			
+			ldc_Pc_Desconto  			= lds_Produtos.Object.pc_desconto					[ ll_Row ]
+			ll_Produto					= lds_Produtos.Object.cd_produto						[ ll_Row ]
+			ls_Prod_Sap_Generico 	= lds_Produtos.Object.cd_produto_sap_generico	[ ll_Row ]
+			ls_Descricao_produto		= lds_Produtos.Object.de_produto						[ ll_Row ]
+			
+			li_Linha_Duplicada = lds_Produtos.Find("de_produto='" +ls_Descricao_produto+"'", ll_Row + 1,  ll_Linhas +1)
+			If li_Linha_Duplicada > 0 Then
+				lds_Produtos.deleterow( li_Linha_Duplicada )
+				ll_Linhas = ll_Linhas -1
+			End If
+		
+			lo_Produto.of_localiza_codigo_interno( ll_Produto )
+			
+			If Not lo_Produto.Localizado Then
+				
+				//Se n$$HEX1$$e300$$ENDHEX$$o existir desconsidera o produto para nao apresentar mensagem de erro de pre$$HEX1$$e700$$ENDHEX$$o nao localizado.
+				If IsNull(ls_Prod_Sap_Generico) Or Trim(ls_Prod_Sap_Generico)='' Then
+					lds_Produtos.deleterow( ll_Row)
+					ll_Linhas = lds_Produtos.RowCount()
+					ll_Row = ll_Row - 1
+					Continue
+				End If
+				
+				//Localiza o produto com base no cd_produto_sap_generico
+				Select cd_produto 
+				   into :ll_Produto
+				From produto_geral
+				where cd_produto_sap_generico = :ls_Prod_Sap_Generico
+				Limit 1
+				Using SqlCa;
+				
+				If SqlCa.SqlCode = -1 Then
+					SqlCa.of_MsgDbError("Erro ao localizar o cd_produto com base no produto sap gen$$HEX1$$e900$$ENDHEX$$rico.")
+					Return False
+				Else
+					lo_Produto.of_localiza_codigo_interno( ll_Produto )
+					
+					If Not lo_Produto.Localizado Then
+						//MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o","Produto n$$HEX1$$e300$$ENDHEX$$o localizado para visualizar o pre$$HEX1$$e700$$ENDHEX$$o final.", Exclamation!)
+						//Desconsidera os produtos sem pre$$HEX1$$e700$$ENDHEX$$o licalizado at$$HEX1$$e900$$ENDHEX$$ a corre$$HEX2$$e700e300$$ENDHEX$$o do grupo Pai e Filho 
+						lds_Produtos.deleterow( ll_Row)
+						ll_Linhas = lds_Produtos.RowCount()
+						ll_Row = ll_Row - 1
+						Continue
+						//Return False
+					End If					
+				End If
+			End If
+			
+			ldc_Preco_Filial 		= lo_Produto.of_Preco_Venda_Filial( )
+			ldc_Preco_Final 		= round( ldc_Preco_Filial * (( 100 - ldc_Pc_Desconto ) / 100), 2 )
+			
+			lds_Produtos.Object.vl_preco_final	[ ll_Row ] = ldc_Preco_Final	
+			lds_Produtos.acceptText()
+		Next
+		
+		//Se excluiu alguma linha duplicada verifica se tem pelo menos 3 registros
+		ll_Linhas = lds_Produtos.RowCount()
+		If  ll_Linhas < 3 OR ll_Linhas > 4 Then
+			Return True
+		End If
+
+		li_retorno = PrintSetPrinter ( ls_Nm_Impressora )			
+		If li_retorno <> 1 Then
+			gvo_Aplicacao.of_grava_log( "Erro setar a impressora NFCE para imprimir o cupom desconto.")
+			MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o","Erro setar a impressora NFCE para imprimir o cupom desconto.",StopSign!)
+			Return False
+		End If
+		
+		ll_Job = PrintOPen()
+		PrintDataWindow (ll_Job, lds_Produtos)
+		li_retorno = PrintClose(ll_Job)
+		
+		If li_retorno <> 1 Then
+			gvo_Aplicacao.of_grava_log( "Erro no evento PrintClose(). Fun$$HEX2$$e700e300$$ENDHEX$$o: gf_ge039_cupom_pre_venda()")
+			MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o","Erro no evento PrintClose(). Fun$$HEX2$$e700e300$$ENDHEX$$o: gf_ge039_cupom_pre_venda()",StopSign!)
+			Return False
+		End If
+		
+		lb_Sucesso = (li_retorno = 1)
+		//Imprimi via DataWindow
+		//lb_Sucesso = (lds_Produtos.Print() = 1)
+		//gvo_Aplicacao.of_grava_log( "Imprimiu cupom Pre. Retorno: lds_Produtos.Print() : " +String( lb_Sucesso ))
+		
+		//Volta a impressora default
+		li_retorno = PrintSetPrinter ( ls_Impressora_Padrao )			
+		If li_retorno <> 1 Then
+			gvo_Aplicacao.of_grava_log( "Erro ao setar a impressora padrao.")
+		End If		
+		
+	Else
+		//Impressora fiscal
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o","Para imprimir os Descontos do Dia $$HEX1$$e900$$ENDHEX$$ necess$$HEX1$$e100$$ENDHEX$$rio que " + &
+										"somente o sistema de Retaguarda esteja operando agora. Portanto feche todas as " + &
+										"janelas do caixa que eventualmente estejam ativas.",Exclamation!)
+		
+		If Not IsValid (PDV ) Then
+			PDV = Create uo_pdv
+		End If
+		
+		If Not IsValid (SITEF ) Then
+			SITEF = Create uo_sitef
+		End If
+				
+		ls_Nome_Rede_Filial 	= lds_Produtos.Object.nm_rede_filial [ 1 ]
+			
+		i++; ls_dados[ i ] = Space(48)
+		i++; ls_dados[ i ] = "Ol$$HEX1$$e100$$ENDHEX$$ " + ls_Nome_Cliente + ","
+		i++; ls_dados[ i ] = "Descontos do dia exclusivos para voc$$HEX1$$ea00$$ENDHEX$$:"
+		i++; ls_dados[ i ] = "------------------------------------"
+		i++; ls_Dados[ i ] = Space(48)
+		
+		For ll_Row = 1 To ll_Linhas
+			//podem imprimir apenas 3 ou 4 registros
+			If ll_Row > li_4_Registros Then
+				lds_Produtos.deleterow( ll_Row )
+				ll_Linhas = lds_Produtos.RowCount()
+				ll_Row = ll_Row -1
+				Continue
+			End If
+			
+			ls_produto 			= lds_Produtos.Object.de_produto_ecf			[ ll_Row ]
+			ls_Pc_Desconto 	= String(lds_Produtos.Object.pc_desconto		[ ll_Row ], '##0')	
+			
+			li_Linha_Duplicada = lds_Produtos.Find("de_produto='" +ls_Descricao_produto+"'", ll_Row + 1,  ll_Linhas +1)
+			If li_Linha_Duplicada > 0 Then
+				lds_Produtos.deleterow( li_Linha_Duplicada )
+				ll_Linhas = ll_Linhas -1
+			End If
+			
+			
+			i++; ls_Dados[ i ] 	= Upper(Mid(ls_produto, 1,1) ) + Lower(Mid(ls_produto, 2) )
+			i++; ls_Dados[ i ] 	= Space(48)
+			i++; ls_Dados[ i ] 	= Upper("C") + Lower("om ") + ls_Pc_Desconto + UPPER(" % de desconto")
+			i++; ls_Dados[ i ] 	= Space(48)
+			i++; ls_dados[ i ] 	= "------------------------------------"						
+		Next
+		
+		//Se excluiu alguma linha duplicada verifica se tem pelo menos 3 registros
+		ll_Linhas = lds_Produtos.RowCount()
+		If  ll_Linhas < 3 OR ll_Linhas > 4 Then
+			Return True
+		End If
+		
+		i++; ls_Dados[ i ] = Space(48)
+		i++; ls_Dados[ i ] = "Ofertas v$$HEX1$$e100$$ENDHEX$$lidas at$$HEX1$$e900$$ENDHEX$$ o dia"
+		i++; ls_Dados[ i ] = String(ldt_Parametro, 'dd/mm/yyyy') + " e para o CPF do Titular"
+		i++; ls_Dados[ i ] = "cadastrado no Clube"
+		i++; ls_Dados[ i ] = ls_Nome_Rede_Filial
+		i++; ls_Dados[ i ] = Space(48)	
+		
+		lb_Sucesso = PDV.of_emite_comprovante("", ls_Dados[] )
+		
+		PDV.of_fechaporta()		
+				
+	End If
+		
+	If lb_Sucesso Then
+		//Insere no historico
+		Insert into historico_cupom_prevenda(cd_filial, cd_cliente, dh_impressao, nr_matricula_atendente, dh_inicio, dh_termino)
+			Values( :gvo_Parametro.Cd_Filial, :as_Cliente, GetDate(), :as_matricula, :ldt_Inicio, :ldt_Termino)
+		Using SqlCa;
+		
+		If SqlCa.SqlCode = -1 Then
+			SqlCa.of_Rollback()
+			SqlCa.of_MsgDbError("Erro ao incluir o registro na historico_cupom_prevenda.")
+			Return False
+		End If
+	
+		SqlCa.of_Commit()
+		
+		ab_gravou_historico = True
+	End If
+		
+	Return lb_Sucesso
+	
+Catch ( runtimeerror  lo_rte )
+	gvo_Aplicacao.of_grava_log( "Erro ao imprimir o cupom desconto: "+lo_rte.GetMessage( ))
+	MessageBox (	"Erro", "Ocorreu um erro ao imprimir o cupom de desconto. ~r~r"+ & 						
+ 						"Erro: "+lo_rte.GetMessage( ), StopSign!)
+	
+	
+Finally
+	If IsValid( lo_Produto ) 		Then Destroy lo_Produto
+	If IsValid( lds_Produtos ) 	Then Destroy lds_Produtos
+		
+End Try
+
+end function
+

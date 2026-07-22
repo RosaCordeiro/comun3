@@ -1,0 +1,53 @@
+HA$PBExportHeader$gf_valida_versao.srf
+global type gf_valida_versao from function_object
+end type
+
+forward prototypes
+global function boolean gf_valida_versao (string as_sistema, string as_versao, boolean ab_continua)
+end prototypes
+
+global function boolean gf_valida_versao (string as_sistema, string as_versao, boolean ab_continua);/*
+	Esta fun$$HEX2$$e700e300$$ENDHEX$$o tem o objetivo de emitir uma mensagem em tela para avisar que a versao 
+	do Sistema esta desatualizada.
+	
+	Situa$$HEX2$$e700e300$$ENDHEX$$o Especial do WMS e Tarefa Autom$$HEX1$$e100$$ENDHEX$$tica envia um email.	
+*/
+
+String lvs_Versao
+String ls_MSG
+String ls_Anexo[]		
+				
+// Funciona Somente Para o Central
+If gvo_Aplicacao.ivs_DataSource <> 'central' Then Return True
+
+// Consulta a Versao do Sistema
+Select nr_versao 
+Into :lvs_Versao
+From sistema 
+Where cd_sistema = :as_sistema
+Using SqlCa;
+
+If SqlCa.SqlCode = -1 Then
+	SqlCa.of_MsgDbError("Localiza$$HEX2$$e700e300$$ENDHEX$$o da vers$$HEX1$$e300$$ENDHEX$$o do sistema.")
+	Return False
+Else
+	// Verifica e Compara as Versoes do Sistema
+	If lvs_Versao <> as_Versao Then
+	
+		//  Valida se $$HEX1$$e900$$ENDHEX$$ Tarefa Autom$$HEX1$$e100$$ENDHEX$$tica do WMS no CIA-198// Se Verdadeiro Envia Email
+		If as_sistema = "WS" and gvb_auto Then 
+			ls_MSG = "Verificar versao do WMS no servidor das tarefas autom$$HEX1$$e100$$ENDHEX$$ticas(CIA-198). Versao do sistema:" +String(as_Versao)+" Versao do par$$HEX1$$e200$$ENDHEX$$metro:" +String(lvs_Versao)
+			gf_ge202_envia_email_automatico(278, '',ls_MSG, ls_Anexo)	
+			If Not ab_continua Then Return False	
+		Else
+			// Demais Situa$$HEX2$$e700f500$$ENDHEX$$es
+			MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o!", "O seu sistema est$$HEX1$$e100$$ENDHEX$$ desatualizado.~rEntre em contato com a Informatica.~r~r"+&
+							"Vers$$HEX1$$e300$$ENDHEX$$o do sistema: "+as_Versao+"~rVers$$HEX1$$e300$$ENDHEX$$o do par$$HEX1$$e200$$ENDHEX$$metro: "+lvs_Versao, Exclamation!)	
+			If Not ab_continua Then Return False
+		End If 
+	End If
+End If
+
+Return True
+end function
+

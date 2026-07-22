@@ -1,0 +1,23 @@
+HA$PBExportHeader$gf_finaliza_abastecimento_pend_cd.srf
+global type gf_finaliza_abastecimento_pend_cd from function_object
+end type
+
+forward prototypes
+global function boolean gf_finaliza_abastecimento_pend_cd ()
+end prototypes
+
+global function boolean gf_finaliza_abastecimento_pend_cd ();Update wms_produtividade_abast
+set dh_termino_abastecimento = getDate()
+Where dh_termino_abastecimento is null
+Using SqlCa;
+
+If SqlCa.sqlcode = -1 Then
+	SqlCa.of_RollBack()
+	Return False
+End If
+
+SqlCa.of_Commit()
+
+Return True
+end function
+

@@ -1,0 +1,73 @@
+HA$PBExportHeader$dw_ro054_recibo.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=4052 color="536870912" )
+table(column=(type=long updatewhereclause=yes name=filial_cd_filial dbname="filial.cd_filial" )
+ column=(type=char(40) updatewhereclause=yes name=filial_nm_fantasia dbname="filial.nm_fantasia" )
+ column=(type=char(40) updatewhereclause=yes name=filial_nm_razao_social dbname="filial.nm_razao_social" )
+ column=(type=char(14) updatewhereclause=yes name=filial_nr_cgc dbname="filial.nr_cgc" )
+ column=(type=char(15) updatewhereclause=yes name=filial_nr_inscricao_estadual dbname="filial.nr_inscricao_estadual" )
+ column=(type=char(40) updatewhereclause=yes name=cidade_nm_cidade dbname="cidade.nm_cidade" )
+ column=(type=char(2) updatewhereclause=yes name=cidade_cd_unidade_federacao dbname="cidade.cd_unidade_federacao" )
+ column=(type=char(40) updatewhereclause=yes name=filial_de_endereco dbname="filial.de_endereco" )
+ column=(type=char(20) updatewhereclause=yes name=filial_de_bairro dbname="filial.de_bairro" )
+ column=(type=char(8) updatewhereclause=yes name=filial_nr_cep dbname="filial.nr_cep" )
+ column=(type=char(3) updatewhereclause=yes name=filial_nr_ddd_telefone dbname="filial.nr_ddd_telefone" )
+ column=(type=char(8) updatewhereclause=yes name=filial_nr_telefone dbname="filial.nr_telefone" )
+ column=(type=char(40) updatewhereclause=yes name=unidade_federacao_nm_unidade_federacao dbname="unidade_federacao.nm_unidade_federacao" )
+ retrieve="  SELECT f.cd_filial,   
+         f.nm_fantasia,   
+         f.nm_razao_social,   
+         f.nr_cgc,   
+         f.nr_inscricao_estadual,   
+         c.nm_cidade,   
+         c.cd_unidade_federacao,   
+         f.de_endereco,   
+         f.de_bairro,   
+         f.nr_cep,   
+         f.nr_ddd_telefone,   
+         f.nr_telefone,   
+         u.nm_unidade_federacao  
+    FROM filial f,   
+         cidade c,   
+         unidade_federacao u 
+   WHERE f.cd_filial = :filial
+     AND c.cd_cidade = f.cd_cidade
+     AND u.cd_unidade_federacao = c.cd_unidade_federacao
+" retrieve.asneeded=yes arguments=(("filial", number),("conteudo", string)) )
+rectangle(band=detail x="133" y="444" height="3388" width="3154"  tag="ANUAL" brush.hatch="6" brush.color="16777215" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="0" )
+bitmap(band=detail filename="S:\Sistemas\Retaguarda_Operacional\Figuras\brasao.bmp" x="133" y="64" height="360" width="416" border="0" )
+text(band=detail alignment="0" text="MINIST$$HEX1$$c900$$ENDHEX$$RIO DA SA$$HEX1$$da00$$ENDHEX$$DE"border="0" color="0" x="576" y="68" height="92" width="2711"  font.face="Courier New" font.height="-16" font.weight="700"  font.family="1" font.pitch="1" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="SECRETARIA DE VIGIL$$HEX1$$c200$$ENDHEX$$NCIA SANIT$$HEX1$$c100$$ENDHEX$$RIA - "border="0" color="0" x="576" y="196" height="64" width="1353"  name=filial_cd_filial_t  font.face="Courier New" font.height="-10" font.weight="400"  font.family="1" font.pitch="1" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=13 alignment="0" tabsequence=32766 border="0" color="0" x="1934" y="196" height="64" width="1353" format="[general]"  name=unidade_federacao_nm_unidade_federacao edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Courier New" font.height="-10" font.weight="400"  font.family="1" font.pitch="1" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="IDENTIFICA$$HEX2$$c700c300$$ENDHEX$$O DO ESTABELECIMENTO"border="0" color="0" x="178" y="468" height="56" width="1193"  font.face="Courier New" font.height="-8" font.weight="700"  font.family="1" font.pitch="1" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="trim( filial_nm_fantasia ) + ~"(~" +  String(filial_cd_filial)  + ~")~""border="0" color="0" x="2089" y="468" height="56" width="1143" format="[general]"  name=filial  font.face="Courier New" font.height="-10" font.weight="400"  font.family="1" font.pitch="1" font.charset="0" background.mode="1" background.color="536870912" )
+rectangle(band=detail x="192" y="564" height="668" width="1015" brush.hatch="6" brush.color="16777215" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="0" )
+text(band=detail alignment="0" text="Raz$$HEX1$$e300$$ENDHEX$$o Social"border="0" color="0" x="1243" y="568" height="56" width="393"  font.face="Courier New" font.height="-8" font.weight="700"  font.family="1" font.pitch="1" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="1243" y="636" height="64" width="1989" format="[general]"  name=filial_nm_razao_social edit.limit=40 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Courier New" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Endere$$HEX1$$e700$$ENDHEX$$o"border="0" color="0" x="1243" y="720" height="56" width="279"  font.face="Courier New" font.height="-8" font.weight="700"  font.family="1" font.pitch="1" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="Trim( filial_de_endereco ) + ' ' +  Trim( filial_de_bairro )"border="0" color="0" x="1243" y="788" height="64" width="1989" format="[general]"  name=st_endereco  font.face="Courier New" font.height="-8" font.weight="400"  font.family="1" font.pitch="1" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="trim(  filial_nr_cep ) + ' - ' + trim( cidade_nm_cidade ) + ~" - ~" + TRim(   unidade_federacao_nm_unidade_federacao )"border="0" color="0" x="1243" y="864" height="64" width="1989" format="[general]"  name=st_cidade  font.face="Courier New" font.height="-8" font.weight="400"  font.family="1" font.pitch="1" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Telefone"border="0" color="0" x="1243" y="948" height="56" width="256"  font.face="Courier New" font.height="-8" font.weight="700"  font.family="1" font.pitch="1" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="CNPJ"border="0" color="0" x="2473" y="948" height="56" width="160"  font.face="Courier New" font.height="-8" font.weight="700"  font.family="1" font.pitch="1" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=11 alignment="0" tabsequence=32766 border="0" color="0" x="1243" y="1016" height="64" width="96" format="[general]"  name=filial_nr_ddd_telefone edit.limit=3 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Courier New" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=12 alignment="0" tabsequence=32766 border="0" color="0" x="1358" y="1016" height="64" width="439" format="[general]"  name=filial_nr_telefone edit.limit=8 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Courier New" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="2473" y="1016" height="64" width="759" format="[general]~t'@@.@@@.@@@/@@@@-@@'"  name=filial_nr_cgc edit.limit=14 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Courier New" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="2" text="carimbo padronizado CNPJ"border="0" color="0" x="279" y="1140" height="60" width="805"  font.face="Courier New" font.height="-8" font.weight="400"  font.family="1" font.pitch="1" font.charset="0" font.italic="1" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Licen$$HEX1$$e700$$ENDHEX$$a de Funcionamento"border="0" color="0" x="1243" y="1100" height="56" width="791"  font.face="Courier New" font.height="-8" font.weight="700"  font.family="1" font.pitch="1" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=detail x1="142" y1="1296" x2="3278" y2="1296" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="553648127" )
+text(band=detail alignment="0" text="AUTORIDADE SANIT$$HEX1$$c100$$ENDHEX$$RIA "border="0" color="0" x="576" y="280" height="64" width="786"  font.face="Courier New" font.height="-10" font.weight="400"  font.family="1" font.pitch="1" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="2" text=""border="0" color="16777215" x="133" y="3504" height="64" width="3154"  font.face="Courier New" font.height="-10" font.weight="700"  font.family="1" font.pitch="1" font.charset="0" background.mode="2" background.color="33554432" )
+compute(band=detail alignment="0" expression="conteudo + ~"~~r~~rpropriedade da firma:~~r~"+trim( filial_nm_razao_social ) + ' - ' + trim( filial_nm_fantasia ) + ~"(~" +  String(filial_cd_filial)  + ~") ,~~r~" + 'situada $$HEX1$$e000$$ENDHEX$$ ' + TRIM(  filial_de_endereco ) + ' ' + TRIM(  filial_de_bairro ) "border="0" color="0" x="745" y="1800" height="1056" width="1874" format="[general]"  font.face="Courier New" font.height="-8" font.weight="400"  font.family="1" font.pitch="1" font.charset="0" background.mode="1" background.color="553648127" )
+line(band=detail x1="667" y1="1300" x2="667" y2="3504" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="536870912" )
+line(band=detail x1="2702" y1="1300" x2="2702" y2="3504" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="536870912" )
+text(band=detail alignment="2" text="RECIBO DE ENTREGA DE M$$HEX1$$cd00$$ENDHEX$$DIA MAGN$$HEX1$$c900$$ENDHEX$$TICA"border="0" color="0" x="745" y="1472" height="88" width="1874"  font.face="Courier New" font.height="-14" font.weight="700"  font.family="1" font.pitch="1" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="~"Essa m$$HEX1$$ed00$$ENDHEX$$dia magn$$HEX1$$e900$$ENDHEX$$tica cont$$HEX1$$e900$$ENDHEX$$m os livros gerados automati-~~rcamente via processamento eletr$$HEX1$$f400$$ENDHEX$$nico e cont$$HEX1$$e900$$ENDHEX$$m os seguintes relat$$HEX1$$f300$$ENDHEX$$rios:~""border="0" color="0" x="745" y="1628" height="164" width="1874" format="[general]"  font.face="Courier New" font.height="-8" font.weight="400"  font.family="1" font.pitch="1" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Rubrica"border="0" color="0" x="745" y="3412" height="56" width="1847"  font.face="Courier New" font.height="-8" font.weight="400"  font.family="1" font.pitch="1" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=detail x1="745" y1="3392" x2="2610" y2="3392" pen.style="2" pen.width="5" pen.color="0"  background.mode="1" background.color="553648127" )
+text(band=detail alignment="0" text="Autoridade de Sa$$HEX1$$fa00$$ENDHEX$$de da Vigil$$HEX1$$e200$$ENDHEX$$ncia Sanit$$HEX1$$e100$$ENDHEX$$ria"border="0" color="0" x="745" y="3276" height="56" width="1847"  font.face="Courier New" font.height="-8" font.weight="400"  font.family="1" font.pitch="1" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="trim( cidade_nm_cidade ) + ~" ,     de                   de~" "border="0" color="0" x="745" y="3120" height="56" width="1874" format="[general]"  font.face="Courier New" font.height="-8" font.weight="400"  font.family="1" font.pitch="1" font.charset="0" background.mode="1" background.color="553648127" )
+line(band=detail x1="745" y1="3176" x2="2592" y2="3176" pen.style="2" pen.width="5" pen.color="0"  background.mode="1" background.color="553648127" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

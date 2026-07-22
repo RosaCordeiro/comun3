@@ -1,0 +1,54 @@
+HA$PBExportHeader$gf_valida_chave_nfe.srf
+global type gf_valida_chave_nfe from function_object
+end type
+
+forward prototypes
+global function boolean gf_valida_chave_nfe (string nr_chave)
+end prototypes
+
+global function boolean gf_valida_chave_nfe (string nr_chave);Double lvd_Soma =0
+
+Integer lvi_Chave     ,&
+        lvi_Contador  ,&
+		lvi_Char      ,&
+		lvi_Resultado ,&
+		lvi_Divisao
+
+String lvs_Nr_Chave
+		
+lvs_Nr_Chave = Trim(Nr_Chave)
+
+lvi_Contador = 2
+
+If Len(lvs_Nr_Chave) <> 44 Then Return False
+
+For lvi_Chave =43 to 1 Step -1
+	
+	If Not IsNumber(MidA(lvs_Nr_Chave, lvi_Chave,1)) Then
+		Return False
+	End If
+	
+	lvi_Char = Integer(MidA(lvs_Nr_Chave, lvi_Chave,1))
+	lvd_Soma = lvd_Soma + (lvi_Char * lvi_Contador)	
+
+	lvi_Contador += 1
+	If lvi_Contador > 9 then
+		lvi_Contador = 2
+	End If	
+Next
+
+lvi_Divisao = Mod(lvd_Soma,11)
+
+If lvi_Divisao = 0 or lvi_Divisao = 1 Then
+	lvi_Resultado = 0
+Else
+	lvi_Resultado = 11 - (lvi_Divisao)
+End If
+ 
+If String(lvi_Resultado) = MidA(lvs_Nr_Chave,44,1) Then
+	Return True
+Else
+	Return False
+End If
+end function
+

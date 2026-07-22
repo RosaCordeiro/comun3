@@ -1,0 +1,6 @@
+HA$PBExportHeader$t_comp_cte.srs
+global type t_comp_cte from structure
+	string		xnome
+	decimal		vcomp
+end type
+

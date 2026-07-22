@@ -1,0 +1,9 @@
+HA$PBExportHeader$t_issqntot.srs
+global type t_issqntot from structure
+	double		vServ
+	double		vBC
+	double		vISS
+	double		vPIS
+	double		vCOFINS
+end type
+

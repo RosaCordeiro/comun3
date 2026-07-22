@@ -1,0 +1,118 @@
+HA$PBExportHeader$gf_ge448_grava_revisao.srf
+global type gf_ge448_grava_revisao from function_object
+end type
+
+forward prototypes
+global function boolean gf_ge448_grava_revisao (long al_produto)
+end prototypes
+
+global function boolean gf_ge448_grava_revisao (long al_produto);DateTime ldh_Data_Atual
+
+Long ll_Achou
+
+String ls_Erro
+
+Choose Case gvo_Aplicacao.ivo_Seguranca.Cd_Sistema
+		
+	Case "EC"
+		Select Count(*)
+			Into :ll_Achou
+		From produto_aprovacao
+		Where cd_produto = :al_Produto
+			And dh_aprovacao_ecommerce Is Null
+		Using SqlCa;
+		
+	Case "FI"
+		Select Count(*)
+			Into :ll_Achou
+		From produto_aprovacao
+		Where cd_produto = :al_Produto
+			And dh_aprovacao_fiscal Is Null
+		Using SqlCa;
+		
+	Case "GF"
+		Select Count(*)
+			Into :ll_Achou
+		From produto_aprovacao
+		Where cd_produto = :al_Produto
+			And dh_aprovacao_farmaceutico Is Null
+		Using SqlCa;
+		
+	Case "GP"
+		Select Count(*)
+			Into :ll_Achou
+		From produto_aprovacao
+		Where cd_produto = :al_Produto
+			And dh_aprovacao_price Is Null
+		Using SqlCa;
+		
+End Choose
+
+If SqlCa.SqlCode = -1 Then
+	ls_Erro = SqlCa.SqlErrText
+	SqlCa.of_Rollback();
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao consultar se o produto est$$HEX1$$e100$$ENDHEX$$ pendente de aprova$$HEX2$$e700e300$$ENDHEX$$o. " + ls_Erro, StopSign!)
+	Return False
+End If
+
+If ll_Achou > 0 Then
+
+	ldh_Data_Atual = gf_GetServerDate()
+	
+	Choose Case gvo_Aplicacao.ivo_Seguranca.Cd_Sistema
+		Case "EC"
+			Update produto_aprovacao
+				Set	dh_aprovacao_ecommerce = :ldh_Data_Atual,
+						nr_matric_aprov_ecommerce = :gvo_Aplicacao.ivo_Seguranca.Nr_Matricula
+			Where cd_produto = :al_Produto
+			Using SqlCa;
+						
+		Case "FI"
+			Update produto_aprovacao
+				Set	dh_aprovacao_fiscal = :ldh_Data_Atual,
+						nr_matric_aprov_fiscal = :gvo_Aplicacao.ivo_Seguranca.Nr_Matricula
+			Where cd_produto = :al_Produto
+			Using SqlCa;
+			
+		Case "GF"
+			Update produto_aprovacao
+				Set	dh_aprovacao_farmaceutico = :ldh_Data_Atual,
+						nr_matric_aprov_farmaceutico = :gvo_Aplicacao.ivo_Seguranca.Nr_Matricula
+			Where cd_produto = :al_Produto
+			Using SqlCa;
+
+		Case "GP"
+			Update produto_aprovacao
+				Set	dh_aprovacao_price = :ldh_Data_Atual,
+						nr_matric_aprov_price = :gvo_Aplicacao.ivo_Seguranca.Nr_Matricula
+			Where cd_produto = :al_Produto
+			Using SqlCa;
+	End Choose
+	
+	If SqlCa.SqlCode = -1 Then
+		ls_Erro = SqlCa.SqlErrText
+		SqlCa.of_Rollback();
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao gravar a data e o repons$$HEX1$$e100$$ENDHEX$$vel pela revis$$HEX1$$e300$$ENDHEX$$o do produto. " + SqlCa.SqlErrText, StopSign!)
+		Return False
+	End If
+End If
+
+//Faz a libera$$HEX2$$e700e300$$ENDHEX$$o para comercializa$$HEX2$$e700e300$$ENDHEX$$o se o produto est$$HEX1$$e100$$ENDHEX$$ pendente de revis$$HEX1$$e300$$ENDHEX$$o Price e se o sistema for o Gest$$HEX1$$e300$$ENDHEX$$o Pre$$HEX1$$e700$$ENDHEX$$os
+If ll_Achou > 0 And gvo_Aplicacao.ivo_Seguranca.Cd_Sistema = "GP" Then
+	
+	Update produto_geral
+		Set id_liberado_filial = 'S'
+	Where cd_produto = :al_Produto
+	Using SqlCa;
+	
+	If SqlCa.SqlCode = -1 Then
+		ls_Erro = SqlCa.SqlErrText
+		SqlCa.of_Rollback();
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao liberar o produto para comercializa$$HEX2$$e700e300$$ENDHEX$$o. " + SqlCa.SqlErrText, StopSign!)
+		Return False
+	End If
+End If
+
+Return True
+end function
+

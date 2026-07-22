@@ -1,0 +1,103 @@
+# PowerBuilder - binários / build / deploy
+*.exe
+*.dll
+pborca.exe
+*.pbd
+*.pbx
+*.zip
+Exe/
+Export/
+
+# Pastas locais que não entram no Git
+Arquivos/
+Fonts/
+Icons/
+Figuras/
+WSDL_*/
+**/WSDL_*/
+WSDL_*/**
+
+# Temporários ORCA / ruído
+*.orc
+.pbg_orca_*
+
+# Objetos .sr* soltos (a fonte versionada é .pbg/snapshots/)
+*.sra
+*.srw
+*.sru
+*.srd
+*.srf
+*.srm
+*.srs
+*.srj
+*.srl
+*.srn
+*.sro
+*.srq
+*.srt
+
+# Em Bibliotecas/, versionar só .pbl e .pbt
+Bibliotecas/**
+!Bibliotecas/**/
+!Bibliotecas/**/*.pbl
+!Bibliotecas/**/*.pbt
+Bibliotecas/pbg_libs.pbt
+Bibliotecas/.pbg_export_*.pbt
+Bibliotecas/*_nopbd.pbt
+
+# PBL na raiz
+/*.pbl
+
+# Arquivos de projeto PB (*.pbg). A pasta de metadados do CLI também se chama
+# ".pbg" — por isso reabrimos !.pbg/ em seguida (senão snapshots somem).
+*.pbg
+!.pbg/
+!.pbg/**
+
+# Dentro de .pbg/, só versionar o essencial
+.pbg/temp/
+.pbg/staging/
+.pbg/backup/
+.pbg/*.orc
+.pbg_orca_*
+
+# Reabre .sr* só nos snapshots (após o ignore global de *.sr*)
+!.pbg/snapshots/
+!.pbg/snapshots/**
+!.pbg/snapshots/**/*
+!.pbg/snapshots/**/*.sra
+!.pbg/snapshots/**/*.srw
+!.pbg/snapshots/**/*.sru
+!.pbg/snapshots/**/*.srd
+!.pbg/snapshots/**/*.srf
+!.pbg/snapshots/**/*.srm
+!.pbg/snapshots/**/*.srs
+!.pbg/snapshots/**/*.srj
+!.pbg/snapshots/**/*.srl
+!.pbg/snapshots/**/*.srn
+!.pbg/snapshots/**/*.sro
+!.pbg/snapshots/**/*.srq
+!.pbg/snapshots/**/*.srt
+
+# Ruído de IDE / Windows
+*.usr.opt
+Thumbs.db
+Desktop.ini
+**/Thumbs.db
+
+# Logs
+*.log
+.pbg/*.log
+
+# BEGIN pbg-legacy-pbls
+# Gerado pelo pbg — PBLs pré-PB12 (não versionar / não tratar)
+Bibliotecas/ge015.pbl
+Bibliotecas/ge016.pbl
+Bibliotecas/ge018.pbl
+Bibliotecas/ge049.pbl
+Bibliotecas/ge055.pbl
+Bibliotecas/ge075.pbl
+Bibliotecas/ge083.pbl
+Bibliotecas/ge086.pbl
+Bibliotecas/ge104.pbl
+# END pbg-legacy-pbls

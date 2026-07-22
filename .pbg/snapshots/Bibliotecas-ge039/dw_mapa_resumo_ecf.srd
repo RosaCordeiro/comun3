@@ -1,0 +1,79 @@
+HA$PBExportHeader$dw_mapa_resumo_ecf.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=72 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=84 color="536870912" )
+table(column=(type=long update=yes updatewhereclause=yes key=yes name=cd_filial dbname="mapa_resumo_ecf.cd_filial" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=nr_mapa dbname="mapa_resumo_ecf.nr_mapa" )
+ column=(type=char(3) update=yes updatewhereclause=yes key=yes name=de_especie dbname="mapa_resumo_ecf.de_especie" )
+ column=(type=char(3) update=yes updatewhereclause=yes key=yes name=de_serie dbname="mapa_resumo_ecf.de_serie" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=nr_ecf dbname="mapa_resumo_ecf.nr_ecf" )
+ column=(type=long update=yes updatewhereclause=yes name=nr_operacao_inicial dbname="mapa_resumo_ecf.nr_operacao_inicial" )
+ column=(type=long update=yes updatewhereclause=yes name=nr_operacao_final dbname="mapa_resumo_ecf.nr_operacao_final" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_total_geral_inicial dbname="mapa_resumo_ecf.vl_total_geral_inicial" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_total_geral_final dbname="mapa_resumo_ecf.vl_total_geral_final" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_cancelamento dbname="mapa_resumo_ecf.vl_cancelamento" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_desconto dbname="mapa_resumo_ecf.vl_desconto" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_contabil dbname="mapa_resumo_ecf.vl_contabil" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_isenta dbname="mapa_resumo_ecf.vl_isenta" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_nao_incidencia dbname="mapa_resumo_ecf.vl_nao_incidencia" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_st dbname="mapa_resumo_ecf.vl_st" )
+ column=(type=long update=yes updatewhereclause=yes name=qt_reducao_z dbname="mapa_resumo_ecf.qt_reducao_z" )
+ retrieve="  SELECT mapa_resumo_ecf.cd_filial,   
+         mapa_resumo_ecf.nr_mapa,   
+         mapa_resumo_ecf.de_especie,   
+         mapa_resumo_ecf.de_serie,   
+         mapa_resumo_ecf.nr_ecf,   
+         mapa_resumo_ecf.nr_operacao_inicial,   
+         mapa_resumo_ecf.nr_operacao_final,   
+         mapa_resumo_ecf.vl_total_geral_inicial,   
+         mapa_resumo_ecf.vl_total_geral_final,   
+         mapa_resumo_ecf.vl_cancelamento,   
+         mapa_resumo_ecf.vl_desconto,   
+         mapa_resumo_ecf.vl_contabil,   
+         mapa_resumo_ecf.vl_isenta,   
+         mapa_resumo_ecf.vl_nao_incidencia,   
+         mapa_resumo_ecf.vl_st,   
+         mapa_resumo_ecf.qt_reducao_z  
+    FROM mapa_resumo_ecf   
+WHERE ( mapa_resumo_ecf.cd_filial  = :pl_filial ) AND  
+      ( mapa_resumo_ecf.nr_mapa    = :pl_mapa ) AND  
+      ( mapa_resumo_ecf.de_especie = :ps_especie ) AND  
+      ( mapa_resumo_ecf.de_serie   = :ps_serie )    
+
+" update="mapa_resumo_ecf" updatewhere=1 updatekeyinplace=no arguments=(("pl_filial", number),("pl_mapa", number),("ps_especie", string),("ps_serie", string)) )
+text(band=header alignment="2" text="Cd Filial"border="0" color="0" x="5" y="4" height="64" width="329"  name=cd_filial_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Mapa"border="0" color="0" x="338" y="4" height="64" width="329"  name=nr_mapa_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="De Especie"border="0" color="0" x="672" y="4" height="64" width="306"  name=de_especie_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="De Serie"border="0" color="0" x="983" y="4" height="64" width="229"  name=de_serie_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Ecf"border="0" color="0" x="1216" y="4" height="64" width="329"  name=nr_ecf_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Operacao Inicial"border="0" color="0" x="1554" y="4" height="64" width="503"  name=nr_operacao_inicial_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Operacao Final"border="0" color="0" x="2062" y="4" height="64" width="480"  name=nr_operacao_final_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Total Geral Inicial"border="0" color="0" x="2546" y="4" height="64" width="530"  name=vl_total_geral_inicial_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Total Geral Final"border="0" color="0" x="3081" y="4" height="64" width="507"  name=vl_total_geral_final_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Cancelamento"border="0" color="0" x="3593" y="4" height="64" width="453"  name=vl_cancelamento_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Desconto"border="0" color="0" x="4050" y="4" height="64" width="329"  name=vl_desconto_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Contabil"border="0" color="0" x="4384" y="4" height="64" width="329"  name=vl_contabil_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Isenta"border="0" color="0" x="4718" y="4" height="64" width="329"  name=vl_isenta_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Nao Incidencia"border="0" color="0" x="5051" y="4" height="64" width="462"  name=vl_nao_incidencia_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl St"border="0" color="0" x="5518" y="4" height="64" width="329"  name=vl_st_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Qt Reducao Z"border="0" color="0" x="5851" y="4" height="64" width="366"  name=qt_reducao_z_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="1" tabsequence=10 border="0" color="0" x="5" y="4" height="76" width="329" format="[general]"  name=cd_filial edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=20 border="0" color="0" x="338" y="4" height="76" width="329" format="[general]"  name=nr_mapa edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=30 border="0" color="0" x="672" y="4" height="76" width="110" format="[general]"  name=de_especie edit.limit=3 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=40 border="0" color="0" x="983" y="4" height="76" width="110" format="[general]"  name=de_serie edit.limit=3 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="1" tabsequence=50 border="0" color="0" x="1216" y="4" height="76" width="329" format="[general]"  name=nr_ecf edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="1" tabsequence=60 border="0" color="0" x="1554" y="4" height="76" width="325" format="[general]"  name=nr_operacao_inicial edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="1" tabsequence=70 border="0" color="0" x="2062" y="4" height="76" width="329" format="[general]"  name=nr_operacao_final edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="1" tabsequence=80 border="0" color="0" x="2546" y="4" height="76" width="329" format="[general]"  name=vl_total_geral_inicial edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="1" tabsequence=90 border="0" color="0" x="3081" y="4" height="76" width="329" format="[general]"  name=vl_total_geral_final edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="1" tabsequence=100 border="0" color="0" x="3593" y="4" height="76" width="329" format="[general]"  name=vl_cancelamento edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=11 alignment="1" tabsequence=110 border="0" color="0" x="4050" y="4" height="76" width="329" format="[general]"  name=vl_desconto edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=12 alignment="1" tabsequence=120 border="0" color="0" x="4384" y="4" height="76" width="329" format="[general]"  name=vl_contabil edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=13 alignment="1" tabsequence=130 border="0" color="0" x="4718" y="4" height="76" width="329" format="[general]"  name=vl_isenta edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=14 alignment="1" tabsequence=140 border="0" color="0" x="5051" y="4" height="76" width="329" format="[general]"  name=vl_nao_incidencia edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=15 alignment="1" tabsequence=150 border="0" color="0" x="5518" y="4" height="76" width="329" format="[general]"  name=vl_st edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=16 alignment="1" tabsequence=160 border="0" color="0" x="5851" y="4" height="76" width="329" format="[general]"  name=qt_reducao_z edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

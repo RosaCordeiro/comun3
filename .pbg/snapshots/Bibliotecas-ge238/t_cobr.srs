@@ -1,0 +1,6 @@
+HA$PBExportHeader$t_cobr.srs
+global type t_cobr from structure
+	t_fat		fat
+	t_dup		dup[]
+end type
+

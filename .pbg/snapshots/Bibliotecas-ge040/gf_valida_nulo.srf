@@ -1,0 +1,40 @@
+HA$PBExportHeader$gf_valida_nulo.srf
+global type gf_valida_nulo from function_object
+end type
+
+forward prototypes
+global function string gf_valida_nulo (string ps_string, boolean pb_string, boolean pb_fim)
+end prototypes
+
+global function string gf_valida_nulo (string ps_string, boolean pb_string, boolean pb_fim);String lvs_Retorno
+
+// Parm ps_String	= valor da string a ser convertida
+// Parm pb_String	= verifica se o campo $$HEX1$$e900$$ENDHEX$$ um string para o banco de dados (ex.: datetime, varchar), para colocar o ['] antes de depois
+// Parm pb_Fim		= verifica se o campo $$HEX1$$e900$$ENDHEX$$ o $$HEX1$$fa00$$ENDHEX$$ltimo para inserir a v$$HEX1$$ed00$$ENDHEX$$rgula ou n$$HEX1$$e300$$ENDHEX$$o
+//						(ex.: Select cd_cliente, nm_cliente) cd_cliente n$$HEX1$$e300$$ENDHEX$$o $$HEX1$$e900$$ENDHEX$$ $$HEX1$$fa00$$ENDHEX$$ltimo, ou seja, vai a v$$HEX1$$ed00$$ENDHEX$$rgula depois do ['])
+
+lvs_Retorno = ps_String
+
+If IsNull(lvs_Retorno) Or Trim(lvs_Retorno) = "" Then
+	lvs_Retorno = " null"
+Else
+	// Verifica se o paramentro $$HEX1$$e900$$ENDHEX$$ um campo que precisa  ' no bando de dados (varchar, char, datetime...)
+	If pb_String Then
+		// Verifica se h$$HEX1$$e100$$ENDHEX$$ caracteres especiais 
+		lvs_Retorno = gf_Replace(lvs_Retorno, "'", "", 0)
+		lvs_Retorno = " '" + lvs_Retorno + "'"
+	End If
+End If
+
+If IsNumber(lvs_Retorno) Then
+	lvs_Retorno = gf_Replace(lvs_Retorno, ",", ".", 0)
+End If
+
+// Verifica se o parametro $$HEX1$$e900$$ENDHEX$$ o $$HEX1$$fa00$$ENDHEX$$ltimo campo para inserir ou n$$HEX1$$e300$$ENDHEX$$o a v$$HEX1$$ed00$$ENDHEX$$rgula.
+If Not pb_Fim Then
+	lvs_Retorno += ", "
+End If
+
+Return lvs_Retorno
+end function
+

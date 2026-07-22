@@ -1,0 +1,39 @@
+HA$PBExportHeader$gf_retorna_valor_param_geral.srf
+global type gf_retorna_valor_param_geral from function_object
+end type
+
+forward prototypes
+global function boolean gf_retorna_valor_param_geral (string as_cd_parametro, boolean ab_mostra_mensagem, ref string as_diretorio, ref string as_mensagem_erro)
+end prototypes
+
+global function boolean gf_retorna_valor_param_geral (string as_cd_parametro, boolean ab_mostra_mensagem, ref string as_diretorio, ref string as_mensagem_erro);Try
+
+	SetNull(as_Diretorio)
+	SetNull(as_Mensagem_Erro)
+	
+	uo_parametro_geral lo_Parametro_Geral
+	lo_Parametro_Geral = Create uo_parametro_geral
+	
+	lo_Parametro_Geral.ib_Mostra_Mensagem = ab_Mostra_Mensagem
+	
+	If Not lo_Parametro_Geral.of_Localiza_Parametro(as_Cd_Parametro, Ref as_Diretorio) Then
+		as_Mensagem_Erro = lo_Parametro_Geral.is_Mensagem_Log
+		Return False
+	End If
+	
+	Return True
+	
+Catch (RunTimeError lo_error)
+	as_Mensagem_Erro = lo_error.GetMessage() + ". Fun$$HEX2$$e700e300$$ENDHEX$$o gf_retorna_valor_param_geral"
+	
+	If ab_Mostra_Mensagem Then
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", lo_error.GetMessage() + ". Fun$$HEX2$$e700e300$$ENDHEX$$o gf_retorna_valor_param_geral", StopSign!)
+	End If
+	
+	Return False
+	
+Finally
+	If IsValid(lo_Parametro_Geral) Then Destroy(lo_Parametro_Geral)
+End Try
+end function
+

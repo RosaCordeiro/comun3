@@ -1,0 +1,89 @@
+HA$PBExportHeader$lf_ge413_insere_limite_alteracao_eb.srf
+global type lf_ge413_insere_limite_alteracao_eb from function_object
+end type
+
+forward prototypes
+global function boolean lf_ge413_insere_limite_alteracao_eb (long pl_filial)
+end prototypes
+
+global function boolean lf_ge413_insere_limite_alteracao_eb (long pl_filial);String ls_CD_Parametro, ls_VL_Parametro
+
+String ls_VL_Parametro_Loja, ls_Erro
+
+Integer li_Alteracoes
+
+DECLARE lcu CURSOR FOR
+Select cd_parametro, vl_parametro 
+From parametro_geral
+where cd_parametro like 'QT_LIMITE_ALTERACAO_EB_CURVA%';
+
+// Abrindo o cursor
+OPEN lcu;
+
+// Buscar a primeira linha do resultado
+FETCH lcu INTO :ls_CD_Parametro, :ls_VL_Parametro;
+
+// Repetir Enquanto Houver Linhas
+DO WHILE SQLCA.sqlcode = 0
+	
+	Select cd_parametro
+	Into :ls_VL_Parametro_Loja
+	From parametro_loja
+	Where cd_filial  		=:pl_Filial
+	    and cd_parametro	= :ls_CD_Parametro
+	 Using SqlCa;
+	
+	Choose Case SqlCa.SqlCode
+		Case 0
+			
+			Update parametro_loja
+			Set vl_parametro = :ls_VL_Parametro
+			Where cd_filial  		=:pl_Filial
+				 and cd_parametro= :ls_CD_Parametro
+			 Using SqlCa;
+			 
+			 If SqlCa.Sqlcode = -1 Then
+				ls_Erro = SqlCa.SqlErrTExt
+				SqlCa.of_RollBack();
+				MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao atualizar o valor do par$$HEX1$$e200$$ENDHEX$$metro loja '" + ls_VL_Parametro + "'. " + ls_Erro, StopSign!)
+				Return False
+			 End If
+			 
+			 li_Alteracoes = Sqlca.SQLNRows 
+			 
+			 If li_Alteracoes > 1 Then
+			 End If
+			
+		Case 100
+			
+			 INSERT INTO parametro_loja  ( cd_filial,  cd_parametro,  vl_parametro )  
+			 VALUES ( :pl_Filial, :ls_CD_Parametro, :ls_VL_Parametro)
+			  Using SqlCa;
+			  
+			 If SqlCa.Sqlcode = -1 Then
+				ls_Erro = SqlCa.SqlErrTExt
+				SqlCa.of_RollBack();
+				MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao inserir o valor do par$$HEX1$$e200$$ENDHEX$$metro loja '" + ls_VL_Parametro + "'. " + ls_Erro, StopSign!)
+				Return False
+			 End If
+			  
+		Case -1
+			ls_Erro = SqlCa.SqlErrTExt
+			SqlCa.of_RollBack();
+			MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao localizar o valor do par$$HEX1$$e200$$ENDHEX$$metro loja '" + ls_VL_Parametro + "'. " + ls_Erro, StopSign!)
+			Return False
+	End Choose
+		
+	
+	//Busca pr$$HEX1$$f300$$ENDHEX$$ximo valor
+	FETCH lcu INTO :ls_CD_Parametro, :ls_VL_Parametro;
+LOOP
+
+// No fim fechar o cursor
+CLOSE lcu;
+
+//SqlCa.of_Commit();
+
+Return True
+end function
+

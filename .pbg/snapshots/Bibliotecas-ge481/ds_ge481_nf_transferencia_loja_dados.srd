@@ -1,0 +1,248 @@
+HA$PBExportHeader$ds_ge481_nf_transferencia_loja_dados.srd
+release 12;
+datawindow(units=0 timer_interval=0 color=1073741824 brushmode=0 transparency=0 gradient.angle=0 gradient.color=8421504 gradient.focus=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.repetition.mode=0 gradient.scale=100 gradient.spread=100 gradient.transparency=0 picture.blur=0 picture.clip.bottom=0 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.transparency=0 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes hidegrayline=no showbackcoloronxp=no picture.file="" )
+header(height=136 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+detail(height=72 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+table(column=(type=char(20) updatewhereclause=yes name=cd_produto_sap dbname="produto_geral.cd_produto_sap" dbalias="pg.cd_produto_sap" )
+ column=(type=char(3) updatewhereclause=yes name=cd_unidade_medida_venda dbname="produto_geral.cd_unidade_medida_venda" dbalias="pg.cd_unidade_medida_venda" )
+ column=(type=long updatewhereclause=yes name=qt_lote dbname="qt_lote" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_custo_unitario dbname="item_nf_transferencia.vl_custo_unitario" dbalias="int.vl_custo_unitario" )
+ column=(type=char(10) updatewhereclause=yes name=nr_lote dbname="item_nf_transferencia_lote.nr_lote" dbalias="intl.nr_lote" )
+ column=(type=date updatewhereclause=yes name=dh_fabricacao dbname="item_nf_transferencia_lote.dh_fabricacao" dbalias="intl.dh_fabricacao" )
+ column=(type=date updatewhereclause=yes name=dh_validade dbname="item_nf_transferencia_lote.dh_validade" dbalias="intl.dh_validade" )
+ column=(type=long updatewhereclause=yes name=cd_filial_destino dbname="nf_transferencia.cd_filial_destino" dbalias="nt.cd_filial_destino" )
+ column=(type=char(487) updatewhereclause=yes name=de_dados_adicionais dbname="nf_transferencia.de_dados_adicionais" dbalias="nt.de_dados_adicionais" )
+ column=(type=long updatewhereclause=yes name=nr_sequencial dbname="item_nf_transferencia.nr_sequencial" dbalias="int.nr_sequencial" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_bc_icms dbname="item_nf_transferencia.vl_bc_icms" dbalias="int.vl_bc_icms" )
+ column=(type=decimal(2) updatewhereclause=yes name=pc_icms dbname="item_nf_transferencia.pc_icms" dbalias="int.pc_icms" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_icms dbname="item_nf_transferencia.vl_icms" dbalias="int.vl_icms" )
+ column=(type=char(2) updatewhereclause=yes name=cd_cst_tributacao dbname="item_nf_transferencia.cd_cst_tributacao" dbalias="int.cd_cst_tributacao" )
+ column=(type=decimal(2) updatewhereclause=yes name=pc_icms_st dbname="item_nf_transferencia.pc_icms_st" dbalias="int.pc_icms_st" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_icms_st dbname="item_nf_transferencia.vl_icms_st" dbalias="int.vl_icms_st" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_bc_icms_st dbname="item_nf_transferencia.vl_bc_icms_st" dbalias="int.vl_bc_icms_st" )
+ column=(type=char(15) updatewhereclause=yes name=nr_cgc_cpf dbname="nr_cgc_cpf" )
+ column=(type=long updatewhereclause=yes name=cd_natureza_operacao dbname="item_nf_transferencia.cd_natureza_operacao" dbalias="int.cd_natureza_operacao" )
+ column=(type=char(2) updatewhereclause=yes name=cd_cst_pis dbname="item_nf_transferencia.cd_cst_pis" dbalias="int.cd_cst_pis" )
+ column=(type=char(2) updatewhereclause=yes name=cd_cst_cofins dbname="item_nf_transferencia.cd_cst_cofins" dbalias="int.cd_cst_cofins" )
+ column=(type=char(2) updatewhereclause=yes name=cd_cst_icms dbname="item_nf_transferencia.cd_cst_icms" dbalias="int.cd_cst_icms" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_custo_unitario_nf dbname="item_nf_transferencia.vl_custo_unitario_nf" dbalias="int.vl_custo_unitario_nf" )
+ column=(type=decimal(2) updatewhereclause=yes name=pc_fcp dbname="item_nf_transferencia.pc_fcp" dbalias="int.pc_fcp" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_fcp dbname="item_nf_transferencia.vl_fcp" dbalias="int.vl_fcp" )
+ retrieve="select pg.cd_produto_sap,
+		 pg.cd_unidade_medida_venda, 
+		 coalesce(intl.qt_lote, int.qt_transferida) qt_lote,
+		 int.vl_custo_gerencial vl_custo_unitario,
+		 intl.nr_lote,
+		 intl.dh_fabricacao,
+		 intl.dh_validade,
+		 nt.cd_filial_destino,
+		 nt.de_dados_adicionais,
+		 int.nr_sequencial,
+		 int.vl_bc_icms,
+		 int.pc_icms,
+		 int.vl_icms,
+		 int.cd_cst_tributacao,
+		 int.pc_icms_st,
+		 int.vl_icms_st,
+		 int.vl_bc_icms_st,
+		 '' nr_cgc_cpf,
+		 int.cd_natureza_operacao,
+		 int.cd_cst_pis,
+		 int.cd_cst_cofins,
+		 int.cd_cst_tributacao as cd_cst_icms,
+		 int.vl_custo_unitario as vl_custo_unitario_nf,
+		 int.pc_fcp,
+		 int.vl_fcp
+  from item_nf_transferencia int inner join nf_transferencia nt on int.nr_nf 					= nt.nr_nf and
+																						 int.cd_filial_origem	= nt.cd_filial_origem and
+																						 int.de_serie				= nt.de_serie and
+																						 int.de_especie			= nt.de_especie
+											inner join produto_geral pg on pg.cd_produto = int.cd_produto
+											left  join item_nf_transferencia_lote intl on int.nr_nf = intl.nr_nf and
+																										 int.cd_filial_origem		= intl.cd_filial_origem and
+																										 int.de_serie					= intl.de_serie and
+																										 int.de_especie				= intl.de_especie and
+																										 int.cd_natureza_operacao	= intl.cd_natureza_operacao and
+																										 int.cd_produto				= intl.cd_produto
+ where int.nr_nf 					= :anr_nf and
+		 int.cd_filial_origem	= :acd_filial_origem  and
+		 int.de_serie 				= :ade_serie  and
+		 int.de_especie 			= :ade_especie and
+		 :aid_tipo_nf				= '156' and
+		 (int.cd_filial_origem	<> 534 or
+		 int.de_serie				<> '1')
+
+union
+
+select pg.cd_produto_sap,
+		 Case When int.cd_filial_origem = 534 and pg.vl_fator_conversao > 1 then 'CXU' else pg.cd_unidade_medida_venda end as cd_unidade_medida_venda,
+		 coalesce(int.qt_transferida, 1) qt_lote,
+		 int.vl_custo_gerencial vl_custo_unitario,
+		 'SEM LOTE',
+		 cast('2000-01-01' as date),
+		 cast('2099-12-31' as date),
+		 nt.cd_filial_destino,
+		 nt.de_dados_adicionais,
+		 int.nr_sequencial,
+		 int.vl_bc_icms,
+		 int.pc_icms,
+		 int.vl_icms,
+		 int.cd_cst_tributacao,
+		 int.pc_icms_st,
+		 int.vl_icms_st,
+		 int.vl_bc_icms_st,
+		 '' nr_cgc_cpf,
+		 int.cd_natureza_operacao,
+		 int.cd_cst_pis,
+		 int.cd_cst_cofins,
+		 int.cd_cst_tributacao as cd_cst_icms,
+		 int.vl_custo_unitario as vl_custo_unitario_nf,
+		 int.pc_fcp,
+		 int.vl_fcp
+  from item_nf_transferencia int inner join nf_transferencia nt on int.nr_nf 					= nt.nr_nf and
+																						 int.cd_filial_origem	= nt.cd_filial_origem and
+																						 int.de_serie				= nt.de_serie and
+																						 int.de_especie			= nt.de_especie
+											inner join produto_geral pg on pg.cd_produto = int.cd_produto
+ where int.nr_nf 					= :anr_nf and
+		 int.cd_filial_origem	= :acd_filial_origem  and
+		 int.de_serie 				= :ade_serie  and
+		 int.de_especie 			= :ade_especie and
+		 :aid_tipo_nf				= '156' and
+		 int.cd_filial_origem	= 534 and
+		 int.de_serie				= '1'
+
+union
+
+select pg.cd_produto_sap,
+		 pg.cd_unidade_medida_venda,
+		 ind.qt_item qt_lote,
+		 ind.vl_preco_unitario,
+		 null,
+		 null,
+		 null,
+		 null,
+		 nd.de_dados_adicionais_1 + ' ' + nd.de_dados_adicionais_2 + ' ' + nd.de_dados_adicionais_3 + ' ' + nd.de_dados_adicionais_4 + ' ' + nd.de_dados_adicionais_5 + ' ' + nd.de_dados_adicionais_6 + ' ' + nd.de_dados_adicionais_7 + ' ' + nd.de_dados_adicionais_8 as dados_adicionais,
+		 ind.cd_item,
+		 ind.vl_bc_icms,
+		 ind.pc_icms,
+		 ind.vl_icms,
+		 ind.cd_cst_tributacao,
+		 ind.pc_icms_st,
+		 ind.vl_icms_st,
+		 ind.vl_bc_icms_st,
+		 nd.nr_cgc_cpf nr_cgc_cpf,
+		 nd.cd_natureza_operacao,
+		 ind.cd_cst_pis,
+		 ind.cd_cst_cofins,
+		 null as cd_cst_icms,
+		 null as vl_custo_unitario_nf,
+		 null as pc_fcp,
+		 null as vl_fcp
+  from item_nf_diversa ind inner join nf_diversa nd on ind.nr_nf 					= nd.nr_nf and
+																		 ind.cd_filial_origem	= nd.cd_filial_origem and
+																		 ind.de_serie				= nd.de_serie and
+																		 ind.de_especie			= nd.de_especie
+									inner join produto_geral pg on pg.cd_produto = ind.cd_produto
+ where ind.nr_nf 					= :anr_nf and
+		 ind.cd_filial_origem	= :acd_filial_origem  and
+		 ind.de_serie 				= :ade_serie  and
+		 ind.de_especie 			= :ade_especie and
+		 :aid_tipo_nf				= 'BLE'
+
+union
+
+select pg.cd_produto_sap,
+		 pg.cd_unidade_medida_venda,
+		 coalesce(indcl.qt_lote, indc.qt_devolvida) qt_lote,
+		 indc.vl_preco_unitario,
+		 indcl.nr_lote,
+		 pl.dh_fabricacao,
+		 pl.dh_validade,
+		 null,
+		 ndc.de_dados_adicionais,
+		 indc.nr_sequencial,
+		 indc.vl_bc_icms,
+		 indc.pc_icms,
+		 indc.vl_icms,
+		 indc.cd_cst_tributacao,
+		 indc.pc_icms_st,
+		 indc.vl_icms_st,
+		 indc.vl_bc_icms_st,
+		 '' nr_cgc_cpf,
+		 indc.cd_natureza_operacao,
+		 indc.cd_cst_pis,
+		 indc.cd_cst_cofins,
+		 null as cd_cst_icms,
+		 null as vl_custo_unitario_nf,
+		 null as pc_fcp,
+		 null as vl_fcp
+  from item_nf_devolucao_compra indc inner join nf_devolucao_compra ndc on indc.nr_nf 		= ndc.nr_nf and
+																								 indc.cd_filial	= ndc.cd_filial and
+																								 indc.de_serie		= ndc.de_serie and
+																								 indc.de_especie	= ndc.de_especie
+											inner join produto_geral pg on pg.cd_produto = indc.cd_produto
+											left  join item_nf_devolucao_compra_lote indcl on indc.nr_nf 				= indcl.nr_nf and
+																										 indc.cd_filial				= indcl.cd_filial and
+																										 indc.de_serie					= indcl.de_serie and
+																										 indc.de_especie				= indcl.de_especie and
+																										 indc.cd_natureza_operacao	= indcl.cd_natureza_operacao and
+																										 indc.cd_produto				= indcl.cd_produto
+											left join produto_lote pl on pl.cd_produto = indcl.cd_produto and
+																				pl.nr_lote = indcl.nr_lote
+ where indc.nr_nf 		= :anr_nf and
+		 indc.cd_filial	= :acd_filial_origem  and
+		 indc.de_serie 	= :ade_serie  and
+		 indc.de_especie 	= :ade_especie and
+		 :aid_tipo_nf		= 'WDL'" arguments=(("acd_filial_origem", number),("anr_nf", number),("ade_serie", string),("ade_especie", string),("aid_tipo_nf", string)) )
+text(band=header alignment="2" text="Produto Geral
+Cd Produto Sap" border="0" color="33554432" x="5" y="4" height="128" width="576" html.valueishtml="0"  name=produto_geral_cd_produto_sap_t visible="1"  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Produto Geral
+Cd Unidade Medida Venda" border="0" color="33554432" x="585" y="4" height="128" width="686" html.valueishtml="0"  name=produto_geral_cd_unidade_medida_venda_t visible="1"  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Qt Lote" border="0" color="33554432" x="1275" y="4" height="64" width="329" html.valueishtml="0"  name=qt_lote_t visible="1"  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Item Nf Transferencia
+Vl Custo Unitario" border="0" color="33554432" x="1609" y="4" height="128" width="571" html.valueishtml="0"  name=item_nf_transferencia_vl_custo_unitario_t visible="1"  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Item Nf Transferencia Lote
+Nr Lote" border="0" color="33554432" x="2185" y="4" height="128" width="699" html.valueishtml="0"  name=item_nf_transferencia_lote_nr_lote_t visible="1"  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Item Nf Transferencia Lote
+Dh Fabricacao" border="0" color="33554432" x="2889" y="4" height="128" width="699" html.valueishtml="0"  name=item_nf_transferencia_lote_dh_fabricacao_t visible="1"  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Item Nf Transferencia Lote
+Dh Validade" border="0" color="33554432" x="3593" y="4" height="128" width="699" html.valueishtml="0"  name=item_nf_transferencia_lote_dh_validade_t visible="1"  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="33554432" x="5" y="0" height="76" width="576" format="[general]" html.valueishtml="0"  name=cd_produto_sap visible="1" edit.limit=20 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="33554432" x="1275" y="4" height="76" width="329" format="[general]" html.valueishtml="0"  name=qt_lote visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="0" color="33554432" x="1609" y="4" height="76" width="329" format="[general]" html.valueishtml="0"  name=vl_custo_unitario visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="33554432" x="2185" y="4" height="76" width="302" format="[general]" html.valueishtml="0"  name=nr_lote visible="1" edit.limit=10 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="33554432" x="2889" y="4" height="76" width="603" format="[shortdate] [time]" html.valueishtml="0"  name=dh_fabricacao visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="33554432" x="3593" y="4" height="76" width="603" format="[shortdate] [time]" html.valueishtml="0"  name=dh_validade visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="33554432" x="4293" y="0" height="64" width="2135" format="[general]" html.valueishtml="0"  name=cd_filial_destino visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="33554432" x="6427" y="0" height="64" width="3241" format="[general]" html.valueishtml="0"  name=de_dados_adicionais visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=10 alignment="0" tabsequence=32766 border="0" color="33554432" x="9669" y="0" height="64" width="297" format="[general]" html.valueishtml="0"  name=nr_sequencial visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=11 alignment="0" tabsequence=32766 border="0" color="33554432" x="9966" y="0" height="64" width="2135" format="[general]" html.valueishtml="0"  name=vl_bc_icms visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=12 alignment="0" tabsequence=32766 border="0" color="33554432" x="12101" y="0" height="64" width="2135" format="[general]" html.valueishtml="0"  name=pc_icms visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=13 alignment="0" tabsequence=32766 border="0" color="33554432" x="14235" y="0" height="64" width="2135" format="[general]" html.valueishtml="0"  name=vl_icms visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=14 alignment="0" tabsequence=32766 border="0" color="33554432" x="16370" y="0" height="64" width="55" format="[general]" html.valueishtml="0"  name=cd_cst_tributacao visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=18 alignment="0" tabsequence=32766 border="0" color="33554432" x="16425" y="0" height="64" width="407" format="[general]" html.valueishtml="0"  name=nr_cgc_cpf visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=15 alignment="0" tabsequence=32766 border="0" color="33554432" x="16832" y="0" height="64" width="2135" format="[general]" html.valueishtml="0"  name=pc_icms_st visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=16 alignment="0" tabsequence=32766 border="0" color="33554432" x="18967" y="0" height="64" width="2135" format="[general]" html.valueishtml="0"  name=vl_icms_st visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=17 alignment="0" tabsequence=32766 border="0" color="33554432" x="21102" y="0" height="64" width="2135" format="[general]" html.valueishtml="0"  name=vl_bc_icms_st visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=19 alignment="0" tabsequence=32766 border="0" color="33554432" x="23237" y="0" height="64" width="2135" format="[general]" html.valueishtml="0"  name=cd_natureza_operacao visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=20 alignment="0" tabsequence=32766 border="0" color="33554432" x="25371" y="0" height="64" width="55" format="[general]" html.valueishtml="0"  name=cd_cst_pis visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=21 alignment="0" tabsequence=32766 border="0" color="33554432" x="25426" y="0" height="64" width="55" format="[general]" html.valueishtml="0"  name=cd_cst_cofins visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=22 alignment="0" tabsequence=32766 border="0" color="33554432" x="25481" y="0" height="64" width="55" format="[general]" html.valueishtml="0"  name=cd_cst_icms visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=23 alignment="0" tabsequence=32766 border="0" color="33554432" x="25536" y="0" height="64" width="2135" format="[general]" html.valueishtml="0"  name=vl_custo_unitario_nf visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=24 alignment="0" tabsequence=32766 border="0" color="33554432" x="27671" y="0" height="64" width="2135" format="[general]" html.valueishtml="0"  name=pc_fcp visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=25 alignment="0" tabsequence=32766 border="0" color="33554432" x="29806" y="0" height="64" width="2135" format="[general]" html.valueishtml="0"  name=vl_fcp visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="33554432" x="31941" y="0" height="64" width="82" format="[general]" html.valueishtml="0"  name=cd_unidade_medida_venda visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

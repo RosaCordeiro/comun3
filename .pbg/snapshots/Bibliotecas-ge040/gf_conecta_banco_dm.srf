@@ -1,0 +1,22 @@
+HA$PBExportHeader$gf_conecta_banco_dm.srf
+global type gf_conecta_banco_dm from function_object
+end type
+
+forward prototypes
+global function boolean gf_conecta_banco_dm (ref dc_uo_transacao ptr_trans)
+end prototypes
+
+global function boolean gf_conecta_banco_dm (ref dc_uo_transacao ptr_trans);// Conex$$HEX1$$e300$$ENDHEX$$o com o banco Oracle - Dados M$$HEX1$$f300$$ENDHEX$$veis Gati
+if Not(IsValid(ptr_trans)) Then ptr_trans = Create dc_uo_transacao
+
+If Not(ptr_trans.of_isconnected()) Then
+	ptr_trans.ivs_DataBase = "ORACLE_DM"
+	
+	If Not ptr_trans.of_Connect("CL_DADMOVGATI",gvo_aplicacao.ivo_seguranca.cd_sistema) Then
+		Return False
+	End If
+End If
+
+Return True
+end function
+

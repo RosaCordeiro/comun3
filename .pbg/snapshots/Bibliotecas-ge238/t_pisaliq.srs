@@ -1,0 +1,8 @@
+HA$PBExportHeader$t_pisaliq.srs
+global type t_pisaliq from structure
+	string		cst
+	double		vbc
+	double		ppis
+	double		vpis
+end type
+

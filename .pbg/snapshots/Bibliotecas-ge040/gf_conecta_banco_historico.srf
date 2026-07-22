@@ -1,0 +1,24 @@
+HA$PBExportHeader$gf_conecta_banco_historico.srf
+global type gf_conecta_banco_historico from function_object
+end type
+
+forward prototypes
+global function boolean gf_conecta_banco_historico (ref dc_uo_transacao ptr_transacao, ref string ps_erro)
+end prototypes
+
+global function boolean gf_conecta_banco_historico (ref dc_uo_transacao ptr_transacao, ref string ps_erro);// Conex$$HEX1$$e300$$ENDHEX$$o com o banco historico
+if Not(IsValid(ptr_transacao)) Then ptr_transacao = Create dc_uo_transacao
+
+If Not(ptr_transacao.of_isconnected()) Then
+	ptr_transacao.ivs_DataBase = "SYBASE"
+	
+	If Not ptr_transacao.of_Connect("historico_2024",gvo_aplicacao.ivo_seguranca.cd_sistema) Then
+		ps_erro = 'N$$HEX1$$e300$$ENDHEX$$o foi poss$$HEX1$$ed00$$ENDHEX$$vel criar conex$$HEX1$$e300$$ENDHEX$$o com a base historico: ' + ptr_transacao.sqlerrtext
+		Return False
+	End If
+End If
+
+Return True
+
+end function
+

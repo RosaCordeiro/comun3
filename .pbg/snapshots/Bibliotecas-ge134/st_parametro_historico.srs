@@ -1,0 +1,7 @@
+HA$PBExportHeader$st_parametro_historico.srs
+global type st_parametro_historico from structure
+	long		cd_promocao
+	long		cd_filial
+	long		cd_produto
+end type
+

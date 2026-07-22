@@ -1,0 +1,66 @@
+HA$PBExportHeader$dw_cartao_comprovante_venda.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=84 color="536870912" )
+table(column=(type=char(10) updatewhereclause=yes name=cd_estabelecimento dbname="cartao_comprovante_venda.cd_estabelecimento" )
+ column=(type=char(40) updatewhereclause=yes name=nm_produto dbname="cartao_comprovante_venda.nm_produto" )
+ column=(type=char(19) updatewhereclause=yes name=nr_cartao dbname="cartao_comprovante_venda.nr_cartao" )
+ column=(type=char(6) updatewhereclause=yes name=nr_autorizacao dbname="cartao_comprovante_venda.nr_autorizacao" )
+ column=(type=char(12) updatewhereclause=yes name=nr_nsu dbname="cartao_comprovante_venda.nr_nsu" )
+ column=(type=datetime updatewhereclause=yes name=dh_venda dbname="cartao_comprovante_venda.dh_venda" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_venda dbname="cartao_comprovante_venda.vl_venda" )
+ column=(type=long updatewhereclause=yes name=qt_parcelas dbname="cartao_comprovante_venda.qt_parcelas" )
+ column=(type=long updatewhereclause=yes name=cd_filial dbname="cartao_comprovante_venda.cd_filial" )
+ column=(type=long updatewhereclause=yes name=nr_nf dbname="cartao_comprovante_venda.nr_nf" )
+ column=(type=char(3) updatewhereclause=yes name=de_especie dbname="cartao_comprovante_venda.de_especie" )
+ column=(type=char(3) updatewhereclause=yes name=de_serie dbname="cartao_comprovante_venda.de_serie" )
+ column=(type=char(1) updatewhereclause=yes name=id_captura dbname="cartao_comprovante_venda.id_captura" )
+ column=(type=char(1) updatewhereclause=yes name=id_cancelamento dbname="cartao_comprovante_venda.id_cancelamento" )
+ column=(type=char(6) updatewhereclause=yes key=yes name=cd_caixa dbname="cartao_comprovante_venda.cd_caixa" )
+ column=(type=long updatewhereclause=yes key=yes name=nr_controle_caixa dbname="cartao_comprovante_venda.nr_controle_caixa" )
+ column=(type=long updatewhereclause=yes key=yes name=nr_sequencial dbname="cartao_comprovante_venda.nr_sequencial" )
+ column=(type=char(1) updatewhereclause=yes name=id_parcelamento dbname="cartao_comprovante_venda.id_parcelamento" )
+ column=(type=datetime updatewhereclause=yes name=dh_predatado dbname="cartao_comprovante_venda.dh_predatado" )
+ retrieve="select cd_estabelecimento,   
+		 nm_produto,   
+		 nr_cartao,   
+		 nr_autorizacao,   
+		 nr_nsu,   
+       dh_venda,
+		 vl_venda,   
+		 qt_parcelas,   
+		 cd_filial,   
+		 nr_nf,   
+		 de_especie,   
+		 de_serie,   
+		 id_captura,
+       id_cancelamento,
+       cd_caixa,
+       nr_controle_caixa,
+       nr_sequencial,
+       id_parcelamento,
+		dh_predatado
+from cartao_comprovante_venda
+where dh_exportacao = :data_base" update="cartao_comprovante_venda" updatewhere=0 updatekeyinplace=no arguments=(("data_base", date)) )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="9" y="8" height="64" width="453" format="[general]"  name=nm_produto edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="489" y="4" height="76" width="302" format="[general]"  name=cd_estabelecimento edit.limit=10 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="809" y="4" height="76" width="549" format="[general]"  name=nr_cartao edit.limit=19 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="1381" y="4" height="76" width="192" format="[general]"  name=nr_autorizacao edit.limit=6 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="1595" y="4" height="76" width="357" format="[general]"  name=nr_nsu edit.limit=12 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="1" tabsequence=32766 border="0" color="0" x="1970" y="4" height="76" width="329" format="[general]"  name=vl_venda edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="1" tabsequence=32766 border="0" color="0" x="2304" y="4" height="76" width="329" format="[general]"  name=qt_parcelas edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="1" tabsequence=32766 border="0" color="0" x="2638" y="4" height="76" width="329" format="[general]"  name=cd_filial edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="1" tabsequence=32766 border="0" color="0" x="2971" y="4" height="76" width="329" format="[general]"  name=nr_nf edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=11 alignment="0" tabsequence=32766 border="0" color="0" x="3305" y="4" height="76" width="110" format="[general]"  name=de_especie edit.limit=3 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=12 alignment="0" tabsequence=32766 border="0" color="0" x="3616" y="4" height="76" width="110" format="[general]"  name=de_serie edit.limit=3 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=13 alignment="0" tabsequence=32766 border="0" color="0" x="3822" y="8" height="64" width="306" format="[general]"  name=id_captura edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="0" x="4146" y="12" height="64" width="782" format="[shortdate] [time]"  name=dh_venda edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=14 alignment="0" tabsequence=32766 border="0" color="0" x="4960" y="8" height="64" width="430" format="[general]"  name=id_cancelamento edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=15 alignment="0" tabsequence=32766 border="0" color="0" x="5390" y="0" height="64" width="165" format="[general]"  name=cd_caixa edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=16 alignment="0" tabsequence=32766 border="0" color="0" x="5554" y="0" height="64" width="1161" format="[general]"  name=nr_controle_caixa edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=17 alignment="0" tabsequence=32766 border="0" color="0" x="6715" y="0" height="64" width="1161" format="[general]"  name=nr_sequencial edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=18 alignment="0" tabsequence=32766 border="0" color="0" x="7877" y="0" height="64" width="27" format="[general]"  name=id_parcelamento edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=19 alignment="0" tabsequence=0 border="0" color="0" x="7904" y="0" height="64" width="786"  name=dh_predatado  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes") 

@@ -1,0 +1,33 @@
+HA$PBExportHeader$gf_relative_datetime.srf
+global type gf_relative_datetime from function_object
+end type
+
+forward prototypes
+global function datetime gf_relative_datetime (datetime pdh_date, long pl_segundos)
+end prototypes
+
+global function datetime gf_relative_datetime (datetime pdh_date, long pl_segundos);Time lvtm_Hora
+Time lvtm_Aux
+Date lvdt_Data
+
+Decimal{0} lvdc_Segundos
+
+lvtm_Hora	= Time(pdh_date)
+lvdt_Data		= Date(pdh_date)
+
+lvtm_Aux = RelativeTime(lvtm_Hora,pl_segundos)
+lvdc_Segundos = SecondsAfter(lvtm_Hora,lvtm_Aux)
+
+If lvdc_Segundos < pl_segundos Then
+	lvtm_Aux = RelativeTime(Time('00:00:00'),pl_segundos - lvdc_Segundos - 1)
+	lvdt_Data = RelativeDate(lvdt_Data, 1)
+ElseIf lvdc_Segundos > pl_segundos Then
+	lvtm_Aux = RelativeTime(Time('23:59:59'),pl_segundos - lvdc_Segundos + 1)
+	lvdt_Data = RelativeDate(lvdt_Data, - 1)
+End If
+
+lvtm_Hora = lvtm_Aux
+
+Return Datetime(lvdt_Data,lvtm_Hora)
+end function
+

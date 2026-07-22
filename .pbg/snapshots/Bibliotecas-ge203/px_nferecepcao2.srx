@@ -1,0 +1,27 @@
+HA$PBExportHeader$px_nferecepcao2.srx
+$PBExportComments$Proxy imported from Web service using Web Service Proxy Generator.
+global type px_NfeRecepcao2 from NonVisualObject
+end type
+
+type variables
+Protected:
+        string pbws_ver = ".NET"
+        string cs_namespace = "WebService"
+        string cs_class = "NfeRecepcao2"
+        string cs_assembly = "NfeRecepcao2.dll"
+        string pb_prefix = "px_"
+        string pb_usenvo = "YES"
+        string pb_target = "C:\Sistemas PB12"
+        string px_nfeCabecMsg = "nfeCabecMsg(System.String cUF,System.String versaoDados,System.Xml.XmlAttribute[] AnyAttr,System.String EncodedMustUnderstand,System.String EncodedMustUnderstand12,System.Boolean MustUnderstand,System.String Actor,System.String Role,System.Boolean DidUnderstand,System.String EncodedRelay,System.Boolean Relay)"
+end variables
+
+forward prototypes
+public:
+function any nfeRecepcaoLote2(  any nfeDadosMsg) alias for "<method name='nfeRecepcaoLote2' ns='WebService' pbname='nfeRecepcaoLote2' headerdir='INOUT' headername='nfeCabecMsgValue' headertype='WebService.nfeCabecMsg'><return name='returnvalue' type='System.Xml.XmlNode' isRef='False' ArrayDim='0' IsNullableType='False' /><param name='nfeDadosMsg' type='System.Xml.XmlNode' pos='0' dir='in' ArrayDim='0' IsNullableType='False'/></method>"
+subroutine CancelAsync (  any userState) alias for "<method name='CancelAsync' ns='WebService' pbname='CancelAsync'><param name='userState' type='System.Object' pos='0' dir='in' ArrayDim='0' IsNullableType='False'/></method>"
+subroutine PBAddCookie(any cookie) alias for "<method name='PBAddCookie' ns='System.Runtime.Remoting.Messaging'  IsCookieFunction='True' pbname='PBAddCookie'><return name='returnvalue' type='System.Void' isRef='false' ArrayDim='0' IsNullableType='false' /><param name='cookie' type='any' pos='0' dir='in' ArrayDim='0' IsNullableType='False'/></method>"
+function any PBGetCookies(string Uri) alias for "<method name='PBGetCookies' ns='System.Runtime.Remoting.Messaging'  IsCookieFunction='True' pbname='PBGetCookies'><return name='returnvalue' type='System.Object' isRef='false' ArrayDim='0' IsNullableType='false' /><param name='cookie' type='System.String' pos='0' dir='in' ArrayDim='0' IsNullableType='False'/></method>"
+function boolean setnfeCabecMsgValue(px_nfeCabecMsg nfeCabecMsgValue) alias for "<method name='setnfeCabecMsgValue' ns='WebService' pbname='setnfeCabecMsgValue' isproperty='TRUE'><return name='returnvalue' type='System.Boolean' isRef='False' ArrayDim='0' /><param name='nfeCabecMsgValue' type='WebService.nfeCabecMsg' pos='0' dir='in' ArrayDim='0'/></method>"
+function px_nfeCabecMsg getnfeCabecMsgValue() alias for "<method name='getnfeCabecMsgValue' ns='WebService' pbname='getnfeCabecMsgValue' isproperty='TRUE'><return name='returnvalue' type='WebService.nfeCabecMsg' isRef='False' ArrayDim='0' /></method>"
+end prototypes
+

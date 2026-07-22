@@ -1,0 +1,16 @@
+HA$PBExportHeader$gf_grava_log_json_form_dt.srf
+global type gf_grava_log_json_form_dt from function_object
+end type
+
+forward prototypes
+global function string gf_grava_log_json_form_dt (datetime adt_value)
+end prototypes
+
+global function string gf_grava_log_json_form_dt (datetime adt_value);IF IsNull(adt_value) THEN
+    RETURN "null"
+END IF
+
+RETURN '"' + String(adt_value, "yyyy-mm-ddThh:mm:ssZ") + '"'
+
+end function
+

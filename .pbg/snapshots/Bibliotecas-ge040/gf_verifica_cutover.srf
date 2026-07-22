@@ -1,0 +1,38 @@
+HA$PBExportHeader$gf_verifica_cutover.srf
+global type gf_verifica_cutover from function_object
+end type
+
+forward prototypes
+global function boolean gf_verifica_cutover (string as_parametro)
+end prototypes
+
+global function boolean gf_verifica_cutover (string as_parametro);Boolean lb_resultado = False
+Date   dh_atual
+String ls_data_cutover
+
+dh_atual = Date(gvo_Parametro.of_Dh_Movimentacao())
+
+Select vl_parametro
+Into :ls_data_cutover
+From parametro_geral 
+Where cd_parametro = :as_Parametro
+Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+	Case 0
+		If	dh_atual>=Date(ls_data_cutover) Then 
+			lb_resultado = False
+		Else
+			lb_resultado  = True
+		End If		
+	Case 100
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "N$$HEX1$$e300$$ENDHEX$$o foi localizado o par$$HEX1$$e200$$ENDHEX$$metro '" + as_Parametro + "' na parametro_geral.", Exclamation!)
+	Case -1
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao localizar o par$$HEX1$$e200$$ENDHEX$$metro '" + as_Parametro + "'. " + SqlCa.SqlErrText, StopSign!)
+End Choose
+
+// Se resultado for True: Bloqueia ou Apenas Consulta
+// Se resultado for False: Opera$$HEX2$$e700f500$$ENDHEX$$es continuam normalmente
+Return lb_resultado
+end function
+

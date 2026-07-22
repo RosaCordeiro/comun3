@@ -1,0 +1,7 @@
+HA$PBExportHeader$t_compra.srs
+global type t_compra from structure
+	string		xNEmp
+	string		xPed
+	string		xCont
+end type
+

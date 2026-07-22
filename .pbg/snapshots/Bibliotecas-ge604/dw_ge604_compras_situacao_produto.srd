@@ -1,0 +1,134 @@
+HA$PBExportHeader$dw_ge604_compras_situacao_produto.srd
+release 12;
+datawindow(units=0 timer_interval=0 color=67108864 brushmode=0 transparency=0 gradient.angle=0 gradient.color=8421504 gradient.focus=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.repetition.mode=0 gradient.scale=100 gradient.spread=100 gradient.transparency=0 picture.blur=0 picture.clip.bottom=0 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.transparency=0 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes hidegrayline=no showbackcoloronxp=no picture.file="" )
+header(height=108 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+detail(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+table(column=(type=long updatewhereclause=yes name=cd_produto dbname="pedido_central_produto.cd_produto" )
+ column=(type=char(102) updatewhereclause=yes name=de_produto dbname="de_produto" )
+ column=(type=long updatewhereclause=yes name=qt_pedida dbname="pedido_central_produto.qt_pedida" )
+ column=(type=long updatewhereclause=yes name=qt_recebida dbname="qt_recebida" )
+ column=(type=char(4) updatewhereclause=yes name=cd_unidade_medida dbname="cd_unidade_medida" )
+ column=(type=long updatewhereclause=yes name=qt_recebida_original dbname="qt_recebida_original" )
+ column=(type=char(4) updatewhereclause=yes name=cd_unidade_medida_original dbname="cd_unidade_medida_original" )
+ column=(type=decimal(4) updatewhereclause=yes name=vl_fator_conversao dbname="vl_fator_conversao" )
+ column=(type=char(27) updatewhereclause=yes name=de_gravidade dbname="de_gravidade" )
+ retrieve="SELECT
+	pcp.cd_produto,
+	pg.de_produto || ': ' || pg.de_apresentacao_estoque AS de_produto,
+	pcp.qt_pedida,
+	COALESCE (SUM (rec.qt_recebida), 0) AS qt_recebida,
+	rec.cd_unidade_medida,
+	COALESCE (SUM (rec.qt_recebida_original), 0) AS qt_recebida_original,
+	rec.cd_unidade_medida_original,
+	rec.vl_fator_conversao,
+	CASE COALESCE (SUM (rec.qt_recebida), 0)
+		WHEN 0 THEN '3-PEDIDOS MAS N$$HEX1$$c300$$ENDHEX$$O RECEBIDOS'
+		WHEN pcp.qt_pedida THEN '0-PRODUTOS SEM DIVERG$$HEX1$$ca00$$ENDHEX$$NCIA' 
+		ELSE '2-QUANTIDADE DIVERGENTE'
+	END AS de_gravidade
+FROM pedido_central_produto pcp
+INNER JOIN produto_geral pg
+		 ON pg.cd_produto = pcp.cd_produto
+LEFT JOIN (
+			SELECT
+				rs.nr_pedido,
+				rsi.cd_produto,
+				COALESCE (rsi.qt_recebida, 0) AS qt_recebida,
+				rsi.cd_unidade_medida,
+				COALESCE (rsi.qt_recebida_original, 0) AS qt_recebida_original,
+				rsi.cd_unidade_medida_original,
+				rsi.vl_fator_conversao
+			FROM recebimento_sap rs
+			INNER JOIN dbo.recebimento_sap_item rsi
+					 ON rsi.nr_recebimento = rs.nr_recebimento
+			WHERE rs.id_situacao = 'P'
+		  ) rec
+		 ON rec.nr_pedido  = pcp.nr_pedido
+		AND rec.cd_produto = pcp.cd_produto
+WHERE pcp.nr_pedido = :an_nr_pedido
+GROUP BY
+	pcp.cd_produto,
+	pg.de_produto,
+	pg.de_apresentacao_estoque,
+	pcp.qt_pedida,
+	rec.cd_unidade_medida,
+	rec.cd_unidade_medida_original,
+	rec.vl_fator_conversao
+UNION
+SELECT
+	rsi.cd_produto,
+	pg.de_produto || ': ' || pg.de_apresentacao_estoque AS de_produto,
+	0 AS qt_pedida,
+	SUM (rsi.qt_recebida) AS qt_recebida,
+	rsi.cd_unidade_medida,
+	SUM (rsi.qt_recebida_original) AS qt_recebida_original,
+	rsi.cd_unidade_medida_original,
+	rsi.vl_fator_conversao,
+	'1-RECEBIDOS MAS N$$HEX1$$c300$$ENDHEX$$O PEDIDOS' AS de_gravidade
+FROM recebimento_sap rs
+INNER JOIN dbo.recebimento_sap_item rsi
+		 ON rsi.nr_recebimento = rs.nr_recebimento
+INNER JOIN produto_geral pg
+		 ON pg.cd_produto = rsi.cd_produto
+WHERE rs.nr_pedido = :an_nr_pedido
+  AND rs.id_situacao = 'P'
+  AND NOT EXISTS (
+					SELECT 1
+					FROM pedido_central_produto pcp
+					WHERE pcp.nr_pedido  = rs.nr_pedido
+					  AND pcp.cd_produto = rsi.cd_produto
+				 )
+GROUP BY
+	rsi.cd_produto,
+	pg.de_produto,
+	pg.de_apresentacao_estoque,
+	rsi.cd_unidade_medida,
+	rsi.cd_unidade_medida_original,
+	rsi.vl_fator_conversao
+ORDER BY
+	1,
+	2
+
+" arguments=(("an_nr_pedido", number))  sort="cf_gravidade D " )
+group(level=1 header.height=72 trailer.height=0 by=("situacao" ) header.color="536870912" header.transparency="0" header.gradient.color="8421504" header.gradient.transparency="0" header.gradient.angle="0" header.brushmode="0" header.gradient.repetition.mode="0" header.gradient.repetition.count="0" header.gradient.repetition.length="100" header.gradient.focus="0" header.gradient.scale="100" header.gradient.spread="100" trailer.color="536870912" trailer.transparency="0" trailer.gradient.color="8421504" trailer.gradient.transparency="0" trailer.gradient.angle="0" trailer.brushmode="0" trailer.gradient.repetition.mode="0" trailer.gradient.repetition.count="0" trailer.gradient.repetition.length="100" trailer.gradient.focus="0" trailer.gradient.scale="100" trailer.gradient.spread="100" )
+ellipse(band=header x="50" y="16" height="84" width="96"  name=oval_max_gravidade visible="1" brush.hatch="6" brush.color="65280~tCASE (MAX (cf_gravidade)
+	WHEN 0 THEN RGB (000, 255, 000) /*verde*/
+	WHEN 1 THEN RGB (255, 255, 000) /*amarelo*/
+	WHEN 2 THEN RGB (255, 255, 000) /*amarelo*/
+	WHEN 3 THEN RGB (255, 000, 000) /*vermelho*/
+	WHEN 4 THEN RGB (000, 000, 000) /*preto*/
+	)" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="1" tooltip.hasclosebutton="0" tooltip.icon="3" tooltip.isbubble="1" tooltip.maxwidth="3" tooltip.textcolor="134217751" tooltip.tip="~t situacao " tooltip.title="Situa$$HEX2$$e700e300$$ENDHEX$$o mais grave na importa$$HEX2$$e700e300$$ENDHEX$$o" tooltip.transparency="3" )
+text(band=header alignment="0" text="PRODUTOS" border="0" color="8388608" x="192" y="16" height="72" width="485" html.valueishtml="0"  name=t_6 visible="1"  font.face="Verdana" font.height="-11" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+ellipse(band=header.1 x="192" y="4" height="60" width="69"  name=oval_1 visible="1" brush.hatch="6" brush.color="65280~tCASE (cf_gravidade
+	WHEN 0 THEN RGB (000, 255, 000) /*verde*/
+	WHEN 1 THEN RGB (255, 255, 000) /*amarelo*/
+	WHEN 2 THEN RGB (255, 255, 000) /*amarelo*/
+	WHEN 3 THEN RGB (255, 000, 000) /*vermelho*/
+	WHEN 4 THEN RGB (000, 000, 000) /*preto*/
+	)" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="33554432" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="1" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="1" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.tip="~t situacao " tooltip.transparency="0" )
+compute(band=header.1 alignment="0" expression="Mid (de_gravidade, 3, 25)"border="0" color="8388608" x="293" y="12" height="52" width="864" format="[GENERAL]" html.valueishtml="0"  name=situacao visible="1"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+compute(band=header.1 alignment="1" expression="count(de_gravidade for group 1)"border="2" color="33554432" x="1175" y="12" height="52" width="101" format="[general]" html.valueishtml="0"  name=cf_qtd_por_situacao visible="1"  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+compute(band=header.1 alignment="0" expression="Integer (LeftA (de_gravidade, 1))"border="0" color="0" x="1472" y="16" height="52" width="110" format="[GENERAL]" html.valueishtml="0"  name=cf_gravidade visible="0"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+button(band=header.1 text="..." enabled=yes action="0" border="0" color="0" x="1317" y="4" height="60" width="137" vtextalign="2" htextalign="0"  name=b_detalhe_produto visible="1"  font.face="Verdana" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="1" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.tip="Clique para detalhes" tooltip.transparency="0" transparency="0" )
+column(band=detail id=1 alignment="1" tabsequence=32766 border="2" color="33554432" x="91" y="8" height="64" width="379" format="[general]" html.valueishtml="0"  name=cd_produto visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="2" color="33554432" x="489" y="8" height="64" width="1349" format="[general]" html.valueishtml="0"  name=de_produto visible="1" edit.limit=102 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="2" color="33554432" x="1856" y="8" height="64" width="347" format="[general]" html.valueishtml="0"  name=qt_pedida visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="2" color="33554432" x="2222" y="8" height="64" width="416" format="[general]" html.valueishtml="0"  name=qt_recebida visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="2" color="33554432" x="2656" y="8" height="64" width="137" format="[general]" html.valueishtml="0"  name=cd_unidade_medida visible="1" edit.limit=4 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=6 alignment="1" tabsequence=32766 border="2" color="33554432" x="2811" y="8" height="64" width="521" format="[general]" html.valueishtml="0"  name=qt_recebida_original visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="2" color="33554432" x="3351" y="8" height="64" width="247" format="[general]" html.valueishtml="0"  name=cd_unidade_medida_original visible="1" edit.limit=4 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=8 alignment="1" tabsequence=32766 border="2" color="33554432" x="3616" y="8" height="64" width="503" format="[general]" html.valueishtml="0"  name=vl_fator_conversao visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="2" color="33554432" x="4137" y="8" height="64" width="850" format="[general]" html.valueishtml="0"  name=de_gravidade visible="0" edit.limit=30 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

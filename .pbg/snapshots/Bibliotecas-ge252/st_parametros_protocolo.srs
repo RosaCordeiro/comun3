@@ -1,0 +1,27 @@
+HA$PBExportHeader$st_parametros_protocolo.srs
+global type st_parametros_protocolo from structure
+	long		cd_filial_origem
+	long		nr_nf
+	string		de_especie
+	string		de_serie
+	long		cd_produto
+	string		nr_lote
+	string		nr_protocolo
+	long		cd_motivo
+	long		qtd_protocolo
+	long		cd_tipo_transf
+	string		id_protocolo_ativo
+	string		cd_endereco_wms
+	string		id_exige_protocolo
+	long		cd_motivo_defeito
+	long		qtd_lote
+	long		qtd_origem
+	long		qtd_transferencia
+	datastore		ds_itens_selecionados
+	long		nr_agrupamento
+	long		cd_natureza_operacao
+	string		de_produto
+	datetime		dh_validade
+	string		de_situacao_exclusao
+end type
+

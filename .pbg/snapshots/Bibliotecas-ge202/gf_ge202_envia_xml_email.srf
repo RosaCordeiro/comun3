@@ -1,0 +1,162 @@
+HA$PBExportHeader$gf_ge202_envia_xml_email.srf
+global type gf_ge202_envia_xml_email from function_object
+end type
+
+forward prototypes
+global function boolean gf_ge202_envia_xml_email (string as_chave_acesso, date adt_emissao, ref string as_mensagem_log)
+end prototypes
+
+global function boolean gf_ge202_envia_xml_email (string as_chave_acesso, date adt_emissao, ref string as_mensagem_log);String		ls_Ano,&
+			ls_Mes,&
+			ls_Dia,&
+			ls_Cnpj,&
+			ls_Arquivo_Xml,&
+			ls_Diretorio_FTP,&
+			ls_Retorno,&
+			ls_Parametro,&
+			ls_ftp_xml_endereco,&
+			ls_ftp_xml_usuario,&
+			ls_ftp_xml_senha
+		
+Long	ll_Ano,&
+		ll_Mes,&
+		ll_Dia
+		
+Boolean lb_Localizado
+
+dc_uo_Ftp lo_Ftp
+
+Try
+	lo_Ftp = Create dc_uo_Ftp
+	
+	If Not DirectoryExists( 'C:\XMLTemp\' ) Then
+		If CreateDirectory( 'C:\XMLTemp\' ) < 0 Then
+			as_mensagem_log = 'Erro ao criar o diret$$HEX1$$f300$$ENDHEX$$rio: C:\XMLTemp'
+			Return False
+		End If
+	End If
+	
+	//************Par$$HEX1$$e200$$ENDHEX$$metros de conexao FTP***************************************
+
+	ls_Parametro = 'DE_FTP_XML_ENDERECO'
+	
+	select vl_parametro
+	Into :ls_ftp_xml_endereco
+	From parametro_geral
+	Where cd_parametro = :ls_Parametro
+	Using SqlCa;
+	
+	Choose Case SqlCa.SqlCode
+		Case 0
+		Case 100
+			MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Par$$HEX1$$e200$$ENDHEX$$metro geral de comunica$$HEX2$$e700e300$$ENDHEX$$o n$$HEX1$$e300$$ENDHEX$$o foi localizado '" + ls_Parametro + "'.")
+			Return False
+		Case -1
+			SqlCa.of_MsgDbError("Localiza$$HEX2$$e700e300$$ENDHEX$$o do par$$HEX1$$e200$$ENDHEX$$metro geral de comunica$$HEX2$$e700e300$$ENDHEX$$o '" + ls_Parametro + "'.")
+			Return False
+	End Choose
+
+	If IsNull(ls_ftp_xml_endereco) or ls_ftp_xml_endereco = '' Then
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Par$$HEX1$$e200$$ENDHEX$$metro geral de comunica$$HEX2$$e700e300$$ENDHEX$$o inv$$HEX1$$e100$$ENDHEX$$lido '" + ls_Parametro + "'.")
+		Return False
+	End If
+	
+	ls_ftp_xml_endereco = Lower(ls_ftp_xml_endereco)
+	
+
+	ls_Parametro = 'DE_FTP_XML_USUARIO'
+	
+	select vl_parametro
+	Into :ls_ftp_xml_usuario
+	From parametro_geral
+	Where cd_parametro = :ls_Parametro
+	Using SqlCa;
+	
+	Choose Case SqlCa.SqlCode
+		Case 0
+		Case 100
+			MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Par$$HEX1$$e200$$ENDHEX$$metro geral de comunica$$HEX2$$e700e300$$ENDHEX$$o n$$HEX1$$e300$$ENDHEX$$o foi localizado '" + ls_Parametro + "'.")
+			Return False
+		Case -1
+			SqlCa.of_MsgDbError("Localiza$$HEX2$$e700e300$$ENDHEX$$o do par$$HEX1$$e200$$ENDHEX$$metro geral de comunica$$HEX2$$e700e300$$ENDHEX$$o '" + ls_Parametro + "'.")
+			Return False
+	End Choose
+	
+	If IsNull(ls_ftp_xml_usuario) or ls_ftp_xml_usuario = '' Then
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Par$$HEX1$$e200$$ENDHEX$$metro geral de comunica$$HEX2$$e700e300$$ENDHEX$$o inv$$HEX1$$e100$$ENDHEX$$lido '" + ls_Parametro  + "'.")
+		Return False
+	End If
+	
+	ls_ftp_xml_usuario = Lower(ls_ftp_xml_usuario)
+
+
+
+	ls_Parametro = 'DE_FTP_XML_SENHA'
+	
+	select vl_parametro
+	Into :ls_ftp_xml_senha
+	From parametro_geral
+	Where cd_parametro = :ls_Parametro
+	Using SqlCa;
+	
+	Choose Case SqlCa.SqlCode
+		Case 0
+		Case 100
+			MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Par$$HEX1$$e200$$ENDHEX$$metro geral de comunica$$HEX2$$e700e300$$ENDHEX$$o n$$HEX1$$e300$$ENDHEX$$o foi localizado '" + ls_Parametro + "'.")
+			Return False
+		Case -1
+			SqlCa.of_MsgDbError("Localiza$$HEX2$$e700e300$$ENDHEX$$o do par$$HEX1$$e200$$ENDHEX$$metro geral de comunica$$HEX2$$e700e300$$ENDHEX$$o '" + ls_Parametro + "'.")
+			Return False
+	End Choose
+		
+	If IsNull(ls_ftp_xml_senha) or ls_ftp_xml_senha = '' Then
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Par$$HEX1$$e200$$ENDHEX$$metro geral de comunica$$HEX2$$e700e300$$ENDHEX$$o inv$$HEX1$$e100$$ENDHEX$$lido '" + ls_Parametro +  "'.")
+		Return False
+	End If
+	
+	ls_ftp_xml_senha = Lower(ls_ftp_xml_senha)
+	//**********************************************************************************
+	
+	If Not lo_Ftp.of_Conecta_Ftp("", ls_ftp_xml_endereco, ls_ftp_xml_usuario, ls_ftp_xml_senha,ref as_mensagem_log ) Then
+		Return False
+	End If
+	
+	ll_Ano 	= Year(adt_Emissao)
+	ll_Mes 	= Month(adt_Emissao)
+	ll_Dia 		= Day(adt_Emissao)
+	
+	ls_Ano = "Ano_"+String(ll_Ano)
+	If ll_Mes < 10 Then ls_Mes = "Mes_0"+String(ll_Mes) Else ls_Mes = "Mes_"+String(ll_Mes)
+	If ll_Dia < 10 Then ls_Dia = "Dia_0"+String(ll_Dia) Else ls_Dia = "Dia_"+String(ll_Dia)
+	ls_Cnpj = Mid(as_Chave_Acesso, 7, 14)
+	ls_Arquivo_Xml = as_Chave_Acesso+"-nfe.xml"
+		
+	ls_Diretorio_FTP = ls_Ano + "/" + ls_Mes + "/" + ls_Dia + "/" + ls_CNPJ
+	
+	lb_Localizado = True
+	
+	If lo_Ftp.of_Ftp_Set_Dir(ls_Diretorio_FTP, Ref as_mensagem_log) = -1 Then 
+		as_mensagem_log = "XML n$$HEX1$$e300$$ENDHEX$$o localizado."
+		Return False
+	End If
+	
+	If lb_Localizado Then
+		If Not lo_Ftp.of_Ftp_GetFile(ls_Arquivo_Xml, 'C:\XMLTemp\'+ls_Arquivo_Xml, Ref as_mensagem_log) Then
+			as_mensagem_log = "XML n$$HEX1$$e300$$ENDHEX$$o localizado na $$HEX1$$e100$$ENDHEX$$rea FTP CLAMED. "
+			Return False
+		End If
+	End If	
+	
+	OpenWithParm( w_ge202_envia_xml_email , as_Chave_Acesso )
+	
+	ls_Retorno = Message.StringParm
+	
+	If ls_Retorno = 'S' Then 	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Seu e-mail foi enviado com sucesso." )
+	
+	Return True
+	
+Finally
+	Destroy lo_Ftp
+End Try
+end function
+

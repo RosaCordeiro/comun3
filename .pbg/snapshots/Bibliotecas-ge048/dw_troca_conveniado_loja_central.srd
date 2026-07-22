@@ -1,0 +1,48 @@
+HA$PBExportHeader$dw_troca_conveniado_loja_central.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=80 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=92 color="536870912" )
+table(column=(type=long update=yes updatewhereclause=yes key=yes name=cd_convenio dbname="conveniado.cd_convenio" )
+ column=(type=char(15) update=yes updatewhereclause=yes key=yes name=cd_conveniado dbname="conveniado.cd_conveniado" )
+ column=(type=char(40) update=yes updatewhereclause=yes name=nm_conveniado dbname="conveniado.nm_conveniado" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=id_somente_titular dbname="conveniado.id_somente_titular" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=id_obedece_restricao dbname="conveniado.id_obedece_restricao" )
+ column=(type=long update=yes updatewhereclause=yes name=cd_filial_atualizacao dbname="conveniado.cd_filial_atualizacao" )
+ column=(type=datetime update=yes updatewhereclause=yes name=dh_atualizacao dbname="conveniado.dh_atualizacao" )
+ column=(type=char(6) update=yes updatewhereclause=yes name=nr_matricula_atualizacao dbname="conveniado.nr_matricula_atualizacao" )
+ column=(type=char(4) updatewhereclause=yes name=de_senha dbname="conveniado.de_senha" )
+ retrieve="select cd_convenio,   
+       cd_conveniado,   
+       nm_conveniado,   
+       id_somente_titular,   
+       id_obedece_restricao,   
+       cd_filial_atualizacao,   
+       dh_atualizacao,   
+       nr_matricula_atualizacao,
+       de_senha
+from conveniado
+where cd_filial_atualizacao = :filial
+  and dh_atualizacao        = :data_base
+" update="conveniado" updatewhere=1 updatekeyinplace=no arguments=(("filial", number),("data_base", date)) )
+text(band=header alignment="2" text="Cd Convenio"border="0" color="0" x="9" y="8" height="64" width="329"  name=cd_convenio_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cd Conveniado"border="0" color="0" x="347" y="8" height="64" width="439"  name=cd_conveniado_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nm Conveniado"border="0" color="0" x="795" y="8" height="64" width="1125"  name=nm_conveniado_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Id Somente Titular"border="0" color="0" x="1929" y="8" height="64" width="480"  name=id_somente_titular_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Id Obedece Restricao"border="0" color="0" x="2418" y="8" height="64" width="571"  name=id_obedece_restricao_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cd Filial Atualizacao"border="0" color="0" x="2999" y="8" height="64" width="544"  name=cd_filial_atualizacao_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Dh Atualizacao"border="0" color="0" x="3552" y="8" height="64" width="603"  name=dh_atualizacao_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Matricula Atualizacao"border="0" color="0" x="4165" y="8" height="64" width="649"  name=nr_matricula_atualizacao_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="1" tabsequence=10 border="0" color="0" x="9" y="8" height="76" width="329" format="[general]"  name=cd_convenio edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=20 border="0" color="0" x="347" y="8" height="76" width="439" format="[general]"  name=cd_conveniado edit.limit=15 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=30 border="0" color="0" x="795" y="8" height="76" width="1125" format="[general]"  name=nm_conveniado edit.limit=40 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=40 border="0" color="0" x="1929" y="8" height="76" width="480" format="[general]"  name=id_somente_titular edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=50 border="0" color="0" x="2418" y="8" height="76" width="571" format="[general]"  name=id_obedece_restricao edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="1" tabsequence=60 border="0" color="0" x="2999" y="8" height="76" width="544" format="[general]"  name=cd_filial_atualizacao edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=70 border="0" color="0" x="3552" y="8" height="76" width="603" format="[shortdate] [time]"  name=dh_atualizacao edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="0" tabsequence=80 border="0" color="0" x="4165" y="8" height="76" width="649" format="[general]"  name=nr_matricula_atualizacao edit.limit=6 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="0" tabsequence=0 border="0" color="0" x="4827" y="0" height="64" width="425"  name=de_senha  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="De Senha"border="0" color="0" x="4823" y="4" height="76" width="430"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

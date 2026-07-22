@@ -1,0 +1,11 @@
+HA$PBExportHeader$str_ge556_loadtable.srs
+global type str_ge556_loadtable from structure
+	string		returncode
+	string		informativetext
+	datetime		centralhour
+	string		tableid
+	str_ge556_produto		produto[]
+	string		centralnumber
+	str_ge556_coupons		cupom[]
+end type
+

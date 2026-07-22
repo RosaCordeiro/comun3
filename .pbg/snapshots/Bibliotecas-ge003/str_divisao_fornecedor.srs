@@ -1,0 +1,10 @@
+HA$PBExportHeader$str_divisao_fornecedor.srs
+global type str_divisao_fornecedor from structure
+	string		cd_fornecedor
+	string		nm_fantasia
+	long		nr_divisao[]
+	string		de_divisao[]
+	string		nr_divisoes_in
+	string		id_selecao_varias_divisoes
+end type
+

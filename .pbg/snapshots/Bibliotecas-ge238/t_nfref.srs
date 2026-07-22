@@ -1,0 +1,5 @@
+HA$PBExportHeader$t_nfref.srs
+global type t_nfref from structure
+	string		refnfe[]
+end type
+

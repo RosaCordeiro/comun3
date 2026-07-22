@@ -1,0 +1,10 @@
+HA$PBExportHeader$st_ge224_parametros_protocolo.srs
+global type st_ge224_parametros_protocolo from structure
+	string		cd_fornecedor
+	string		nm_razao_social
+	long		nr_nf
+	string		de_especie
+	string		de_serie
+	string		de_motivo
+end type
+

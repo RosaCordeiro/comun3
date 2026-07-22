@@ -1,0 +1,5 @@
+HA$PBExportHeader$t_gdevtrib.srs
+global type t_gdevtrib from structure
+	decimal{2}		vdevtrib
+end type
+

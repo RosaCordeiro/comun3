@@ -1,0 +1,5 @@
+HA$PBExportHeader$t_istot.srs
+global type t_istot from structure
+	decimal{2}		vis
+end type
+

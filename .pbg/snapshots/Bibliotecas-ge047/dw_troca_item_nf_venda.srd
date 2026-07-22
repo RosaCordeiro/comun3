@@ -1,0 +1,114 @@
+HA$PBExportHeader$dw_troca_item_nf_venda.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=144 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=92 color="536870912" )
+table(column=(type=long updatewhereclause=yes name=cd_filial dbname="item_nf_venda.cd_filial" )
+ column=(type=long updatewhereclause=yes name=nr_nf dbname="item_nf_venda.nr_nf" )
+ column=(type=char(3) updatewhereclause=yes name=de_especie dbname="item_nf_venda.de_especie" )
+ column=(type=char(3) updatewhereclause=yes name=de_serie dbname="item_nf_venda.de_serie" )
+ column=(type=long updatewhereclause=yes name=cd_natureza_operacao dbname="item_nf_venda.cd_natureza_operacao" )
+ column=(type=long updatewhereclause=yes name=cd_produto dbname="item_nf_venda.cd_produto" )
+ column=(type=char(2) updatewhereclause=yes name=cd_situacao_tributaria dbname="item_nf_venda.cd_situacao_tributaria" )
+ column=(type=long updatewhereclause=yes name=qt_vendida dbname="item_nf_venda.qt_vendida" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_preco_unitario dbname="item_nf_venda.vl_preco_unitario" )
+ column=(type=decimal(2) updatewhereclause=yes name=pc_desconto_tabela dbname="item_nf_venda.pc_desconto_tabela" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_preco_praticado dbname="item_nf_venda.vl_preco_praticado" )
+ column=(type=decimal(2) updatewhereclause=yes name=pc_icms dbname="item_nf_venda.pc_icms" )
+ column=(type=decimal(2) updatewhereclause=yes name=pc_comissao_extra dbname="item_nf_venda.pc_comissao_extra" )
+ column=(type=decimal(2) updatewhereclause=yes name=pc_comissao_normal dbname="item_nf_venda.pc_comissao_normal" )
+ column=(type=char(1) updatewhereclause=yes name=id_alteracao_preco dbname="item_nf_venda.id_alteracao_preco" )
+ column=(type=char(1) updatewhereclause=yes name=id_restricao_convenio dbname="item_nf_venda.id_restricao_convenio" )
+ column=(type=char(1) updatewhereclause=yes name=id_comissionado dbname="item_nf_venda.id_comissionado" )
+ column=(type=datetime updatewhereclause=yes name=dh_cancelamento dbname="nf_venda.dh_cancelamento" )
+ column=(type=char(6) updatewhereclause=yes name=nr_matricula_cancelamento dbname="nf_venda.nr_matricula_cancelamento" )
+ column=(type=decimal(2) updatewhereclause=yes name=qt_pontos_clube dbname="item_nf_venda.qt_pontos_clube" )
+ retrieve="  SELECT i.cd_filial,   
+         i.nr_nf,   
+         i.de_especie,   
+         i.de_serie,   
+         i.cd_natureza_operacao,   
+         i.cd_produto,   
+         i.cd_situacao_tributaria,   
+         i.qt_vendida,   
+         i.vl_preco_unitario,   
+         i.pc_desconto_tabela,   
+         i.vl_preco_praticado,   
+         i.pc_icms,   
+         i.pc_comissao_extra,   
+         i.pc_comissao_normal,   
+         i.id_alteracao_preco,   
+         i.id_restricao_convenio,   
+         i.id_comissionado,   
+         n.dh_cancelamento,   
+         n.nr_matricula_cancelamento,   
+         i.qt_pontos_clube  
+    FROM item_nf_venda i,   
+         nf_venda n  
+   WHERE ( n.cd_filial = i.cd_filial ) and  
+         ( n.nr_nf = i.nr_nf ) and  
+         ( n.de_especie = i.de_especie ) and  
+         ( n.de_serie = i.de_serie ) and  
+         ( ( n.cd_filial = :filial ) AND  
+         ( n.dh_movimentacao_caixa = :data_base ) )    
+" arguments=(("filial", number),("data_base", date)) )
+text(band=header alignment="2" text="Item Nf Venda
+Cd Filial"border="0" color="0" x="9" y="8" height="128" width="375"  name=item_nf_venda_cd_filial_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Item Nf Venda
+Nr Nf"border="0" color="0" x="393" y="8" height="128" width="370"  name=item_nf_venda_nr_nf_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Item Nf Venda
+De Especie"border="0" color="0" x="773" y="8" height="128" width="370"  name=item_nf_venda_de_especie_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Item Nf Venda
+De Serie"border="0" color="0" x="1152" y="8" height="128" width="370"  name=item_nf_venda_de_serie_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Item Nf Venda
+Cd Natureza Operacao"border="0" color="0" x="1531" y="8" height="128" width="599"  name=item_nf_venda_cd_natureza_operacao_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Item Nf Venda
+Cd Produto"border="0" color="0" x="2139" y="8" height="128" width="370"  name=item_nf_venda_cd_produto_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Item Nf Venda
+Cd Situacao Tributaria"border="0" color="0" x="2519" y="8" height="128" width="581"  name=item_nf_venda_cd_situacao_tributaria_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Item Nf Venda
+Qt Vendida"border="0" color="0" x="3109" y="8" height="128" width="370"  name=item_nf_venda_qt_vendida_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Item Nf Venda
+Vl Preco Unitario"border="0" color="0" x="3488" y="8" height="128" width="443"  name=item_nf_venda_vl_preco_unitario_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Item Nf Venda
+Pc Desconto Tabela"border="0" color="0" x="3941" y="8" height="128" width="530"  name=item_nf_venda_pc_desconto_tabela_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Item Nf Venda
+Vl Preco Praticado"border="0" color="0" x="4480" y="8" height="128" width="494"  name=item_nf_venda_vl_preco_praticado_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Item Nf Venda
+Pc Icms"border="0" color="0" x="4983" y="8" height="128" width="370"  name=item_nf_venda_pc_icms_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Item Nf Venda
+Pc Comissao Extra"border="0" color="0" x="5362" y="8" height="128" width="512"  name=item_nf_venda_pc_comissao_extra_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Item Nf Venda
+Pc Comissao Normal"border="0" color="0" x="5883" y="8" height="128" width="558"  name=item_nf_venda_pc_comissao_normal_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Item Nf Venda
+Id Alteracao Preco"border="0" color="0" x="6450" y="8" height="128" width="485"  name=item_nf_venda_id_alteracao_preco_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Item Nf Venda
+Id Restricao Convenio"border="0" color="0" x="6944" y="8" height="128" width="567"  name=item_nf_venda_id_restricao_convenio_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Item Nf Venda
+Id Comissionado"border="0" color="0" x="7520" y="8" height="128" width="434"  name=item_nf_venda_id_comissionado_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Nf Venda Dh Cancelamento"border="0" color="0" x="7963" y="4" height="76" width="773"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Nf Venda Nr Matricula Cancelamento"border="0" color="0" x="8745" y="4" height="76" width="151"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Item Nf Venda Qt Pontos Clube"border="0" color="0" x="8905" y="4" height="76" width="1152"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="1" tabsequence=32766 border="0" color="0" x="9" y="12" height="76" width="375" format="[general]"  name=cd_filial edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="0" color="0" x="393" y="8" height="76" width="370" format="[general]"  name=nr_nf edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="773" y="8" height="76" width="370" format="[general]"  name=de_especie edit.limit=3 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="1152" y="8" height="76" width="370" format="[general]"  name=de_serie edit.limit=3 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="0" color="0" x="1531" y="8" height="76" width="599" format="[general]"  name=cd_natureza_operacao edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="1" tabsequence=32766 border="0" color="0" x="2139" y="8" height="76" width="370" format="[general]"  name=cd_produto edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="0" x="2519" y="8" height="76" width="581" format="[general]"  name=cd_situacao_tributaria edit.limit=2 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="1" tabsequence=32766 border="0" color="0" x="3109" y="8" height="76" width="370" format="[general]"  name=qt_vendida edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="1" tabsequence=32766 border="0" color="0" x="3488" y="8" height="76" width="443" format="[general]"  name=vl_preco_unitario edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="1" tabsequence=32766 border="0" color="0" x="3941" y="8" height="76" width="530" format="[general]"  name=pc_desconto_tabela edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=11 alignment="1" tabsequence=32766 border="0" color="0" x="4480" y="8" height="76" width="494" format="[general]"  name=vl_preco_praticado edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=12 alignment="1" tabsequence=32766 border="0" color="0" x="4983" y="8" height="76" width="370" format="[general]"  name=pc_icms edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=13 alignment="1" tabsequence=32766 border="0" color="0" x="5362" y="8" height="76" width="512" format="[general]"  name=pc_comissao_extra edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=14 alignment="1" tabsequence=32766 border="0" color="0" x="5883" y="8" height="76" width="558" format="[general]"  name=pc_comissao_normal edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=15 alignment="0" tabsequence=32766 border="0" color="0" x="6450" y="8" height="76" width="485" format="[general]"  name=id_alteracao_preco edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=16 alignment="0" tabsequence=32766 border="0" color="0" x="6944" y="8" height="76" width="567" format="[general]"  name=id_restricao_convenio edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=17 alignment="0" tabsequence=32766 border="0" color="0" x="7520" y="8" height="76" width="434" format="[general]"  name=id_comissionado edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=18 alignment="0" tabsequence=32766 border="0" color="0" x="7963" y="4" height="64" width="773" format="[shortdate] [time]"  name=dh_cancelamento edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=19 alignment="0" tabsequence=32766 border="0" color="0" x="8745" y="0" height="64" width="151" format="[general]"  name=nr_matricula_cancelamento edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=20 alignment="0" tabsequence=32766 border="0" color="0" x="8910" y="0" height="64" width="1147" format="[general]"  name=qt_pontos_clube edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

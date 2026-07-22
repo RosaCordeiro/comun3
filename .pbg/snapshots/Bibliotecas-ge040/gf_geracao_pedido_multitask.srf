@@ -1,0 +1,40 @@
+HA$PBExportHeader$gf_geracao_pedido_multitask.srf
+global type gf_geracao_pedido_multitask from function_object
+end type
+
+forward prototypes
+global function date gf_geracao_pedido_multitask ()
+end prototypes
+
+global function date gf_geracao_pedido_multitask ();String lvs_Parametro
+
+Select vl_parametro
+Into :lvs_Parametro
+From parametro_geral
+Where cd_parametro = 'DH_GERACAO_PEDIDO_MULTITASK'
+Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+	Case 0
+		If IsNull(lvs_Parametro) or trim(lvs_Parametro) = "" Then
+			lvs_Parametro = "01/01/1900"
+		End If
+	Case 100
+		lvs_Parametro = "01/01/1900"
+	Case -1 
+		SqlCa.of_MsgDbError("Erro ao localizar a data de gera$$HEX2$$e700e300$$ENDHEX$$o do pedido para a multitask") 
+		//Return False
+		lvs_Parametro = "01/01/1900"
+End Choose
+
+If Not IsDate(lvs_Parametro) Then
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "A data de gera$$HEX2$$e700e300$$ENDHEX$$o do pedido pela multitask $$HEX1$$e900$$ENDHEX$$ inv$$HEX1$$e100$$ENDHEX$$lida '" + lvs_Parametro + "'.")
+	//Return False
+	lvs_Parametro = "01/01/1900"
+End If
+
+Return Date(lvs_Parametro)
+
+
+end function
+

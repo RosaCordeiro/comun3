@@ -1,0 +1,19 @@
+HA$PBExportHeader$gf_mes_anterior.srf
+global type gf_mes_anterior from function_object
+end type
+
+forward prototypes
+global function date gf_mes_anterior (date pdt_inicial)
+end prototypes
+
+global function date gf_mes_anterior (date pdt_inicial);Date     lvdt_data
+//
+lvdt_data = RelativeDate(pdt_inicial, - 1)
+//
+lvdt_data = Date("01/" + &
+            String(Month(lvdt_data),"00") + "/" + &
+				String(Year(lvdt_data),"0000"))
+
+Return lvdt_data
+end function
+

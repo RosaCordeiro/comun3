@@ -1,0 +1,44 @@
+HA$PBExportHeader$gf_localiza_cnpj.srf
+global type gf_localiza_cnpj from function_object
+end type
+
+forward prototypes
+global function boolean gf_localiza_cnpj (ref string ps_cnpj, ref string ps_razao, ref string ps_fantasia, ref string ps_cep, ref string ps_rua, ref string ps_nro, ref string ps_compl, ref string ps_bairro, ref string ps_cidade, ref string ps_uf)
+end prototypes
+
+global function boolean gf_localiza_cnpj (ref string ps_cnpj, ref string ps_razao, ref string ps_fantasia, ref string ps_cep, ref string ps_rua, ref string ps_nro, ref string ps_compl, ref string ps_bairro, ref string ps_cidade, ref string ps_uf);String ls_Temp
+
+uo_pessoa_juridica lvo_Cnpj
+
+lvo_Cnpj = Create uo_pessoa_juridica
+
+ls_Temp = ps_CNPJ
+//Abre a tela com o objeto web de consulta passando o CNPJ como par$$HEX1$$e200$$ENDHEX$$metro
+Do While (Pos(ls_Temp,'.')>0)
+ 	ls_Temp = Replace(ls_Temp,Pos(ls_Temp,'.'),1,"")
+Loop
+If (Pos(ls_Temp,'-')>0) Then ls_Temp = Replace(ls_Temp,Pos(ls_Temp,'-'),1,"")
+If (Pos(ls_Temp,'/')>0) Then ls_Temp = Replace(ls_Temp,Pos(ls_Temp,'/'),1,"")
+
+lvo_Cnpj.CNPJ = ls_Temp
+
+OpenWithParm(w_web_consulta,lvo_Cnpj)
+
+//lvo_Cnpj = Message.PowerObjectParm
+
+//Atribui os valores encontrados as vari$$HEX1$$e100$$ENDHEX$$veis passadas como par$$HEX1$$e200$$ENDHEX$$metros
+ps_razao 	= lvo_Cnpj.Razao_Social	
+ps_fantasia 	= lvo_Cnpj.Fantasia	
+ps_rua		= lvo_Cnpj.Rua
+ps_nro 		= lvo_Cnpj.Nro
+ps_cep 		= lvo_Cnpj.CEP
+ps_compl 	= lvo_Cnpj.Compl
+ps_bairro	= lvo_Cnpj.Bairro
+ps_cidade 	= lvo_Cnpj.Cidade
+ps_uf			= lvo_Cnpj.UF
+
+Destroy(lvo_Cnpj)
+
+Return True
+end function
+

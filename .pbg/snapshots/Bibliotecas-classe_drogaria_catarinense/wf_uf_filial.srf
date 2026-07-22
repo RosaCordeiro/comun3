@@ -1,0 +1,28 @@
+HA$PBExportHeader$wf_uf_filial.srf
+global type wf_uf_filial from function_object
+end type
+
+forward prototypes
+global function string wf_uf_filial (long pl_cd_filial)
+end prototypes
+
+global function string wf_uf_filial (long pl_cd_filial);String lvs_uf
+
+SELECT cidade.cd_unidade_federacao  
+  INTO :lvs_uf  
+  FROM filial,   
+       cidade  
+ WHERE cidade.cd_cidade = filial.cd_cidade 
+   and filial.cd_filial = :pl_cd_filial ;
+	
+If	SqlCa.SqlCode = -1 Then
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o","Erro na verifica$$HEX2$$e700e300$$ENDHEX$$o da UF: " + SqlCa.SqlErrText + '.',StopSign!,Ok!)
+	SetNull(lvs_uf)
+ElseIf SqlCa.SqlCode = 100 Then	
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o","Filial: " + String(pl_cd_filial) + " n$$HEX1$$e300$$ENDHEX$$o encontrada.",StopSign!,Ok!)
+	SetNull(lvs_uf)
+End If
+
+Return lvs_uf
+end function
+

@@ -1,0 +1,19 @@
+HA$PBExportHeader$s_ge039_parametro_pafecf.srs
+global type s_ge039_parametro_pafecf from structure
+	date		dh_inicial
+	date		dh_final
+	long		nr_ecf_inicial
+	long		nr_ecf_final
+	long		nr_reducao_inicial
+	long		nr_reducao_final
+	long		nr_coo_inicial
+	long		nr_coo_final
+	string		id_periodo
+	boolean		id_arquivo
+	string		id_ecf
+	string		id_reducao
+	string		id_coo
+	string		id_retorno
+	string		id_destino
+end type
+

@@ -1,0 +1,52 @@
+HA$PBExportHeader$gf_verifica_feriado.srf
+global type gf_verifica_feriado from function_object
+end type
+
+forward prototypes
+global function boolean gf_verifica_feriado (string as_parametro, long al_grupo_feriado, date adt_data, ref boolean ab_feriado)
+end prototypes
+
+global function boolean gf_verifica_feriado (string as_parametro, long al_grupo_feriado, date adt_data, ref boolean ab_feriado);Long ll_Achou
+
+ab_Feriado = False
+
+//H Hoje, A Amanha, M Data Manual
+as_parametro = Upper(as_parametro)
+
+If as_parametro = 'H' Then
+	SELECT count(*) 
+	INTO :ll_Achou
+	FROM feriado 
+	WHERE cd_grupo_feriado = :al_grupo_feriado
+			AND dh_feriado = GETDATE()
+	Using SqlCa;
+ElseIf as_parametro = 'A' Then
+	SELECT count(*) 
+	INTO :ll_Achou
+	FROM feriado 
+	WHERE cd_grupo_feriado = :al_grupo_feriado
+			AND dh_feriado = DATEADD(day, 1, GETDATE())
+	Using SqlCa;
+ElseIf as_parametro = 'M' Then
+	SELECT count(*) 
+	INTO :ll_Achou
+	FROM feriado 
+	WHERE cd_grupo_feriado = :al_grupo_feriado
+			AND dh_feriado = :adt_data
+	Using SqlCa;
+End If
+
+If SqlCa.SqlCode = -1 Then
+	//MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao consultar a tabela feriado. " + SqlCa.SqlErrText, StopSign!)
+	Return False
+End If
+
+If ll_Achou = 1 Then
+	ab_Feriado = True
+Else
+	ab_Feriado = False
+End If
+
+Return True
+end function
+

@@ -1,0 +1,7 @@
+HA$PBExportHeader$st_ge510_detalhes.srs
+global type st_ge510_detalhes from structure
+	long		cd_filial
+	long		nr_atualizacao
+	long		cd_tipo
+end type
+

@@ -1,0 +1,6 @@
+HA$PBExportHeader$st_parametros_qtd_produto.srs
+global type st_parametros_qtd_produto from structure
+	string		as_acao		descriptor "comment" = "'I' para inclus$$HEX1$$e300$$ENDHEX$$o de produto (qtd n$$HEX1$$e300$$ENDHEX$$o importa) / 'A' para altera$$HEX2$$e700e300$$ENDHEX$$o da quantidade de produto j$$HEX1$$e100$$ENDHEX$$ existente no agrupamento (qtd $$HEX1$$e900$$ENDHEX$$ a que consta no agrupamento)"
+	long		al_qtde
+end type
+

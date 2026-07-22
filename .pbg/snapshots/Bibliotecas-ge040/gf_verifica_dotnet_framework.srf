@@ -1,0 +1,26 @@
+HA$PBExportHeader$gf_verifica_dotnet_framework.srf
+global type gf_verifica_dotnet_framework from function_object
+end type
+
+forward prototypes
+global function boolean gf_verifica_dotnet_framework ()
+end prototypes
+
+global function boolean gf_verifica_dotnet_framework ();/*===========================================================================================\
+|	Verifica se o .Net Framework est$$HEX1$$e100$$ENDHEX$$ instalado.																|
+|	$$HEX1$$da00$$ENDHEX$$til para se poder gerar planilhas com mais de 65mil linhas no formato XLSX, por exemplo.	|
+\===========================================================================================*/
+Integer	li_rtn
+String	ls_subkeylist []
+
+//Se a entrada abaixo existir no Registry do Windows, $$HEX1$$e900$$ENDHEX$$ porque o .Net Framework est$$HEX1$$e100$$ENDHEX$$ instalado
+
+li_rtn = RegistryKeys('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full', ls_subkeylist)
+
+If li_rtn = -1 then
+   Return False
+End if
+
+Return True
+end function
+

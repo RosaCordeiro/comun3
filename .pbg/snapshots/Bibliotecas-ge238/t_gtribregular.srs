@@ -1,0 +1,12 @@
+HA$PBExportHeader$t_gtribregular.srs
+global type t_gtribregular from structure
+	string		CSTReg
+	string		cClassTribReg
+	decimal{4}		pAliqEfetRegIBSUF
+	decimal{2}		vTribRegIBSUF
+	decimal{4}		pAliqEfetRegIBSMun
+	decimal{2}		vTribRegIBSMun
+	decimal{4}		pAliqEfetRegCBS
+	decimal{2}		vTribRegCBS
+end type
+

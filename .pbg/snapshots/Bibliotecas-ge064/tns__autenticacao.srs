@@ -1,0 +1,9 @@
+HA$PBExportHeader$tns__autenticacao.srs
+$PBExportComments$Proxy imported from Web service using Web Service Proxy Generator.
+global type tns__Autenticacao from structure
+   string nmLogin
+   string senha
+   string nmServico
+   string versao
+end type
+

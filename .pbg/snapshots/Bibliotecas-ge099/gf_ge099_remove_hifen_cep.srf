@@ -1,0 +1,17 @@
+HA$PBExportHeader$gf_ge099_remove_hifen_cep.srf
+global type gf_ge099_remove_hifen_cep from function_object
+end type
+
+forward prototypes
+global function string gf_ge099_remove_hifen_cep (string as_cep)
+end prototypes
+
+global function string gf_ge099_remove_hifen_cep (string as_cep);If IsNumber(MidA(as_Cep, 1, 5)) Then
+	If PosA(as_Cep, "-") > 0 Then
+		as_Cep = gf_Replace(as_Cep, "-", "", 1)
+	End If
+End If
+
+Return as_Cep
+end function
+

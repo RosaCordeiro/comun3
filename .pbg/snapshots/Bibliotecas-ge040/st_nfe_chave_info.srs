@@ -1,0 +1,14 @@
+HA$PBExportHeader$st_nfe_chave_info.srs
+global type st_nfe_chave_info from structure
+	string		uf		descriptor "comment" = "2 d$$HEX1$$ed00$$ENDHEX$$gitos (cUF)"
+	string		ano		descriptor "comment" = "2 d$$HEX1$$ed00$$ENDHEX$$gitos (AA)"
+	string		mes		descriptor "comment" = "2 d$$HEX1$$ed00$$ENDHEX$$gitos (MM)"
+	string		cnpj		descriptor "comment" = "14 d$$HEX1$$ed00$$ENDHEX$$gitos"
+	string		modelo		descriptor "comment" = "2 d$$HEX1$$ed00$$ENDHEX$$gitos (55 = NFe)"
+	string		serie		descriptor "comment" = "3 d$$HEX1$$ed00$$ENDHEX$$gitos"
+	string		numero		descriptor "comment" = "9 d$$HEX1$$ed00$$ENDHEX$$gitos"
+	string		tp_emis		descriptor "comment" = "1 d$$HEX1$$ed00$$ENDHEX$$gito (tipo de emiss$$HEX1$$e300$$ENDHEX$$o)"
+	string		cnf		descriptor "comment" = "8 d$$HEX1$$ed00$$ENDHEX$$gitos (c$$HEX1$$f300$$ENDHEX$$digo num$$HEX1$$e900$$ENDHEX$$rico)"
+	string		cdv		descriptor "comment" = "1 d$$HEX1$$ed00$$ENDHEX$$gito verificador"
+end type
+

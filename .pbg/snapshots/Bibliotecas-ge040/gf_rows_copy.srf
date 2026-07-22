@@ -1,0 +1,69 @@
+HA$PBExportHeader$gf_rows_copy.srf
+global type gf_rows_copy from function_object
+end type
+
+forward prototypes
+global function boolean gf_rows_copy (dc_uo_ds_base pds_origem, ref dc_uo_ds_base pds_destino)
+end prototypes
+
+global function boolean gf_rows_copy (dc_uo_ds_base pds_origem, ref dc_uo_ds_base pds_destino);//Criada pois a fun$$HEX2$$e700e300$$ENDHEX$$o standard RowsCopy n$$HEX1$$e300$$ENDHEX$$o estava copiando para DWs de diferentes bases (Sybase x Oracle) devido ao tipo de dados.
+Long lvl_Colunas
+Long lvl_Coluna
+Long lvl_Linha
+Long lvl_Linhas
+Long lvl_Linha_Destino
+
+String lvs_Coluna
+String lvs_DBColuna
+String lvs_ColunmType
+String lvs_Edit
+String lvs_Aux
+
+Any lva_Dado
+
+//Recupera o total de campos do destino
+lvl_Colunas	= Long(pds_destino.Describe("DataWindow.Column.Count"))
+//Total de linhas a serem inseridas
+lvl_Linhas 	= pds_origem.RowCount()
+//Para cada linha da dw_origem
+For lvl_Linha = 1 To lvl_Linhas
+	lvl_Linha_Destino = pds_destino.InsertRow(0)
+	//Recupera os campos chave da atualiza$$HEX2$$e700e300$$ENDHEX$$o
+	For lvl_Coluna = 1 To lvl_Colunas
+		//Inicializa
+		SetNull(lva_Dado)
+		//Recupera o nome da coluna
+		lvs_Coluna		= pds_destino.Describe("#"+String(lvl_Coluna)+".Name")
+		lvs_DBColuna	= pds_destino.Describe("#"+String(lvl_Coluna)+".DBName")
+		//Recupera o tipo de dado da coluna
+		lvs_ColunmType = Upper(pds_destino.Describe(lvs_DBColuna+".Coltype"))
+		lvs_Edit = Lower(pds_destino.Describe(lvs_DBColuna+".Edit.Style"))
+		
+		//Recupera o dado da coluna conforme o tipo e converte para string
+		Choose Case lvs_ColunmType
+			Case 'NUMBER','LONG','INT','ULONG'
+				lva_Dado = pds_origem.GetItemNumber(lvl_Linha, lvs_DBColuna)
+			Case 'DATE'
+				lva_Dado = pds_origem.GetItemDate(lvl_Linha, lvs_DBColuna)
+			Case 'DATETIME'
+				lva_Dado = pds_origem.GetItemDateTime(lvl_Linha, lvs_DBColuna)
+			Case Else	
+				If (Pos(lvs_ColunmType,'DECIMAL')>0)or(lvs_ColunmType='REAL') Then
+					lva_Dado = pds_origem.GetItemDecimal(lvl_Linha, lvs_DBColuna)
+				Else
+					//lva_Dado		=	Trim(pds_origem.GetItemFormattedString(lvl_Linha, lvs_DBColuna))
+					//If IsNull(lva_Dado) or Trim(lva_Dado)='' or (lvs_Edit='ddlb') Then lva_Dado = pds_origem.GetItemString(lvl_Linha, lvs_DBColuna)
+					lva_Dado = pds_origem.GetItemString(lvl_Linha, lvs_DBColuna)
+				End If
+		End Choose					
+
+		pds_destino.SetItem(lvl_Linha_Destino, lvl_Coluna, lva_Dado)
+	Next
+Next
+
+pds_destino.Sort( )
+pds_destino.GroupCalc( )
+
+Return True
+end function
+

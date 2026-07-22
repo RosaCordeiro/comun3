@@ -1,0 +1,115 @@
+HA$PBExportHeader$gf_valida_ean.srf
+global type gf_valida_ean from function_object
+end type
+
+forward prototypes
+global function boolean gf_valida_ean (string as_ean, boolean ab_mensagem, ref string as_log)
+end prototypes
+
+global function boolean gf_valida_ean (string as_ean, boolean ab_mensagem, ref string as_log);Integer li_Digito_EAN
+Integer li_Digito_Calc
+Integer li_Linha
+Integer li_Len
+Integer li_Len_Util
+Integer li_Impar
+Integer li_Par
+Integer li_Soma
+Integer li_Multiplo10
+
+Decimal ldc_Mod
+
+String ls_EAN
+
+//GTIN-8, GTIN-12, GTIN-13, GTIN-14
+
+ls_EAN  = as_EAN
+
+If Not IsNULL(ls_EAN) Then
+	
+	If IsNumber(ls_EAN) Then
+		
+		li_Len = Len(ls_EAN)
+		
+		If li_Len <> 8 and li_Len <> 12 and li_Len <> 13 and li_Len <> 14 Then
+			as_log = "O tamanho do c$$HEX1$$f300$$ENDHEX$$digo EAN ' " + String(li_Len) + "' esta diferente do esperacao [8,12,13 ou 14]."
+			
+			If ab_mensagem Then 
+				Messagebox("Aten$$HEX2$$e700e300$$ENDHEX$$o", as_log )
+			End If
+			
+			Return False
+		End If
+		
+	Else
+		as_log = "Informe um EAN v$$HEX1$$e100$$ENDHEX$$lido '"+ ls_EAN + "'."
+		Return False
+	End If
+	
+Else
+	as_log = "O c$$HEX1$$f300$$ENDHEX$$digo de barras n$$HEX1$$e300$$ENDHEX$$o pode ser nulo."
+	
+	If ab_mensagem Then
+		Messagebox("Aten$$HEX2$$e700e300$$ENDHEX$$o", as_log)
+	End If
+	Return False
+End If
+
+// Pega o d$$HEX1$$ed00$$ENDHEX$$gito verificador do EAN informado
+li_Digito_EAN = Integer(Mid(ls_EAN, li_Len))
+
+li_Len_Util = li_Len -1
+
+// Retira o d$$HEX1$$ed00$$ENDHEX$$gito verificador do EAN informado para calcular o digito verificador
+ls_EAN = Mid(ls_EAN, 1, li_Len_Util)
+
+For li_Linha = 1 To li_Len_Util
+	ldc_Mod = Mod(li_Linha, 2)
+	
+	// Valores das posi$$HEX2$$e700f500$$ENDHEX$$es pares
+	If ldc_Mod = 0 Then
+		li_Par += Integer(Mid(ls_EAN, li_Linha, 1))
+	Else
+		// Valores das posi$$HEX2$$e700f500$$ENDHEX$$es $$HEX1$$ed00$$ENDHEX$$mpares
+		li_Impar += Integer(Mid(ls_EAN, li_Linha, 1))
+	End If
+	
+	If li_Linha = li_Len_Util Then
+		If Len(as_EAN) = 13 Then
+			li_Par = li_Par * 3
+		Else
+			li_Impar = li_Impar * 3
+		End If
+	End If
+Next
+
+li_Soma = li_Impar + li_Par
+
+// Meno que 10 ou div$$HEX1$$ed00$$ENDHEX$$vel por 10
+If li_Soma <= 10 or Mod(li_Soma, 10) = 0 Then
+	li_Multiplo10 = li_Soma
+Else
+	If 	li_Soma <= 100 Then
+		// 89 => (8 + 1) * 10 => 90
+		li_Multiplo10 = (Integer(Mid(String(li_Soma),1,1)) + 1) * 10
+	Else
+		// 120 => (12 + 1) * 10 => 130
+		li_Multiplo10 = (Integer(Mid(String(li_Soma),1,2)) + 1) * 10
+	End If
+End If
+
+li_Digito_Calc = li_Multiplo10 - li_Soma
+
+If li_Digito_Calc <> li_Digito_EAN Then
+	as_Log = "EAN inv$$HEX1$$e100$$ENDHEX$$lido."
+	If ab_mensagem Then
+		Messagebox("Aten$$HEX2$$e700e300$$ENDHEX$$o", as_log)
+	End If
+	
+	Return False
+End If
+
+Return True
+
+
+end function
+

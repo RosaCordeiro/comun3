@@ -1,0 +1,8 @@
+HA$PBExportHeader$t_ii.srs
+global type t_ii from structure
+	double		vBC
+	double		vDespAdu
+	double		vII
+	double		vIOF
+end type
+

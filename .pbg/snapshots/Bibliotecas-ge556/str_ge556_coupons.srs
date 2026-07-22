@@ -1,0 +1,7 @@
+HA$PBExportHeader$str_ge556_coupons.srs
+global type str_ge556_coupons from structure
+	string		industryName
+	string		rangeStart
+	string		rangeEnd
+end type
+

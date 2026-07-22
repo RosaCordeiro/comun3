@@ -1,0 +1,54 @@
+HA$PBExportHeader$gf_centro_distribuicao.srf
+global type gf_centro_distribuicao from function_object
+end type
+
+forward prototypes
+global function boolean gf_centro_distribuicao (long pl_filial, ref string ps_id_centro_distribuicao)
+end prototypes
+
+global function boolean gf_centro_distribuicao (long pl_filial, ref string ps_id_centro_distribuicao);Boolean lb_Sucesso = True
+
+String ls_Auxiliar
+
+Select id_centro_distribuicao
+Into	:ls_Auxiliar
+From filial
+where cd_filial = :pl_Filial
+Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+		
+	Case 0
+			
+		If IsNull(ls_Auxiliar) Then
+			ps_id_centro_distribuicao = "S"
+			
+		ElseIf ls_Auxiliar = "S" Then
+			ps_id_centro_distribuicao = "S"
+			
+		ElseIf ls_Auxiliar = "N" Then
+			ps_id_centro_distribuicao = "N"
+			
+		ElseIf Trim(ls_Auxiliar) = "" Then
+			ps_id_centro_distribuicao = "N"
+			
+		Else
+			MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o","O valor referente ao campo 'id_centro_distribuicao' deve ser igual a 'S' ou 'N'.")
+			lb_Sucesso = False
+			
+		End If
+		
+	Case 100
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "A coluna 'id_centro_distribuicao' n$$HEX1$$e300$$ENDHEX$$o foi lozalizada na tabela filial.", StopSign!)
+		lb_Sucesso = False
+		
+	Case -1
+		SqlCa.of_MsgdbError("Localiza$$HEX2$$e700e300$$ENDHEX$$o da coluna 'id_centro_distribuicao' na tabela filial.")
+		lb_Sucesso = False
+			
+End Choose
+
+Return lb_Sucesso
+
+end function
+

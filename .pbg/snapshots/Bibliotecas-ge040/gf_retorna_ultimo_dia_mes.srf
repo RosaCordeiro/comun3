@@ -1,0 +1,25 @@
+HA$PBExportHeader$gf_retorna_ultimo_dia_mes.srf
+global type gf_retorna_ultimo_dia_mes from function_object
+end type
+
+forward prototypes
+global function date gf_retorna_ultimo_dia_mes (date pdt_termino)
+global function date gf_retorna_ultimo_dia_mes (datetime pdt_termino)
+end prototypes
+
+global function date gf_retorna_ultimo_dia_mes (date pdt_termino);Date ldt_Final_Mes
+
+Do While pdt_termino <> ldt_Final_Mes
+	If gf_ultimo_dia_mes( pdt_termino ) Then
+		ldt_Final_Mes = pdt_termino
+	Else
+		pdt_termino = RelativeDate( pdt_termino, 1 )
+	End If
+Loop
+
+Return ldt_Final_Mes
+end function
+
+global function date gf_retorna_ultimo_dia_mes (datetime pdh_termino);Return gf_retorna_ultimo_dia_mes(Date(pdh_termino))
+end function
+

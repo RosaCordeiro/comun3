@@ -1,0 +1,8 @@
+HA$PBExportHeader$sockaddr.srs
+global type sockaddr from structure
+	integer		sin_family
+	unsignedinteger		sin_port
+	character		sin_addr[4]
+	character		sin_zero[8]
+end type
+

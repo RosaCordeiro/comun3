@@ -1,0 +1,63 @@
+HA$PBExportHeader$dw_prescritor_receita.srd
+release 10;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes hidegrayline=no )
+header(height=72 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=84 color="536870912" )
+table(column=(type=char(1) updatewhereclause=yes key=yes name=id_registro dbname="prescritor_receita.id_registro" )
+ column=(type=char(8) updatewhereclause=yes key=yes name=nr_registro dbname="prescritor_receita.nr_registro" )
+ column=(type=char(2) updatewhereclause=yes key=yes name=cd_unidade_federacao dbname="prescritor_receita.cd_unidade_federacao" )
+ column=(type=char(40) updatewhereclause=yes name=nm_prescritor dbname="prescritor_receita.nm_prescritor" )
+ column=(type=char(40) updatewhereclause=yes name=de_endereco dbname="prescritor_receita.de_endereco" )
+ column=(type=char(20) updatewhereclause=yes name=de_bairro dbname="prescritor_receita.de_bairro" )
+ column=(type=long updatewhereclause=yes name=cd_cidade dbname="prescritor_receita.cd_cidade" )
+ column=(type=char(3) updatewhereclause=yes name=nr_ddd_telefone dbname="prescritor_receita.nr_ddd_telefone" )
+ column=(type=char(10) updatewhereclause=yes name=nr_telefone dbname="prescritor_receita.nr_telefone" )
+ column=(type=char(8) updatewhereclause=yes name=nr_cep dbname="prescritor_receita.nr_cep" )
+ retrieve="  Select id_registro,   
+         nr_registro,   
+         cd_unidade_federacao,   
+         nm_prescritor,   
+         de_endereco,   
+         de_bairro,   
+         cd_cidade,   
+         nr_ddd_telefone,   
+         nr_telefone,   
+         nr_cep  
+    From prescritor_receita  
+   Where dh_exportacao >= :data_base
+     And dh_exportacao < DateAdd(day, 1, :data_base)
+" update="prescritor_receita" updatewhere=0 updatekeyinplace=no arguments=(("data_base", date)) )
+text(band=header alignment="2" text="Cd Filial" border="0" color="0" x="5" y="4" height="64" width="329" html.valueishtml="0"  name=cd_filial_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Ecf" border="0" color="0" x="338" y="4" height="64" width="329" html.valueishtml="0"  name=nr_ecf_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Serie" border="0" color="0" x="672" y="4" height="64" width="576" html.valueishtml="0"  name=nr_serie_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Id Situacao" border="0" color="0" x="1253" y="4" height="64" width="297" html.valueishtml="0"  name=id_situacao_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Ecf Radar" border="0" color="0" x="1554" y="4" height="64" width="338" html.valueishtml="0"  name=nr_ecf_radar_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Total Geral Final" border="0" color="0" x="1897" y="4" height="64" width="507" html.valueishtml="0"  name=vl_total_geral_final_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="De Fabricante" border="0" color="0" x="2409" y="4" height="64" width="439" html.valueishtml="0"  name=de_fabricante_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="De Modelo" border="0" color="0" x="2857" y="4" height="64" width="439" html.valueishtml="0"  name=de_modelo_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Dh Ultima Venda" border="0" color="0" x="3301" y="4" height="64" width="603" html.valueishtml="0"  name=dh_ultima_venda_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Serie Mfd" border="0" color="0" x="3909" y="4" height="64" width="576" html.valueishtml="0"  name=nr_serie_mfd_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Pc Livre Mfd" border="0" color="0" x="4489" y="4" height="64" width="329" html.valueishtml="0"  name=pc_livre_mfd_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=0 border="0" color="0" x="4818" y="0" height="76" width="32" html.valueishtml="0"  name=id_registro visible="1"  font.face="Tahoma" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=0 border="0" color="0" x="4850" y="0" height="76" width="256" html.valueishtml="0"  name=nr_registro visible="1"  font.face="Tahoma" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="0" tabsequence=0 border="0" color="0" x="5106" y="0" height="76" width="64" html.valueishtml="0"  name=cd_unidade_federacao visible="1"  font.face="Tahoma" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="0" tabsequence=0 border="0" color="0" x="5170" y="0" height="76" width="1280" html.valueishtml="0"  name=nm_prescritor visible="1"  font.face="Tahoma" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="0" tabsequence=0 border="0" color="0" x="6450" y="0" height="76" width="1280" html.valueishtml="0"  name=de_endereco visible="1"  font.face="Tahoma" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=6 alignment="0" tabsequence=0 border="0" color="0" x="7730" y="0" height="76" width="640" html.valueishtml="0"  name=de_bairro visible="1"  font.face="Tahoma" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=7 alignment="0" tabsequence=0 border="0" color="0" x="8370" y="0" height="76" width="1376" html.valueishtml="0"  name=cd_cidade visible="1"  font.face="Tahoma" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=8 alignment="0" tabsequence=0 border="0" color="0" x="9746" y="0" height="76" width="96" html.valueishtml="0"  name=nr_ddd_telefone visible="1"  font.face="Tahoma" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=9 alignment="0" tabsequence=0 border="0" color="0" x="9842" y="0" height="76" width="320" html.valueishtml="0"  name=nr_telefone visible="1"  font.face="Tahoma" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=10 alignment="0" tabsequence=0 border="0" color="0" x="10162" y="0" height="76" width="256" html.valueishtml="0"  name=nr_cep visible="1"  font.face="Tahoma" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen()
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

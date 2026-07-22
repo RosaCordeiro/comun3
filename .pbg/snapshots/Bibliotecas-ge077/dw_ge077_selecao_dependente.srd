@@ -1,0 +1,16 @@
+HA$PBExportHeader$dw_ge077_selecao_dependente.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=79741120 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=576 color="536870912" )
+table(column=(type=char(20) updatewhereclause=no name=cd_cliente dbname="cd_cliente" )
+ column=(type=char(40) updatewhereclause=no name=nm_cliente dbname="nm_cliente" )
+ column=(type=char(40) updatewhereclause=no name=nm_dependente dbname="nm_dependente" )
+ )
+text(band=detail alignment="1" text="Cliente:"border="0" color="8388608" x="146" y="12" height="64" width="210"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="2" color="0" x="375" y="12" height="64" width="1253" format="[general]"  name=nm_cliente edit.limit=0 edit.case=upper edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="2" tabsequence=32766 border="2" color="0" x="1646" y="12" height="64" width="393" format="[general]"  name=cd_cliente editmask.mask="####-#######" editmask.focusrectangle=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Dependente:"border="0" color="8388608" x="14" y="92" height="64" width="343"  name=nm_cliente_t  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=10 border="2" color="0" x="375" y="92" height="64" width="1253" format="[general]"  name=nm_dependente edit.limit=0 edit.case=upper edit.focusrectangle=no edit.autoselect=no edit.nilisnull=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

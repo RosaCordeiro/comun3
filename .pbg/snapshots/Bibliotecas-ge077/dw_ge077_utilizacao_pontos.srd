@@ -1,0 +1,22 @@
+HA$PBExportHeader$dw_ge077_utilizacao_pontos.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=84 color="536870912" )
+table(column=(type=decimal(0) updatewhereclause=yes identity=yes name=nr_movimento dbname="pontuacao_clube_movimento.nr_movimento" )
+ column=(type=decimal(2) updatewhereclause=yes name=qt_saldo_pontos dbname="pontuacao_clube_movimento.qt_saldo_pontos" )
+ column=(type=char(1) updatewhereclause=yes name=id_credito_debito dbname="pontuacao_clube_tipo_movimento.id_credito_debito" )
+ retrieve="select m.nr_movimento,
+       m.qt_saldo_pontos,
+       t.id_credito_debito
+from pontuacao_clube_movimento m,
+     pontuacao_clube_tipo_movimento t
+where m.id_situacao_pontos = 'D'
+  and t.cd_tipo_movimento = m.cd_tipo_movimento
+order by m.nr_movimento
+" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="14" y="4" height="76" width="457" format="[general]"  name=nr_movimento edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="0" color="0" x="494" y="4" height="76" width="448" format="[general]"  name=qt_saldo_pontos edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="965" y="4" height="76" width="517" format="[general]"  name=id_credito_debito edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

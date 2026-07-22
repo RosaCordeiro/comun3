@@ -1,0 +1,6 @@
+HA$PBExportHeader$ularge_integer.srs
+global type ularge_integer from structure
+	ulong		LowPart
+	ulong		HighPart
+end type
+

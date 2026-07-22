@@ -1,0 +1,15 @@
+HA$PBExportHeader$st_generica.srs
+global type st_generica from structure
+	string		string_par[]
+	long		long_par[]
+	boolean		boolean_par[]
+	date		date_par[]
+	datetime		datetime_par[]
+	decimal		decimal_par[]
+	integer		integer_par[]
+	time		time_par[]
+	transaction		transaction_par[]
+	userobject		userobject_par[]
+	window		window_par[]
+end type
+

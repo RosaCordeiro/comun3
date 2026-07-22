@@ -1,0 +1,58 @@
+HA$PBExportHeader$lf_ge470_proximo_sequencial_log.srf
+global type lf_ge470_proximo_sequencial_log from function_object
+end type
+
+forward prototypes
+global function boolean lf_ge470_proximo_sequencial_log (ref long al_proximo, ref string as_log)
+end prototypes
+
+global function boolean lf_ge470_proximo_sequencial_log (ref long al_proximo, ref string as_log);String ls_Ultimo, ls_Proximo
+
+Boolean lb_Sucesso = True
+
+Select vl_parametro Into :ls_Ultimo
+From parametro_sap
+Where cd_ambiente_sap= 'PRD'
+	and cd_parametro = 'NR_SEQUENCIAL_LOG_EXPORT_SAP'
+Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+	Case 0
+	Case 100
+		as_log = "Par$$HEX1$$e200$$ENDHEX$$metro 'NR_SEQUENCIAL_LOG_EXPORT_SAP' n$$HEX1$$e300$$ENDHEX$$o localizado."
+		Return False
+	Case -1
+		as_log = "Localiza$$HEX2$$e700e300$$ENDHEX$$o do Par$$HEX1$$e200$$ENDHEX$$metro  'NR_SEQUENCIAL_LOG_EXPORT_SAP': " + SqlCa.SqlerrText
+		Return False		
+End Choose
+
+al_Proximo = Long(ls_Ultimo) + 1
+
+// Reinicia a numera$$HEX2$$e700e300$$ENDHEX$$o do LOG
+If al_Proximo >= 9999999999 Then	al_Proximo = 1
+
+ls_Proximo = String(al_Proximo)
+
+Update parametro_sap
+Set vl_parametro = :ls_Proximo
+Where cd_ambiente_sap= 'PRD'
+  and 	cd_parametro = 'NR_SEQUENCIAL_LOG_EXPORT_SAP'
+  and vl_parametro = :ls_Ultimo
+Using SqlCa;
+
+If SqlCa.SqlCode = -1 Then
+	as_log = "Atualiza$$HEX2$$e700e300$$ENDHEX$$o do Par$$HEX1$$e200$$ENDHEX$$metro  'NR_SEQUENCIAL_LOG_EXPORT_SAP': " + SqlCa.SqlerrText
+	Return False
+Else	
+	If SqlCa.SqlnRows = 0 Then
+		lb_Sucesso = lf_ge470_proximo_sequencial_log(ref al_Proximo, as_Log)
+	End If
+End If
+
+If lb_Sucesso Then
+	SqlCa.of_Commit();
+End If
+
+Return lb_Sucesso
+end function
+

@@ -1,0 +1,32 @@
+HA$PBExportHeader$gf_verifica_controle_pedido_perini.srf
+global type gf_verifica_controle_pedido_perini from function_object
+end type
+
+forward prototypes
+global function boolean gf_verifica_controle_pedido_perini (ref string as_retorno)
+end prototypes
+
+global function boolean gf_verifica_controle_pedido_perini (ref string as_retorno);Select vl_parametro
+  Into :as_retorno
+  From parametro_geral
+ Where cd_parametro = 'ID_CONTROLE_PEDIDO_PERINI'
+ Using SqlCa;
+ 
+ Choose Case SqlCa.SqlCode 
+	Case 0
+		If Isnull(as_retorno) Then as_retorno = 'N'
+
+		If as_retorno <> 'N' and as_retorno <> 'S' Then
+			MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Par$$HEX1$$e200$$ENDHEX$$metro 'ID_CONTROLE_PEDIDO_PERINI' esta errado. '(S/N)' ")
+			Return False
+		End If
+	Case 100
+		as_retorno = "N"
+	Case -1 
+		SqlCa.of_MsgDbError("LOCALIZA$$HEX2$$c700c300$$ENDHEX$$O DO PAR$$HEX1$$c200$$ENDHEX$$METRO 'ID_CONTROLE_PEDIDO_PERINI'")
+		Return False
+End Choose
+
+Return True
+end function
+

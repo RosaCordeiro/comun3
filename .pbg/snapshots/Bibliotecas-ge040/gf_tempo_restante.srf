@@ -1,0 +1,38 @@
+HA$PBExportHeader$gf_tempo_restante.srf
+global type gf_tempo_restante from function_object
+end type
+
+forward prototypes
+global function string gf_tempo_restante (long pl_registro_atual, long pl_registros_total, time pt_horainicio)
+end prototypes
+
+global function string gf_tempo_restante (long pl_registro_atual, long pl_registros_total, time pt_horainicio);/*
+	Esta fun$$HEX2$$e700e300$$ENDHEX$$o retorna uma String com tempo restante de um processamento no formato exemplo:
+		- 10m 15s (quando falta mais de um minuto)
+		- 30 segundos (quando falta menos)
+*/
+
+Long lvl_SegundosTotal, lvl_MediaPorSegundo, lvl_TempoEstimado
+Long lvl_Minutos, lvl_Segundos
+String lvs_Tempo
+
+lvl_SegundosTotal = SecondsAfter(pt_HoraInicio, Now())
+If lvl_SegundosTotal = 0 Then lvl_SegundosTotal = 1
+
+lvl_MediaPorSegundo = pl_Registro_Atual/lvl_SegundosTotal
+If lvl_MediaPorSegundo = 0 Then lvl_MediaPorSegundo = 1
+
+lvl_TempoEstimado = Long((pl_Registros_Total - pl_Registro_Atual)/lvl_MediaPorSegundo)
+
+// Se falta mais que 60 segundos, separar string em minutos e segundos.
+If lvl_TempoEstimado >= 60 Then
+	lvl_Minutos = Long(lvl_TempoEstimado/60)
+	lvl_Segundos = lvl_TempoEstimado - Long(lvl_Minutos*60)
+	lvs_Tempo = String(lvl_Minutos)+"m "+String(lvl_Segundos)+"s"
+Else
+	lvs_Tempo = String(lvl_TempoEstimado)+" segundos"
+End If
+
+Return lvs_Tempo
+end function
+

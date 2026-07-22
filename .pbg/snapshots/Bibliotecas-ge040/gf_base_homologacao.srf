@@ -1,0 +1,23 @@
+HA$PBExportHeader$gf_base_homologacao.srf
+global type gf_base_homologacao from function_object
+end type
+
+forward prototypes
+global function string gf_base_homologacao ()
+end prototypes
+
+global function string gf_base_homologacao ();String ls_Parametro 
+String ls_Retorno
+
+ls_Parametro = ProfileString(gvo_Aplicacao.ivs_Arquivo_INI, 'ECOMMERCE', 'Base_Homologacao', "")
+
+If Not IsNull(ls_Parametro) and Trim(ls_Parametro) <> ''  Then
+	ls_Retorno = ls_Parametro
+Else
+	ls_Retorno = "N"
+End If
+
+Return ls_Retorno
+
+end function
+

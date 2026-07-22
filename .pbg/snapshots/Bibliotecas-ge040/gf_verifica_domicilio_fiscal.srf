@@ -1,0 +1,33 @@
+HA$PBExportHeader$gf_verifica_domicilio_fiscal.srf
+global type gf_verifica_domicilio_fiscal from function_object
+end type
+
+forward prototypes
+global function boolean gf_verifica_domicilio_fiscal (string as_uf, string as_cep)
+end prototypes
+
+global function boolean gf_verifica_domicilio_fiscal (string as_uf, string as_cep);
+
+String ls_cd_uf,&
+		ls_cd_cidade_ibge,&
+		ls_dom_fiscal
+
+
+select  el1.cd_uf, 
+		   el1.cd_cidade_ibge, 
+		  (el1.cd_uf + '-' + el1.cd_cidade_ibge) as  nr_domicilio_fiscal
+  Into :ls_cd_uf,
+  		 :ls_cd_cidade_ibge,
+		:ls_dom_fiscal
+from ect_localidade_faixa_cep fx1 (index idx_tipo_faixa_inicio) 
+inner join ect_localidade el1 on el1.nr_localidade = fx1.nr_localidade 
+where fx1.id_tipo_faixa = 'T' 
+and (fx1.dh_inclusao >= '20181211' or fx1.dh_alteracao >= '20181211')
+and cd_uf = :as_uf  
+and nr_cep_inicio =:as_cep 
+Using SqlCA;
+
+
+Return True
+end function
+

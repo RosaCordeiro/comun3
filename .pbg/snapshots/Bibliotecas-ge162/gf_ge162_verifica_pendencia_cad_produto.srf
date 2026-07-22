@@ -1,0 +1,65 @@
+HA$PBExportHeader$gf_ge162_verifica_pendencia_cad_produto.srf
+global type gf_ge162_verifica_pendencia_cad_produto from function_object
+end type
+
+forward prototypes
+global function boolean gf_ge162_verifica_pendencia_cad_produto (long al_produto)
+end prototypes
+
+global function boolean gf_ge162_verifica_pendencia_cad_produto (long al_produto);Long ll_Pendencia
+
+String ls_Liberado
+
+Select id_liberado_filial
+	Into :ls_Liberado
+From produto_geral
+Where cd_produto = :al_Produto
+Using SqlCa;
+
+If SqlCa.SqlCode = -1 Then
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao consultar se o produto '" + String(al_Produto) + "' est$$HEX1$$e100$$ENDHEX$$ liberado para comercializa$$HEX2$$e700e300$$ENDHEX$$o. " + SqlCa.SqlErrText, StopSign!)
+	Return False
+End If
+
+If ls_Liberado = "N" Then
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Produto '" + String(al_Produto) + "' n$$HEX1$$e300$$ENDHEX$$o est$$HEX1$$e100$$ENDHEX$$ liberado para comercializa$$HEX2$$e700e300$$ENDHEX$$o.", Exclamation!)
+	Return False
+End If
+
+Select Count(*)
+	Into :ll_Pendencia
+From produto_aprovacao
+Where cd_produto = :al_Produto
+	And dh_aprovacao_fiscal Is Null
+Using SqlCa;
+
+If SqlCa.SqlCode = -1 Then
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao consultar pend$$HEX1$$ea00$$ENDHEX$$ncia de cadastro do produto '" + String(al_Produto) + "' no setor Fiscal. " + SqlCa.SqlErrText, StopSign!)
+	Return False
+End If
+
+If ll_Pendencia > 0 Then
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "O produto '" + String(al_Produto) + "' est$$HEX1$$e100$$ENDHEX$$ aguardando a aprova$$HEX2$$e700e300$$ENDHEX$$o do Departamento Fiscal.", Exclamation!)
+	Return False
+End If
+
+Select Count(*)
+	Into :ll_Pendencia
+From produto_aprovacao
+Where cd_produto = :al_Produto
+	And dh_aprovacao_price Is Null
+Using SqlCa;
+
+If SqlCa.SqlCode = -1 Then
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao consultar pend$$HEX1$$ea00$$ENDHEX$$ncia de cadastro do produto '" + String(al_Produto) + "' no setor de Pricing. " + SqlCa.SqlErrText, StopSign!)
+	Return False
+End If
+
+If ll_Pendencia > 0 Then
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "O produto '" + String(al_Produto) + "' est$$HEX1$$e100$$ENDHEX$$ aguardando a aprova$$HEX2$$e700e300$$ENDHEX$$o do Departamento de Pricing.", Exclamation!)
+	Return False
+End If
+
+Return True
+end function
+

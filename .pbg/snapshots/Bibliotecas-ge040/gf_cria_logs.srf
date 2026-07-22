@@ -1,0 +1,105 @@
+HA$PBExportHeader$gf_cria_logs.srf
+global type gf_cria_logs from function_object
+end type
+
+forward prototypes
+global function boolean gf_cria_logs (string as_nome_arquivo, integer ai_qtde_logs)
+global function boolean gf_cria_logs (string as_nome_arquivo, integer ai_qtde_logs, ref integer ai_arquivo)
+end prototypes
+
+global function boolean gf_cria_logs (string as_nome_arquivo, integer ai_qtde_logs);Integer lvi_Contador 
+
+String lvs_Arquivo
+
+If ai_Qtde_Logs <= 0 Then
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "O n$$HEX1$$fa00$$ENDHEX$$mero de logs informado esta incorreto.", StopSign!)
+	Return False
+End If
+
+//Do While lvi_Contador < ai_Qtde_Logs
+//	
+//	If lvi_Contador = 0 Then
+//		lvs_Arquivo = as_nome_arquivo + ".log"
+//
+//		lvi_Log = FileOpen(lvs_Arquivo, LineMode!, Write!, LockWrite!, Append!)
+//	End If
+//	
+//	lvi_Contador ++
+//Loop
+
+
+//If lvi_Log = -1 Then
+//	
+//	lvs_Arquivo = gvo_Aplicacao.of_GetFromINI("Diretorio", "Pedidos")
+//	
+//	lvs_Arquivo += "ped_" + String(Today(), "ddmm") + "_1.log"
+//	lvi_Log = FileOpen(lvs_Arquivo, LineMode!, Write!, LockWrite!, Append!)
+//	
+//	If lvi_Log = -1 Then
+//		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro na abertura do arquivo de log '" + lvs_Arquivo + "'.", StopSign!)
+//		Return
+//	End If
+//End If
+//
+
+Return True
+end function
+
+global function boolean gf_cria_logs (string as_nome_arquivo, integer ai_qtde_logs, ref integer ai_arquivo);Integer lvi_Contador 
+Long lvl_tamanho_log
+String lvs_Arquivo_Old
+String lvs_Arquivo
+
+If ai_Qtde_Logs <= 0 Then
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "O n$$HEX1$$fa00$$ENDHEX$$mero de logs informado esta incorreto.", StopSign!)
+	Return False
+End If
+
+lvi_Contador = 1
+
+Do While lvi_Contador <= ai_Qtde_Logs
+	
+	If lvi_Contador = 1 Then
+		lvs_Arquivo = as_nome_arquivo + ".log"
+	Else
+		lvs_Arquivo = as_nome_arquivo + "_" + string(lvi_Contador, "00") +  ".log"
+	End If
+	
+	//Verifica tamanho e quebra arquivo se necess$$HEX1$$e100$$ENDHEX$$rio
+	lvl_tamanho_log 	= FileLength(lvs_Arquivo)
+	
+	//Verifica tamanho e se necess$$HEX1$$e100$$ENDHEX$$rio quebra o arquivo
+	If lvl_tamanho_log > 2000000 Then
+		dc_uo_api lvo_Api
+		lvo_Api = Create dc_uo_api
+			
+		lvs_Arquivo_Old = Mid(lvs_Arquivo, 1, Len(lvs_Arquivo) - 4)+"_" + String(Now(),'yyyymmdd_hhmmss') + ".log"
+			
+		lvo_Api.of_Rename_File(lvs_Arquivo, lvs_Arquivo_Old, True)
+				
+		Destroy(lvo_Api)	
+	End If
+	
+
+	ai_arquivo = FileOpen(lvs_Arquivo, LineMode!, Write!, LockWrite!, Append!)
+	
+	If ai_arquivo <> -1 Then
+		Return True
+	End If
+		
+	If lvi_Contador = ai_Qtde_Logs Then
+		If ai_arquivo = -1 Then
+			if not gvb_Auto then
+				MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro na abertura do arquivo de log '" + lvs_Arquivo + "'.", StopSign!)
+			end if
+			
+			Return False
+		End If
+	End If
+
+	lvi_Contador ++
+Loop
+
+Return True
+end function
+

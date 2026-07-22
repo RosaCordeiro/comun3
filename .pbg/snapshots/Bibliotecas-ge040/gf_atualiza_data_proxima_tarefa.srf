@@ -1,0 +1,29 @@
+HA$PBExportHeader$gf_atualiza_data_proxima_tarefa.srf
+global type gf_atualiza_data_proxima_tarefa from function_object
+end type
+
+forward prototypes
+global function boolean gf_atualiza_data_proxima_tarefa (long pl_tarefa, datetime pdh_prox_exec)
+end prototypes
+
+global function boolean gf_atualiza_data_proxima_tarefa (long pl_tarefa, datetime pdh_prox_exec);
+
+If Not IsNull(pdh_prox_exec) Then		
+	Update tarefa
+	set dh_prox_exec = :pdh_prox_exec
+	Where cd_tarefa = :pl_tarefa
+		and dh_ultima_exec < :pdh_prox_exec
+	Using SQLCa;
+	
+	If SQLCa.SQLCode = -1 Then
+		gf_ge202_envia_email_automatico(23,'','Falha ao atualizar data da $$HEX1$$fa00$$ENDHEX$$ltima execu$$HEX2$$e700e300$$ENDHEX$$o da tarefa '+String(pl_tarefa)+'.~r~n'+SQLCa.SQLErrText)
+		gvo_aplicacao.Of_Grava_log('Falha ao atualizar data da $$HEX1$$fa00$$ENDHEX$$ltima execu$$HEX2$$e700e300$$ENDHEX$$o da tarefa '+String(pl_tarefa)+'.~r~n'+SQLCa.SQLErrText)
+		SQLCa.Of_RollBack()
+		Return False
+	End If
+	
+	SQLCa.Of_Commit()
+	Return True
+End If
+end function
+

@@ -1,0 +1,18 @@
+HA$PBExportHeader$t_icms_cte.srs
+global type t_icms_cte from structure
+	string		tipoicms
+	string		cst
+	decimal		predbc
+	decimal		vbc
+	decimal		picms
+	decimal		vicms
+	decimal		vcred
+	decimal		vbcstret
+	decimal		picmsstret
+	decimal		predbcoutrauf
+	decimal		vbcoutrauf
+	decimal		picmsoutrauf
+	decimal		vicmsoutrauf
+	long		indsn
+end type
+

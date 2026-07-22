@@ -1,0 +1,29 @@
+HA$PBExportHeader$s_mapa_resumo.srs
+global type s_mapa_resumo from structure
+	long		ecf
+	long		operacao
+	long		reducoes
+	decimal {2}	grande_total
+	decimal {2}	cancelamentos
+	decimal {2}	descontos
+	decimal {2}	liquido
+	decimal {2}	isento
+	decimal {2}	vl_nao_incidencia
+	decimal {2}	vlst
+	decimal {2}	icm07
+	decimal {2}	icm12
+	decimal {2}	icm17
+	decimal {2}	icm25
+	decimal {2}	icm18
+	decimal {2}	qt_cupom_cancelado
+	long		qt_reinicio_z
+	decimal {2}	vl_st_iss
+	decimal {2}	vl_isento_iss
+	decimal {2}	vl_nao_incidencia_iss
+	decimal {2}	vl_operacao_nao_fiscal
+	decimal {2}	vl_desconto_iss
+	decimal {2}	vl_acrescimo
+	decimal {2}	vl_acrescimo_iss
+	decimal {2}	vl_cancelamento_iss
+end type
+

@@ -1,0 +1,122 @@
+HA$PBExportHeader$gf_wms_esteira_produto.srf
+global type gf_wms_esteira_produto from function_object
+end type
+
+forward prototypes
+global function boolean gf_wms_esteira_produto (long al_produto, ref long al_esteira, ref string as_geladeira, ref string as_controlado, ref string as_vigiado, ref string as_esteira, string as_erro)
+end prototypes
+
+global function boolean gf_wms_esteira_produto (long al_produto, ref long al_esteira, ref string as_geladeira, ref string as_controlado, ref string as_vigiado, ref string as_esteira, string as_erro);String	ls_Geladeira,&
+		ls_Vigiado,&
+		ls_Grupo_Psico,&
+		ls_Subcategoria,&
+		ls_Categoria,&
+		ls_erro,&
+		ls_apresentacao_produto,&
+		ls_subcategoria_filtro,&
+		ls_esteira
+
+Long ll_Find, ll_Linhas, ll_esteira
+
+SetNull(as_controlado) 	
+as_vigiado = "N"
+as_Geladeira = "N"		
+
+		
+Select	isNull(a.id_geladeira, 'N'),
+		isNull(b.id_vigiado, 'N'),
+		a.cd_grupo_psico,
+		substring(a.cd_subcategoria, 1, 1),
+		substring(a.cd_subcategoria,1,6),
+		isnull(a.id_apresentacao, '00'),
+		a.cd_subcategoria
+Into	:ls_Geladeira,
+		:ls_Vigiado,
+		:ls_Grupo_Psico,
+		:ls_Subcategoria,
+		:ls_Categoria,
+		:ls_apresentacao_produto,
+		:ls_subcategoria_filtro
+From produto_geral a 
+inner join produto_central b on b.cd_produto = a.cd_produto
+where a.cd_produto = :al_Produto
+Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+	Case 100
+		as_Erro = "N$$HEX1$$e300$$ENDHEX$$o foi localizado o produto "+String(al_Produto)+", fun$$HEX2$$e700e300$$ENDHEX$$o: 'wf_Esteira_Produto'."
+		Return False
+	Case -1
+	ls_Erro	=	"Erro ao verificar se o produto $$HEX1$$e900$$ENDHEX$$ vigiado ou geladeira: "+SqlCa.SqlErrText
+	Return False
+End Choose
+
+If ls_Categoria = "102153" Then //Vacinas
+
+	al_Esteira = 6
+	as_esteira = "Vacina"
+ElseIf ls_Geladeira = "S" Then//Geladeira
+				
+	al_Esteira = 4
+	as_Geladeira = "S"
+	as_esteira = "Geladeira"
+	
+ElseIf  Not IsNull(ls_Grupo_Psico)  or  (ls_Vigiado = "S") Then //Controlados e vigiados	
+	 al_Esteira 	= 3	 
+	 as_vigiado 	= ls_Vigiado	 
+	 as_controlado 	= ls_Grupo_Psico
+ 	 as_esteira = "Controlado"
+	 
+ElseIf (ls_Subcategoria = "1") and  IsNull(ls_Grupo_Psico) and (ls_Vigiado <> "S") and (ls_Geladeira <> "S") Then //Medicamentos
+	
+	al_Esteira = 2
+	as_esteira = "Medicamento"
+
+//Perfumaria ou // Supl.Infantil 	
+ElseIf (ls_Subcategoria = '2') or (ls_Subcategoria = '3') or (ls_Subcategoria = '4') Then
+	al_Esteira = 1
+	as_esteira = "Perfumaria"
+	
+	If ls_apresentacao_produto = '19' Then // Lata : produto_geral.id_apresentacao  :: tipo_apresentacao_produto
+		al_Esteira = 7
+		as_Esteira = "Supl.Infantil"
+	End If 	
+		
+ElseIf (ls_Subcategoria = '5') Then //Almoxarifado
+	
+	al_Esteira = 5
+	as_esteira = "Almoxarifado"
+
+ElseIf (ls_Categoria = "702001")  Then  // //Controlados e vigiados	: TELEFONIA CHIP
+	 al_Esteira = 3
+	 as_vigiado = "S"
+	 SetNull(as_controlado) 
+ 	 as_esteira = "Controlado:Chip"
+Else
+	as_Erro = "N$$HEX1$$e300$$ENDHEX$$o foi poss$$HEX1$$ed00$$ENDHEX$$vel definir de que esteira $$HEX1$$e900$$ENDHEX$$ o produto "+String(al_Produto)+", ao tentar cadastrar ele em um endere$$HEX1$$e700$$ENDHEX$$o do flow rack."
+	Return False
+End If
+
+Select s.cd_esteira,
+		ws.de_esteira
+Into :ll_esteira,
+		:ls_esteira
+From subcategoria s
+Inner join wms_esteira ws on ws.cd_esteira = s.cd_esteira
+Where s.cd_subcategoria = :ls_subcategoria_filtro
+Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+	Case -1
+		as_Erro = "Erro em verificar esteria na tabela subcategoria: "+SqlCa.SqlErrText
+		Return False
+	Case 0 
+		If Not isnull(ls_esteira) Then
+			al_Esteira = ll_esteira
+			as_esteira = Upper(Left(ls_esteira, 1)) + Lower(Mid(ls_esteira, 2))
+		End If
+End Choose
+
+Return True
+end function
+

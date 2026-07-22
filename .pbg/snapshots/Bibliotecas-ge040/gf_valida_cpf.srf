@@ -1,0 +1,19 @@
+HA$PBExportHeader$gf_valida_cpf.srf
+global type gf_valida_cpf from function_object
+end type
+
+forward prototypes
+global function boolean gf_valida_cpf (string ps_nr_cpf)
+global function boolean gf_valida_cpf (string ps_nr_cpf, boolean pb_exibe_mensagem)
+end prototypes
+
+global function boolean gf_valida_cpf (string ps_nr_cpf);Return gf_valida_cpf( ps_nr_cpf, True )
+end function
+
+global function boolean gf_valida_cpf (string ps_nr_cpf, boolean pb_exibe_mensagem);If pb_exibe_mensagem Then 
+	Return gf_nr_cpf_valido( ps_nr_cpf )
+Else
+	Return gf_nr_cpf_valido_sem_mensagem( ps_nr_cpf )
+End If
+end function
+

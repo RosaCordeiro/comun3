@@ -1,0 +1,31 @@
+HA$PBExportHeader$gf_mes_extenso.srf
+global type gf_mes_extenso from function_object
+end type
+
+forward prototypes
+global function string gf_mes_extenso (integer pi_mes)
+end prototypes
+
+global function string gf_mes_extenso (integer pi_mes);////////////////////////////////////////////////////////////////////////////////
+//  Autor : Alan Koerbel
+//  Objetivo : Retornar Nome de um mes
+////////////////////////////////////////////////////////////////////////////////
+//
+CHOOSE CASE pi_mes
+	CASE 1  ; RETURN "Janeiro"
+	CASE 2  ; RETURN "Fevereiro"
+	CASE 3  ; RETURN "Mar$$HEX1$$e700$$ENDHEX$$o"
+	CASE 4  ; RETURN "Abril"
+	CASE 5  ; RETURN "Maio"
+	CASE 6  ; RETURN "Junho"
+	CASE 7  ; RETURN "Julho"
+	CASE 8  ; RETURN "Agosto"
+	CASE 9  ; RETURN "Setembro"
+	CASE 10 ; RETURN "Outubro"
+	CASE 11 ; RETURN "Novembro"
+	CASE 12 ; RETURN "Dezembro"	 	
+	CASE ELSE ; RETURN ""
+END CHOOSE
+//
+end function
+

@@ -1,0 +1,83 @@
+HA$PBExportHeader$gf_ge039_importa_campanha_cliente.srf
+global type gf_ge039_importa_campanha_cliente from function_object
+end type
+
+forward prototypes
+global function boolean gf_ge039_importa_campanha_cliente (string ps_cliente, string ps_tipo_campanha)
+end prototypes
+
+global function boolean gf_ge039_importa_campanha_cliente (string ps_cliente, string ps_tipo_campanha);String ls_Retorno
+
+Long ll_Row, ll_Campanha
+
+Try	
+	//gvo_Aplicacao.of_grava_log( "entrou na funcao gf_ge039_importa_campanha_cliente")
+	
+	dc_uo_ds_Base lds
+	lds = Create dc_uo_ds_Base	
+	
+	If Not lds.of_ChangeDataObject("ds_ge039_importa_campanha_cliente") Then 
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o","Erro no evento of_ChangeDataObject, ds_ge039_importa_campanha_cliente.")
+		Return False
+	End If
+	
+	uo_Transacao_Remota lo_Conexao
+	lo_Conexao 	= Create uo_Transacao_Remota
+					
+	lo_Conexao.of_BancoProducao()
+
+	lo_Conexao.of_Executa_Rotina('0148', { String(gvo_Parametro.Cd_filial), "'" + ps_Cliente +"'", "'" + ps_tipo_campanha + "'"  })
+				
+	If lo_Conexao.of_Erro_Execucao() Or lo_Conexao.of_Erro_Conexao() Then
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro na conex$$HEX1$$e300$$ENDHEX$$o com o servidor distribu$$HEX1$$ed00$$ENDHEX$$do.~rFun$$HEX2$$e700e300$$ENDHEX$$o: gf_ge039_importa_campanha_cliente()", StopSign! )
+		Return False
+	Else
+		If Not lo_Conexao.of_retorno( ref lds ) Then
+			Return False
+		End If	
+		
+		//Sem linhas para inserir
+		If lds.RowCount() = 0 Then
+			//gvo_Aplicacao.of_grava_log( "Nenhuma linha retonada. funcao gf_ge039_importa_campanha_cliente")
+			Return False		
+		End If
+	End If
+
+	For ll_Row = 1 To lds.RowCount()
+		ll_Campanha 	= lds.Object.nr_campanha[ll_Row]
+		
+		Insert into campanha_cliente
+			Select :ps_Cliente,	
+					:ll_Campanha
+			from parametro p
+				where p.id_parametro = '1'
+				and not exists (select * from campanha_cliente x where x.cd_cliente = :ps_Cliente
+																					and x.nr_campanha = :ll_Campanha)
+		Using SqlCa;
+		
+		If SqlCa.SqlCode = -1 Then
+			SqlCa.of_Rollback();
+			SqlCa.of_Msgdberror( "Erro ao inserir o cliente " + ps_Cliente + " na tabela campanha_cliente.")
+			Return False
+		End If
+	Next
+	
+	SqlCa.of_Commit()
+	//gvo_Aplicacao.of_grava_log( "apos commit gf_ge039_importa_campanha_cliente")
+	Return True
+	
+Catch ( runtimeerror  lo_rte )
+	gvo_Aplicacao.of_grava_log( "Erro ao imprimir o cupom desconto: "+lo_rte.GetMessage( ))	
+	MessageBox (	"Erro", "Ocorreu um erro na funcao.~r~r"+ & 						
+ 						"Erro: "+lo_rte.GetMessage( ), StopSign!)
+						
+	
+Finally
+	If IsValid( lds ) 				Then Destroy lds
+	If IsValid( lo_Conexao )	Then Destroy lo_Conexao
+	//gvo_Aplicacao.of_grava_log( "saiu da funcao gf_ge039_importa_campanha_cliente")
+End Try
+
+
+end function
+

@@ -1,0 +1,29 @@
+HA$PBExportHeader$gf_ambiente_sap.srf
+global type gf_ambiente_sap from function_object
+end type
+
+forward prototypes
+global function boolean gf_ambiente_sap (ref string as_ambiente_sap, ref string as_log)
+end prototypes
+
+global function boolean gf_ambiente_sap (ref string as_ambiente_sap, ref string as_log);If gvs_Ambiente_SAP = '' or Isnull(gvs_Ambiente_SAP) Then
+	as_ambiente_sap = ProfileString(gvo_Aplicacao.ivs_Arquivo_INI, "Configuracao", "AmbienteSap", "")
+Else
+	as_ambiente_sap =  gvs_Ambiente_SAP 
+End If
+
+If IsNull(as_ambiente_sap) or  Trim(as_ambiente_sap) = "" Then as_ambiente_sap = 'PRD'
+
+// Sybase(homologa) -> SAP(produ$$HEX2$$e700e300$$ENDHEX$$o)
+If (gvo_Aplicacao.ivs_DataSource <> 'central') and (as_ambiente_sap = 'PRD') Then
+	as_Log = "Ambiente de homologa$$HEX2$$e700e300$$ENDHEX$$o do SYBASE n$$HEX1$$e300$$ENDHEX$$o pode atualizar na base produ$$HEX2$$e700e300$$ENDHEX$$o do SAP."
+	Return False
+End If
+
+// Sybase(central) -> SAP(DEV/QAS)
+If (gvo_Aplicacao.ivs_DataSource = 'central') and (as_ambiente_sap <> 'PRD') Then
+	as_Log = "Ambiente de produ$$HEX2$$e700e300$$ENDHEX$$o do SYBASE n$$HEX1$$e300$$ENDHEX$$o pode atualizar na base DEV/QAS do SAP."
+	Return False
+End If
+end function
+

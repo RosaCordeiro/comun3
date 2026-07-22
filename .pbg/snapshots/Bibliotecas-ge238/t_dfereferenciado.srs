@@ -1,0 +1,6 @@
+HA$PBExportHeader$t_dfereferenciado.srs
+global type t_dfereferenciado from structure
+	string		chaveAcesso
+	string		nItem
+end type
+

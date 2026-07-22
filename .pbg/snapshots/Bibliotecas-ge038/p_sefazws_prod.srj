@@ -1,0 +1,12 @@
+HA$PBExportHeader$p_sefazws_prod.srj
+$PBExportComments$Generated Web Service Proxy Project
+GeneratorID:{1B1DCEE2-E514-11D1-B30A-006008925BD4}GENBC00000000
+
+WSDLLOCATION:..\..\..\BLOCOX_2019\RecepcaoProducao.xml	
+COMPONENT:0
+PACKAGE:1	BlocoX
+COMMENT:Web Service Proxy SEFAZ-SC BlocoX
+DEPLOYMENT:..\..\Comuns\Bibliotecas\ge038.pbl	0	0
+PROJECT:p_sefazws_prod
+PREFIX:ge038_prod_
+ASSEMBLY:0	0	

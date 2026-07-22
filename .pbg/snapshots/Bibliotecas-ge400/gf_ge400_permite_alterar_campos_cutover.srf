@@ -1,0 +1,53 @@
+HA$PBExportHeader$gf_ge400_permite_alterar_campos_cutover.srf
+global type gf_ge400_permite_alterar_campos_cutover from function_object
+end type
+
+forward prototypes
+global subroutine gf_ge400_permite_alterar_campos_cutover (boolean pb_permite_alterar, string as_excecao[], dc_uo_dw_base adw)
+end prototypes
+
+global subroutine gf_ge400_permite_alterar_campos_cutover (boolean pb_permite_alterar, string as_excecao[], dc_uo_dw_base adw);Long lvl_Count
+Long lvl_Campo
+Long lvl_Coluna
+
+String lvs_Coluna
+String lvs_Tipo
+
+Boolean lvb_Protect
+
+If Not(pb_permite_alterar) Then
+	lvl_Count = Long(adw.Describe("DataWindow.Column.Count"))
+	
+	For lvl_Campo = 1 To lvl_Count
+		lvs_Coluna = "#"+String(lvl_Campo)+".Name"
+		lvs_Coluna = adw.Describe(lvs_Coluna) 
+		
+		lvb_Protect = True
+		For lvl_Coluna = 1 To UpperBound(adw.ivs_Coluna_Sem_Validacao_Salva) 
+			If lvs_Coluna = adw.ivs_Coluna_Sem_Validacao_Salva[lvl_Coluna] Then
+				lvb_Protect = False
+				Exit
+			End If
+		Next
+		
+		If lvb_Protect Then
+			For lvl_Coluna = 1 To UpperBound(as_Excecao) 
+				If lvs_Coluna = as_Excecao[lvl_Coluna] Then
+					lvb_Protect = False
+					Exit
+				End If
+			Next
+		End If
+		
+		If lvb_Protect  Then
+			lvs_Tipo = Lower(adw.Describe(lvs_Coluna+".Edit.Style"))
+			If  (lvs_Tipo = 'editmask') or (lvs_Tipo = 'edit') Then
+				adw.Modify(lvs_Coluna+".Edit.DisplayOnly=Yes")  
+			Else
+				adw.Modify(lvs_Coluna+".Protect='1~t1'")  
+			End If
+		End If
+	Next
+End If
+end subroutine
+

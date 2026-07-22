@@ -1,0 +1,41 @@
+HA$PBExportHeader$gf_ge147_prox_seq_msg_logistica_prd.srf
+global type gf_ge147_prox_seq_msg_logistica_prd from function_object
+end type
+
+forward prototypes
+global function boolean gf_ge147_prox_seq_msg_logistica_prd (long al_pedido, boolean ab_mostra_mensagem, ref long al_prox_sequencial, ref string as_mensagem)
+end prototypes
+
+global function boolean gf_ge147_prox_seq_msg_logistica_prd (long al_pedido, boolean ab_mostra_mensagem, ref long al_prox_sequencial, ref string as_mensagem);String ls_Erro
+
+al_Prox_Sequencial = 0
+as_Mensagem = ""
+
+Select max(coalesce(nr_sequencial, 0))
+	Into :al_Prox_Sequencial
+From pedido_central_prd_msg_logist
+Where nr_pedido = :al_Pedido
+Using SqlCa;
+
+If SqlCa.SqlCode = -1 Then
+	ls_Erro = SqlCa.SqlErrText
+	SqlCa.of_Rollback();
+	
+	as_Mensagem = "Erro ao consultar o pr$$HEX1$$f300$$ENDHEX$$ximo sequencial da mensagem log$$HEX1$$ed00$$ENDHEX$$stica produto do pedido [" + String(al_Pedido) + "].~r" + ls_Erro
+	
+	If ab_Mostra_Mensagem Then
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", as_Mensagem, StopSign!)
+	End If
+	
+	Return False
+End If
+
+If IsNull(al_Prox_Sequencial) Then
+	al_Prox_Sequencial = 1
+Else
+	al_Prox_Sequencial ++
+End If
+
+Return True
+end function
+

@@ -1,0 +1,73 @@
+HA$PBExportHeader$gf_retorna_distribuidora_conveniencia.srf
+global type gf_retorna_distribuidora_conveniencia from function_object
+end type
+
+forward prototypes
+global function boolean gf_retorna_distribuidora_conveniencia (string as_distribuidora, ref boolean ab_distrib_conv)
+global function boolean gf_retorna_distribuidora_conveniencia (string as_distribuidora, boolean ab_mostra_mensagem, ref boolean ab_distrib_conv, ref string as_erro)
+end prototypes
+
+global function boolean gf_retorna_distribuidora_conveniencia (string as_distribuidora, ref boolean ab_distrib_conv);Long ll_Achou
+
+ab_Distrib_Conv = False
+
+Select count(*)
+	Into :ll_Achou
+From distribuidora_forn_conexao d
+Inner join fornecedor f1
+	On f1.cd_fornecedor = d.cd_distribuidora
+Inner Join fornecedor f2
+	On f2.cd_fornecedor = d.cd_fornecedor
+Where d.cd_distribuidora = :as_Distribuidora
+	And (f1.id_situacao = 'A' or f1.id_situacao Is Null)
+	And (f2.id_situacao = 'A' or f2.id_situacao Is Null)
+	And f2.id_projeto_conexao = '6'
+Using SqlCa;
+
+If SqlCa.SqlCode = -1 Then
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao consultar se a distribuidora '" + as_Distribuidora + "' $$HEX1$$e900$$ENDHEX$$ de conveni$$HEX1$$ea00$$ENDHEX$$ncia. " + SqlCa.SqlErrText, StopSign!)
+	Return False
+End If
+
+If ll_Achou > 0 Then
+	ab_Distrib_Conv = True
+End If
+
+Return True
+end function
+
+global function boolean gf_retorna_distribuidora_conveniencia (string as_distribuidora, boolean ab_mostra_mensagem, ref boolean ab_distrib_conv, ref string as_erro);Long ll_Achou
+
+ab_Distrib_Conv = False
+
+Select count(*)
+	Into :ll_Achou
+From distribuidora_forn_conexao d
+Inner join fornecedor f1
+	On f1.cd_fornecedor = d.cd_distribuidora
+Inner Join fornecedor f2
+	On f2.cd_fornecedor = d.cd_fornecedor
+Where d.cd_distribuidora = :as_Distribuidora
+	And (f1.id_situacao = 'A' or f1.id_situacao Is Null)
+	And (f2.id_situacao = 'A' or f2.id_situacao Is Null)
+	And f2.id_projeto_conexao = '6'
+	And f1.id_distribuidora = 'S'
+Using SqlCa;
+
+If SqlCa.SqlCode = -1 Then
+	If ab_Mostra_Mensagem Then
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao consultar se a distribuidora '" + as_Distribuidora + "' $$HEX1$$e900$$ENDHEX$$ de conveni$$HEX1$$ea00$$ENDHEX$$ncia. " + SqlCa.SqlErrText, StopSign!)
+	Else
+		as_Erro = "Erro ao consultar se a distribuidora '" + as_Distribuidora + "' $$HEX1$$e900$$ENDHEX$$ de conveni$$HEX1$$ea00$$ENDHEX$$ncia. " + SqlCa.SqlErrText
+	End If
+	
+	Return False
+End If
+
+If ll_Achou > 0 Then
+	ab_Distrib_Conv = True
+End If
+
+Return True
+end function
+

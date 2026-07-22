@@ -1,0 +1,21 @@
+HA$PBExportHeader$gf_mascara_rg.srf
+global type gf_mascara_rg from function_object
+end type
+
+forward prototypes
+global function string gf_mascara_rg (string as_rg)
+end prototypes
+
+global function string gf_mascara_rg (string as_rg);String ls_rg_Formatado
+
+ls_rg_Formatado = ''
+
+If isNull(as_rg) Then
+	Return  ls_rg_Formatado
+End If
+
+ls_rg_Formatado = LeftA(as_rg, 2) + FillA('*', LenA(as_rg) - 3) + RightA(as_rg , 1)
+
+Return ls_rg_Formatado
+end function
+

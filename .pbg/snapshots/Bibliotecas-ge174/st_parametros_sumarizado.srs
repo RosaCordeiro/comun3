@@ -1,0 +1,6 @@
+HA$PBExportHeader$st_parametros_sumarizado.srs
+global type st_parametros_sumarizado from structure
+	string		cd_fornecedor
+	string		id_estoque_central
+end type
+

@@ -1,0 +1,9 @@
+HA$PBExportHeader$t_gibsmun.srs
+global type t_gibsmun from structure
+	decimal { 4 }		pIBSMun
+	t_gdif		gdif
+	t_gdevtrib		gdevtrib
+	t_gred		gred
+	decimal { 2 }		vIBSMun
+end type
+

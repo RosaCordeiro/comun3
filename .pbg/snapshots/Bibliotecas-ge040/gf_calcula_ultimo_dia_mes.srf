@@ -1,0 +1,27 @@
+HA$PBExportHeader$gf_calcula_ultimo_dia_mes.srf
+global type gf_calcula_ultimo_dia_mes from function_object
+end type
+
+forward prototypes
+global function date gf_calcula_ultimo_dia_mes (long pl_mes, long pl_ano)
+end prototypes
+
+global function date gf_calcula_ultimo_dia_mes (long pl_mes, long pl_ano);Date lvdt_proximo_mes
+
+pl_mes = pl_mes + 1
+
+If pl_mes = 13 Then
+	pl_mes = 1
+	pl_ano = pl_ano + 1
+End If
+
+lvdt_proximo_mes = Date("01/" 			 		 + &
+                   String(pl_mes,"00")  + "/" + &
+	                String(pl_ano,"0000"))
+
+lvdt_proximo_mes = RelativeDate(lvdt_proximo_mes,-1)
+
+Return lvdt_proximo_mes
+
+end function
+

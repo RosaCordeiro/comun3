@@ -1,0 +1,6 @@
+HA$PBExportHeader$str_ge536_uf.srs
+global type str_ge536_uf from structure
+	string		uf[]
+	string		codigoibge[]
+end type
+

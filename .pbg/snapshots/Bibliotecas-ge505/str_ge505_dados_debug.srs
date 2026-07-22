@@ -1,0 +1,7 @@
+HA$PBExportHeader$str_ge505_dados_debug.srs
+global type str_ge505_dados_debug from structure
+	string		id_rede_filial
+	string		nr_pedido
+	long		cd_filial
+end type
+

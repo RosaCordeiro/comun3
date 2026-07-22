@@ -1,0 +1,19 @@
+HA$PBExportHeader$gf_concatenar_array.srf
+global type gf_concatenar_array from function_object
+end type
+
+forward prototypes
+global function string gf_concatenar_array (any pva_array[], string pvs_separador)
+end prototypes
+
+global function string gf_concatenar_array (any pva_array[], string pvs_separador);Long lvl_For
+String lvs_Ret
+
+For lvl_For = 1 To UpperBound(pva_Array)
+	lvs_Ret += String(pva_Array[lvl_For])
+	If lvl_For < UpperBound(pva_Array) Then lvs_Ret += pvs_Separador
+Next
+
+Return lvs_Ret
+end function
+

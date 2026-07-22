@@ -1,0 +1,88 @@
+HA$PBExportHeader$gf_dir_list.srf
+global type gf_dir_list from function_object
+end type
+
+forward prototypes
+global function long gf_dir_list (string p_diretorio, string p_filtro, integer p_tipo_arquivo, ref string p_arquivos[])
+end prototypes
+
+global function long gf_dir_list (string p_diretorio, string p_filtro, integer p_tipo_arquivo, ref string p_arquivos[]);// DESCRI$$HEX2$$c700c300$$ENDHEX$$O:
+// * Busca os arquivos de um diret$$HEX1$$f300$$ENDHEX$$rio//
+// ARGUMENTOS DE ENTRADA:
+// * p_diretorio : Diretorio onde ser$$HEX1$$e100$$ENDHEX$$ feito a pesquisa. Se est$$HEX1$$e100$$ENDHEX$$ vari$$HEX1$$e100$$ENDHEX$$vel estiver vazia, pesquisa o diret$$HEX1$$f300$$ENDHEX$$rio corrente
+// * p_filtro : Filtro utilizado no diret$$HEX1$$f300$$ENDHEX$$rio. Se est$$HEX1$$e100$$ENDHEX$$ vari$$HEX1$$e100$$ENDHEX$$vel estiver vazia, lista todos os arquivos
+// * p_tipo_arquivo : Tipo do arquivo, conforme lista abaixo, sendo que o Default $$HEX1$$e900$$ENDHEX$$ 0 + 2 + 4
+// - 0 : Arquivos de Leitura e grava$$HEX2$$e700e300$$ENDHEX$$o 
+// - 1 : Arquivos somente leitura
+// - 2 : Arquivos Ocultos
+// - 4 : Arquivos do Sistema
+// - 16 : Sub-Pastas
+// - 32 : Arquivos modificados
+// - 16384 : Drivers
+// - 32768 : Todos os arquivos, exceto arquivo de leitura e grav$$HEX2$$e700e300$$ENDHEX$$o
+// - Para recuperar a uniao de um ou mais tipos acima, some os valores. 
+// Por exemplo, para listar arquivos leitura e grava$$HEX2$$e700e300$$ENDHEX$$o, subdiretorios e drivers, use 0+16+16384 ou 16400.
+// * p_arquivos : Retorna por referencia a lista de arquivos passados
+// 
+// RETORNO:
+// * 1 : Sucesso
+// * -1 : Erro
+// * 0 : n$$HEX1$$e300$$ENDHEX$$o existe arquivos
+//
+// OBSERVA$$HEX2$$c700c300$$ENDHEX$$O:
+//
+// CRIADO POR :
+// 29/11/2006 - Thiago Campos Pereira
+// ALTERADO POR :
+//
+//======================================================================== 
+//Variaveis
+Boolean lb_Sucesso = False
+
+string vls_arquivos[]
+//window vlw_temp
+
+listbox vllb_temp
+longLong vli_items, vli_i 
+
+//Trata Parametros
+If isnull(p_diretorio) then
+	p_diretorio = ""
+else
+	//Verifica se existe a barra no diretorno
+	p_diretorio = trim(p_diretorio) 
+	
+	if RightA(p_diretorio,1) = "\" then 
+		//Retira a barra, para fazer pesquisa de diret$$HEX1$$f300$$ENDHEX$$rio
+		p_diretorio = MidA(p_diretorio,1,LenA(p_diretorio) - 1) 
+	end if 
+
+	//Acrescenta barra 
+	p_diretorio = p_diretorio + "\" 
+end if 
+
+if isnull(p_filtro) then p_filtro = "*.*" 
+
+if isnull(p_tipo_arquivo) then p_tipo_arquivo = 0 + 2 + 4
+
+//Instancia Objetos
+Open(w_ge040_dirlist)
+w_ge040_dirlist.openUserObject( vllb_temp ) 
+
+//Lista arquivosv
+lb_Sucesso = vllb_temp.DirList( p_diretorio + p_filtro , p_tipo_arquivo ) 
+
+vllb_temp.Sorted = TRUE
+//Passa pelos arquivos, gerando lista no array
+vli_items = vllb_temp.TotalItems()
+For vli_i = 1 to vli_items
+	vls_arquivos[ vli_i ] = vllb_temp.Text( vli_i )
+Next 
+
+//Fecha instancia de objetos
+w_ge040_dirlist.closeUserObject( vllb_temp )
+Close( w_ge040_dirlist )
+p_arquivos = vls_arquivos 
+return 1
+end function
+

@@ -1,0 +1,68 @@
+HA$PBExportHeader$ddw_ge573_sel_campos_divergentes.srd
+release 12;
+datawindow(units=0 timer_interval=0 color=1073741824 brushmode=0 transparency=0 gradient.angle=0 gradient.color=8421504 gradient.focus=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.repetition.mode=0 gradient.scale=100 gradient.spread=100 gradient.transparency=0 picture.blur=0 picture.clip.bottom=0 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.transparency=0 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes hidegrayline=no showbackcoloronxp=no picture.file="" )
+header(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+detail(height=72 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+table(column=(type=char(1) updatewhereclause=yes name=id_selecionado dbname="id_selecionado" values="	S/	N" )
+ column=(type=char(66) updatewhereclause=yes name=nm_campo_clamed dbname="nm_campo_clamed" )
+ column=(type=char(43) updatewhereclause=yes name=nm_campo_distrib dbname="nm_campo_distrib" )
+ column=(type=char(10) updatewhereclause=yes name=de_label dbname="de_label" )
+ retrieve="select id_selecionado = ~"S~"
+     , nm_campo_clamed = ~"TODOS~"
+     , nm_campo_distrib = ~"TODOS~"
+     , de_label = ~"TODOS~"
+ union
+ select id_selecionado = ~"N~"
+      , nm_campo_clamed = ~"coalesce(g.nr_classificacao_fiscal, -1)~"
+      , nm_campo_distrib = ~"coalesce(d.ncm_produto, -1)~"
+      , de_label = ~"NCM~"
+  union
+ select id_selecionado = ~"N~"
+      , nm_campo_clamed = ~"coalesce(g.id_situacao, 'NULL')~"
+      , nm_campo_distrib = ~"coalesce(d.id_situacao, 'NULL')~"
+      , de_label = ~"SITUA$$HEX2$$c700c300$$ENDHEX$$O~"
+  union
+ select id_selecionado = ~"N~"
+      , nm_campo_clamed = ~"coalesce(g.cd_cest, '0')~"
+      , nm_campo_distrib = ~"coalesce(convert(varchar, d.cd_cest), '0')~"
+      , de_label = ~"CEST~"
+  union
+ select id_selecionado = ~"N~"
+      , nm_campo_clamed = ~"coalesce(t.cd_cst_tributacao, 'NULL')~"
+      , nm_campo_distrib = ~"coalesce(substring(d.cd_cst, 2, 2), 'NULL')~"
+      , de_label = ~"CST~"
+  union
+ select id_selecionado = ~"N~"
+      , nm_campo_clamed = ~"coalesce(ti.pc_icms, 0)~"
+      , nm_campo_distrib = ~"coalesce(d.pc_icms_st, 0)~"
+      , de_label = ~"ICMS ST(%)~"
+  union
+ select id_selecionado = ~"N~"
+      , nm_campo_clamed = ~"coalesce(tpfm.pc_mva, 0)~"
+      , nm_campo_distrib = ~"coalesce(d.pc_mva, 0)~"
+      , de_label = ~"MVA(%)~"
+  union
+ select id_selecionado = ~"N~"
+      , nm_campo_clamed = ~"coalesce(g.cd_st_origem, NULL)~"
+      , nm_campo_distrib = ~"coalesce(substring(d.cd_cst, 1, 1), NULL)~"
+      , de_label = ~"ORIGEM~"
+  union
+ select id_selecionado = ~"N~"
+      , nm_campo_clamed = ~"coalesce(round(u.vl_preco_venda_maximo/g.vl_fator_conversao,2), 0)~"
+      , nm_campo_distrib = ~"coalesce(d.vl_pmc, 0)~"
+      , de_label = ~"VL. PMC~"
+" )
+column(band=detail id=1 alignment="0" tabsequence=10 border="0" color="33554432" x="37" y="12" height="64" width="64" format="[general]" html.valueishtml="0"  name=id_selecionado visible="1" checkbox.text="" checkbox.on="S" checkbox.off="N" checkbox.scale=no checkbox.threed=yes  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="33554432" x="123" y="8" height="60" width="576" format="[general]" html.valueishtml="0"  name=de_label visible="1" edit.limit=10 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()

@@ -1,0 +1,117 @@
+HA$PBExportHeader$dw_detalhe_fornecedor.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=79741120 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=1680 color="536870912" )
+table(column=(type=long update=yes updatewhereclause=yes name=cd_filial dbname="fornecedor.cd_filial" )
+ column=(type=char(9) update=yes updatewhereclause=yes key=yes name=cd_fornecedor dbname="fornecedor.cd_fornecedor" )
+ column=(type=long update=yes updatewhereclause=yes name=cd_cidade dbname="fornecedor.cd_cidade" )
+ column=(type=char(40) update=yes updatewhereclause=yes name=nm_fantasia dbname="fornecedor.nm_fantasia" )
+ column=(type=char(40) update=yes updatewhereclause=yes name=nm_razao_social dbname="fornecedor.nm_razao_social" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=id_fisica_juridica dbname="fornecedor.id_fisica_juridica" initial="J" values="F$$HEX1$$cd00$$ENDHEX$$SICA	F/JUR$$HEX1$$cd00$$ENDHEX$$DICA	J/" )
+ column=(type=char(14) update=yes updatewhereclause=yes name=nr_cgc dbname="fornecedor.nr_cgc" )
+ column=(type=char(11) update=yes updatewhereclause=yes name=nr_cpf dbname="fornecedor.nr_cpf" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=nr_inscricao_estadual dbname="fornecedor.nr_inscricao_estadual" )
+ column=(type=char(40) update=yes updatewhereclause=yes name=de_endereco dbname="fornecedor.de_endereco" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=de_bairro dbname="fornecedor.de_bairro" )
+ column=(type=char(8) update=yes updatewhereclause=yes name=nr_cep dbname="fornecedor.nr_cep" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=nr_telefone dbname="fornecedor.nr_telefone" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=nr_fax dbname="fornecedor.nr_fax" )
+ column=(type=char(3) update=yes updatewhereclause=yes name=nr_ddd_telefone dbname="fornecedor.nr_ddd_telefone" )
+ column=(type=char(3) update=yes updatewhereclause=yes name=nr_ddd_fax dbname="fornecedor.nr_ddd_fax" )
+ column=(type=char(3) update=yes updatewhereclause=yes name=nr_ddd_fax_compras dbname="fornecedor.nr_ddd_fax_compras" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=pc_desconto_usual dbname="fornecedor.pc_desconto_usual" initial="0.00" )
+ column=(type=char(40) update=yes updatewhereclause=yes name=nm_contato dbname="fornecedor.nm_contato" )
+ column=(type=char(3) update=yes updatewhereclause=yes name=nr_ddd_telefone_compras dbname="fornecedor.nr_ddd_telefone_compras" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=nr_telefone_compras dbname="fornecedor.nr_telefone_compras" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=nr_fax_compras dbname="fornecedor.nr_fax_compras" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=id_fornecedor_transportadora dbname="fornecedor.id_fornecedor_transportadora" initial="F" values="FORNECEDOR	F/TRANSPORTADORA	T/" )
+ column=(type=char(60) update=yes updatewhereclause=yes name=de_email dbname="fornecedor.de_email" )
+ column=(type=long update=yes updatewhereclause=yes name=cd_condicao_pagamento dbname="fornecedor.cd_condicao_pagamento" )
+ column=(type=char(1) updatewhereclause=yes name=de_condicao_pagamento dbname="de_condicao_pagamento" )
+ column=(type=char(1) updatewhereclause=yes name=nm_localiza dbname="nm_localiza" )
+ column=(type=char(1) updatewhereclause=yes name=nm_cidade dbname="nm_cidade" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=id_regime_especial dbname="fornecedor.id_regime_especial" initial="N" values="Utiliza Regime Especial de ICMS ?	S/Utiliza Regime Especial de ICMS ?	N" )
+ retrieve="  SELECT fornecedor.cd_filial,   
+         fornecedor.cd_fornecedor,   
+         fornecedor.cd_cidade,
+         fornecedor.nm_fantasia,   
+         fornecedor.nm_razao_social,   
+         fornecedor.id_fisica_juridica,   
+         fornecedor.nr_cgc,   
+         fornecedor.nr_cpf,   
+         fornecedor.nr_inscricao_estadual,   
+         fornecedor.de_endereco,   
+         fornecedor.de_bairro,   
+         fornecedor.nr_cep,   
+         fornecedor.nr_telefone,   
+         fornecedor.nr_fax,   
+         fornecedor.nr_ddd_telefone,   
+         fornecedor.nr_ddd_fax,   
+         fornecedor.nr_ddd_fax_compras,   
+         fornecedor.pc_desconto_usual,   
+         fornecedor.nm_contato,   
+         fornecedor.nr_ddd_telefone_compras,   
+         fornecedor.nr_telefone_compras,   
+         fornecedor.nr_fax_compras,   
+         fornecedor.id_fornecedor_transportadora,
+         fornecedor.de_email,
+			fornecedor.cd_condicao_pagamento,
+			''de_condicao_pagamento,
+         ''nm_localiza,
+         ''nm_cidade,   
+         fornecedor.id_regime_especial 
+    FROM fornecedor,   
+         cidade  
+   WHERE ( cidade.cd_cidade = fornecedor.cd_cidade ) and  
+         ( ( fornecedor.cd_fornecedor = :cd_fornecedor ) )    
+" update="fornecedor" updatewhere=0 updatekeyinplace=no arguments=(("cd_fornecedor", string)) )
+text(band=detail alignment="1" text="Localiza$$HEX2$$e700e300$$ENDHEX$$o:"border="0" color="8388608" x="101" y="16" height="64" width="325"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=27 alignment="0" tabsequence=10 border="2" color="0" x="443" y="16" height="64" width="1285" format="[general]"  name=nm_localiza edit.limit=0 edit.case=upper edit.focusrectangle=no edit.autoselect=no edit.nilisnull=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="C$$HEX1$$f300$$ENDHEX$$digo:"border="0" color="8388608" x="219" y="108" height="64" width="206"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="2" tabsequence=32766 border="2" color="0" x="443" y="108" height="64" width="315" format="[general]"  name=cd_fornecedor editmask.mask="####-#####" editmask.focusrectangle=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Tipo:"border="0" color="8388608" x="1006" y="108" height="64" width="146"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=23 alignment="0" tabsequence=20 border="0" color="0" x="1170" y="108" height="64" width="558" format="[general]"  name=id_fornecedor_transportadora ddlb.limit=0 ddlb.allowedit=no ddlb.case=upper ddlb.useasborder=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Raz$$HEX1$$e300$$ENDHEX$$o Social:"border="0" color="8388608" x="69" y="188" height="64" width="357"  name=fornecedor_nm_razao_social_t  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=30 border="2" color="0" x="443" y="188" height="64" width="1285" format="[general]"  name=nm_razao_social  tag="Raz$$HEX1$$e300$$ENDHEX$$o social" edit.limit=40 edit.case=upper edit.focusrectangle=no edit.autoselect=yes edit.required=yes edit.nilisnull=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Nome Fantasia:"border="0" color="8388608" x="14" y="268" height="64" width="411"  name=fornecedor_nm_fantasia_t  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=40 border="2" color="0" x="443" y="268" height="64" width="1285" format="[general]"  name=nm_fantasia  tag="Nome fantasia" edit.limit=40 edit.case=upper edit.focusrectangle=no edit.autoselect=yes edit.required=yes edit.nilisnull=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Insc. Estadual:"border="0" color="8388608" x="32" y="348" height="64" width="393"  name=fornecedor_nr_inscricao_estadual_t  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="0" tabsequence=50 border="2" color="0" x="443" y="348" height="64" width="549" format="[general]" protect="0~tIF (  id_fisica_juridica = 'J' , 0 , 1 )"  name=nr_inscricao_estadual  tag="Inscri$$HEX2$$e700e300$$ENDHEX$$o estadual" edit.limit=15 edit.case=upper edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Natureza:"border="0" color="8388608" x="1029" y="348" height="64" width="261"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="79741120" )
+column(band=detail id=6 alignment="0" tabsequence=60 border="2" color="0" x="1307" y="348" height="64" width="421" format="[general]"  name=id_fisica_juridica  tag="Natureza" ddlb.limit=0 ddlb.allowedit=no ddlb.case=upper ddlb.required=yes ddlb.useasborder=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="C.G.C.:"border="0" color="8388608" x="224" y="428" height="64" width="201"  name=fornecedor_nr_cgc_t  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="2" tabsequence=70 border="2" color="0" x="443" y="428" height="64" width="549" format="[general]" protect="0~tIF (  id_fisica_juridica = 'J' , 0 , 1 )"  name=nr_cgc  tag="CGC" editmask.mask="##.###.###/####-##" editmask.focusrectangle=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="C.P.F.:"border="0" color="8388608" x="1097" y="428" height="64" width="192"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="79741120" )
+column(band=detail id=8 alignment="2" tabsequence=80 border="2" color="0" x="1307" y="428" height="64" width="421" format="[general]" protect="0~tIF (  id_fisica_juridica = 'F' , 0 , 1 )"  name=nr_cpf  tag="CPF" editmask.mask="###.###.###.##" editmask.focusrectangle=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Endere$$HEX1$$e700$$ENDHEX$$o:"border="0" color="8388608" x="155" y="520" height="64" width="270"  name=fornecedor_de_endereco_t  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="0" tabsequence=90 border="2" color="0" x="443" y="520" height="64" width="1285" format="[general]"  name=de_endereco  tag="Endere$$HEX1$$e700$$ENDHEX$$o" edit.limit=40 edit.case=upper edit.focusrectangle=no edit.autoselect=yes edit.required=yes edit.nilisnull=yes edit.autovscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Bairro:"border="0" color="8388608" x="224" y="600" height="64" width="201"  name=fornecedor_de_bairro_t  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=11 alignment="0" tabsequence=100 border="2" color="0" x="443" y="600" height="64" width="699" format="[general]"  name=de_bairro  tag="Bairro" edit.limit=20 edit.case=upper edit.focusrectangle=no edit.autoselect=yes edit.required=yes edit.nilisnull=yes edit.autohscroll=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="CEP:"border="0" color="8388608" x="1262" y="600" height="64" width="142"  name=fornecedor_nr_cep_t  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=12 alignment="2" tabsequence=110 border="2" color="0" x="1422" y="600" height="64" width="306" format="[general]"  name=nr_cep  tag="CEP" editmask.mask="##.###-###" editmask.focusrectangle=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Cidade:"border="0" color="8388608" x="201" y="680" height="64" width="224"  name=fornecedor_cd_cidade_t  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=28 alignment="0" tabsequence=120 border="2" color="0" x="443" y="680" height="64" width="1061" format="[general]"  name=nm_cidade  tag="Cidade" edit.limit=0 edit.case=upper edit.focusrectangle=no edit.autoselect=no edit.required=yes edit.nilisnull=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="2" color="0" x="1522" y="680" height="64" width="206" format="[general]"  name=cd_cidade edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Fone:"border="0" color="8388608" x="261" y="760" height="64" width="165"  name=fornecedor_nr_telefone_t  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=15 alignment="2" tabsequence=130 border="2" color="0" x="443" y="760" height="64" width="114" format="[general]"  name=nr_ddd_telefone  tag="DDD telefone" editmask.mask="####" editmask.focusrectangle=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=13 alignment="0" tabsequence=140 border="2" color="0" x="576" y="760" height="64" width="352" format="[general]"  name=nr_telefone  tag="Telefone" editmask.mask="########" editmask.focusrectangle=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Fax:"border="0" color="8388608" x="1097" y="760" height="64" width="128"  name=fornecedor_nr_fax_t  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=16 alignment="2" tabsequence=150 border="2" color="0" x="1243" y="760" height="64" width="114" format="[general]"  name=nr_ddd_fax  tag="DDD Fax" editmask.mask="####" editmask.focusrectangle=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=14 alignment="0" tabsequence=160 border="2" color="0" x="1376" y="760" height="64" width="352" format="[general]"  name=nr_fax  tag="Fax" editmask.mask="########" editmask.focusrectangle=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Fone Compras:"border="0" color="8388608" x="18" y="852" height="64" width="407"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=21 alignment="0" tabsequence=170 border="2" color="0" x="443" y="852" height="64" width="832" format="[general]"  name=nr_telefone_compras  tag="Telefone Compras" edit.limit=0 edit.case=upper edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Fax Compras:"border="0" color="8388608" x="46" y="932" height="64" width="379"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=22 alignment="0" tabsequence=180 border="2" color="0" x="443" y="932" height="64" width="832" format="[general]"  name=nr_fax_compras  tag="Fax Compras" edit.limit=0 edit.case=upper edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Contato:"border="0" color="8388608" x="183" y="1012" height="64" width="242"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=19 alignment="0" tabsequence=190 border="2" color="0" x="443" y="1012" height="64" width="1285" format="[general]"  name=nm_contato  tag="Contato" edit.limit=40 edit.case=upper edit.focusrectangle=no edit.autoselect=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="E-mail:"border="0" color="8388608" x="219" y="1092" height="64" width="206"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=24 alignment="0" tabsequence=200 border="2" color="0" x="443" y="1092" height="64" width="1285" format="[general]"  name=de_email edit.limit=60 edit.case=lower edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Condi$$HEX2$$e700e300$$ENDHEX$$o:"border="0" color="8388608" x="151" y="1184" height="64" width="274"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=26 alignment="0" tabsequence=210 border="2" color="0" x="443" y="1184" height="64" width="1010" format="[general]"  name=de_condicao_pagamento edit.limit=0 edit.case=upper edit.focusrectangle=no edit.autoselect=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=25 alignment="1" tabsequence=32766 border="2" color="0" x="1472" y="1184" height="64" width="256" format="[general]"  name=cd_condicao_pagamento edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Desconto (%):"border="0" color="8388608" x="37" y="1264" height="64" width="389"  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=18 alignment="1" tabsequence=220 border="2" color="0" x="443" y="1264" height="64" width="251" format="[general]"  name=pc_desconto_usual  tag="Desconto do Fornecedor" editmask.mask="##0.00" editmask.focusrectangle=no  font.face="Verdana" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=29 alignment="0" tabsequence=230 border="0" color="8388608" x="768" y="1264" height="64" width="960" format="[general]"  name=id_regime_especial  tag="regime especial" checkbox.text="Utiliza Regime Especial de ICMS ?" checkbox.on="S" checkbox.off="N" checkbox.lefttext=yes checkbox.scale=no checkbox.threed=yes  font.face="Verdana" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="80269524" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes") 

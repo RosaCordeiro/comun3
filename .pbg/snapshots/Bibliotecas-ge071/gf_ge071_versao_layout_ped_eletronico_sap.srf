@@ -1,0 +1,47 @@
+HA$PBExportHeader$gf_ge071_versao_layout_ped_eletronico_sap.srf
+global type gf_ge071_versao_layout_ped_eletronico_sap from function_object
+end type
+
+forward prototypes
+global function boolean gf_ge071_versao_layout_ped_eletronico_sap (string as_distribuidora, ref long al_versao, boolean ab_mostra_mensagem, ref string as_erro)
+end prototypes
+
+global function boolean gf_ge071_versao_layout_ped_eletronico_sap (string as_distribuidora, ref long al_versao, boolean ab_mostra_mensagem, ref string as_erro);String ls_Versao
+
+as_Erro = ''
+
+try
+	
+	Select coalesce(nr_layout_ped_eletronico_sap, '')
+	Into :ls_Versao
+	From fornecedor
+	Where cd_fornecedor =:as_Distribuidora
+	Using SqlCa;
+	
+	If SqlCa.SqlCode = -1 Then
+		as_Erro = "Erro na localiza$$HEX2$$e700e300$$ENDHEX$$o do n$$HEX1$$fa00$$ENDHEX$$mero do layout do pedido eletr$$HEX1$$f400$$ENDHEX$$nico da distribuidora " + as_Distribuidora + ", fun$$HEX2$$e700e300$$ENDHEX$$o gf_ge071_versao_layout_ped_eletronico_sap. " + SqlCa.SqlerrText 
+		Return False
+	End If
+	
+	If ls_Versao <> '' Then
+		ls_Versao = gf_Replace(ls_Versao, '.', '', 0)
+	
+		If Not IsNumber(ls_Versao) Then
+			as_Erro = "O n$$HEX1$$fa00$$ENDHEX$$mero da vers$$HEX1$$e300$$ENDHEX$$o do layout deve conter apenas n$$HEX1$$fa00$$ENDHEX$$meros, por exemplo, 124 ou 1.24."
+			Return False
+		End If
+	End If
+	
+finally
+	If as_Erro <> '' and ab_Mostra_Mensagem Then
+		MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", as_Erro)
+	End If
+	
+	If IsNull(ls_Versao) or Trim(ls_Versao) = '' Then ls_Versao = '0'
+end try
+
+al_versao = Long(ls_Versao)
+
+Return True
+end function
+

@@ -1,0 +1,138 @@
+HA$PBExportHeader$lf_ge039_transfere_arquivos_ecf.srf
+$PBExportComments$Transfere os arquivos gerados pela ECF ou software para um servidor na Matriz
+global type lf_ge039_transfere_arquivos_ecf from function_object
+end type
+
+forward prototypes
+global subroutine lf_ge039_transfere_arquivos_ecf ()
+end prototypes
+
+global subroutine lf_ge039_transfere_arquivos_ecf ();Integer li_Total
+Integer li_Contador
+Integer li_Percentual_Atual
+
+String	ls_Arquivos[]
+String	ls_Arquivo
+String	ls_Arquivo_Zip
+String	ls_Extensao
+String	ls_Error
+String ls_Filial
+String ls_Msg
+String	ls_MD5_Remoto
+String	ls_MD5_Local
+String ls_Diretorio_Base = 'c:\sistemas\rl\arquivos\ecf\'
+String ls_ftp
+
+ls_Filial = String( gvo_Parametro.Cd_Filial, "0000" )
+
+uo_Parametro_Filial lvo_Parametro
+lvo_Parametro = Create uo_Parametro_Filial
+
+lvo_Parametro.of_Localiza_Parametro("DE_FTP_TROCA_DADOS", ref ls_ftp, False)
+
+Destroy(lvo_Parametro)
+
+If Trim(ls_ftp) = '' Or IsNull(ls_ftp) Then
+	MessageBox( "Aten$$HEX2$$e700e300$$ENDHEX$$o", "Servidor FTP n$$HEX1$$e300$$ENDHEX$$o definido nos par$$HEX1$$e200$$ENDHEX$$metros da loja.", StopSign! )	
+	Return
+End If
+
+dc_uo_zip lo_Zip
+lo_Zip = Create dc_uo_zip
+
+dc_uo_ftp lo_Ftp
+lo_Ftp = Create dc_uo_ftp
+
+/* Para verifica$$HEX2$$e700e300$$ENDHEX$$o do MD5 do arquivo enviado */
+uo_transacao_remota lo_SD
+lo_SD = Create uo_transacao_remota
+lo_SD.is_Servidor_Intranet = Trim(ls_ftp)
+
+uo_Bematech lo_Bema
+lo_Bema = Create uo_Bematech
+
+gf_dir_list( ls_Diretorio_Base, '*.*', 0+1, Ref ls_Arquivos )
+
+For li_Contador = 1 To UpperBound( ls_Arquivos )
+	ls_Arquivo = ls_Arquivos[ li_Contador ]
+	
+	ls_Extensao = Upper( RightA( ls_Arquivo, 3 ) )
+	
+	Choose Case ls_Extensao
+		Case 'MFD', 'ZIP'
+			FileDelete( ls_Diretorio_Base + ls_Arquivo )
+			
+		Case 'LOG', 'TXT'
+			/*
+			If Not DirectoryExists( ls_Diretorio_Base + 'LOG' ) Then
+				CreateDirectory( ls_Diretorio_Base + 'LOG' )
+			End If
+			
+		    FileMove( ls_Diretorio_Base + ls_Arquivo, ls_Diretorio_Base + 'LOG\' + ls_Arquivo )
+			*/ 
+		Case Else
+			lo_Zip.of_Salva_Estrutura( False )
+			ls_Error = lo_Zip.of_Zip( ls_Diretorio_Base + ls_Arquivo, ls_Diretorio_Base + ls_Arquivo + '.zip' )
+				
+			If ls_Error <> "" Then
+				MessageBox( 'Aten$$HEX2$$e700e300$$ENDHEX$$o', 'Erro ao tentar compactar arquivo ' + ls_Arquivo + '~r~r' + ls_Error, StopSign! )
+			Else
+				If Not DirectoryExists( ls_Diretorio_Base + 'BACKUP' ) Then
+					CreateDirectory( ls_Diretorio_Base + 'BACKUP' )
+				End If
+				
+				lo_Ftp.of_DesConecta_Ftp()
+				
+				If lo_Ftp.of_Conecta_Ftp( 'RL - ' + ls_Filial, Trim(ls_ftp), 'tl', 'tl', Ref ls_Msg ) Then
+					If lo_Ftp.of_Ftp_Set_Dir( 'Ecf', ref ls_Msg ) >= 0 Then
+						lo_Ftp.of_Ftp_Cria_Dir( ls_Filial, ref ls_Msg ) // Cria+
+						
+						If lo_Ftp.of_Ftp_Set_Dir( ls_Filial, ref ls_Msg ) >= 0 Then
+							
+							If lo_Ftp.of_Ftp_PutFile( ls_Diretorio_Base + ls_Arquivo + '.zip', ls_Arquivo + '.zip', Ref ls_Msg ) Then
+								/* Verifica os MD5 dos arquivos REMOTO e LOCAL, compara os dois para poder mover o arquivo local */
+								If  lo_SD.of_Executa_Rotina_Intranet( 'verifica_md5_troca_dados', "diretorio=Ecf/" + ls_Filial + "/&arquivo=" + ls_Arquivo + '.zip' ) Then
+									lo_SD.of_Retorno_Dados( ref ls_MD5_Remoto )
+									
+									If LeftA( ls_MD5_Remoto, 4 ) = 'ERRO' Then
+										MessageBox( 'Aten$$HEX2$$e700e300$$ENDHEX$$o', ls_MD5_Remoto )
+									Else
+										ls_MD5_Local	= Space(33)
+										lo_Bema.of_Capturar_Md5( ls_Diretorio_Base + ls_Arquivo + '.zip', Ref ls_MD5_Local )
+										
+										If ls_MD5_Local = ls_MD5_Remoto Then
+ 											 FileCopy( ls_Diretorio_Base + ls_Arquivo + '.zip', ls_Diretorio_Base + 'BACKUP\' + ls_Arquivo + '.zip', True )
+											 FileDelete( ls_Diretorio_Base + ls_Arquivo + '.zip' )
+											 FileDelete( ls_Diretorio_Base + ls_Arquivo )											 
+										End If
+									End If					
+								End If
+								/********/
+								
+							Else
+								MessageBox( "Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao enviar arquivo " + ls_Arquivo + ".zip para Ecf\" + ls_Filial +  " no servidor FTP " + Trim(ls_ftp) + " ~r~r" + ls_Msg, StopSign! )
+							End If
+						Else
+							MessageBox( "Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao localizar diret$$HEX1$$f300$$ENDHEX$$rio Ecf\" + ls_Filial +  " no servidor FTP " + Trim(ls_ftp) + " ~r~r" + ls_Msg, StopSign! )
+						End If
+					Else
+						MessageBox( "Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro ao localizar diret$$HEX1$$f300$$ENDHEX$$rio ECF no servidor FTP " + Trim(ls_ftp) + " ~r~r" + ls_Msg, StopSign! )
+					End If
+					
+					lo_Ftp.of_DesConecta_Ftp()
+				Else
+					MessageBox( "Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro na conex$$HEX1$$e300$$ENDHEX$$o com o servidor FTP " + Trim(ls_ftp) + " ~r~r" + ls_Msg, StopSign! )
+				End If
+				
+			End If
+			
+	End Choose
+	
+Next
+
+Destroy lo_Zip
+Destroy lo_Bema
+Destroy lo_Zip
+Destroy lo_SD
+end subroutine
+

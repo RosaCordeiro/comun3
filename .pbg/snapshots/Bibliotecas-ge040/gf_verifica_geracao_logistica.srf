@@ -1,0 +1,37 @@
+HA$PBExportHeader$gf_verifica_geracao_logistica.srf
+global type gf_verifica_geracao_logistica from function_object
+end type
+
+forward prototypes
+global function boolean gf_verifica_geracao_logistica (ref string ps_mensagem)
+end prototypes
+
+global function boolean gf_verifica_geracao_logistica (ref string ps_mensagem);Long ll_Qtd
+Date ldt_atual
+
+ldt_atual = Date(gvo_Parametro.of_Dh_Movimentacao()) 
+ 
+Select count(*) 
+Into :ll_Qtd
+From pedido_filial
+Where dh_emissao=:ldt_atual
+And id_gerado_logistica = 'S'
+Using SqlCA;
+ 
+ Choose Case SqlCa.SqlCode
+	Case 0
+		If	ll_Qtd>0 Then 
+			ps_mensagem = "Opera$$HEX2$$e700e300$$ENDHEX$$o N$$HEX1$$e300$$ENDHEX$$o Permitida! Pedido para CD j$$HEX1$$e100$$ENDHEX$$ foi gerado!"
+			Return False
+		Else
+			Return True 
+		End If		
+	Case 100
+		ps_mensagem = "N$$HEX1$$e300$$ENDHEX$$o foi localizado o verifica$$HEX2$$e700e300$$ENDHEX$$o Pedido CD em Andamento!"
+		Return False
+	Case -1
+		ps_mensagem = "N$$HEX1$$e300$$ENDHEX$$o foi localizado o verifica$$HEX2$$e700e300$$ENDHEX$$o Pedido CD em Andamento!" + + SqlCa.SqlErrText		
+		Return False
+End Choose
+end function
+

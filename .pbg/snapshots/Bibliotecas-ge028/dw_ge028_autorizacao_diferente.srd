@@ -1,0 +1,56 @@
+HA$PBExportHeader$dw_ge028_autorizacao_diferente.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=84 color="536870912" )
+table(column=(type=decimal(0) updatewhereclause=yes identity=yes name=nr_comprovante_deposito dbname="cartao_comprovante_operacao.nr_comprovante_deposito" )
+ column=(type=decimal(0) updatewhereclause=yes identity=yes name=nr_comprovante_venda dbname="cartao_comprovante_operacao.nr_comprovante_venda" )
+ column=(type=long updatewhereclause=yes name=cd_filial dbname="cartao_comprovante_operacao.cd_filial" )
+ column=(type=long updatewhereclause=yes name=nr_nf dbname="cartao_comprovante_operacao.nr_nf" )
+ column=(type=char(3) updatewhereclause=yes name=de_especie dbname="cartao_comprovante_operacao.de_especie" )
+ column=(type=char(3) updatewhereclause=yes name=de_serie dbname="cartao_comprovante_operacao.de_serie" )
+ column=(type=char(1) updatewhereclause=yes name=id_captura dbname="cartao_comprovante_operacao.id_captura" )
+ column=(type=decimal(2) updatewhereclause=yes name=vl_operacao dbname="cartao_comprovante_operacao.vl_operacao" )
+ column=(type=char(6) updatewhereclause=yes name=cd_caixa dbname="cartao_comprovante_operacao.cd_caixa" )
+ column=(type=long updatewhereclause=yes name=nr_controle_caixa dbname="cartao_comprovante_operacao.nr_controle_caixa" )
+ column=(type=long updatewhereclause=yes name=nr_comprovante_caixa dbname="cartao_comprovante_operacao.nr_comprovante_caixa" )
+ retrieve="select a.nr_comprovante nr_comprovante_deposito,
+       b.nr_comprovante nr_comprovante_venda,
+       b.cd_filial,
+       b.nr_nf,
+       b.de_especie,
+       b.de_serie,
+       b.id_captura,
+       b.vl_operacao,
+       b.cd_caixa,
+       b.nr_controle_caixa,
+       b.nr_comprovante_caixa
+from cartao_comprovante_operacao a,
+	  cartao_comprovante_operacao b
+where a.cd_administradora  = 1
+  and a.id_captura         = 'A'
+  and b.cd_administradora  = a.cd_administradora
+  and b.cd_estabelecimento = a.cd_estabelecimento
+  and b.dh_operacao        = a.dh_operacao
+  and b.id_tipo_operacao   = a.id_tipo_operacao
+  and b.nr_autorizacao    <> a.nr_autorizacao
+  and b.nr_parcela         = a.nr_parcela
+  and b.vl_parcela         = a.vl_parcela
+  and b.nr_nsu             = a.nr_nsu
+  and b.id_captura         = 'T'
+  and b.id_situacao        = 'A'
+  and substring(b.nr_cartao, 1, 16) = substring(a.nr_cartao, 1, 16)
+" )
+column(band=detail id=5 alignment="2" tabsequence=32766 border="0" color="0" x="1403" y="4" height="76" width="110" format="[general]"  name=de_especie edit.limit=3 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="2" tabsequence=32766 border="0" color="0" x="1531" y="4" height="76" width="110" format="[general]"  name=de_serie edit.limit=3 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="0" color="0" x="1056" y="4" height="76" width="329" format="[general]"  name=nr_nf edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="0" x="709" y="4" height="76" width="329" format="[general]"  name=cd_filial edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="14" y="4" height="76" width="329" format="[general]"  name=nr_comprovante_deposito edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="361" y="4" height="76" width="329" format="[general]"  name=nr_comprovante_venda edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="2" tabsequence=32766 border="0" color="0" x="1659" y="4" height="76" width="55" format="[general]"  name=id_captura edit.limit=1 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="1" tabsequence=32766 border="0" color="0" x="1733" y="4" height="76" width="329" format="[general]"  name=vl_operacao edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="0" x="2080" y="4" height="76" width="329" format="[general]"  name=cd_caixa edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="0" tabsequence=32766 border="0" color="0" x="2427" y="4" height="76" width="329" format="[general]"  name=nr_controle_caixa edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=11 alignment="0" tabsequence=32766 border="0" color="0" x="2775" y="8" height="76" width="329" format="[general]"  name=nr_comprovante_caixa edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

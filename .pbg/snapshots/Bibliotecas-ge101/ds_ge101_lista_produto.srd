@@ -1,0 +1,55 @@
+HA$PBExportHeader$ds_ge101_lista_produto.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=80269524 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=72 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=84 color="536870912" )
+table(column=(type=long updatewhereclause=yes name=cd_produto dbname="produto_geral.cd_produto" )
+ column=(type=char(60) updatewhereclause=yes name=de_produto dbname="produto_geral.de_produto" )
+ column=(type=char(9) updatewhereclause=yes name=cd_fornecedor_usual dbname="produto_geral.cd_fornecedor_usual" )
+ column=(type=char(100) updatewhereclause=yes name=de_descricao_internet dbname="produto_geral.de_descricao_internet" )
+ column=(type=char(32771) updatewhereclause=no name=de_principal_internet dbname="produto_geral.de_principal_internet" )
+ column=(type=decimal(2) updatewhereclause=yes name=qt_largura_cm dbname="produto_geral.qt_largura_cm" )
+ column=(type=decimal(2) updatewhereclause=yes name=qt_altura_cm dbname="produto_geral.qt_altura_cm" )
+ column=(type=decimal(2) updatewhereclause=yes name=qt_profundidade_cm dbname="produto_geral.qt_profundidade_cm" )
+ column=(type=decimal(3) updatewhereclause=yes name=qt_peso_grama dbname="produto_geral.qt_peso_grama" )
+ column=(type=long updatewhereclause=yes name=qt_saldo_final dbname="vw_saldo_atual_produto.qt_saldo_final" )
+ column=(type=char(1) updatewhereclause=yes name=id_situacao dbname="produto_geral.id_situacao" )
+ column=(type=char(1) updatewhereclause=yes name=id_liberado_ecommerce dbname="produto_geral.id_liberado_ecommerce" )
+ retrieve="   SELECT p.cd_produto as cd_produto,   
+         p.de_produto as de_produto,   
+         p.cd_fornecedor_usual as cd_fornecedor_usual,   
+         p.de_descricao_internet as de_descricao_internet,
+		 p.de_principal_internet as de_principal_internet,   
+         p.qt_largura_cm as qt_largura_cm,   
+         p.qt_altura_cm as qt_altura_cm,   
+         p.qt_profundidade_cm as qt_profundidade_cm,   
+         p.qt_peso_grama as qt_peso_grama,   
+		 s.qt_saldo_final as qt_saldo_final,
+		 p.id_situacao as id_situacao,
+		 p.id_liberado_ecommerce as id_liberado_ecommerce
+    FROM produto_geral p,
+		 vw_saldo_atual_produto s,
+		 parametro r
+   WHERE s.cd_produto				= p.cd_produto
+	 and s.cd_filial				= r.cd_filial
+	 and r.id_parametro				= '1'
+     and p.cd_grupo_psico			is null
+	 and p.de_produto				not like 'ZZ%'
+	 " )
+text(band=header alignment="2" text="Cd Produto"border="0" color="0" x="5" y="4" height="64" width="329"  name=cd_produto_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="160" y="0" height="76" width="96" format="[general]"  name=cd_produto edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="379" y="0" height="76" width="1920" format="[general]"  name=de_produto edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="2350" y="0" height="76" width="288" format="[general]"  name=cd_fornecedor_usual edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="2638" y="0" height="76" width="3200" format="[general]"  name=de_descricao_internet edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="0" x="9349" y="0" height="76" width="1376" format="[general]"  name=qt_largura_cm edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="0" x="10725" y="0" height="76" width="1376" format="[general]"  name=qt_altura_cm edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="0" x="12101" y="0" height="76" width="1376" format="[general]"  name=qt_profundidade_cm edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="0" x="13477" y="0" height="76" width="1376" format="[general]"  name=qt_peso_grama edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=10 alignment="0" tabsequence=32766 border="0" color="0" x="14853" y="0" height="76" width="96" format="[general]"  name=qt_saldo_final edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="5861" y="4" height="76" width="3511" format="[general]"  name=de_principal_internet edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=11 alignment="0" tabsequence=32766 border="0" color="0" x="18459" y="0" height="76" width="32" format="[general]"  name=id_situacao edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=12 alignment="0" tabsequence=32766 border="0" color="0" x="18491" y="0" height="76" width="32" format="[general]"  name=produto_geral_id_liberado_ecommerce edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=12 alignment="0" tabsequence=32766 border="0" color="0" x="15054" y="20" height="76" width="32" format="[general]"  name=id_liberado_ecommerce edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

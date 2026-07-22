@@ -1,0 +1,112 @@
+HA$PBExportHeader$gf_proximo_pedido_drogaexpress.srf
+global type gf_proximo_pedido_drogaexpress from function_object
+end type
+
+forward prototypes
+global function boolean gf_proximo_pedido_drogaexpress (long al_cd_filial, ref string as_pedido, ref string as_erro)
+end prototypes
+
+global function boolean gf_proximo_pedido_drogaexpress (long al_cd_filial, ref string as_pedido, ref string as_erro);String lvs_Mensagem,&
+		ls_Ultimo,&
+		ls_Proximo
+long ll_pedido
+Long ll_sequencial
+boolean lb_primeiro_acesso=false
+
+dc_uo_transacao lo_Transact
+
+Try
+	Try
+		lo_Transact = Create dc_uo_transacao
+		
+		lo_Transact.ivs_database = "SYBASE"
+			
+		If Not lo_Transact.of_Connect(gvo_Aplicacao.ivs_DataSource, "") Then 
+			as_Erro =  "Erro ao criar uma nova transa$$HEX2$$e700e300$$ENDHEX$$o. Fun$$HEX2$$e700e300$$ENDHEX$$o: 'gf_proximo_pedido_drogaexpress'."
+			Return False
+		End If
+		
+		Select coalesce(vl_parametro, '0')
+		Into :ls_Ultimo
+		From parametro_loja
+		Where cd_filial = :al_cd_filial
+		and cd_parametro = 'NR_ULTIMO_PEDIDO_DROGAEXPRESS'
+		Using lo_Transact;
+		
+		Choose Case lo_Transact.SqlCode
+			Case 0
+				
+				if ls_ultimo = '0' or isnull(ls_ultimo) or ls_ultimo = '' then 
+					
+					if Not gf_ultimo_pedido_drogaexpress(al_cd_filial, ref ls_ultimo, ref as_erro) Then return false
+					
+					lb_primeiro_acesso = True
+					
+				end if
+			
+				ll_Sequencial = Long(Right(ls_Ultimo, 7))
+	
+				if isnull(ll_Sequencial) or ll_sequencial = 0 Then
+					ls_Proximo = String(al_cd_filial, "0000") + String(1, "0000000")
+				else
+					ls_Proximo = String(al_cd_filial, "0000") + String(ll_Sequencial + 1, "0000000")		
+				end if
+				
+				as_pedido = ls_proximo
+				
+				if lb_primeiro_acesso = True Then
+				
+					Update parametro_loja
+					Set vl_parametro = :ls_Proximo
+					Where cd_parametro = 'NR_ULTIMO_PEDIDO_DROGAEXPRESS'
+						and cd_filial = :al_cd_filial
+					Using lo_Transact;
+					
+				Else
+					
+					Update parametro_loja
+					Set vl_parametro = :ls_Proximo
+					Where cd_parametro = 'NR_ULTIMO_PEDIDO_DROGAEXPRESS'
+						and cd_filial = :al_cd_filial
+						and vl_parametro	= :ls_Ultimo
+					Using lo_Transact;
+					
+				end if
+				
+				If lo_Transact.SqlCode = -1 Then
+					as_Erro =  "Erro na atualiza$$HEX2$$e700e300$$ENDHEX$$o do $$HEX1$$fa00$$ENDHEX$$ltimo n$$HEX1$$fa00$$ENDHEX$$mero do pedido ecommerce." + lo_Transact.SqlErrText
+					lo_Transact.of_RollBack()
+					Return False
+				Else
+					If lo_Transact.SqlnRows <> 1 Then
+						Return gf_proximo_pedido_drogaexpress(al_cd_filial, Ref as_Pedido, Ref as_erro)				
+					Else
+						lo_Transact.of_Commit()
+						Return True
+					End If
+				End If		
+				
+			Case 100
+				as_Erro =  "N$$HEX1$$e300$$ENDHEX$$o foi localizado o par$$HEX1$$e200$$ENDHEX$$metro 'NR_ULTIMO_PEDIDO_DROGAEXPRESS', fun$$HEX2$$e700e300$$ENDHEX$$o 'gf_proximo_pedido_drogaexpress'." 
+				lo_Transact.of_RollBack()
+				Return False
+			Case -1
+				as_Erro =  "Erro ao localizar o par$$HEX1$$e200$$ENDHEX$$metro 'NR_ULTIMO_PEDIDO_DROGAEXPRESS', fun$$HEX2$$e700e300$$ENDHEX$$o 'gf_proximo_pedido_drogaexpress'." 
+				lo_Transact.of_RollBack()
+				Return False
+		End Choose
+	Catch ( runtimeerror  lo_rte )
+		as_Erro =  "Erro ao localizar o pr$$HEX1$$f300$$ENDHEX$$ximo pedido ecommerce', fun$$HEX2$$e700e300$$ENDHEX$$o 'gf_proximo_pedido_drogaexpress'." 
+		lo_Transact.of_RollBack()
+		Return False						 
+	End Try	
+	
+Finally
+	lo_Transact.of_Disconnect()
+
+	Destroy(lo_Transact)
+End Try
+
+Return True
+end function
+

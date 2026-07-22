@@ -1,0 +1,10 @@
+HA$PBExportHeader$str_ge380_dados_promocao.srs
+global type str_ge380_dados_promocao from structure
+	long		cd_produto[]
+	string		de_produto[]
+	decimal		pc_desconto[]
+	decimal		pc_desconto_clube[]
+	decimal		pc_desc_anterior[]
+	decimal		pc_desc_clube_anterior[]
+end type
+

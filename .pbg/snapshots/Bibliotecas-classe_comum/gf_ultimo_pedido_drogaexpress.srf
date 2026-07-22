@@ -1,0 +1,29 @@
+HA$PBExportHeader$gf_ultimo_pedido_drogaexpress.srf
+global type gf_ultimo_pedido_drogaexpress from function_object
+end type
+
+forward prototypes
+global function boolean gf_ultimo_pedido_drogaexpress (long pl_cd_filial, ref string ps_nr_pedido, ref string ps_log)
+end prototypes
+
+global function boolean gf_ultimo_pedido_drogaexpress (long pl_cd_filial, ref string ps_nr_pedido, ref string ps_log);string ls_ultimo
+	
+select max(cast(nr_pedido_drogaexpress as numeric))
+into :ls_ultimo
+from pedido_ecommerce
+where nr_pedido_drogaexpress is not null
+  and cd_filial = :pl_cd_filial
+  Using SQLCA;
+				
+If SQLCA.SqlCode = -1 Then
+	ps_log =  "Fun$$HEX2$$e700e300$$ENDHEX$$o: gf_ultimo_pedido_drogaexpress; Erro ao consultar a tabela 'pedido_ecommerce': " + SQLCA.SqlErrText
+	Return False
+end if
+				
+if ls_ultimo = '' or isnull(ls_ultimo) Then ls_ultimo = '0'
+
+ps_nr_pedido = ls_ultimo
+
+return true
+end function
+

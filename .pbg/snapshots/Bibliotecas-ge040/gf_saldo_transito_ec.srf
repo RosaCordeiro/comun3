@@ -1,0 +1,112 @@
+HA$PBExportHeader$gf_saldo_transito_ec.srf
+global type gf_saldo_transito_ec from function_object
+end type
+
+forward prototypes
+global function boolean gf_saldo_transito_ec (datetime adh_inicio, long al_produto, ref long al_qt_saldo_transito)
+end prototypes
+
+global function boolean gf_saldo_transito_ec (datetime adh_inicio, long al_produto, ref long al_qt_saldo_transito);Long ll_Qtd_Fat_Comp
+Long ll_Qtd_Agend = 0
+
+//Nota importada
+Select coalesce(sum(i.qt_faturada), 0)
+	Into: ll_Qtd_Fat_Comp
+From nf_compra_pendente n
+	Inner Join nf_compra_pendente_produto i
+		On i.cd_filial = n.cd_filial
+		And i.cd_fornecedor	= n.cd_fornecedor
+		And i.nr_nf				= n.nr_nf
+		And i.de_especie		= n.de_especie
+		And i.de_serie			= n.de_serie
+Where n.cd_filial = 534
+  And n.dh_registro >= :adh_Inicio
+  And i.cd_produto = :al_Produto
+Using SqlCa;
+  
+If SqlCa.SqlCode = -1 Then
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro na consulta do saldo em tr$$HEX1$$e200$$ENDHEX$$nsito do Estoque Central. " + SqlCa.SqlErrText, StopSign!)
+	Return False
+End If
+
+Select sum(qt_faturada)
+	Into :ll_Qtd_Agend 
+From 
+(	
+Select coalesce(sum(i.qt_faturada), 0) qt_faturada
+	From nf_agendamento_ent n
+	Inner Join nf_agendamento_ent_item i
+		On i.de_chave_acesso = n.de_chave_acesso
+Where n.dh_emissao>= :adh_Inicio
+  And i.cd_produto = :al_produto
+  And i.id_multiplic_dividir_cx_padrao Is Null
+  and n.dh_envio_site is not null
+  And Not Exists (Select *
+					  From nf_compra nc
+					  Where nc.de_chave_acesso = n.de_chave_acesso)
+  And Not Exists (Select *
+					  From nf_compra_pendente np
+					  Where np.de_chave_acesso = n.de_chave_acesso)
+  and not exists (Select * 
+  					  From nfe_destinadas d
+					  where d.de_chave_acesso = n.de_chave_acesso
+					  	 and d.id_situacao_nf = '3')
+  And n.nr_matricula_canc_agendamento Is Null
+
+Union
+
+Select coalesce(sum(i.qt_faturada * i.qt_caixa_padrao), 0) qt_faturada
+From nf_agendamento_ent n
+	Inner Join nf_agendamento_ent_item i
+		On i.de_chave_acesso = n.de_chave_acesso
+Where n.dh_emissao >= :adh_Inicio
+  And i.cd_produto = :al_produto
+  And i.id_multiplic_dividir_cx_padrao Is Not Null
+  And i.id_multiplic_dividir_cx_padrao = 'M'
+  and n.dh_envio_site is not null
+  And Not Exists (Select *
+					  From nf_compra nc
+					  Where nc.de_chave_acesso = n.de_chave_acesso)
+  And Not Exists (Select *
+					  From nf_compra_pendente np
+					  Where np.de_chave_acesso = n.de_chave_acesso)
+  and not exists (Select * 
+  					  From nfe_destinadas d
+					  where d.de_chave_acesso = n.de_chave_acesso
+					  	 and d.id_situacao_nf = '3')
+  And n.nr_matricula_canc_agendamento Is Null
+
+Union
+
+Select coalesce(sum(i.qt_faturada / i.qt_caixa_padrao), 0) qt_faturada
+From nf_agendamento_ent n
+	Inner Join nf_agendamento_ent_item i
+		On i.de_chave_acesso = n.de_chave_acesso
+Where n.dh_emissao >= :adh_Inicio
+  And i.cd_produto = :al_produto
+  And i.id_multiplic_dividir_cx_padrao Is Not Null
+  And i.id_multiplic_dividir_cx_padrao = 'D'
+  and n.dh_envio_site is not null
+  And Not Exists (Select *
+					  From nf_compra nc
+					  Where nc.de_chave_acesso = n.de_chave_acesso)
+  And Not Exists (Select *
+					  From nf_compra_pendente np
+					  Where np.de_chave_acesso = n.de_chave_acesso)
+  and not exists (Select * 
+  					  From nfe_destinadas d
+					  where d.de_chave_acesso = n.de_chave_acesso
+					  	 and d.id_situacao_nf = '3')
+  And n.nr_matricula_canc_agendamento Is Null
+  ) As tudo
+Using SqlCa;
+	  
+If SqlCa.SqlCode = -1 Then
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro na consulta do saldo em tr$$HEX1$$e200$$ENDHEX$$nsito do Estoque Central. " + SqlCa.SqlErrText, StopSign!)
+	Return False
+End If
+
+al_Qt_Saldo_Transito = ll_Qtd_Fat_Comp + ll_Qtd_Agend
+
+end function
+

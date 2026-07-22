@@ -1,0 +1,30 @@
+HA$PBExportHeader$gf_verifica_fechamento_fiscal.srf
+global type gf_verifica_fechamento_fiscal from function_object
+end type
+
+forward prototypes
+global function boolean gf_verifica_fechamento_fiscal (date adt_movimento, ref string as_mensagem, boolean ab_mostra_mensagem)
+end prototypes
+
+global function boolean gf_verifica_fechamento_fiscal (date adt_movimento, ref string as_mensagem, boolean ab_mostra_mensagem);Date lvdt_Fech_Fiscal 
+Boolean lvb_Erro = False
+
+If Not gf_retorna_parametro_geral('DH_FECHAMENTO_FISCAL', 'DD/MM/YYYY', ref lvdt_Fech_Fiscal) Then 
+	as_mensagem = "N$$HEX1$$e300$$ENDHEX$$o foi poss$$HEX1$$ed00$$ENDHEX$$vel recuperar o valor do par$$HEX1$$e200$$ENDHEX$$metro DH_FECHAMENTO_FISCAL."
+	lvb_Erro = True
+End if
+
+If Not lvb_Erro Then
+	If adt_movimento <= lvdt_Fech_Fiscal Then
+		as_mensagem = "A data do movimento $$HEX1$$e900$$ENDHEX$$ anterior ao fechamento fiscal."
+		lvb_Erro = True
+	End If
+End If
+
+If lvb_Erro and ab_mostra_mensagem Then
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o",as_mensagem, Exclamation!)
+End If
+
+Return (Not lvb_Erro)
+end function
+

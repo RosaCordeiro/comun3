@@ -1,0 +1,10 @@
+HA$PBExportHeader$t_infadic.srs
+global type t_infadic from structure
+	string		infadfisco
+	string		infcpl
+	t_obscont		obscont[]
+	t_obsfisco		obsfisco[]
+	t_procref		procref
+	string		xvan
+end type
+

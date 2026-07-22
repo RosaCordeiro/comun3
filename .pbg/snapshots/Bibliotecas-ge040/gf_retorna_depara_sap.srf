@@ -1,0 +1,29 @@
+HA$PBExportHeader$gf_retorna_depara_sap.srf
+global type gf_retorna_depara_sap from function_object
+end type
+
+forward prototypes
+global function string gf_retorna_depara_sap (long ll_empresa, string lvs_tabela, string lvs_chave_sap)
+end prototypes
+
+global function string gf_retorna_depara_sap (long ll_empresa, string lvs_tabela, string lvs_chave_sap);String lvs_chave_legado
+
+
+Select cd_chave_legado
+Into 	  :lvs_chave_legado	
+From		integracao_sap
+Where	cd_empresa=:ll_empresa
+And		cd_tabela =:lvs_tabela
+And		cd_chave_sap =:lvs_chave_sap
+Using SqlCA;
+
+  
+If SqlCa.SqlCode = -1 Then
+	MessageBox("Aten$$HEX2$$e700e300$$ENDHEX$$o", "Erro na consulta de de-para Integracao_sap. " + SqlCa.SqlErrText, StopSign!)
+	Return lvs_chave_legado
+End If
+
+
+Return lvs_chave_legado
+end function
+

@@ -1,0 +1,9 @@
+HA$PBExportHeader$t_pisst.srs
+global type t_pisst from structure
+	double		vBC
+	double		pPIS
+	double		qBCProd
+	double		vAliqProd
+	double		vPIS
+end type
+

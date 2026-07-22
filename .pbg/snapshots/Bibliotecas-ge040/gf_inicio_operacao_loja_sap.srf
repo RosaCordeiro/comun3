@@ -1,0 +1,80 @@
+HA$PBExportHeader$gf_inicio_operacao_loja_sap.srf
+global type gf_inicio_operacao_loja_sap from function_object
+end type
+
+forward prototypes
+global function boolean gf_inicio_operacao_loja_sap (string as_parametro, ref date adh_inicio, ref string as_log)
+global function boolean gf_inicio_operacao_loja_sap (long al_cd_filial, string as_parametro, ref date adh_inicio, ref string as_log)
+end prototypes
+
+global function boolean gf_inicio_operacao_loja_sap (string as_parametro, ref date adh_inicio, ref string as_log);String ls_Data
+
+If IsNull(as_parametro) or Trim(as_parametro) = '' Then
+	as_log = "N$$HEX1$$e300$$ENDHEX$$o foi informado um par$$HEX1$$e200$$ENDHEX$$metro v$$HEX1$$e100$$ENDHEX$$lido - GOLIVE do CD."
+	Return False
+End If
+
+Select vl_parametro
+Into :ls_Data
+From parametro_geral
+Where cd_parametro = :as_parametro
+Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+	Case 0
+		adh_inicio = Date(ls_Data)
+		
+		If Not IsDate(ls_Data) Then
+			as_log = "A data do par$$HEX1$$e200$$ENDHEX$$metro [" + as_parametro + "] do GOLIVE do CD $$HEX1$$e900$$ENDHEX$$ INV$$HEX1$$c100$$ENDHEX$$LIDA."
+			Return False
+		End If
+		
+	Case 100
+		adh_inicio = Date('31/12/2099')
+		as_log = "A data do par$$HEX1$$e200$$ENDHEX$$metro [" + as_parametro + "] do GOLIVE do CD n$$HEX1$$e300$$ENDHEX$$o foi localizado."
+		Return False
+		
+	Case -1
+		as_log = "Erro na localiza$$HEX2$$e700e300$$ENDHEX$$o do par$$HEX1$$e200$$ENDHEX$$metro [" + as_parametro+  "] da data do GOLIVE do CD. " + SQLCA.SQLErrText
+		Return False
+End Choose
+
+Return True
+end function
+
+global function boolean gf_inicio_operacao_loja_sap (long al_cd_filial, string as_parametro, ref date adh_inicio, ref string as_log);String ls_Data
+
+If IsNull(as_parametro) or Trim(as_parametro) = '' Then
+	as_log = "N$$HEX1$$e300$$ENDHEX$$o foi informado um par$$HEX1$$e200$$ENDHEX$$metro v$$HEX1$$e100$$ENDHEX$$lido - GOLIVE da LOJA."
+	Return False
+End If
+
+Select vl_parametro
+  Into :ls_Data
+  From parametro_loja
+ Where cd_parametro 	= :as_parametro and
+ 		 cd_filial		= :al_cd_filial
+ Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+	Case 0
+		adh_inicio = Date(ls_Data)
+		
+		If Not IsDate(ls_Data) Then
+			as_log = "A data do par$$HEX1$$e200$$ENDHEX$$metro [" + as_parametro + "] do GOLIVE da LOJA $$HEX1$$e900$$ENDHEX$$ INV$$HEX1$$c100$$ENDHEX$$LIDA."
+			Return False
+		End If
+		
+	Case 100
+		adh_inicio = Date('31/12/2099')
+		as_log = "A data do par$$HEX1$$e200$$ENDHEX$$metro [" + as_parametro + "] do GOLIVE da LOJA n$$HEX1$$e300$$ENDHEX$$o foi localizado."
+		Return False
+		
+	Case -1
+		as_log = "Erro na localiza$$HEX2$$e700e300$$ENDHEX$$o do par$$HEX1$$e200$$ENDHEX$$metro [" + as_parametro+  "] da data do GOLIVE da LOJA. " + SQLCA.SQLErrText
+		Return False
+End Choose
+
+Return True
+end function
+

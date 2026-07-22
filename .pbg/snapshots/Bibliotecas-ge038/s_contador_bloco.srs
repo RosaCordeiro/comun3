@@ -1,0 +1,34 @@
+HA$PBExportHeader$s_contador_bloco.srs
+global type s_contador_bloco from structure
+	long		cont_0150
+	long		cont_0190
+	long		cont_0200
+	long		cont_0990
+	long		cont_c100
+	long		cont_c170
+	long		cont_c190
+	long		cont_c400
+	long		cont_c405
+	long		cont_c420
+	long		cont_c460
+	long		cont_c470
+	long		cont_c490
+	long		cont_c990
+	long		cont_e990
+	long		cont_h001
+	long		cont_h005
+	long		cont_h990
+	long		cont_1001
+	long		cont_1990
+	long		cont_9001
+	long		cont_9900
+	long		cont_9990
+	long		cont_9999
+	long		cont_50
+	long		cont_54
+	long		cont_60
+	long		cont_75
+	long		cont_99
+	long		cont_c176
+end type
+

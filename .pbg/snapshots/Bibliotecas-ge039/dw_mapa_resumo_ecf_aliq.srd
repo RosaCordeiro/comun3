@@ -1,0 +1,56 @@
+HA$PBExportHeader$dw_mapa_resumo_ecf_aliq.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=72 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=84 color="536870912" )
+table(column=(type=long update=yes updatewhereclause=yes key=yes name=cd_filial dbname="aliquota_mapa_resumo_ecf.cd_filial" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=nr_mapa dbname="aliquota_mapa_resumo_ecf.nr_mapa" )
+ column=(type=char(3) update=yes updatewhereclause=yes key=yes name=de_especie dbname="aliquota_mapa_resumo_ecf.de_especie" )
+ column=(type=char(3) update=yes updatewhereclause=yes key=yes name=de_serie dbname="aliquota_mapa_resumo_ecf.de_serie" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=nr_ecf dbname="aliquota_mapa_resumo_ecf.nr_ecf" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes key=yes name=pc_aliquota dbname="aliquota_mapa_resumo_ecf.pc_aliquota" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_base_calculo dbname="aliquota_mapa_resumo_ecf.vl_base_calculo" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_icms dbname="aliquota_mapa_resumo_ecf.vl_icms" )
+ column=(type=char(1) updatewhereclause=yes name=ordem_aliq dbname="ordem_aliq" )
+ retrieve="  SELECT aliquota_mapa_resumo_ecf.cd_filial,   
+         aliquota_mapa_resumo_ecf.nr_mapa,   
+         aliquota_mapa_resumo_ecf.de_especie,   
+         aliquota_mapa_resumo_ecf.de_serie,   
+         aliquota_mapa_resumo_ecf.nr_ecf,   
+         aliquota_mapa_resumo_ecf.pc_aliquota,   
+         aliquota_mapa_resumo_ecf.vl_base_calculo,   
+         aliquota_mapa_resumo_ecf.vl_icms,
+			Case pc_aliquota
+				When 7.00 Then '1'
+				When 12.00 Then '2'
+				When 25.00 Then '3'
+				When 17.00 Then '4'
+				When 18.00 Then '5'
+				Else '1'
+			End as ordem_aliq				
+    FROM aliquota_mapa_resumo_ecf 
+   WHERE ( aliquota_mapa_resumo_ecf.cd_filial = :pl_filial ) AND  
+         ( aliquota_mapa_resumo_ecf.nr_mapa = :pl_mapa ) AND  
+         ( aliquota_mapa_resumo_ecf.de_especie = :ps_especie ) AND  
+         ( aliquota_mapa_resumo_ecf.de_serie = :ps_serie )    
+" update="aliquota_mapa_resumo_ecf" updatewhere=1 updatekeyinplace=no arguments=(("pl_filial", number),("pl_mapa", number),("ps_especie", string),("ps_serie", string))  sort="cd_filial A nr_mapa A de_especie A de_serie A nr_ecf A ordem_aliq A " )
+text(band=header alignment="2" text="Cd Filial" border="0" color="0" x="5" y="4" height="64" width="329"  name=cd_filial_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Mapa" border="0" color="0" x="338" y="4" height="64" width="329"  name=nr_mapa_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="De Especie" border="0" color="0" x="672" y="4" height="64" width="306"  name=de_especie_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="De Serie" border="0" color="0" x="983" y="4" height="64" width="229"  name=de_serie_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Ecf" border="0" color="0" x="1216" y="4" height="64" width="329"  name=nr_ecf_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Pc Aliquota" border="0" color="0" x="1554" y="4" height="64" width="325"  name=pc_aliquota_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Base Calculo" border="0" color="0" x="1888" y="4" height="64" width="425"  name=vl_base_calculo_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Icms" border="0" color="0" x="2318" y="4" height="64" width="329"  name=vl_icms_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="1" tabsequence=10 border="0" color="0" x="5" y="4" height="76" width="329" format="[general]"  name=cd_filial edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=20 border="0" color="0" x="338" y="4" height="76" width="329" format="[general]"  name=nr_mapa edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=30 border="0" color="0" x="672" y="4" height="76" width="110" format="[general]"  name=de_especie edit.limit=3 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=40 border="0" color="0" x="983" y="4" height="76" width="110" format="[general]"  name=de_serie edit.limit=3 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="1" tabsequence=50 border="0" color="0" x="1216" y="4" height="76" width="329" format="[general]"  name=nr_ecf edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="1" tabsequence=60 border="0" color="0" x="1554" y="4" height="76" width="325" format="[general]"  name=pc_aliquota edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="1" tabsequence=70 border="0" color="0" x="1888" y="4" height="76" width="329" format="[general]"  name=vl_base_calculo edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="1" tabsequence=80 border="0" color="0" x="2318" y="4" height="76" width="329" format="[general]"  name=vl_icms edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="0" x="2665" y="8" height="64" width="311" format="[general]"  name=ordem_aliq edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

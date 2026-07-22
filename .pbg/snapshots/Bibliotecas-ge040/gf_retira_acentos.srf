@@ -1,0 +1,35 @@
+HA$PBExportHeader$gf_retira_acentos.srf
+global type gf_retira_acentos from function_object
+end type
+
+forward prototypes
+global function string gf_retira_acentos (string ps_texto)
+end prototypes
+
+global function string gf_retira_acentos (string ps_texto);String ls_Caracteres_CA
+String ls_Caracteres_SA
+String ls_Aux
+
+long ll_Row
+Long ll_Total
+Long ll_Pos
+
+If ps_texto = "" Then Return ps_texto
+
+ls_Caracteres_CA = "$$HEX40$$c100e100c000e000c300e300c200e200c900e900c800e800ca00ea00cd00ed00cc00ec00ce00ee00d300f300d200f200d500f500d400f400da00fa00d900f900db00fb00c700e700d100f100dd00fd00$$ENDHEX$$"
+ls_Caracteres_SA = "AaAaAaAaEeEeEeIiIiIiOoOoOoOoUuUuUuCcNnYy"
+
+ll_Total = LenA( ps_texto )
+
+For ll_Row = 1 To ll_Total
+	
+	ls_Aux = Mid(ps_texto, ll_Row, 1)
+	
+	ll_Pos = Pos( ls_Caracteres_CA, ls_Aux )
+	If ll_Pos > 0 Then 	ps_texto = gf_Replace( ps_texto, ls_Aux, Mid(ls_Caracteres_SA,ll_Pos,1), 1 ) 
+Next
+
+Return ps_texto
+
+end function
+

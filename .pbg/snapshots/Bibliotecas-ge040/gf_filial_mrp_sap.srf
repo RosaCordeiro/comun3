@@ -1,0 +1,29 @@
+HA$PBExportHeader$gf_filial_mrp_sap.srf
+global type gf_filial_mrp_sap from function_object
+end type
+
+forward prototypes
+global function boolean gf_filial_mrp_sap (long al_filial, ref string as_vl_parametro)
+end prototypes
+
+global function boolean gf_filial_mrp_sap (long al_filial, ref string as_vl_parametro);Select coalesce(vl_parametro,'N')
+Into :as_Vl_Parametro
+From parametro_loja  
+where	cd_parametro = 'ID_MRP_FILIAL_SAP'
+And cd_filial  = :al_Filial 
+Using SqlCa;
+
+Choose Case SqlCa.SqlCode
+	Case 0
+		
+	Case 100
+		as_Vl_Parametro = "N"
+	Case -1
+		MessageBox("Erro", "Erro ao localizar o par$$HEX1$$e200$$ENDHEX$$metro 'ID_ADM_FILIAL_SAP': "+SqlCa.SqlErrText)
+		Return False
+End Choose
+
+Return True
+
+end function
+

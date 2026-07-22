@@ -1,0 +1,52 @@
+HA$PBExportHeader$dw_troca_movimento_convenio.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=72 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=84 color="536870912" )
+table(column=(type=long update=yes updatewhereclause=yes key=yes name=cd_convenio dbname="movimento_convenio.cd_convenio" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=cd_filial_movimento dbname="movimento_convenio.cd_filial_movimento" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=nr_movimento dbname="movimento_convenio.nr_movimento" )
+ column=(type=datetime update=yes updatewhereclause=yes name=dh_sistema dbname="movimento_convenio.dh_sistema" )
+ column=(type=datetime update=yes updatewhereclause=yes name=dh_movimento dbname="movimento_convenio.dh_movimento" )
+ column=(type=char(6) update=yes updatewhereclause=yes name=nr_matricula_responsavel dbname="movimento_convenio.nr_matricula_responsavel" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vl_movimento dbname="movimento_convenio.vl_movimento" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=id_credito_debito dbname="movimento_convenio.id_credito_debito" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=nr_documento dbname="movimento_convenio.nr_documento" )
+ column=(type=char(40) update=yes updatewhereclause=yes name=de_historico dbname="movimento_convenio.de_historico" )
+ retrieve="select cd_convenio,   
+       cd_filial_movimento,   
+       nr_movimento,   
+       dh_sistema,   
+       dh_movimento,   
+       nr_matricula_responsavel,   
+       vl_movimento,   
+       id_credito_debito,   
+       nr_documento,   
+       de_historico  
+from movimento_convenio
+where cd_filial_movimento = :filial
+  and dh_movimento        = :data_movto
+" update="movimento_convenio" updatewhere=1 updatekeyinplace=no arguments=(("filial", number),("data_movto", date)) )
+text(band=header alignment="2" text="Cd Convenio"border="0" color="0" x="9" y="8" height="56" width="279"  name=cd_convenio_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cd Filial Movimento"border="0" color="0" x="297" y="8" height="56" width="411"  name=cd_filial_movimento_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Movimento"border="0" color="0" x="718" y="8" height="56" width="297"  name=nr_movimento_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Dh Sistema"border="0" color="0" x="1024" y="8" height="56" width="503"  name=dh_sistema_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Dh Movimento"border="0" color="0" x="1536" y="8" height="56" width="503"  name=dh_movimento_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Matricula Responsavel"border="0" color="0" x="2048" y="8" height="56" width="562"  name=nr_matricula_responsavel_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Vl Movimento"border="0" color="0" x="2619" y="8" height="56" width="293"  name=vl_movimento_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Id Credito Debito"border="0" color="0" x="2921" y="8" height="56" width="357"  name=id_credito_debito_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nr Documento"border="0" color="0" x="3287" y="8" height="56" width="366"  name=nr_documento_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="De Historico"border="0" color="0" x="3662" y="8" height="56" width="937"  name=de_historico_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="1" tabsequence=10 border="0" color="0" x="9" y="8" height="68" width="279" format="[general]"  name=cd_convenio edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=20 border="0" color="0" x="297" y="8" height="68" width="411" format="[general]"  name=cd_filial_movimento edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=30 border="0" color="0" x="718" y="8" height="68" width="297" format="[general]"  name=nr_movimento edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=40 border="0" color="0" x="1024" y="8" height="68" width="503" format="[shortdate] [time]"  name=dh_sistema edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=50 border="0" color="0" x="1536" y="8" height="68" width="503" format="[shortdate] [time]"  name=dh_movimento edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=60 border="0" color="0" x="2048" y="8" height="68" width="562" format="[general]"  name=nr_matricula_responsavel edit.limit=6 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="1" tabsequence=70 border="0" color="0" x="2619" y="8" height="68" width="293" format="[general]"  name=vl_movimento edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="0" tabsequence=80 border="0" color="0" x="2921" y="8" height="68" width="357" format="[general]"  name=id_credito_debito edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="0" tabsequence=90 border="0" color="0" x="3287" y="8" height="68" width="366" format="[general]"  name=nr_documento edit.limit=15 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="0" tabsequence=100 border="0" color="0" x="3662" y="8" height="68" width="937" format="[general]"  name=de_historico edit.limit=40 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

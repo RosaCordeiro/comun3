@@ -1,0 +1,21 @@
+HA$PBExportHeader$gf_ativa_janela.srf
+global type gf_ativa_janela from function_object
+end type
+
+forward prototypes
+global function boolean gf_ativa_janela (window pw_janela)
+end prototypes
+
+global function boolean gf_ativa_janela (window pw_janela);
+dc_uo_api lvo_api
+lvo_api = Create dc_uo_api
+
+lvo_api.Of_Ativa_Janela(pw_janela)
+
+Destroy(lvo_api)
+
+Return True
+
+
+end function
+

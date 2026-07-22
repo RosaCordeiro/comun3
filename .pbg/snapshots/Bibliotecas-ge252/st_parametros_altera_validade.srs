@@ -1,0 +1,14 @@
+HA$PBExportHeader$st_parametros_altera_validade.srs
+global type st_parametros_altera_validade from structure
+	string		cd_endereco
+	long		cd_produto
+	string		de_produto
+	long		qt_caixa_padrao
+	string		nr_lote
+	string		id_agrupamento
+	datetime		dh_validade
+	long		nr_agrupamento
+	long		nr_sequencial
+	long		qt_saldo_endereco
+end type
+

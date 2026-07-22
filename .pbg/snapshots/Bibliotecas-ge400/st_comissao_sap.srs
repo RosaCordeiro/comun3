@@ -1,0 +1,6 @@
+HA$PBExportHeader$st_comissao_sap.srs
+global type st_comissao_sap from structure
+	long		cd_produto
+	long		cd_tipo_comissao
+end type
+

@@ -1,0 +1,39 @@
+HA$PBExportHeader$gf_permite_emitir_nota_fiscal.srf
+global type gf_permite_emitir_nota_fiscal from function_object
+end type
+
+forward prototypes
+global function boolean gf_permite_emitir_nota_fiscal ()
+end prototypes
+
+global function boolean gf_permite_emitir_nota_fiscal ();/* N$$HEX1$$e300$$ENDHEX$$o permite a emiss$$HEX1$$e300$$ENDHEX$$o de Notas Fiscais ap$$HEX1$$f300$$ENDHEX$$s o fechamento di$$HEX1$$e100$$ENDHEX$$rio, at$$HEX1$$e900$$ENDHEX$$ o dia do par$$HEX1$$e200$$ENDHEX$$metro */
+
+DateTime ldh_Data_Parametro
+
+DateTime ldh_Data_Servidor
+
+ldh_Data_Servidor	= gf_GetServerDate()
+
+If IsNull( ldh_Data_Servidor ) Then
+	Return False
+End If
+
+If Not gf_Data_Parametro( ref ldh_Data_Parametro ) Then
+	Return False
+End If
+
+If Date( ldh_Data_Parametro ) > Date( ldh_Data_Servidor ) Then
+	MessageBox( 'Aten$$HEX2$$e700e300$$ENDHEX$$o', 'A emiss$$HEX1$$e300$$ENDHEX$$o de notas est$$HEX1$$e100$$ENDHEX$$ bloqueada at$$HEX1$$e900$$ENDHEX$$ a 0 hora do dia ' + String( Date( ldh_Data_Servidor ), 'dd/mm/yyyy' ) + '.', Stopsign! )
+	Return False
+End If
+
+If Date( ldh_Data_Parametro ) <> Date( ldh_Data_Servidor ) Then
+	MessageBox( 'Aten$$HEX2$$e700e300$$ENDHEX$$o', 'A emiss$$HEX1$$e300$$ENDHEX$$o de notas fiscais est$$HEX1$$e100$$ENDHEX$$ bloqueada. Verifique a data de movimenta$$HEX2$$e700e300$$ENDHEX$$o do sistema.~r~r' + &
+					'Data do sistema: ' + String( ldh_Data_Parametro, 'dd/mm/yyyy') + '~r' + &
+					'Data do servidor: ' + String( ldh_Data_Servidor, 'dd/mm/yyyy' ), StopSign!)
+	Return False
+End If
+
+Return True
+end function
+

@@ -1,0 +1,8 @@
+HA$PBExportHeader$t_cofinsaliq.srs
+global type t_cofinsaliq from structure
+	string		cst
+	double		vbc
+	double		pcofins
+	double		vcofins
+end type
+

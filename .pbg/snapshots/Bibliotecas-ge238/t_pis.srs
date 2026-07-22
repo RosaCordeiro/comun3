@@ -1,0 +1,9 @@
+HA$PBExportHeader$t_pis.srs
+global type t_pis from structure
+	string		TipoPis
+	t_pisaliq		PISAliq
+	t_pisqtde		PISQtde
+	t_pisnt		PISNT
+	t_pisoutr		PISOutr
+end type
+

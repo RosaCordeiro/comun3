@@ -1,0 +1,15 @@
+HA$PBExportHeader$str_fornecedor_contato.srs
+global type str_fornecedor_contato from structure
+	string		cd_fornecedor
+	long		nr_contato
+	long		cd_contato
+	string		nm_contato
+	string		nr_ddd_telefone
+	string		nr_telefone
+	string		de_email
+	datetime		dh_inclusao
+	long		nr_divisao_fornecedor
+	string		id_principal_email
+	string		id_principal_tel
+end type
+

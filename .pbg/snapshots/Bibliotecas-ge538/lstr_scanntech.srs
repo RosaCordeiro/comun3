@@ -1,0 +1,13 @@
+HA$PBExportHeader$lstr_scanntech.srs
+global type lstr_scanntech from structure
+	date		dh_inicio
+	date		dh_termino
+	string		as_botao
+	datastore		ds_itens_selecionados
+	string		cancel
+	datetime		dt_inicial
+	datetime		dt_final
+	boolean		reprocessar_fechamento
+	long		cd_filial
+end type
+

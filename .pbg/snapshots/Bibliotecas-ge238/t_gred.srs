@@ -1,0 +1,6 @@
+HA$PBExportHeader$t_gred.srs
+global type t_gred from structure
+	decimal { 4 }		predaliq
+	decimal { 4 }		paliqefet
+end type
+

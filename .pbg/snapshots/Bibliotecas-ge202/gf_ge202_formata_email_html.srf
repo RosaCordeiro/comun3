@@ -1,0 +1,88 @@
+HA$PBExportHeader$gf_ge202_formata_email_html.srf
+global type gf_ge202_formata_email_html from function_object
+end type
+
+forward prototypes
+global function string gf_ge202_formata_email_html (string ps_mensagem, long pl_mensagem)
+global function string gf_ge202_formata_email_html (string ps_mensagem, long pl_mensagem, string ps_telefone)
+global function string gf_ge202_formata_email_html (string ps_mensagem, long pl_mensagem, boolean pb_assinatura)
+global function string gf_ge202_formata_email_html (string ps_mensagem, long pl_mensagem, boolean pb_assinatura, string ps_telefone, boolean pb_nao_responda)
+end prototypes
+
+global function string gf_ge202_formata_email_html (string ps_mensagem, long pl_mensagem); Return gf_ge202_formata_email_html(ps_mensagem,pl_mensagem,True)
+end function
+
+global function string gf_ge202_formata_email_html (string ps_mensagem, long pl_mensagem, string ps_telefone); Return gf_ge202_formata_email_html(ps_mensagem,pl_mensagem, True, ps_telefone, True)
+end function
+
+global function string gf_ge202_formata_email_html (string ps_mensagem, long pl_mensagem, boolean pb_assinatura); Return gf_ge202_formata_email_html(ps_mensagem,pl_mensagem, pb_assinatura, '(47) 3461-9999', True)
+end function
+
+global function string gf_ge202_formata_email_html (string ps_mensagem, long pl_mensagem, boolean pb_assinatura, string ps_telefone, boolean pb_nao_responda);String lvs_Mensagem
+Constant string CRLF = '~r~n'
+
+//Altera caracteres para tags HTML
+lvs_Mensagem = Trim(ps_mensagem)
+lvs_Mensagem = gf_Replace(lvs_Mensagem, CRLF, CRLF+'<br />'+CRLF,0)
+
+//Montagem Email
+//Corpo
+lvs_Mensagem =	'<FONT size=2 face=Verdana style="FONT-SIZE: 9pt;">'	+ CRLF + &
+						Trim(lvs_Mensagem)
+//Assinatura
+If pb_assinatura Then	
+	lvs_Mensagem +=	'<p><br />'	+ CRLF + &
+							'Att,</FONT>'+ CRLF + &
+							'<table>'		+ CRLF + &
+							'  <tr>' 		+ CRLF + &
+							'	 <td><a href="http://www.clamed.com.br" target="_blank"><img src="http://www.clamed.com.br/site/logo.jpg" alt="Clamed"></a></td>'+ CRLF + &
+							'	 <td>'	+ CRLF + &
+							'	  <table cellspacing=0 cellpadding=0 style="FONT-FAMILY: '+"'Tahoma','Times New Roman','serif'; COLOR: #1f497d;FONT-SIZE: 8pt;"+'">'+ CRLF + &
+							'		<tr height="10"><td>&nbsp;</td><td style="FONT-SIZE: 8,5pt;"><b>Automa&ccedil;&otilde;es Clamed</b></td></tr>'+ CRLF + &
+							'		<tr height="8"><td>&nbsp;</td><td style="FONT-SIZE: 7pt;">Setor de Inform&aacute;tica</td></tr>'+ CRLF + &
+							'		<tr height="8"><td>&nbsp;</td><td style="FONT-SIZE: 7pt;">Departamento TI</td></tr>'	+ CRLF + &
+							'		<tr height="8"><td>&nbsp;</td><td style="FONT-SIZE: 7pt;">'+ps_telefone+'</td></tr>'	+ CRLF + &
+							'		<tr height="8"><td>&nbsp;</td><td style="FONT-SIZE: 7pt;">&nbsp;</td></tr>'+ CRLF + &
+							'	  </table>'+ CRLF + &
+							'	</td>'+ CRLF + &
+							'  </tr>'+ CRLF + &
+							'  <tr>'+ CRLF + &
+							'	 <td colspan=2><SPAN style="FONT-FAMILY: '+"'Tahoma','sans-serif'; COLOR: #009642; FONT-SIZE: 7pt"+'">'+ CRLF + &
+									'Rua 9 de Mar&ccedil;o, 638 | 89201-400 | Joinville - SC - <A title="Acessar site Clamed" href="http://www.clamed.com.br/" target=_blank><SPAN style="COLOR: #009642; TEXT-DECORATION: none; text-underline: none">www.clamed.com.br</SPAN></A></SPAN></td></tr>'+ CRLF + &
+							'</table>'
+	//Descritivo envio autom$$HEX1$$e100$$ENDHEX$$tico
+	if pb_nao_responda then
+		lvs_Mensagem +=	' <p>'+ CRLF + &
+									'<FONT color=#ff0000 size=1 face=Arial>'+ CRLF + &
+									'	Este &eacute; um email autom&aacute;tico, n&atilde;o deve ser respondido. '+ CRLF + &
+									'    Host: '+IIF(IsNull(gvo_aplicacao.is_ComputerName),"",gvo_aplicacao.is_ComputerName)+' - Cod.: '+String(pl_mensagem)+'.'+ CRLF + &
+									'</FONT>'+&
+								'</p>'
+	else
+		lvs_Mensagem +=	' <p>'+ CRLF + &
+									'<FONT color=#ff0000 size=1 face=Arial>'+ CRLF + &
+									'    Host: '+IIF(IsNull(gvo_aplicacao.is_ComputerName),"",gvo_aplicacao.is_ComputerName)+' - Cod.: '+String(pl_mensagem)+'.'+ CRLF + &
+									'</FONT>'+&
+								'</p>'
+	end if
+	
+
+Else
+	lvs_Mensagem +=	'</FONT>'				
+End If
+
+//Banco de Dados de Produ$$HEX2$$e700e300$$ENDHEX$$o
+If Not SQLCa.Banco_Producao Then
+	lvs_Mensagem =	"<FONT color=#ff0000 size=1 face=Arial>"+ CRLF + &
+								"<b>EMAIL ENVIADO BASE DE HOMOLOGA$$HEX2$$c700c300$$ENDHEX$$O ("+Upper(IIF(IsNull(SQlca.ivs_database), "", SQlca.ivs_Database)+IIF(IsNull(SQLCa.Database),""," - "+SQLCa.Database))+")</b>"+ CRLF + &
+							"</FONT>"+ CRLF + &
+							"<hr><br />"+lvs_Mensagem
+End If
+
+If Not Pos(lvs_Mensagem, '<html') > 0 Then
+	lvs_Mensagem = '<html><body>'+lvs_Mensagem+'</body></html>'
+End If
+
+Return lvs_Mensagem
+end function
+
